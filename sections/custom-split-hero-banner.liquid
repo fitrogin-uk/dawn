@@ -43,20 +43,19 @@
     position: relative;
     display: flex;
     align-items: stretch;
-    min-height: var(--hero-min-height);
+    min-height: max(var(--hero-min-height), 560px);
     background-color: var(--hero-bg);
     overflow: hidden;
     border-radius: 24px;
-
   }
 
   .custom-split-hero__inner {
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: {{ section.settings.content_max_width }}px;
-    margin: 0 auto;
-    padding: 60px 0 60px 48px;
+    max-width: 100%;
+    margin: 0;
+    padding: 60px 0 60px 60px;
     gap: 0;
     position: relative;
     z-index: 2;
@@ -203,7 +202,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 380px;
+    min-height: 560px;
   }
 
   /* ── IMAGE SLIDESHOW ── */
@@ -252,7 +251,7 @@
   .csh-slide img,
   .csh-slide svg {
     width: 100%;
-    max-height: {{ section.settings.image_max_height }}px;
+    max-height: max({{ section.settings.image_max_height }}px, 580px);
     object-fit: contain;
     object-position: center center;
     display: block;
