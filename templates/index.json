@@ -11,19 +11,25 @@
   "sections": {
     "custom_split_hero_banner_KRcnGm": {
       "type": "custom-split-hero-banner",
+      "custom_css": [
+        ".custom-split-hero__heading {font-family: 'Cormorant Garamond', 'Georgia', serif !important; font-weight: 500 !important; letter-spacing: -0.01em !important;}"
+      ],
       "name": "Custom Split Hero Banner",
       "settings": {
         "section_height": 560,
         "content_max_width": 1280,
         "image_max_height": 560,
-        "hero_image": "shopify://shop_images/fitrogin_images_shopify_store.avif",
-        "show_badge": true,
+        "slide_image_1": "shopify://shop_images/fitrogin_images_shopify_store.avif",
+        "slide_image_2": "shopify://shop_images/fitrogin_images_shopify_store.avif",
+        "slide_image_3": "shopify://shop_images/fitrogin_images_shopify_store_2.avif",
+        "slide_duration": 5000,
+        "show_badge": false,
         "badge_text": "Summer Sale",
         "show_rating": true,
         "rating_full_stars": 4,
         "rating_score": "4.7",
         "rating_label": "based on 11,060 reviews",
-        "stars_color": "#F5A623",
+        "stars_color": "#1a1a1a",
         "heading": "Summer's On\nSo is the Sale",
         "heading_tag": "h2",
         "heading_size": 68,
@@ -41,17 +47,16 @@
         "trust_2": "All products are 3rd party tested",
         "trust_3": "Clean, natural ingredients",
         "trust_icon_color": "#1a1a1a",
-        "background_color": "#FDE8EE",
-        "accent_color": "#E84A7F",
+        "background_color": "#fde8ee",
+        "accent_color": "#e84a7f",
         "text_color_primary": "#1a1a1a",
         "text_color_secondary": "#555555",
         "btn_primary_bg": "#1a1a1a",
         "btn_primary_text": "#ffffff",
         "btn_secondary_border": "#1a1a1a",
         "btn_secondary_text": "#1a1a1a",
-        "blob_color_inner": "#F7A8C4",
-        "blob_color_outer": "#FDE8EE",
-        "show_indicators": true
+        "blob_color_inner": "#f7a8c4",
+        "blob_color_outer": "#fde8ee"
       }
     },
     "image_banner": {
