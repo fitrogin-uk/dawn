@@ -88,7 +88,7 @@
   box-sizing: border-box;
 }
 
-/* Inner Layout Card: Back to a clean grid but mapping all 3 items uniquely */
+/* Inner Layout Card */
 .clinical-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -111,7 +111,7 @@
 .clinical-headings-block {
   grid-area: headings;
   align-self: end;
-  margin-top: -35px; /* Pulls the heading block up on desktop only */
+  margin-top: -55px; /* Moves up on desktop only */
 }
 
 .clinical-graphic-col {
@@ -130,8 +130,8 @@
   color: #222222;
   margin-bottom: 12px;
   display: block;
-  margin-top: -20px;
 }
+
 .clinical-heading {
   font-size: 54px;             
   line-height: 1.15;
@@ -139,15 +139,19 @@
   margin: 0;
   font-family: serif; 
 }
+
 .clinical-heading span {
   display: block;
 }
+
 .clinical-heading .pink-text {
   color: #E04B77; 
 }
+
 .clinical-heading .black-text {
   color: #1A1A1A;
 }
+
 .clinical-description {
   font-size: 16px;
   line-height: 1.6;
@@ -164,12 +168,14 @@
   width: 100%;
   overflow: hidden;
 }
+
 .chart-card-box img {
   width: 100%;
   height: auto;
   display: block;
   border-radius: 16px;      
 }
+
 .chart-placeholder {
   display: flex;
   align-items: center;
@@ -180,7 +186,7 @@
   border-radius: 16px;
   font-size: 14px;
   width: 100%;
-  min-height: 320px; /* Big vertical sizing on desktop */
+  min-height: 320px; 
   padding: 20px;
   box-sizing: border-box;
 }
@@ -198,7 +204,7 @@
   }
 }
 
-/* Mobile Layout Core Spacing Rules */
+/* Mobile Layout Spacing and Alignment Fixes */
 @media (max-width: 768px) {
   .clinical-section-wrapper {
     padding-top: 0px !important;      
@@ -209,17 +215,21 @@
   
   .clinical-container {
     grid-template-columns: 1fr;
-    /* This completely re-arranges the order on mobile screens */
     grid-template-areas: 
       "headings"
       "graphic"
       "desc";
     padding-top: 40px;       
     padding-bottom: 40px;    
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 20px;       
+    padding-right: 20px;      
     border-radius: 24px;
     gap: 24px;               
+  }
+  
+  /* THIS FIXED MOBILE: Resets the top margin so it doesn't leak out */
+  .clinical-headings-block {
+    margin-top: 0px !important; 
   }
   
   .clinical-heading {
@@ -227,7 +237,8 @@
   }
   
   .chart-placeholder {
-    min-height: 240px; /* Makes it a clean size for mobile */
+    min-height: 240px; 
   }
 }
 </style>
+
