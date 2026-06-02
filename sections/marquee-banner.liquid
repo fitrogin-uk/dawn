@@ -30,7 +30,7 @@
       "type": "range",
       "id": "side_padding",
       "label": "Side Spacing (Pixels)",
-      "min": 20,
+      "min": 10,
       "max": 150,
       "step": 5,
       "default": 80
@@ -62,21 +62,21 @@
 }
 {% endschema %}
 
-<div class="inline-marquee-container" style="background-color: {{ section.settings.bg_color }}; padding-left: {{ section.settings.side_padding }}px; padding-right: {{ section.settings.side_padding }}px;">
+<div class="inline-marquee-container" style="background-color: {{ section.settings.bg_color }};">
   <div class="marquee-sub-wrapper">
     <!-- "As seen in" Text Label -->
-    <span class="marquee-label" style="font-weight: 700; font-size: 18px; margin-right: 15px;">As seen in</span>
+    <span class="marquee-label">As seen in</span>
     
     <!-- Moving Ticker Window -->
     <div class="marquee-window">
       <div class="marquee-content animate-left" style="animation-duration: {{ section.settings.speed }}s;">
-        {% for i in (1..3) %}
+        {% for i in (1..4) %}
           <div class="marquee-group">
             {% for block in section.blocks %}
               {% if block.settings.image != blank %}
-                <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.image.alt }}" loading="lazy" style="height: {{ section.settings.logo_height }}px;">
+                <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.image.alt }}" loading="lazy" style="--desktop-height: {{ section.settings.logo_height }}px;">
               {% else %}
-                <span class="placeholder-text">Logo Placeholder</span>
+                <span class="placeholder-text">Logo</span>
               {% endif %}
             {% endfor %}
           </div>
@@ -87,11 +87,14 @@
 </div>
 
 <style>
+/* DESKTOP STYLES */
 .inline-marquee-container {
   display: block;
   width: 100%;
   padding-top: 20px;   
   padding-bottom: 20px;
+  padding-left: {{ section.settings.side_padding }}px;
+  padding-right: {{ section.settings.side_padding }}px;
   box-sizing: border-box;
   margin: 0 auto;
 }
@@ -99,26 +102,20 @@
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 0px;                  /* Removed layout gap to bring the window edge closer */
+  gap: 40px; 
 }
 .marquee-label {
-  font-size: 18px;            
-  font-weight: 700;           
-  color: #777777;             
+  font-size: 14px; 
+  color: #999999;
   font-family: inherit;
   white-space: nowrap;
-  margin-right: 20px;        /* Controlled visual spacing directly on the text element */
+  font-weight: 500;
 }
 .marquee-window {
   overflow: hidden;
   flex-grow: 1;
   display: flex;
   align-items: center;
-  position: relative;
-  
-  /* Adjusted gradient curve to match the tighter layout alignment */
-  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 100%);
 }
 .marquee-content {
   display: flex;
@@ -132,6 +129,7 @@
   padding-right: 70px;
 }
 .marquee-group img {
+  height: var(--desktop-height);
   width: auto;
   object-fit: contain;
   filter: grayscale(100%);
@@ -141,12 +139,36 @@
   color: #ccc;
   font-size: 13px;
   white-space: nowrap;
+  margin-right: 40px;
 }
 .animate-left {
   animation: inline-scroll-left linear infinite;
 }
 @keyframes inline-scroll-left {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-33.333%); }
+  100% { transform: translateX(-25%); }
+}
+
+/* MOBILE RESPONSIVE FIXES (Screens smaller than 767px) */
+@media screen and (max-width: 767px) {
+  .inline-marquee-container {
+    padding-left: 15px !important;  /* Brings banner closer to edges on phone screens */
+    padding-right: 15px !important;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .marquee-sub-wrapper {
+    gap: 15px; /* Squeezes gap between "As seen in" and the scrolling loop */
+  }
+  .marquee-label {
+    font-size: 12px; /* Makes text slightly cleaner on small mobile screens */
+  }
+  .marquee-group {
+    gap: 25px; /* Pulls scrolling logos much closer together so multiple fit */
+    padding-right: 25px;
+  }
+  .marquee-group img {
+    height: calc(var(--desktop-height) * 0.7) !important; /* Automatically scales logo down to 70% of desktop size */
+  }
 }
 </style>
