@@ -99,7 +99,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 40px; 
+  gap: 0px;                  /* Removed layout gap to bring the window edge closer */
 }
 .marquee-label {
   font-size: 18px;            
@@ -107,6 +107,7 @@
   color: #555555;             
   font-family: inherit;
   white-space: nowrap;
+  margin-right: 20px;        /* Controlled visual spacing directly on the text element */
 }
 .marquee-window {
   overflow: hidden;
@@ -115,9 +116,9 @@
   align-items: center;
   position: relative;
   
-  /* Adjusted transition point to 4% for ultra-close fade action */
-  mask-image: linear-gradient(to right, transparent 0%, black 4%, black 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 100%);
+  /* Adjusted gradient curve to match the tighter layout alignment */
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 100%);
 }
 .marquee-content {
   display: flex;
