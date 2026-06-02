@@ -57,13 +57,13 @@
 </div>
 
 <style>
-  /* Base Layout (Desktop) */
+  /* Base Layout (Desktop - Side by Side) */
   .badge-container {
     display: flex;
     justify-content: space-between;
     gap: 16px;
-    padding: 20px 4%; /* Generous but controlled margins */
-    max-width: 1400px; /* Prevents stretching too wide on massive screens */
+    padding: 15px 4%; 
+    max-width: 1400px;
     margin: 0 auto;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     box-sizing: border-box;
@@ -71,95 +71,113 @@
   }
 
   .badge-card {
-    flex: 1; /* Makes all boxes equal size and fills available desktop space */
+    flex: 1;
     background-color: #f1f1f1;
-    border-radius: 20px;
-    padding: 20px;
+    border-radius: 16px;
+    padding: 14px 20px;
     display: flex;
-    flex-direction: column; /* Stacked layout on desktop */
+    flex-direction: row; /* Desktop: Icon next to text */
     align-items: center;
-    justify-content: center;
-    text-align: center;
+    justify-content: flex-start;
+    gap: 14px;
     box-sizing: border-box;
-    min-height: 140px;
   }
 
-  /* Font Styling */
+  /* Desktop Text Layout */
   .badge-text {
     display: flex;
     flex-direction: column;
     color: #1a1a1a;
-    line-height: 1.4;
-    margin-top: 12px;
+    line-height: 1.3;
+    text-align: left;
   }
-  .badge-text strong { font-size: 14px; font-weight: 700; }
-  .badge-text span { font-size: 13px; color: #555555; }
+  .badge-text strong { font-size: 13px; font-weight: 700; }
+  .badge-text span { font-size: 11px; color: #666666; }
 
-  /* Icon Sizing */
+  /* Desktop Icon Sizes */
   .badge-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 34px;
+    height: 34px;
     color: #000000;
     flex-shrink: 0;
   }
   .badge-icon svg { width: 100%; height: 100%; }
 
-  /* Support Icon Adjustments */
-  .headset-icon { position: relative; width: 50px; height: 50px; }
+  /* Headset Icon Container Overlap Fix */
+  .headset-icon { 
+    position: relative; 
+    width: 58px; /* Wider canvas to keep text from touching headphone earcups */
+    height: 46px; 
+  }
   .support-hours {
     position: absolute;
-    font-size: 8px;
+    font-size: 7px;
     font-weight: bold;
     text-align: center;
     line-height: 1.1;
-    top: 45%;
-    left: 50://;
+    top: 46%;
+    left: 50%;
     transform: translate(-50%, -50%);
     white-space: nowrap;
+    color: #000000;
   }
 
-  /* Desktop layout override for the last item (Support badge) */
+  /* Desktop configuration for the 5th item */
   .badge-card.full-width-mobile {
-    flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-  }
-  .badge-card.full-width-mobile .badge-text {
-    margin-top: 0;
-    text-align: left;
   }
 
-  /* Mobile Layout Breakpoint */
+  /* Mobile Layout Breakpoint (Stops desktop style) */
   @media (max-width: 767px) {
     .badge-container {
       display: grid;
-      grid-template-columns: repeat(2, 1fr); /* Exactly 2 columns */
+      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
       padding: 15px;
     }
 
+    /* Mobile: Icon stacked on top of text */
     .badge-card {
       flex: none;
       width: 100%;
-      border-radius: 24px; /* More rounded as seen in mobile mockup */
+      flex-direction: column; 
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border-radius: 24px;
       padding: 24px 15px;
-      min-height: auto;
+      gap: 12px;
     }
 
-    /* Target the 5th item (Support) to go full width and change layout direction */
+    .badge-text {
+      text-align: center;
+    }
+
+    /* Mobile: Icons are larger when stacked */
+    .badge-icon {
+      width: 44px;
+      height: 44px;
+    }
+
+    /* Keep Support row layout side-by-side on mobile */
     .badge-card.full-width-mobile {
-      grid-column: span 2; /* Spans across both columns */
-      flex-direction: row !important; /* Forces side-by-side layout on mobile */
-      justify-content: space-between !important;
+      grid-column: span 2;
+      flex-direction: row; 
+      justify-content: space-between;
+      align-items: center;
       padding: 20px 24px;
     }
 
+    .badge-card.full-width-mobile .badge-icon {
+      width: 58px;
+      height: 46px;
+    }
+
     .text-left-mobile {
-      text-align: left !important;
-      margin-top: 0 !important;
+      text-align: left;
     }
   }
 </style>
