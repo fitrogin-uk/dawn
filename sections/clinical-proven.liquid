@@ -49,21 +49,16 @@
 <div class="clinical-section-wrapper">
   <div class="clinical-container" style="background-color: {{ section.settings.bg_color }};">
     
-    <!-- Left Column: All Text Content -->
-    <div class="clinical-text-col">
-      <div class="clinical-headings-block">
-        <span class="clinical-subheading">{{ section.settings.sub_heading }}</span>
-        <h2 class="clinical-heading">
-          <span class="pink-text">{{ section.settings.heading_pink }}</span>
-          <span class="black-text">{{ section.settings.heading_black }}</span>
-        </h2>
-      </div>
-      <div class="clinical-description-block">
-        <p class="clinical-description">{{ section.settings.description }}</p>
-      </div>
+    <!-- Element 1: Headings -->
+    <div class="clinical-headings-block">
+      <span class="clinical-subheading">{{ section.settings.sub_heading }}</span>
+      <h2 class="clinical-heading">
+        <span class="pink-text">{{ section.settings.heading_pink }}</span>
+        <span class="black-text">{{ section.settings.heading_black }}</span>
+      </h2>
     </div>
     
-    <!-- Right Column: Chart Image Graphic Block -->
+    <!-- Element 2: Graphic/Image -->
     <div class="clinical-graphic-col">
       <div class="chart-card-box">
         {% if section.settings.chart_image != blank %}
@@ -72,6 +67,11 @@
           <div class="chart-placeholder">Upload your graph image in Theme Settings</div>
         {% endif %}
       </div>
+    </div>
+
+    <!-- Element 3: Description -->
+    <div class="clinical-description-block">
+      <p class="clinical-description">{{ section.settings.description }}</p>
     </div>
 
   </div>
@@ -88,40 +88,39 @@
   box-sizing: border-box;
 }
 
-/* Inner Layout Card: Optimized with Flex layout for spacious desktop balancing */
+/* Inner Layout Card: Back to a clean grid but mapping all 3 items uniquely */
 .clinical-container {
-  max-width: 1400px;           /* Expanded to stretch closer to desktop viewport borders */
+  max-width: 1400px;
   margin: 0 auto;
-  display: flex;               /* Swapped from Grid to Flex for seamless scaling */
-  flex-direction: row;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: 
+    "headings graphic"
+    "desc     graphic";
+  gap: 20px 60px; 
   align-items: center;
-  gap: 60px; 
   border-radius: 32px;     
   padding-top: 80px;      
   padding-bottom: 80px;   
-  padding-left: 70px;          /* Adjusted safely to expand inner spacing fields */
+  padding-left: 70px;      
   padding-right: 70px;     
   box-sizing: border-box;
 }
 
-/* Left side container takes exactly half the width */
-.clinical-text-col {
-  flex: 1;
-  max-width: 50%;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;                   /* Clean, controlled space between heading blocks and descriptions */
+/* Assigning positions for desktop */
+.clinical-headings-block {
+  grid-area: headings;
+  align-self: end;
 }
 
-/* Right side container takes the remaining half the width */
 .clinical-graphic-col {
-  flex: 1;
-  max-width: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  grid-area: graphic;
   width: 100%;
+}
+
+.clinical-description-block {
+  grid-area: desc;
+  align-self: start;
 }
 
 .clinical-subheading {
@@ -132,7 +131,7 @@
   display: block;
 }
 .clinical-heading {
-  font-size: 54px;             /* Cleaned proportional desktop scaling */
+  font-size: 54px;             
   line-height: 1.15;
   font-weight: 700;
   margin: 0;
@@ -155,7 +154,6 @@
   margin: 0;
 }
 
-/* Chart Container: Stretches dynamically to use maximum space allocated */
 .chart-card-box {
   background: transparent;  
   border-radius: 0px;       
@@ -180,7 +178,7 @@
   border-radius: 16px;
   font-size: 14px;
   width: 100%;
-  min-height: 280px;          /* Expanded placeholder box area vertically */
+  min-height: 320px; /* Big vertical sizing on desktop */
   padding: 20px;
   box-sizing: border-box;
 }
@@ -188,13 +186,13 @@
 /* Tablet Layout Scaling Adjustments */
 @media (max-width: 991px) {
   .clinical-container {
-    flex-direction: column;    /* Switches display structure on smaller views */
     padding: 60px 40px;
-    gap: 35px;
-  }
-  .clinical-text-col,
-  .clinical-graphic-col {
-    max-width: 100%;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      "headings"
+      "graphic"
+      "desc";
+    gap: 30px;
   }
 }
 
@@ -208,25 +206,26 @@
   }
   
   .clinical-container {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    /* This completely re-arranges the order on mobile screens */
+    grid-template-areas: 
+      "headings"
+      "graphic"
+      "desc";
     padding-top: 40px;       
     padding-bottom: 40px;    
     padding-left: 24px;
     padding-right: 24px;
     border-radius: 24px;
-    gap: 30px;               
+    gap: 24px;               
   }
-
-  /* Specific mobile-first structural flow configuration overrides */
-  .clinical-headings-block { order: 1; }
-  .clinical-graphic-col { order: 2; width: 100%; }
-  .clinical-description-block { order: 3; }
   
   .clinical-heading {
     font-size: 36px;         
   }
+  
   .chart-placeholder {
-    min-height: 200px;
+    min-height: 240px; /* Makes it a clean size for mobile */
   }
 }
 </style>
