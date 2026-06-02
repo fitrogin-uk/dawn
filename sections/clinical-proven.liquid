@@ -47,7 +47,7 @@
 {% endschema %}
 
 <div class="clinical-section-wrapper">
-  <!-- The inner colored card container handles the background card presentation -->
+  <!-- Inner Card: Background and height are handled here -->
   <div class="clinical-container" style="background-color: {{ section.settings.bg_color }};">
     
     <!-- Left Column: Content Text Block -->
@@ -75,31 +75,29 @@
 </div>
 
 <style>
-/* Outer Wrapper: Controls overall structural margins around the purple card block */
+/* Outer Wrapper: Set to match the identical top spacing scale */
 .clinical-section-wrapper {
   width: 100%;
-  padding-top: 50px;       /* Margin separation from the marquee above */
-  padding-bottom: 50px;    /* Margin separation below the section */
-  padding-left: 40px;      /* Clear left layout safety margin edge */
-  padding-right: 40px;     /* Clear right layout safety margin edge */
+  padding-top: 15px;         /* Tightened to match the distance below the pink container */
+  padding-bottom: 40px;     
+  padding-left: 24px;       
+  padding-right: 24px;     
   box-sizing: border-box;
 }
 
-/* Inner Layout Card: Controls internal dimensions and height padding scales */
+/* Inner Layout Card */
 .clinical-container {
-  max-width: 1300px;
+  max-width: 1340px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 50px;
   align-items: center;
-  border-radius: 32px;     /* Smooth rounded corners matching original design */
-  
-  /* Vertical padding has been doubled to expand container sizing */
-  padding-top: 120px;      
-  padding-bottom: 120px;   
-  padding-left: 80px;      /* Generous horizontal padding for content alignment */
-  padding-right: 80px;     
+  border-radius: 32px;     
+  padding-top: 170px;      
+  padding-bottom: 170px;   
+  padding-left: 60px;       
+  padding-right: 60px;     
   box-sizing: border-box;
 }
 
@@ -166,16 +164,14 @@
   font-size: 14px;
 }
 
-/* Responsive adjustments for mobile screens */
 @media (max-width: 991px) {
   .clinical-container {
-    padding: 60px 40px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    padding-left: 30px;
+    padding-right: 30px;
     grid-template-columns: 1fr;
     gap: 40px;
-  }
-  .clinical-section-wrapper {
-    padding-left: 20px;
-    padding-right: 20px;
   }
 }
 @media (max-width: 768px) {
@@ -183,8 +179,15 @@
     font-size: 38px;
   }
   .clinical-container {
-    padding: 40px 20px;
-    border-radius: 20px;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 24px;
+  }
+  .clinical-section-wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }
 </style>
