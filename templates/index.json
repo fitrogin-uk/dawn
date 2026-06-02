@@ -74,7 +74,9 @@
       "blocks": {
         "logo_HiAzhT": {
           "type": "logo",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/guard.jpg"
+          }
         },
         "logo_HXy6RY": {
           "type": "logo",
