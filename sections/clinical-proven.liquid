@@ -1,3 +1,82 @@
+{% schema %}
+{
+  "name": "Clinical Proven Section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#EAE5F4"
+    },
+    {
+      "type": "text",
+      "id": "sub_heading",
+      "label": "Sub Heading",
+      "default": "Clinically Proven"
+    },
+    {
+      "type": "text",
+      "id": "heading_pink",
+      "label": "Heading Pink Text",
+      "default": "Better Absorption"
+    },
+    {
+      "type": "text",
+      "id": "heading_black",
+      "label": "Heading Black Text",
+      "default": "Than Tablets"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description Text",
+      "default": "A comparative study found that vitamin D gummies achieved double nutrient absorption levels than standard vitamin D tablets."
+    },
+    {
+      "type": "image_picker",
+      "id": "chart_image",
+      "label": "Upload Chart Graphic"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Clinical Proven Section"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="clinical-section-wrapper">
+  <div class="clinical-container" style="background-color: {{ section.settings.bg_color }};">
+    
+    <!-- Element 1: Headings -->
+    <div class="clinical-headings-block">
+      <span class="clinical-subheading">{{ section.settings.sub_heading }}</span>
+      <h2 class="clinical-heading">
+        <span class="pink-text">{{ section.settings.heading_pink }}</span>
+        <span class="black-text">{{ section.settings.heading_black }}</span>
+      </h2>
+    </div>
+    
+    <!-- Element 2: Graphic/Image -->
+    <div class="clinical-graphic-col">
+      <div class="chart-card-box">
+        {% if section.settings.chart_image != blank %}
+          <img src="{{ section.settings.chart_image | image_url: width: 1000 }}" alt="Absorption Chart Graphic" loading="lazy">
+        {% else %}
+          <div class="chart-placeholder">Upload your graph image in Theme Settings</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Element 3: Description -->
+    <div class="clinical-description-block">
+      <p class="clinical-description">{{ section.settings.description }}</p>
+    </div>
+
+  </div>
+</div>
+
 <style>
 /* Outer Wrapper Structural Layout styles */
 .clinical-section-wrapper {
@@ -32,7 +111,7 @@
 .clinical-headings-block {
   grid-area: headings;
   align-self: end;
-  margin-top: -55px; 
+  margin-top: -55px; /* Moves up on desktop only */
 }
 
 .clinical-graphic-col {
@@ -148,6 +227,7 @@
     gap: 24px;               
   }
   
+  /* FIXED MOBILE: Resets the top margin so it doesn't leak out */
   .clinical-headings-block {
     margin-top: 0px !important; 
   }
