@@ -82,15 +82,11 @@
             "image": "shopify://shop_images/natural-health-logo-svg-vector-cropped.svg"
           }
         },
-        "logo_wgrMNz": {
-          "type": "logo",
-          "settings": {
-            "image": "shopify://shop_images/natural-health-logo-svg-vector.svg"
-          }
-        },
         "logo_7ByhVK": {
           "type": "logo",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/natural-health-logo-svg-vector-cropped_1.svg"
+          }
         },
         "logo_VGJxbL": {
           "type": "logo",
@@ -108,7 +104,6 @@
       "block_order": [
         "logo_HiAzhT",
         "logo_HXy6RY",
-        "logo_wgrMNz",
         "logo_7ByhVK",
         "logo_VGJxbL",
         "logo_bgA3nM",
