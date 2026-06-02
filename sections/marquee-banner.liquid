@@ -64,7 +64,7 @@
 
 <div class="inline-marquee-container" style="background-color: {{ section.settings.bg_color }}; padding-left: {{ section.settings.side_padding }}px; padding-right: {{ section.settings.side_padding }}px;">
   <div class="marquee-sub-wrapper">
-    <!-- "As seen in" Text Label (Bolded & Font Size Increased) -->
+    <!-- "As seen in" Text Label -->
     <span class="marquee-label">As seen in</span>
     
     <!-- Moving Ticker Window -->
@@ -102,9 +102,9 @@
   gap: 40px; 
 }
 .marquee-label {
-  font-size: 18px;            /* Increased from 14px */
-  font-weight: 700;           /* Increased weight to Bold */
-  color: #555555;             /* Slightly darkened color to look cleaner when bolded */
+  font-size: 18px;            
+  font-weight: 700;           
+  color: #555555;             
   font-family: inherit;
   white-space: nowrap;
 }
@@ -115,9 +115,9 @@
   align-items: center;
   position: relative;
   
-  /* Creates a smooth fade effect on the left edge as logos approach the text */
-  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 100%);
+  /* Adjusted transition point to 4% for ultra-close fade action */
+  mask-image: linear-gradient(to right, transparent 0%, black 4%, black 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 100%);
 }
 .marquee-content {
   display: flex;
