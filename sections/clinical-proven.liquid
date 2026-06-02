@@ -36,6 +36,12 @@
       "type": "image_picker",
       "id": "chart_image",
       "label": "Upload Chart Graphic"
+    },
+    {
+      "type": "text",
+      "id": "reference_text",
+      "label": "Reference Citation Text",
+      "default": "Reference: https://mdpi.com"
     }
   ],
   "presets": [
@@ -49,97 +55,102 @@
 <div class="clinical-section-wrapper">
   <div class="clinical-container" style="background-color: {{ section.settings.bg_color }};">
     
-    <!-- Element 1: Headings -->
-    <div class="clinical-headings-block">
-      <span class="clinical-subheading">{{ section.settings.sub_heading }}</span>
-      <h2 class="clinical-heading">
-        <span class="pink-text">{{ section.settings.heading_pink }}</span>
-        <span class="black-text">{{ section.settings.heading_black }}</span>
-      </h2>
+    <!-- Left Column: Unified Text Container matching sample spacing layout -->
+    <div class="clinical-text-column">
+      <div class="clinical-headings-block">
+        <span class="clinical-subheading">{{ section.settings.sub_heading }}</span>
+        <h2 class="clinical-heading">
+          <span class="pink-text">{{ section.settings.heading_pink }}</span>
+          <span class="black-text">{{ section.settings.heading_black }}</span>
+        </h2>
+      </div>
+      <div class="clinical-description-block">
+        <p class="clinical-description">{{ section.settings.description }}</p>
+      </div>
     </div>
     
-    <!-- Element 2: Graphic/Image -->
-    <div class="clinical-graphic-col">
+    <!-- Right Column: Expansive Graphic Layout matching sample proportions -->
+    <div class="clinical-graphic-column">
       <div class="chart-card-box">
         {% if section.settings.chart_image != blank %}
           <img src="{{ section.settings.chart_image | image_url: width: 1200 }}" alt="Absorption Chart Graphic" loading="lazy">
         {% else %}
           <div class="chart-placeholder">Upload your graph image in Theme Settings</div>
         {% endif %}
+        
+        <!-- NEW FEATURE: Small reference text snippet exactly like sample image -->
+        {% if section.settings.reference_text != blank %}
+          <p class="clinical-reference-link">{{ section.settings.reference_text }}</p>
+        {% endif %}
       </div>
-    </div>
-
-    <!-- Element 3: Description -->
-    <div class="clinical-description-block">
-      <p class="clinical-description">{{ section.settings.description }}</p>
     </div>
 
   </div>
 </div>
 
 <style>
-/* Outer Wrapper Structural Layout styles */
+/* Outer Section Frame Wrapper */
 .clinical-section-wrapper {
   width: 100%;
   padding-top: 15px;         
   padding-bottom: 40px;     
-  padding-left: 15px;          /* Tightened outer spacing to let container stretch further */
-  padding-right: 15px;     
+  padding-left: 24px;       
+  padding-right: 24px;     
   box-sizing: border-box;
 }
 
-/* Inner Layout Card - EXPANDED FOR EXTREME WIDTH AND HEIGHT ON DESKTOP */
+/* Inner Layout Container */
 .clinical-container {
-  max-width: 1800px;           /* Expanded to 1800px so it stretches near edge-to-edge */
+  max-width: 1440px;           
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr; /* Adjusted column balance ratio slightly */
-  grid-template-areas: 
-    "headings graphic"
-    "desc     graphic";
-  gap: 20px 80px; 
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  border-radius: 40px;         /* Enhanced rounded container feel */
-  
-  /* EXPANDED VERTICALLY: Increased padding variables to double container height */
-  padding-top: 140px;          
-  padding-bottom: 140px;   
-  padding-left: 80px;          
-  padding-right: 80px;         
+  justify-content: space-between;
+  gap: 80px;                   
+  border-radius: 32px;     
+  padding-top: 75px;           
+  padding-bottom: 75px;   
+  padding-left: 65px;          
+  padding-right: 65px;     
   box-sizing: border-box;
 }
 
-/* Assigning positions for desktop */
-.clinical-headings-block {
-  grid-area: headings;
-  align-self: end;
-  margin-top: -30px; 
+/* Left Column Sizing & Element Placement Logic */
+.clinical-text-column {
+  flex: 1.1;                   
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40px;                   
 }
 
-.clinical-graphic-col {
-  grid-area: graphic;
+/* Right Column Graphic Container Logic */
+.clinical-graphic-column {
+  flex: 0.9;                   
+  max-width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   width: 100%;
 }
 
-.clinical-description-block {
-  grid-area: desc;
-  align-self: start;
-}
-
 .clinical-subheading {
-  font-size: 18px;
+  font-size: 20px;             
   font-weight: 600;
-  color: #222222;
-  margin-bottom: 12px;
+  color: #1A1A1A;
+  margin-bottom: 24px;         
   display: block;
 }
 
 .clinical-heading {
-  font-size: 62px;             /* Made typography slightly larger to scale with height */
-  line-height: 1.1;
+  font-size: 64px;             
+  line-height: 1.05;
   font-weight: 700;
   margin: 0;
   font-family: serif; 
+  letter-spacing: -0.02em;
 }
 
 .clinical-heading span {
@@ -155,27 +166,31 @@
 }
 
 .clinical-description {
-  font-size: 17px;
-  line-height: 1.6;
-  color: #4A4A4A;
-  max-width: 520px;
+  font-size: 18px;             
+  line-height: 1.5;
+  color: #333333;
+  max-width: 490px;            
   margin: 0;
 }
 
+/* Graphic Container & Image Area Balancing */
 .chart-card-box {
   background: transparent;  
   border-radius: 0px;       
   padding: 0px;             
   box-shadow: none;         
   width: 100%;
+  max-width: 560px;            
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .chart-card-box img {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 20px;      
+  border-radius: 20px;         
 }
 
 .chart-placeholder {
@@ -188,20 +203,27 @@
   border-radius: 20px;
   font-size: 15px;
   width: 100%;
-  min-height: 420px;           /* Tall graphic box scale on desktop to expand section naturally */
+  min-height: 380px;           
   padding: 20px;
   box-sizing: border-box;
 }
 
-/* Tablet Layout Scaling Adjustments */
+/* STYLE FOR CITATION REFERENCE: Small gray text directly below graph box on desktop */
+.clinical-reference-link {
+  font-size: 11px;
+  color: #777777;
+  margin-top: 12px;
+  margin-bottom: 0px;
+  font-family: inherit;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+/* Tablet Device Scaling Adjustments */
 @media (max-width: 1199px) {
   .clinical-container {
-    max-width: 1000px;
-    padding-top: 80px;
-    padding-bottom: 80px;
-    padding-left: 50px;
-    padding-right: 50px;
-    gap: 20px 40px;
+    padding: 50px 40px;
+    gap: 40px;
   }
   .clinical-heading {
     font-size: 48px;
@@ -210,20 +232,21 @@
 
 @media (max-width: 991px) {
   .clinical-container {
-    padding: 60px 40px;
-    grid-template-columns: 1fr;
-    grid-template-areas: 
-      "headings"
-      "graphic"
-      "desc";
+    flex-direction: column;
+    align-items: flex-start;
     gap: 30px;
   }
-  .chart-placeholder {
-    min-height: 320px;
+  .clinical-text-column,
+  .clinical-graphic-column {
+    max-width: 100%;
+    flex: none;
+  }
+  .clinical-graphic-column {
+    justify-content: center;
   }
 }
 
-/* Mobile Layout Spacing and Alignment Fixes - LOCKED AT UNTOUCHED COMPACT SIZE */
+/* Mobile Layout Configuration */
 @media (max-width: 768px) {
   .clinical-section-wrapper {
     padding-top: 0px !important;      
@@ -233,12 +256,9 @@
   }
   
   .clinical-container {
-    grid-template-columns: 1fr;
-    grid-template-areas: 
-      "headings"
-      "graphic"
-      "desc";
-    padding-top: 40px;         /* Unaltered compact mobile sizing */
+    display: flex;
+    flex-direction: column;
+    padding-top: 40px;       
     padding-bottom: 40px;    
     padding-left: 20px;       
     padding-right: 20px;      
@@ -246,16 +266,37 @@
     gap: 24px;               
   }
   
-  .clinical-headings-block {
-    margin-top: 0px !important; 
+  .clinical-text-column {
+    max-width: 100%;
+    flex: none;
+    gap: 24px;
   }
+  
+  .clinical-graphic-column {
+    max-width: 100%;
+    flex: none;
+    order: 2;                  
+  }
+  
+  .clinical-headings-block { order: 1; }
+  .clinical-description-block { order: 3; }
   
   .clinical-heading {
     font-size: 36px;         
   }
   
+  .clinical-description {
+    font-size: 16px;
+  }
+  
   .chart-placeholder {
     min-height: 240px; 
+  }
+  
+  /* Centers reference text nicely under the graphic box when viewed on phones */
+  .clinical-reference-link {
+    text-align: center;
+    margin-top: 10px;
   }
 }
 </style>
