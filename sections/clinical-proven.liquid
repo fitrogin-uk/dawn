@@ -73,9 +73,12 @@
           <div class="chart-placeholder">Upload your graph image in Theme Settings</div>
         {% endif %}
         
-        {% if section.settings.reference_text != blank %}
-          <p class="clinical-reference-link">{{ section.settings.reference_text }}</p>
-        {% endif %}
+            {% if section.settings.reference_text != blank %}
+      <p class="clinical-reference-link">
+        <strong>Reference:</strong> {{ section.settings.reference_text | remove: "Reference:" | remove: "Reference : " }}
+      </p>
+    {% endif %}
+24
       </div>
     </div>
 
