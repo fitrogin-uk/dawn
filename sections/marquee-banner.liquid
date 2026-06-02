@@ -64,8 +64,8 @@
 
 <div class="inline-marquee-container" style="background-color: {{ section.settings.bg_color }};">
   <div class="marquee-sub-wrapper">
-    <!-- "As seen in" Text Label with capitalized A -->
-    <span class="marquee-label">As seen in</span>
+    <!-- Forced Structural HTML Bold Element Container -->
+    <span class="marquee-label"><strong>As seen in</strong></span>
     
     <!-- Moving Ticker Window -->
     <div class="marquee-window">
@@ -102,16 +102,19 @@
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 30px; /* Snug spacing to first logo */
+  gap: 30px; 
 }
 .marquee-label {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-  font-size: 15px; 
-  color: #7a7a7a !important; /* Darker grey color matching your target desktop image */
+  font-family: Arial, sans-serif !important; /* System bold native standard font reset */
+  font-size: 15px !important; 
+  color: #111111 !important; /* Pitch black color value */
   white-space: nowrap;
-  font-weight: 600 !important; /* Semi-bold weight exactly like the example */
-  letter-spacing: -0.01em !important;
-  text-transform: none !important; /* Allows standard capitalization */
+}
+/* Force absolute max thickness on the element and any inner tags */
+.marquee-label strong {
+  font-weight: 900 !important; 
+  font-weight: bold !important;
+  display: inline-block;
 }
 .marquee-window {
   overflow: hidden;
@@ -135,7 +138,7 @@
   width: auto;
   object-fit: contain;
   filter: grayscale(100%);
-  opacity: 0.9; /* Slightly higher opacity for clean crisp text contrast */
+  opacity: 0.9; 
 }
 .marquee-group .placeholder-text {
   color: #ccc;
@@ -163,7 +166,7 @@
     gap: 15px; 
   }
   .marquee-label {
-    font-size: 13px; 
+    font-size: 13px !important; 
   }
   .marquee-group {
     gap: 25px; 
