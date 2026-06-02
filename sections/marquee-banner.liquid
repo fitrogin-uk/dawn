@@ -64,8 +64,8 @@
 
 <div class="inline-marquee-container" style="background-color: {{ section.settings.bg_color }};">
   <div class="marquee-sub-wrapper">
-    <!-- "As seen in" Text Label -->
-    <span class="marquee-label">As seen in</span>
+    <!-- "as seen in" Text Label with exact formatting -->
+    <span class="marquee-label">as seen in</span>
     
     <!-- Moving Ticker Window -->
     <div class="marquee-window">
@@ -102,14 +102,16 @@
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 40px; 
+  gap: 35px; /* Matches the tight layout spacing on the left side */
 }
 .marquee-label {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
   font-size: 14px; 
-  color: #999999;
-  font-family: inherit;
+  color: #b5b5b5 !important; /* Soft light grey color from your comparison image */
   white-space: nowrap;
-  font-weight: 500;
+  font-weight: 500 !important; /* Balanced semi-bold weight */
+  letter-spacing: -0.02em !important; /* Tight letter spacing exactly like your reference */
+  text-transform: lowercase !important; /* Forces perfect lowercase style */
 }
 .marquee-window {
   overflow: hidden;
@@ -133,7 +135,7 @@
   width: auto;
   object-fit: contain;
   filter: grayscale(100%);
-  opacity: 0.8; 
+  opacity: 0.85; 
 }
 .marquee-group .placeholder-text {
   color: #ccc;
@@ -149,26 +151,26 @@
   100% { transform: translateX(-25%); }
 }
 
-/* MOBILE RESPONSIVE FIXES (Screens smaller than 767px) */
+/* MOBILE RESPONSIVE FIXES */
 @media screen and (max-width: 767px) {
   .inline-marquee-container {
-    padding-left: 15px !important;  /* Brings banner closer to edges on phone screens */
+    padding-left: 15px !important;  
     padding-right: 15px !important;
     padding-top: 12px;
     padding-bottom: 12px;
   }
   .marquee-sub-wrapper {
-    gap: 15px; /* Squeezes gap between "As seen in" and the scrolling loop */
+    gap: 15px; 
   }
   .marquee-label {
-    font-size: 12px; /* Makes text slightly cleaner on small mobile screens */
+    font-size: 13px; 
   }
   .marquee-group {
-    gap: 25px; /* Pulls scrolling logos much closer together so multiple fit */
+    gap: 25px; 
     padding-right: 25px;
   }
   .marquee-group img {
-    height: calc(var(--desktop-height) * 0.7) !important; /* Automatically scales logo down to 70% of desktop size */
+    height: calc(var(--desktop-height) * 0.7) !important; 
   }
 }
 </style>
