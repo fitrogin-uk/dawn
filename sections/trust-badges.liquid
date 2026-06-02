@@ -1,51 +1,51 @@
 <div class="badge-container">
   <!-- Card 1 -->
   <div class="badge-card">
+    <div class="badge-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 11l7-4 7 4M12 7v11M5 11v6l7 4m7-10v6l-7 4" /><path d="M2 7h3M3 10h2" stroke-linecap="round"/></svg>
+    </div>
     <div class="badge-text">
       <strong>Free Shipping</strong>
       <span>Orders Over £30</span>
-    </div>
-    <div class="badge-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 11l7-4 7 4M12 7v11M5 11v6l7 4m7-10v6l-7 4" /><path d="M2 7h3M3 10h2" stroke-linecap="round"/></svg>
     </div>
   </div>
 
   <!-- Card 2 -->
   <div class="badge-card">
+    <div class="badge-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 4v5a7 7 0 0014 0V4M8 3h2M14 3h2M12 16v5M12 21a2 2 0 100-4 2 2 0 000 4z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
     <div class="badge-text">
       <strong>Doctor Founded</strong>
       <span>Company</span>
-    </div>
-    <div class="badge-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 4v5a7 7 0 0014 0V4M8 3h2M14 3h2M12 16v5M12 21a2 2 0 100-4 2 2 0 000 4z" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
   </div>
 
   <!-- Card 3 -->
   <div class="badge-card">
+    <div class="badge-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="5" width="12" height="15" rx="2" /><path d="M9 3h6v2H9zM9 10h1M9 13h1M9 16h1M12 10h3M12 13h3M12 16h3" stroke-linecap="round"/></svg>
+    </div>
     <div class="badge-text">
       <span>All Products</span>
       <strong>3rd Party Tested</strong>
-    </div>
-    <div class="badge-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="5" width="12" height="15" rx="2" /><path d="M9 3h6v2H9zM9 10h1M9 13h1M9 16h1M12 10h3M12 13h3M12 16h3" stroke-linecap="round"/></svg>
     </div>
   </div>
 
   <!-- Card 4 -->
   <div class="badge-card">
+    <div class="badge-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l2.5 5 5.5.5-4 4 1 5.5-5-3-5 3 1-5.5-4-4 5.5-.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
     <div class="badge-text">
       <span>Earn</span>
       <strong>Reward Points</strong>
     </div>
-    <div class="badge-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l2.5 5 5.5.5-4 4 1 5.5-5-3-5 3 1-5.5-4-4 5.5-.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
   </div>
 
   <!-- Card 5 -->
-  <div class="badge-card">
-    <div class="badge-text">
+  <div class="badge-card full-width-mobile">
+    <div class="badge-text text-left-mobile">
       <span>Real Customer</span>
       <strong>Support</strong>
     </div>
@@ -57,63 +57,110 @@
 </div>
 
 <style>
+  /* Base Layout (Desktop) */
   .badge-container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-    padding: 15px 10px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: #ffffff;
-  }
-  .badge-card {
-    flex: 1;
-    min-width: 180px;
-    max-width: 240px;
-    background-color: #f1f1f1;
-    border-radius: 16px;
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
     justify-content: space-between;
+    gap: 16px;
+    padding: 20px 4%; /* Generous but controlled margins */
+    max-width: 1400px; /* Prevents stretching too wide on massive screens */
+    margin: 0 auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     box-sizing: border-box;
+    width: 100%;
   }
+
+  .badge-card {
+    flex: 1; /* Makes all boxes equal size and fills available desktop space */
+    background-color: #f1f1f1;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Stacked layout on desktop */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
+    min-height: 140px;
+  }
+
+  /* Font Styling */
   .badge-text {
     display: flex;
     flex-direction: column;
-    color: #333333;
-    line-height: 1.3;
+    color: #1a1a1a;
+    line-height: 1.4;
+    margin-top: 12px;
   }
-  .badge-text strong { font-size: 13px; font-weight: 700; }
-  .badge-text span { font-size: 11px; color: #666666; }
+  .badge-text strong { font-size: 14px; font-weight: 700; }
+  .badge-text span { font-size: 13px; color: #555555; }
+
+  /* Icon Sizing */
   .badge-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     color: #000000;
     flex-shrink: 0;
-    margin-left: 10px;
   }
   .badge-icon svg { width: 100%; height: 100%; }
-  .headset-icon { position: relative; width: 42px; height: 42px; }
+
+  /* Support Icon Adjustments */
+  .headset-icon { position: relative; width: 50px; height: 50px; }
   .support-hours {
     position: absolute;
-    font-size: 7px;
+    font-size: 8px;
     font-weight: bold;
     text-align: center;
     line-height: 1.1;
     top: 45%;
-    left: 50%;
+    left: 50://;
     transform: translate(-50%, -50%);
     white-space: nowrap;
   }
-  @media (max-width: 768px) {
-    .badge-card { flex: 1 1 calc(50% - 12px); max-width: 100%; }
+
+  /* Desktop layout override for the last item (Support badge) */
+  .badge-card.full-width-mobile {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
-  @media (max-width: 480px) {
-    .badge-card { flex: 1 1 100%; }
+  .badge-card.full-width-mobile .badge-text {
+    margin-top: 0;
+    text-align: left;
+  }
+
+  /* Mobile Layout Breakpoint */
+  @media (max-width: 767px) {
+    .badge-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* Exactly 2 columns */
+      gap: 12px;
+      padding: 15px;
+    }
+
+    .badge-card {
+      flex: none;
+      width: 100%;
+      border-radius: 24px; /* More rounded as seen in mobile mockup */
+      padding: 24px 15px;
+      min-height: auto;
+    }
+
+    /* Target the 5th item (Support) to go full width and change layout direction */
+    .badge-card.full-width-mobile {
+      grid-column: span 2; /* Spans across both columns */
+      flex-direction: row !important; /* Forces side-by-side layout on mobile */
+      justify-content: space-between !important;
+      padding: 20px 24px;
+    }
+
+    .text-left-mobile {
+      text-align: left !important;
+      margin-top: 0 !important;
+    }
   }
 </style>
 
