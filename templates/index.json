@@ -78,7 +78,9 @@
         },
         "logo_HXy6RY": {
           "type": "logo",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/natural-health-logo-svg-vector-cropped.svg"
+          }
         },
         "logo_wgrMNz": {
           "type": "logo",
@@ -115,7 +117,8 @@
       "name": "Marquee Banner",
       "settings": {
         "bg_color": "#ffffff",
-        "speed": 20
+        "speed": 20,
+        "logo_height": 45
       }
     },
     "image_banner": {
