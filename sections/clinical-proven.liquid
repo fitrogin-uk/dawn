@@ -1,0 +1,190 @@
+{% schema %}
+{
+  "name": "Clinical Proven Section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#EAE5F4"
+    },
+    {
+      "type": "text",
+      "id": "sub_heading",
+      "label": "Sub Heading",
+      "default": "Clinically Proven"
+    },
+    {
+      "type": "text",
+      "id": "heading_pink",
+      "label": "Heading Pink Text",
+      "default": "Better Absorption"
+    },
+    {
+      "type": "text",
+      "id": "heading_black",
+      "label": "Heading Black Text",
+      "default": "Than Tablets"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description Text",
+      "default": "A comparative study found that vitamin D gummies achieved double nutrient absorption levels than standard vitamin D tablets."
+    },
+    {
+      "type": "image_picker",
+      "id": "chart_image",
+      "label": "Upload Chart Graphic"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Clinical Proven Section"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="clinical-section-wrapper">
+  <!-- The inner colored card container handles the background card presentation -->
+  <div class="clinical-container" style="background-color: {{ section.settings.bg_color }};">
+    
+    <!-- Left Column: Content Text Block -->
+    <div class="clinical-content-col">
+      <span class="clinical-subheading">{{ section.settings.sub_heading }}</span>
+      <h2 class="clinical-heading">
+        <span class="pink-text">{{ section.settings.heading_pink }}</span>
+        <span class="black-text">{{ section.settings.heading_black }}</span>
+      </h2>
+      <p class="clinical-description">{{ section.settings.description }}</p>
+    </div>
+    
+    <!-- Right Column: Chart Image/Graphic Block -->
+    <div class="clinical-graphic-col">
+      <div class="chart-card-box">
+        {% if section.settings.chart_image != blank %}
+          <img src="{{ section.settings.chart_image | image_url: width: 1000 }}" alt="Absorption Chart Graphic" loading="lazy">
+        {% else %}
+          <div class="chart-placeholder">Upload your graph image in Theme Settings</div>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+/* Outer Wrapper: Controls overall structural margins around the purple card block */
+.clinical-section-wrapper {
+  width: 100%;
+  padding-top: 50px;       /* Margin separation from the marquee above */
+  padding-bottom: 50px;    /* Margin separation below the section */
+  padding-left: 40px;      /* Clear left layout safety margin edge */
+  padding-right: 40px;     /* Clear right layout safety margin edge */
+  box-sizing: border-box;
+}
+
+/* Inner Layout Card: Controls internal dimensions and height padding scales */
+.clinical-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+  border-radius: 32px;     /* Smooth rounded corners matching original design */
+  
+  /* Vertical padding has been doubled to expand container sizing */
+  padding-top: 120px;      
+  padding-bottom: 120px;   
+  padding-left: 80px;      /* Generous horizontal padding for content alignment */
+  padding-right: 80px;     
+  box-sizing: border-box;
+}
+
+.clinical-content-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.clinical-subheading {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222222;
+  margin-bottom: 15px;
+}
+.clinical-heading {
+  font-size: 56px;
+  line-height: 1.1;
+  font-weight: 700;
+  margin: 0 0 25px 0;
+  font-family: serif; 
+}
+.clinical-heading span {
+  display: block;
+}
+.clinical-heading .pink-text {
+  color: #E04B77; 
+}
+.clinical-heading .black-text {
+  color: #1A1A1A;
+}
+.clinical-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #4A4A4A;
+  max-width: 450px;
+  margin: 0;
+}
+.clinical-graphic-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.chart-card-box {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0px 10px 30px rgba(0,0,0,0.03);
+  width: 100%;
+  max-width: 550px;
+  overflow: hidden;
+}
+.chart-card-box img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+.chart-placeholder {
+  padding: 80px 20px;
+  text-align: center;
+  background: #f5f5f5;
+  color: #999;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+/* Responsive adjustments for mobile screens */
+@media (max-width: 991px) {
+  .clinical-container {
+    padding: 60px 40px;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .clinical-section-wrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .clinical-heading {
+    font-size: 38px;
+  }
+  .clinical-container {
+    padding: 40px 20px;
+    border-radius: 20px;
+  }
+}
+</style>
