@@ -21,10 +21,19 @@
       "type": "range",
       "id": "logo_height",
       "label": "Logo Height (Pixels)",
-      "min": 25,
-      "max": 80,
+      "min": 20,
+      "max": 100,
       "step": 5,
-      "default": 45
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "side_padding",
+      "label": "Side Spacing (Pixels)",
+      "min": 20,
+      "max": 150,
+      "step": 5,
+      "default": 80
     }
   ],
   "blocks": [
@@ -53,7 +62,7 @@
 }
 {% endschema %}
 
-<div class="inline-marquee-container" style="background-color: {{ section.settings.bg_color }};">
+<div class="inline-marquee-container" style="background-color: {{ section.settings.bg_color }}; padding-left: {{ section.settings.side_padding }}px; padding-right: {{ section.settings.side_padding }}px;">
   <div class="marquee-sub-wrapper">
     <!-- "As seen in" Text Label -->
     <span class="marquee-label">As seen in</span>
@@ -65,7 +74,7 @@
           <div class="marquee-group">
             {% for block in section.blocks %}
               {% if block.settings.image != blank %}
-                <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.image.alt }}" loading="lazy" style="height: {{ section.settings.logo_height }}px;">
+                <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.image.alt }}" loading="lazy" style="height: {{ section.settings.logo_height }}px;">
               {% else %}
                 <span class="placeholder-text">Logo Placeholder</span>
               {% endif %}
@@ -81,7 +90,8 @@
 .inline-marquee-container {
   display: block;
   width: 100%;
-  padding: 20px 30px; 
+  padding-top: 20px;   /* Retained top padding to keep vertical height */
+  padding-bottom: 20px;/* Retained bottom padding to keep vertical height */
   box-sizing: border-box;
   margin: 0 auto;
 }
@@ -89,10 +99,10 @@
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 30px; 
+  gap: 40px; 
 }
 .marquee-label {
-  font-size: 14px;
+  font-size: 14px; 
   color: #999999;
   font-family: inherit;
   white-space: nowrap;
@@ -112,14 +122,14 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 60px; /* Increased gap to accommodate larger logos */
-  padding-right: 60px;
+  gap: 70px; 
+  padding-right: 70px;
 }
 .marquee-group img {
   width: auto;
   object-fit: contain;
   filter: grayscale(100%);
-  opacity: 0.7;
+  opacity: 0.8; 
 }
 .marquee-group .placeholder-text {
   color: #ccc;
