@@ -47,20 +47,23 @@
 {% endschema %}
 
 <div class="clinical-section-wrapper">
-  <!-- Inner Card: Background and height are handled here -->
   <div class="clinical-container" style="background-color: {{ section.settings.bg_color }};">
     
-    <!-- Left Column: Content Text Block -->
-    <div class="clinical-content-col">
+    <!-- Group 1: The Main Headings Block -->
+    <div class="clinical-headings-block">
       <span class="clinical-subheading">{{ section.settings.sub_heading }}</span>
       <h2 class="clinical-heading">
         <span class="pink-text">{{ section.settings.heading_pink }}</span>
         <span class="black-text">{{ section.settings.heading_black }}</span>
       </h2>
+    </div>
+    
+    <!-- Group 2: The Description Paragraph Block -->
+    <div class="clinical-description-block">
       <p class="clinical-description">{{ section.settings.description }}</p>
     </div>
     
-    <!-- Right Column: Chart Image/Graphic Block -->
+    <!-- Group 3: Chart Image Graphic Block -->
     <div class="clinical-graphic-col">
       <div class="chart-card-box">
         {% if section.settings.chart_image != blank %}
@@ -75,7 +78,7 @@
 </div>
 
 <style>
-/* Outer Wrapper: Desktop Spacing Setup */
+/* Outer Wrapper Structural Layout styles */
 .clinical-section-wrapper {
   width: 100%;
   padding-top: 15px;         
@@ -85,32 +88,44 @@
   box-sizing: border-box;
 }
 
-/* Inner Layout Card */
+/* Inner Layout Card: Grid setup for Desktop view */
 .clinical-container {
   max-width: 1340px;
   margin: 0 auto;
   display: grid;
+  /* Creates a 2-column grid layout */
   grid-template-columns: 1fr 1fr;
-  grid-template-areas: "text graphic"; /* Assign names to columns on desktop */
-  gap: 50px;
+  /* Maps exactly out where our three distinct layout boxes sit side-by-side */
+  grid-template-areas: 
+    "headings graphic"
+    "desc     graphic";
+  gap: 30px 50px; /* 30px vertical grid row gaps, 50px side column gaps */
   align-items: center;
   border-radius: 32px;     
-  padding-top: 170px;      
-  padding-bottom: 170px;   
+  padding-top: 150px;      
+  padding-bottom: 150px;   
   padding-left: 60px;       
   padding-right: 60px;     
   box-sizing: border-box;
 }
 
-.clinical-content-col {
-  grid-area: text; /* Matches desktop column name */
+/* Mapping layout elements to desktop grid template coordinates */
+.clinical-headings-block {
+  grid-area: headings;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-self: end; /* Keeps text snug near the lower paragraph box */
+}
+
+.clinical-description-block {
+  grid-area: desc;
+  display: flex;
+  flex-direction: column;
+  align-self: start; /* Keeps text snug near upper title headings */
 }
 
 .clinical-graphic-col {
-  grid-area: graphic; /* Matches desktop column name */
+  grid-area: graphic;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -126,7 +141,7 @@
   font-size: 56px;
   line-height: 1.1;
   font-weight: 700;
-  margin: 0 0 25px 0;
+  margin: 0;
   font-family: serif; 
 }
 .clinical-heading span {
@@ -169,6 +184,7 @@
   font-size: 14px;
 }
 
+/* Tablet Scaling Adjustments */
 @media (max-width: 991px) {
   .clinical-container {
     padding-top: 100px;
@@ -176,10 +192,20 @@
     padding-left: 30px;
     padding-right: 30px;
     grid-template-columns: 1fr;
-    grid-template-areas: "graphic" "text"; /* Forces graphic on top, text underneath */
-    gap: 40px;
+    /* Reorders stack structure sequence logic */
+    grid-template-areas: 
+      "headings"
+      "graphic"
+      "desc";
+    gap: 35px;
+  }
+  .clinical-headings-block, 
+  .clinical-description-block {
+    align-self: center;
   }
 }
+
+/* Mobile Core Structural Alignment Changes */
 @media (max-width: 768px) {
   .clinical-section-wrapper {
     padding-top: 0px !important;      
@@ -196,7 +222,12 @@
     padding-left: 20px;
     padding-right: 20px;
     border-radius: 24px;
-    grid-template-areas: "graphic" "text"; /* Re-asserts mobile orientation on narrow viewports */
+    grid-template-columns: 1fr;
+    /* Re-asserts mobile layout stacking array path explicitly */
+    grid-template-areas: 
+      "headings"
+      "graphic"
+      "desc";
   }
 }
 </style>
