@@ -234,12 +234,15 @@
 
 /* Mobile Layout: LOCKED SEQUENCE RE-ALIGNMENT */
 @media (max-width: 768px) {
-  .clinical-section-wrapper {
+    .clinical-section-wrapper {
     padding-top: 0px !important;      
-    padding-bottom: 15px !important;  
+    padding-bottom: 0px !important;   /* Changed from 15px to 0px */
     padding-left: 15px;
     padding-right: 15px;
+    margin-top: 0px !important;       /* Forces external margins to zero */
+    margin-bottom: 0px !important;    /* Forces external margins to zero */
   }
+
   
   .clinical-container {
     grid-template-columns: 1fr;
