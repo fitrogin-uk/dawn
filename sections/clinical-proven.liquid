@@ -266,9 +266,15 @@
     font-weight: 700;
   }
   
-  .chart-placeholder {
-    min-height: 280px; 
-  }
+ .chart-placeholder {
+  min-height: 280px; 
+  border-radius: 36px !important;   /* Makes the inner white card corners deeply rounded */
+}
+
+.chart-card-box img {
+  border-radius: 36px !important;   /* Ensures live uploaded images get the same round corners */
+}
+
 
     .clinical-reference-link {
     font-size: 12px;            /* Set to a readable, clean scale on phones */
