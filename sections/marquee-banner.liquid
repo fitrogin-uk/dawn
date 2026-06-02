@@ -16,6 +16,15 @@
       "max": 40,
       "step": 5,
       "default": 20
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Logo Height (Pixels)",
+      "min": 25,
+      "max": 80,
+      "step": 5,
+      "default": 45
     }
   ],
   "blocks": [
@@ -56,7 +65,7 @@
           <div class="marquee-group">
             {% for block in section.blocks %}
               {% if block.settings.image != blank %}
-                <img src="{{ block.settings.image | image_url: width: 300 }}" alt="{{ block.settings.image.alt }}" loading="lazy">
+                <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.image.alt }}" loading="lazy" style="height: {{ section.settings.logo_height }}px;">
               {% else %}
                 <span class="placeholder-text">Logo Placeholder</span>
               {% endif %}
@@ -72,7 +81,7 @@
 .inline-marquee-container {
   display: block;
   width: 100%;
-  padding: 15px 30px; /* 15px top/bottom controls height. 30px left/right keeps it off the edges */
+  padding: 20px 30px; 
   box-sizing: border-box;
   margin: 0 auto;
 }
@@ -80,7 +89,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 30px; /* Gap between 'As seen in' and the first logo */
+  gap: 30px; 
 }
 .marquee-label {
   font-size: 14px;
@@ -103,11 +112,10 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 50px;
-  padding-right: 50px;
+  gap: 60px; /* Increased gap to accommodate larger logos */
+  padding-right: 60px;
 }
 .marquee-group img {
-  height: 28px;
   width: auto;
   object-fit: contain;
   filter: grayscale(100%);
