@@ -12,7 +12,7 @@
     "custom_split_hero_banner_KRcnGm": {
       "type": "custom-split-hero-banner",
       "custom_css": [
-        ".custom-split-hero__heading {font-family: 'Playfair Display', serif !important; font-weight: 600 !important; line-height: 1.05 !important; letter-spacing: -0.01em !important;}"
+        ".custom-split-hero__heading {font-family: \"Playfair Display\", serif !important; font-weight: 600 !important; line-height: 1.05 !important; letter-spacing: -0.01em !important;}"
       ],
       "name": "Custom Split Hero Banner",
       "settings": {
@@ -35,6 +35,10 @@
         "heading_size": 68,
         "heading_weight": "700",
         "subheading": "15% OFF summer-ready products",
+        "heading_2": "",
+        "subheading_2": "",
+        "heading_3": "",
+        "subheading_3": "",
         "btn_primary_label": "Shop Now",
         "btn_primary_link": "",
         "btn_primary_new_tab": false,
@@ -56,7 +60,13 @@
         "btn_secondary_border": "#1a1a1a",
         "btn_secondary_text": "#1a1a1a",
         "blob_color_inner": "#f7a8c4",
-        "blob_color_outer": "#fde8ee"
+        "blob_color_outer": "#fde8ee",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "padding_left": 20,
+        "padding_right": 20,
+        "margin_top": 0,
+        "margin_bottom": 0
       }
     },
     "image_banner": {
@@ -269,10 +279,38 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "marquee_banner_PryjDH": {
+      "type": "marquee-banner",
+      "blocks": {
+        "logo_VGJxbL": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_bgA3nM": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_qegLQP": {
+          "type": "logo",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "logo_VGJxbL",
+        "logo_bgA3nM",
+        "logo_qegLQP"
+      ],
+      "name": "Marquee Banner",
+      "settings": {
+        "bg_color": "#ffffff",
+        "speed": 20
+      }
     }
   },
   "order": [
     "custom_split_hero_banner_KRcnGm",
+    "marquee_banner_PryjDH",
     "image_banner",
     "rich_text",
     "featured_collection",
