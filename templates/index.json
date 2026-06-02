@@ -119,6 +119,21 @@
         "side_padding": 80
       }
     },
+    "clinical_proven_FANGKL": {
+      "type": "clinical-proven",
+      "custom_css": [
+        "@media (max-width: 768px) {.clinical-container {padding-top: 0px !important; /* Removes the inner top gap completely */ padding-bottom: 0px !important; /* Removes the inner bottom gap completely */ }}"
+      ],
+      "name": "Clinical Proven Section",
+      "settings": {
+        "bg_color": "#eae5f4",
+        "sub_heading": "Clinically Proven",
+        "heading_pink": "Better Absorption",
+        "heading_black": "Than Tablets",
+        "description": "A comparative study found that vitamin D gummies achieved double nutrient absorption levels than standard vitamin D tablets.",
+        "reference_text": "Reference: https://mdpi.com"
+      }
+    },
     "image_banner": {
       "type": "image-banner",
       "blocks": {
@@ -328,17 +343,6 @@
         "swipe_on_mobile": false,
         "padding_top": 36,
         "padding_bottom": 36
-      }
-    },
-    "clinical_proven_FANGKL": {
-      "type": "clinical-proven",
-      "name": "Clinical Proven Section",
-      "settings": {
-        "bg_color": "#EAE5F4",
-        "sub_heading": "Clinically Proven",
-        "heading_pink": "Better Absorption",
-        "heading_black": "Than Tablets",
-        "description": "A comparative study found that vitamin D gummies achieved double nutrient absorption levels than standard vitamin D tablets."
       }
     }
   },
