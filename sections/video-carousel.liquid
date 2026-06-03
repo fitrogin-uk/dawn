@@ -3,41 +3,125 @@
   Moves right to left automatically every 3 seconds
 {% endcomment %}
 
-<div class="video-carousel-container" id="Carousel-{{ section.id }}">
+<div class="video-carousel-container" id="VideoCarousel-{{ section.id }}">
   <div class="video-carousel-track">
-      {%- for block in section.blocks -%}
-          <div class="video-carousel-card">
-              <video src="{{ block.settings.video_url }}" loop muted playsinline autoplay></video>
-          </div>
-      {%- endfor -%}
+    {%- for block in section.blocks -%}
+      {%- if block.settings.video_select != blank -%}
+        <div class="video-carousel-card" {{ block.shopify_attributes }}>
+          {{ block.settings.video_select | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+        </div>
+      {%- else -%}
+        <!-- Placeholder when no video is selected -->
+        <div class="video-carousel-card placeholder-card">
+          {{ 'collection-1' | placeholder_svg_tag }}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
   </div>
 </div>
 
 <style>
-.video-carousel-container { overflow: hidden; }
-.video-carousel-track { display: flex; transition: transform 0.5s ease-in-out; }
-.video-carousel-card { min-width: 25%; flex-shrink: 0; }
-@media (max-width: 768px) { .video-carousel-card { min-width: 80%; } }
-.video-carousel-card video { width: 100%; object-fit: cover; }
+.video-carousel-container {
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  padding: 40px 0;
+  background: transparent;
+}
+.video-carousel-track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  width: 100%;
+}
+.video-carousel-card {
+  min-width: 25%; /* Shows 4 videos on desktop */
+  flex-shrink: 0;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+@media (max-width: 990px) {
+  .video-carousel-card {
+    min-width: 50%; /* Shows 2 videos on tablet */
+  }
+}
+@media (max-width: 749px) {
+  .video-carousel-card {
+    min-width: 80%; /* Shows 1 full + part of next on mobile */
+  }
+}
+.video-carousel-card video, 
+.video-carousel-card svg {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+}
+.placeholder-card svg {
+  background: #e0e0e0;
+}
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const track = document.querySelector('#Carousel-{{ section.id }} .video-carousel-track');
+  const container = document.getElementById('VideoCarousel-{{ section.id }}');
+  if (!container) return;
+
+  const track = container.querySelector('.video-carousel-track');
+  let cards = track.querySelectorAll('.video-carousel-card');
+  if (cards.length <= 1) return;
+
   let currentIndex = 0;
+
   function moveLeft() {
-    const cards = track.querySelectorAll('.video-carousel-card');
-    currentIndex = (currentIndex >= cards.length - 1) ? 0 : currentIndex + 1;
-    track.style.transform = `translateX(-${currentIndex * cards[0].offsetWidth}px)`;
+    cards = track.querySelectorAll('.video-carousel-card');
+    currentIndex++;
+    
+    if (currentIndex >= cards.length) {
+      currentIndex = 0;
+    }
+    
+    const cardWidth = cards[0].getBoundingClientRect().width;
+    track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
-  setInterval(moveLeft, 3000);
+
+  // Runs every 3000ms (3 seconds)
+  let carouselInterval = setInterval(moveLeft, 3000);
+
+  // Pause on mouse hover for better user experience
+  container.addEventListener('mouseenter', () => clearInterval(carouselInterval));
+  container.addEventListener('mouseleave', () => carouselInterval = setInterval(moveLeft, 3000));
 });
 </script>
 
 {% schema %}
 {
   "name": "Auto Video Carousel",
-  "blocks": [{"type": "video_block", "name": "Video", "settings": [{"type": "text", "id": "video_url", "label": "Video URL"}]}],
-  "presets": [{"name": "Auto Video Carousel"}]
+  "settings": [],
+  "blocks": [
+    {
+      "type": "video_slide",
+      "name": "Video Slide",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video_select",
+          "label": "Select Video",
+          "info": "Upload or choose an MP4 video file from your library."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Auto Video Carousel",
+      "blocks": [
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" }
+      ]
+    }
+  ]
 }
 {% endschema %}
