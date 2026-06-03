@@ -1,7 +1,7 @@
 {% comment %}
-  Shopify Custom Full-Width Video Carousel with Side Arrows
+  Shopify Custom Centered Video Carousel
   - Moves automatically every 3 seconds
-  - Overhanging video card layout matching reference screenshot
+  - Dual-sided overhanging peek layout (left and right)
   - Hidden completely on mobile
 {% endcomment %}
 
@@ -34,7 +34,7 @@
 </div>
 
 <style>
-/* Reset and break theme container rules to force screen edge alignment */
+/* Break theme layout containers to span 100% of display screen width */
 .video-carousel-wrapper {
   position: relative;
   width: 100vw;
@@ -42,7 +42,7 @@
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  padding: 20px 0;
+  padding: 30px 0;
   background: transparent;
   display: block;
   box-sizing: border-box;
@@ -51,7 +51,8 @@
 .video-carousel-container {
   overflow: hidden;
   width: 100%;
-  padding-left: 15px; /* Creates the slight gap visible on the very first video edge */
+  /* Padding on container acts as the gutter boundary space for the left side peek */
+  padding: 0 4vw; 
   box-sizing: border-box;
 }
 
@@ -60,50 +61,55 @@
   transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Sizing math to show 4 full videos + peeking 5th video card */
+/* 
+  Calculated sizing: 21.5vw width allows exactly 4 items to sit neatly inside 
+  the padded window while revealing neighboring cuts on left/right borders.
+*/
 .video-carousel-card {
-  width: 24.2vw;
-  min-width: 24.2vw;
+  width: 21.5vw;
+  min-width: 21.5vw;
   flex-shrink: 0;
-  padding-right: 12px; /* Uniform spacing between video blocks */
+  padding: 0 8px; /* Balanced, clean spacing gaps between frames */
   box-sizing: border-box;
 }
 
 @media (max-width: 1200px) {
-  .video-carousel-card { width: 32vw; min-width: 32vw; } 
+  .video-carousel-container { padding: 0 5vw; }
+  .video-carousel-card { width: 30vw; min-width: 30vw; } 
 }
 @media (max-width: 990px) {
-  .video-carousel-card { width: 47vw; min-width: 47vw; } 
+  .video-carousel-container { padding: 0 6vw; }
+  .video-carousel-card { width: 44vw; min-width: 44vw; } 
 }
 
-/* ❌ COMPLETELY HIDDEN ON MOBILE */
+/* ❌ HIDDEN ON MOBILE SCREEN DEVICES */
 @media (max-width: 749px) {
   .video-carousel-wrapper {
     display: none !important;
   }
 }
 
-/* Video Elements Styling */
+/* Video Frame Dimensions */
 .video-carousel-card video, 
 .video-carousel-card svg {
   width: 100%;
-  aspect-ratio: 9 / 16;
+  aspect-ratio: 4 / 5; /* Clean portrait aspect ratio */
   height: auto;
-  border-radius: 20px;
+  border-radius: 16px;
   object-fit: cover;
   display: block;
 }
 .placeholder-card svg {
-  background: #e0e0e0;
+  background: #dbdbdb;
 }
 
-/* Arrow Navigation Styling Overlays */
+/* Custom Navigation Chevron Buttons */
 .carousel-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: none;
   background: transparent;
   display: flex;
@@ -117,20 +123,20 @@
 }
 
 .carousel-arrow:hover {
-  transform: translateY(-50%) scale(1.1);
+  transform: translateY(-50%) scale(1.2);
 }
 
 .carousel-arrow svg {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
 }
 
-/* Placed cleanly on top of the edges matching screenshot layout */
+/* Anchored floating arrows mapped precisely past outer container lines */
 .arrow-left { 
-  left: 30px; 
+  left: 1vw; 
 }
 .arrow-right { 
-  right: 30px; 
+  right: 1vw; 
 }
 </style>
 
@@ -154,7 +160,10 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateSlidePosition() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if(cards.length === 0) return;
+    
     const cardWidth = cards[0].getBoundingClientRect().width;
+    
+    // Smooth translation offset calculation based on current slide selection index
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
@@ -164,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxIndex = cards.length - visibleCards;
     
     if (currentIndex >= maxIndex) {
-      currentIndex = 0;
+      currentIndex = 0; // Seamless loop reset to block index 0
     } else {
       currentIndex++;
     }
