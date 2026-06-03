@@ -354,6 +354,12 @@
     "video_carousel_phwREr": {
       "type": "video-carousel",
       "blocks": {
+        "video_slide_tMUGt3": {
+          "type": "video_slide",
+          "settings": {
+            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition_5.mp4"
+          }
+        },
         "video_slide_PqHk4g": {
           "type": "video_slide",
           "settings": {
@@ -370,12 +376,6 @@
           "type": "video_slide",
           "settings": {
             "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition.mp4"
-          }
-        },
-        "video_slide_tMUGt3": {
-          "type": "video_slide",
-          "settings": {
-            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition_5.mp4"
           }
         },
         "video_slide_MRCqcj": {
@@ -444,10 +444,10 @@
         }
       },
       "block_order": [
+        "video_slide_tMUGt3",
         "video_slide_PqHk4g",
         "video_slide_cXbKdJ",
         "video_slide_hxB7FC",
-        "video_slide_tMUGt3",
         "video_slide_MRCqcj",
         "video_slide_Fwqy7J",
         "video_slide_rbUyci",
