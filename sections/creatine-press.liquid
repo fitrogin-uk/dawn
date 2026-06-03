@@ -1,0 +1,26 @@
+<div class="cr-press">
+  <div class="cr-press__inner">
+    <span class="cr-press__label">{{ section.settings.label }}</span>
+    <div class="cr-press__logos">
+      <span class="cr-press__logo cr-press__logo--vogue">VOGUE</span>
+      <span class="cr-press__logo cr-press__logo--gq">GQ</span>
+      <span class="cr-press__logo cr-press__logo--glamour">GLAMOUR</span>
+      <span class="cr-press__logo cr-press__logo--metro">metro</span>
+      <span class="cr-press__logo cr-press__logo--standard">Evening<br>Standard</span>
+      <span class="cr-press__logo cr-press__logo--heart">heart</span>
+      <span class="cr-press__logo cr-press__logo--guardian">The Guardian</span>
+      <span class="cr-press__logo cr-press__logo--mirror">mirror</span>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Press Logos",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label", "default": "As seen in" }
+  ],
+  "presets": [{ "name": "Press Logos" }]
+}
+{% endschema %}

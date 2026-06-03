@@ -1,0 +1,44 @@
+<div class="cr-features">
+  <div class="cr-features__inner">
+    <div class="cr-features__brand">
+      <span class="cr-features__brand-name">{{ section.settings.brand_line }}</span>
+    </div>
+    <div class="cr-features__icons">
+      <div class="cr-feature-item">
+        <span class="cr-feature-item__icon">🍬</span>
+        <span class="cr-feature-item__label">Delicious Flavour</span>
+      </div>
+      <div class="cr-feature-item">
+        <span class="cr-feature-item__icon">🌱</span>
+        <span class="cr-feature-item__label">Vegan Friendly</span>
+      </div>
+      <div class="cr-feature-item">
+        <span class="cr-feature-item__icon">🚫</span>
+        <span class="cr-feature-item__label">No Artificial Colours</span>
+      </div>
+      <div class="cr-feature-item">
+        <span class="cr-feature-item__icon">💊</span>
+        <span class="cr-feature-item__label">No Capsules</span>
+      </div>
+      <div class="cr-feature-item">
+        <span class="cr-feature-item__icon">🧪</span>
+        <span class="cr-feature-item__label">Lab Verified</span>
+      </div>
+      <div class="cr-feature-item">
+        <span class="cr-feature-item__icon">📦</span>
+        <span class="cr-feature-item__label">Free UK Delivery</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Features Bar",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "brand_line", "label": "Brand tagline", "default": "Delicious Gummy Vitamins" }
+  ],
+  "presets": [{ "name": "Features Bar" }]
+}
+{% endschema %}
