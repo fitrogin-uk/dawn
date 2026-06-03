@@ -1,6 +1,6 @@
 {% comment %}
   Shopify Custom Fixed-Width Video Carousel
-  - Strict large layout container
+  - Increased card dimensions for a larger display
   - Forces 5th slide overhang on desktop screens
   - Hidden completely on mobile
 {% endcomment %}
@@ -63,22 +63,28 @@
 }
 
 /* 
-  STRICT PIXEL SIZING: Sets a fixed width so frames remain 
-  large on your desktop monitor while preserving the peeking effect.
+  LARGER PIXEL SIZING: Sized up to 380px wide. 
+  Aspect ratio handles the proportional height auto-scaling.
 */
 .video-carousel-card {
-  width: 320px !important;
-  min-width: 320px !important;
+  width: 380px !important;
+  min-width: 380px !important;
   flex-shrink: 0 !important;
-  padding-right: 20px !important;
+  padding-right: 24px !important; /* Slightly larger gaps for bigger cards */
   box-sizing: border-box;
 }
 
 /* Tablet Fallback Adjustments */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .video-carousel-card { 
-    width: 260px !important; 
-    min-width: 260px !important; 
+    width: 320px !important; 
+    min-width: 320px !important; 
+  } 
+}
+@media (max-width: 990px) {
+  .video-carousel-card { 
+    width: 280px !important; 
+    min-width: 280px !important; 
   } 
 }
 
@@ -153,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateSlidePosition() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if(cards.length === 0) return;
-    const cardWidth = cards[0].getBoundingClientRect().width;
+    const cardWidth = cards.getBoundingClientRect().width;
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
@@ -162,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (cards.length === 0) return;
     
     // Calculates window area to ensure the slider doesn't run into empty space at the end
-    const visibleCards = Math.floor(window.innerWidth / cards[0].getBoundingClientRect().width);
+    const visibleCards = Math.floor(window.innerWidth / cards.getBoundingClientRect().width);
     const maxIndex = cards.length - visibleCards;
     
     if (currentIndex >= maxIndex) {
@@ -177,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
 
-    const visibleCards = Math.floor(window.innerWidth / cards[0].getBoundingClientRect().width);
+    const visibleCards = Math.floor(window.innerWidth / cards.getBoundingClientRect().width);
     const maxIndex = cards.length - visibleCards;
 
     if (currentIndex <= 0) {
