@@ -1,0 +1,76 @@
+<section class="cr-faq" aria-label="Frequently asked questions">
+  <h2 class="cr-section-title">{{ section.settings.title | default: 'Frequently Asked Questions' }}</h2>
+
+  <div class="cr-faq__list">
+
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        <div class="cr-faq__item" {{ block.shopify_attributes }}>
+          <div class="cr-faq__question" tabindex="0" role="button" aria-expanded="false">
+            {{ block.settings.question }}
+          </div>
+          <div class="cr-faq__answer">{{ block.settings.answer }}</div>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+
+      <div class="cr-faq__item">
+        <div class="cr-faq__question" tabindex="0" role="button" aria-expanded="false">How many gummies should I take per day?</div>
+        <div class="cr-faq__answer">Take 3 gummies per day. You can take them all at once or split throughout the day. They can be taken with or without food, at any time that suits your routine.</div>
+      </div>
+
+      <div class="cr-faq__item">
+        <div class="cr-faq__question" tabindex="0" role="button" aria-expanded="false">How long does one jar last?</div>
+        <div class="cr-faq__answer">Each jar contains 120 gummies. At 3 gummies per day, that&apos;s a full 40-day supply.</div>
+      </div>
+
+      <div class="cr-faq__item">
+        <div class="cr-faq__question" tabindex="0" role="button" aria-expanded="false">What is the creatine dose per serving?</div>
+        <div class="cr-faq__answer">Each 3-gummy serving delivers 5g of pure Creatine Monohydrate &mdash; the clinically studied dose. This has been independently verified by Eurofins laboratories.</div>
+      </div>
+
+      <div class="cr-faq__item">
+        <div class="cr-faq__question" tabindex="0" role="button" aria-expanded="false">Do I need to do a loading phase?</div>
+        <div class="cr-faq__answer">A loading phase is optional. You can start seeing results by simply taking 3 gummies every day consistently. If you want faster saturation, you can take a higher dose for the first 5&ndash;7 days, then drop back to 3 per day.</div>
+      </div>
+
+      <div class="cr-faq__item">
+        <div class="cr-faq__question" tabindex="0" role="button" aria-expanded="false">Is creatine safe?</div>
+        <div class="cr-faq__answer">Yes. Creatine Monohydrate is one of the most researched supplements in the world with decades of safety data. It is not a banned substance and is suitable for everyday use.</div>
+      </div>
+
+      <div class="cr-faq__item">
+        <div class="cr-faq__question" tabindex="0" role="button" aria-expanded="false">When will I receive my order?</div>
+        <div class="cr-faq__answer">UK orders are dispatched within 24 hours and typically arrive within 2&ndash;3 working days. You&apos;ll receive a tracking number as soon as your order ships.</div>
+      </div>
+
+      <div class="cr-faq__item">
+        <div class="cr-faq__question" tabindex="0" role="button" aria-expanded="false">Can I cancel my subscription?</div>
+        <div class="cr-faq__answer">Yes, you can cancel or pause your subscription at any time from your account dashboard. There are no cancellation fees or lock-in periods.</div>
+      </div>
+
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Section title", "default": "Frequently Asked Questions" }
+  ],
+  "max_blocks": 20,
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "textarea", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FAQ" }]
+}
+{% endschema %}

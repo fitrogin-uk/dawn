@@ -1,0 +1,52 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "creatine_hero": {
+      "type": "creatine-hero",
+      "settings": {}
+    },
+    "creatine_benefits": {
+      "type": "creatine-benefits",
+      "settings": {},
+      "blocks": {
+        "benefit_1": { "type": "benefit", "settings": { "icon": "💪", "title": "5g Creatine Per Serving", "description": "Full clinically-studied dose every time" } },
+        "benefit_2": { "type": "benefit", "settings": { "icon": "🔬", "title": "Eurofins Lab Tested", "description": "Third-party verified purity & potency" } },
+        "benefit_3": { "type": "benefit", "settings": { "icon": "🔥", "title": "L-Carnitine Complex", "description": "Supports energy metabolism & fat burning" } },
+        "benefit_4": { "type": "benefit", "settings": { "icon": "✅", "title": "Full Amount Inside", "description": "Label accuracy guaranteed" } }
+      },
+      "block_order": ["benefit_1", "benefit_2", "benefit_3", "benefit_4"]
+    },
+    "creatine_trust": {
+      "type": "creatine-trust",
+      "settings": {}
+    },
+    "creatine_ingredients": {
+      "type": "creatine-ingredients",
+      "settings": {
+        "title": "What's Inside",
+        "subtitle": "Every ingredient has a purpose. Nothing hidden, nothing underdosed."
+      }
+    },
+    "creatine_faq": {
+      "type": "creatine-faq",
+      "settings": {
+        "title": "Frequently Asked Questions"
+      }
+    }
+  },
+  "order": [
+    "creatine_hero",
+    "creatine_benefits",
+    "creatine_trust",
+    "creatine_ingredients",
+    "creatine_faq"
+  ]
+}
