@@ -1,118 +1,201 @@
 {% comment %}
-  Shopify Custom Auto-Scrolling Video Carousel (TikTok/Reels Style)
-  Moves right to left automatically every 3 seconds
-  - HIDDEN ON MOBILE -
+  Shopify Custom Full-Width Video Carousel with Side Arrows
+  - Moves automatically every 3 seconds
+  - Overhanging 5th video card layout
+  - Hidden completely on mobile
 {% endcomment %}
 
-<div class="video-carousel-container" id="VideoCarousel-{{ section.id }}">
-  <div class="video-carousel-track">
-    {%- for block in section.blocks -%}
-      {%- if block.settings.video_select != blank -%}
-        <div class="video-carousel-card" {{ block.shopify_attributes }}>
-          {{ block.settings.video_select | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
-        </div>
-      {%- else -%}
-        <!-- Placeholder when no video is selected -->
-        <div class="video-carousel-card placeholder-card" {{ block.shopify_attributes }}>
-          {{ 'collection-1' | placeholder_svg_tag }}
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
+<div class="video-carousel-wrapper" id="VideoCarousel-{{ section.id }}">
+  <!-- Left Navigation Arrow -->
+  <button class="carousel-arrow arrow-left" aria-label="Previous slide">
+    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+  </button>
+
+  <div class="video-carousel-container">
+    <div class="video-carousel-track">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.video_select != blank -%}
+          <div class="video-carousel-card" {{ block.shopify_attributes }}>
+            {{ block.settings.video_select | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+          </div>
+        {%- else -%}
+          <div class="video-carousel-card placeholder-card" {{ block.shopify_attributes }}>
+            {{ 'collection-1' | placeholder_svg_tag }}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
   </div>
+
+  <!-- Right Navigation Arrow -->
+  <button class="carousel-arrow arrow-right" aria-label="Next slide">
+    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+  </button>
 </div>
 
 <style>
+/* Main Wrapper Setup */
+.video-carousel-wrapper {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding: 30px 0;
+  background: transparent;
+  display: block;
+}
+
+/* Container & Track layout */
 .video-carousel-container {
   overflow: hidden;
   width: 100%;
-  max-width: 100%;
-  padding: 40px 0;
-  background: transparent;
-  display: block; /* Shown by default on desktop */
 }
 .video-carousel-track {
   display: flex;
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.5s ease-in-out;
   width: 100%;
 }
+
+/* Sizing: 23% width creates 4 full items + small peak of 5th slide */
 .video-carousel-card {
-  min-width: 20%; /* Shows 5 vertical videos on desktop */
+  min-width: 23%; 
   flex-shrink: 0;
-  padding: 0 8px; /* Gap between cards */
+  padding: 0 10px;
   box-sizing: border-box;
 }
+
 @media (max-width: 1200px) {
-  .video-carousel-card {
-    min-width: 25%; /* Shows 4 videos on smaller desktops */
-  }
+  .video-carousel-card { min-width: 31%; } /* 3 items visible */
 }
 @media (max-width: 990px) {
-  .video-carousel-card {
-    min-width: 33.33%; /* Shows 3 videos on tablet */
-  }
+  .video-carousel-card { min-width: 46%; } /* 2 items visible */
 }
 
-/* ❌ HIDES THE ENTIRE SECTION ON MOBILE SCREENS */
+/* ❌ HIDDEN ENTIRELY ON MOBILE */
 @media (max-width: 749px) {
-  .video-carousel-container {
+  .video-carousel-wrapper {
     display: none !important;
   }
 }
 
+/* Video Elements */
 .video-carousel-card video, 
 .video-carousel-card svg {
   width: 100%;
-  aspect-ratio: 9 / 16; /* Forces a tall vertical TikTok aspect ratio */
+  aspect-ratio: 9 / 16;
   height: auto;
-  border-radius: 24px; /* Matches the clean rounded corners in your image */
+  border-radius: 20px;
   object-fit: cover;
   display: block;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 .placeholder-card svg {
   background: #e0e0e0;
 }
+
+/* Arrow Styling */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  color: #000000;
+  transition: background 0.2s, transform 0.2s translateY;
+}
+.carousel-arrow:hover {
+  background: #f5f5f5;
+}
+.carousel-arrow svg {
+  width: 28px;
+  height: 28px;
+}
+.arrow-left { left: 20px; }
+.arrow-right { right: 20px; }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const container = document.getElementById('VideoCarousel-{{ section.id }}');
-  if (!container) return;
+  const wrapper = document.getElementById('VideoCarousel-{{ section.id }}');
+  if (!wrapper || window.innerWidth <= 749) return;
 
-  // Don't run the script execution logic if we are on a mobile device screen width
-  if (window.innerWidth <= 749) return;
-
-  const track = container.querySelector('.video-carousel-track');
+  const track = wrapper.querySelector('.video-carousel-track');
+  const btnLeft = wrapper.querySelector('.arrow-left');
+  const btnRight = wrapper.querySelector('.arrow-right');
   let cards = track.querySelectorAll('.video-carousel-card');
-  if (cards.length <= 1) return;
-
+  
   let currentIndex = 0;
 
-  function moveLeft() {
-    cards = track.querySelectorAll('.video-carousel-card');
-    
-    // Dynamically calculate visible cards based on screen size
-    let visibleCards = 5;
-    if (window.innerWidth <= 990) visibleCards = 3;
-    else if (window.innerWidth <= 1200) visibleCards = 4;
+  function getVisibleCardsCount() {
+    if (window.innerWidth <= 990) return 2;
+    if (window.innerWidth <= 1200) return 3;
+    return 4; // Desktop standard
+  }
 
-    const maxIndex = cards.length - visibleCards;
-    
-    currentIndex++;
-    
-    if (currentIndex > maxIndex || maxIndex <= 0) {
-      currentIndex = 0; // Reset to the first slide
-    }
-    
-    const cardWidth = cards.getBoundingClientRect().width;
+  function updateSlidePosition() {
+    cards = track.querySelectorAll('.video-carousel-card');
+    const cardWidth = cards[0].getBoundingClientRect().width;
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
-  // Auto scroll every 3 seconds
-  let carouselInterval = setInterval(moveLeft, 3000);
+  function nextSlide() {
+    const visibleCards = getVisibleCardsCount();
+    const maxIndex = cards.length - visibleCards;
+    
+    if (currentIndex >= maxIndex) {
+      currentIndex = 0;
+    } else {
+      currentIndex++;
+    }
+    updateSlidePosition();
+  }
 
-  // Pause on hover
-  container.addEventListener('mouseenter', () => clearInterval(carouselInterval));
-  container.addEventListener('mouseleave', () => carouselInterval = setInterval(moveLeft, 3000));
+  function prevSlide() {
+    const visibleCards = getVisibleCardsCount();
+    const maxIndex = cards.length - visibleCards;
+
+    if (currentIndex <= 0) {
+      currentIndex = maxIndex;
+    } else {
+      currentIndex--;
+    }
+    updateSlidePosition();
+  }
+
+  // Hook button actions
+  btnRight.addEventListener('click', () => {
+    nextSlide();
+    resetTimer();
+  });
+  
+  btnLeft.addEventListener('click', () => {
+    prevSlide();
+    resetTimer();
+  });
+
+  // Automated Scrolling Loop
+  let carouselInterval = setInterval(nextSlide, 3000);
+
+  function resetTimer() {
+    clearInterval(carouselInterval);
+    carouselInterval = setInterval(nextSlide, 3000);
+  }
+
+  // Interactivity triggers
+  wrapper.addEventListener('mouseenter', () => clearInterval(carouselInterval));
+  wrapper.addEventListener('mouseleave', () => carouselInterval = setInterval(nextSlide, 3000));
+  window.addEventListener('resize', updateSlidePosition);
 });
 </script>
 
@@ -128,8 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
           "type": "video",
           "id": "video_select",
-          "label": "Select Video",
-          "info": "Upload or choose an MP4 video file from your library."
+          "label": "Select Video"
         }
       ]
     }
