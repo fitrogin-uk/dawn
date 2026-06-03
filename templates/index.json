@@ -354,6 +354,18 @@
     "video_carousel_N4HmCa": {
       "type": "video-carousel",
       "blocks": {
+        "video_slide_EHzNpV": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_73T6qm": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_8d8CtY": {
+          "type": "video_slide",
+          "settings": {}
+        },
         "video_slide_hxtKyz": {
           "type": "video_slide",
           "settings": {}
@@ -372,6 +384,9 @@
         }
       },
       "block_order": [
+        "video_slide_EHzNpV",
+        "video_slide_73T6qm",
+        "video_slide_8d8CtY",
         "video_slide_hxtKyz",
         "video_slide_nrNmQR",
         "video_slide_QiJQ7Y",
