@@ -1,8 +1,8 @@
 {% comment %}
   Shopify Sequential-Playback Video Carousel - PART 1
-  - Pure breakout layout framework to bypass theme layout limitations
-  - Clean thin white circle play button overlays
-  - Left/Right arrows aligned exactly like the reference image
+  - Breakout framework to bypass theme layout limitations
+  - Resized play button triangle matching reference screenshot exactly
+  - Left/Right arrows aligned outside layout tracking boundaries
   - Hidden completely on mobile viewports
 {% endcomment %}
 
@@ -57,7 +57,6 @@
 </div>
 
 <style>
-/* Absolute breakout wrapper to protect layout integrity from your theme files */
 .video-carousel-wrapper {
   position: relative;
   width: 100vw !important;
@@ -75,17 +74,16 @@
 .video-carousel-container {
   overflow: hidden !important;
   width: 100%;
-  padding-left: 4vw; /* Balanced structural padding gap layout */
+  padding-left: 4vw;
   box-sizing: border-box;
 }
 
 .video-carousel-track {
   display: flex !important;
   transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-  width: max-content !important; /* Prevents themes from crushing video cards below each other */
+  width: max-content !important;
 }
 
-/* Sizing optimized to display 4 full videos + peeking slice of number 5 */
 .video-carousel-card {
   width: 22vw !important;
   min-width: 22vw !important;
@@ -109,14 +107,13 @@
   width: 100% !important;
   aspect-ratio: 9 / 16 !important;
   height: auto !important;
-  border-radius: 16px; /* Smooth card curvature rounding */
+  border-radius: 16px;
   object-fit: cover;
   display: block;
   filter: brightness(0.70);
   transition: filter 0.4s ease;
 }
 
-/* Focused playback card brightness illumination */
 .video-carousel-card.active-playing video,
 .video-carousel-card.active-playing svg {
   filter: brightness(1) !important;
@@ -124,16 +121,16 @@
 
 .placeholder-card svg { background: #e2e2e2; }
 
-/* Thin White Circle Play Button Overlay */
+/* 🎬 PLAY BUTTON: Outer circle frame */
 .play-button-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   background: transparent;
-  border: 1.5px solid #ffffff; /* Crisp thin edge lines matching reference screenshot */
+  border: 1.5px solid #ffffff;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -146,17 +143,16 @@
 
 .video-carousel-card.active-playing .play-button-overlay {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1.05);
 }
 
+/* ▶️ INNER TRIANGLE: Sized up from 18px to 26px to match your screenshot perfectly */
 .play-button-overlay svg {
-  width: 18px !important;
-  height: 18px !important;
-  margin-left: 3px;
+  width: 26px !important;
+  height: 26px !important;
+  margin-left: 4px; /* Perfectly centers the larger triangle path shape */
   filter: none !important;
 }
 
-/* Left/Right Text Arrow Indicators Overlay Layout */
 .carousel-arrow {
   position: absolute;
   top: 50%;
@@ -164,11 +160,11 @@
   background: transparent;
   border: none;
   font-family: sans-serif;
-  font-size: 32px; /* Large typographic chevrons */
+  font-size: 32px;
   font-weight: 300;
   color: #000000;
   cursor: pointer;
-  z-index: 999 !important; /* Forces layout tracking layers to remain at front */
+  z-index: 999 !important;
   padding: 10px;
   line-height: 1;
   transition: transform 0.2s;
@@ -177,7 +173,6 @@
 .arrow-left { left: 15px; }
 .arrow-right { right: 15px; }
 
-/* Popup Player Screen Window Box */
 .video-popup-modal {
   position: fixed;
   top: 0;
@@ -238,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateSlidePosition() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
-    const cardWidth = cards[0].getBoundingClientRect().width;
+    const cardWidth = cards.getBoundingClientRect().width;
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
@@ -261,7 +256,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Clamps every single video clip to exactly 3 seconds max, then triggers rotation
   function runChainStep() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
@@ -270,7 +264,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxIndex = Math.max(0, cards.length - jumpSize);
     const lastVisibleInGroup = currentIndex + jumpSize - 1;
 
-    // Strict rule: If it reaches the end of the 4th frame block, slide immediately
     if (playChainIndex === lastVisibleInGroup || playChainIndex >= cards.length - 1) {
       if (currentIndex >= maxIndex) {
         currentIndex = 0;
@@ -290,7 +283,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function startChainLogic() {
     clearInterval(chainInterval);
     manageChainPlayback();
-    chainInterval = setInterval(runChainStep, 3000); // Strict 3 second rule limit across all slides
+    chainInterval = setInterval(runChainStep, 3000);
   }
 
   function stopChainLogic() {
@@ -333,16 +326,13 @@ document.addEventListener('DOMContentLoaded', function() {
     startChainLogic();
   }
 
-  // Click interceptors that bypass the Shopify Customizer layout iframe boundaries
+  // Click interceptors that bypass iframe restrictions
   btnRight.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualNext(); });
   btnLeft.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualPrev(); });
   btnRight.addEventListener('mousedown', function(e) { e.preventDefault(); handleManualNext(); });
   btnLeft.addEventListener('mousedown', function(e) { e.preventDefault(); handleManualPrev(); });
 
-  wrapper.addEventListener('mouseenter', () => clearInterval(chainInterval));
-  wrapper.addEventListener('mouseleave', () => {
-    if (modal.style.display !== 'flex') startChainLogic();
-  });
+  // Mouseenter/Mouseleave events removed entirely to fix hover interference bug
   
   window.addEventListener('resize', updateSlidePosition);
 
@@ -368,7 +358,6 @@ document.addEventListener('DOMContentLoaded', function() {
   modalClose.addEventListener('click', closePopupModal);
   modal.addEventListener('click', function(e) { if(e.target === modal) closePopupModal(); });
 
-  // Initial startup execution
   setTimeout(startChainLogic, 200);
 });
 </script>
