@@ -1,6 +1,7 @@
 {% comment %}
-  Shopify Custom Auto-Scrolling Video Carousel (10 Videos Default)
+  Shopify Custom Auto-Scrolling Video Carousel (TikTok/Reels Style)
   Moves right to left automatically every 3 seconds
+  - HIDDEN ON MOBILE -
 {% endcomment %}
 
 <div class="video-carousel-container" id="VideoCarousel-{{ section.id }}">
@@ -27,6 +28,7 @@
   max-width: 100%;
   padding: 40px 0;
   background: transparent;
+  display: block; /* Shown by default on desktop */
 }
 .video-carousel-track {
   display: flex;
@@ -34,26 +36,35 @@
   width: 100%;
 }
 .video-carousel-card {
-  min-width: 25%; /* Shows 4 videos on screen at once on desktop */
+  min-width: 20%; /* Shows 5 vertical videos on desktop */
   flex-shrink: 0;
-  padding: 0 10px;
+  padding: 0 8px; /* Gap between cards */
   box-sizing: border-box;
+}
+@media (max-width: 1200px) {
+  .video-carousel-card {
+    min-width: 25%; /* Shows 4 videos on smaller desktops */
+  }
 }
 @media (max-width: 990px) {
   .video-carousel-card {
-    min-width: 50%; /* Shows 2 videos on screen at once on tablet */
+    min-width: 33.33%; /* Shows 3 videos on tablet */
   }
 }
+
+/* ❌ HIDES THE ENTIRE SECTION ON MOBILE SCREENS */
 @media (max-width: 749px) {
-  .video-carousel-card {
-    min-width: 80%; /* Shows 1 full + part of next on mobile */
+  .video-carousel-container {
+    display: none !important;
   }
 }
+
 .video-carousel-card video, 
 .video-carousel-card svg {
   width: 100%;
+  aspect-ratio: 9 / 16; /* Forces a tall vertical TikTok aspect ratio */
   height: auto;
-  border-radius: 8px;
+  border-radius: 24px; /* Matches the clean rounded corners in your image */
   object-fit: cover;
   display: block;
 }
@@ -67,6 +78,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const container = document.getElementById('VideoCarousel-{{ section.id }}');
   if (!container) return;
 
+  // Don't run the script execution logic if we are on a mobile device screen width
+  if (window.innerWidth <= 749) return;
+
   const track = container.querySelector('.video-carousel-track');
   let cards = track.querySelectorAll('.video-carousel-card');
   if (cards.length <= 1) return;
@@ -76,23 +90,27 @@ document.addEventListener('DOMContentLoaded', function() {
   function moveLeft() {
     cards = track.querySelectorAll('.video-carousel-card');
     
-    // Total slides available minus the ones visible on screen (4 visible)
-    const maxIndex = cards.length - 4 > 0 ? cards.length - 4 : cards.length - 1;
+    // Dynamically calculate visible cards based on screen size
+    let visibleCards = 5;
+    if (window.innerWidth <= 990) visibleCards = 3;
+    else if (window.innerWidth <= 1200) visibleCards = 4;
+
+    const maxIndex = cards.length - visibleCards;
     
     currentIndex++;
     
-    if (currentIndex > maxIndex) {
-      currentIndex = 0; // Reset to beginning
+    if (currentIndex > maxIndex || maxIndex <= 0) {
+      currentIndex = 0; // Reset to the first slide
     }
     
-    const cardWidth = cards[0].getBoundingClientRect().width;
+    const cardWidth = cards.getBoundingClientRect().width;
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
-  // Runs automatically every 3000ms (3 seconds)
+  // Auto scroll every 3 seconds
   let carouselInterval = setInterval(moveLeft, 3000);
 
-  // Pause on mouse hover for accessibility
+  // Pause on hover
   container.addEventListener('mouseenter', () => clearInterval(carouselInterval));
   container.addEventListener('mouseleave', () => carouselInterval = setInterval(moveLeft, 3000));
 });
