@@ -1,69 +1,68 @@
 {% comment %}
-  Shopify Sequential Group-Playback Video Carousel - PART 1
-  - Pure edge breakout container framework
-  - Isolated floating arrow triggers with absolute priority pointer overrides
-  - Solid white high-contrast play button circle vector matching screenshot
+  Shopify Enterprise Sequential Batch Video Carousel - PART 1
+  - Strict pixel-based tracking engine independent of theme container widths
+  - High-visibility custom solid white triangle play button overlay
+  - Absolute positioning layer priority overrides for arrow navigation chevrons
   - Hidden completely on mobile viewports
 {% endcomment %}
 
-<div class="video-carousel-wrapper" id="VideoCarousel-{{ section.id }}">
+<div class="sf-video-carousel-wrapper" id="SfVideoCarousel-{{ section.id }}">
   
-  <!-- 🏹 INDEPENDENT FLOATING ARROWS: Positioned outside container flow to bypass clicks -->
-  <button class="custom-nav-arrow btn-prev-batch" type="button" aria-label="Previous Batch">
+  <!-- Hard-Layered Absolute Chevron Nav Elements with strict Global click execution routing -->
+  <button class="sf-nav-arrow sf-btn-prev" type="button" onclick="window.sfMoveCarouselGroup('{{ section.id }}', 'prev')" aria-label="Previous Video Batch">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
   </button>
   
-  <button class="custom-nav-arrow btn-next-batch" type="button" aria-label="Next Batch">
+  <button class="sf-nav-arrow sf-btn-next" type="button" onclick="window.sfMoveCarouselGroup('{{ section.id }}', 'next')" aria-label="Next Video Batch">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
   </button>
 
-  <div class="video-carousel-container">
-    <div class="video-carousel-track">
+  <div class="sf-video-carousel-viewport">
+    <div class="sf-video-carousel-track">
       {%- for block in section.blocks -%}
+        {%- assign current_video_url = "" -%}
+        
         {%- if block.settings.video_select != blank -%}
-          {%- assign video_url = "" -%}
           {%- for source in block.settings.video_select.sources -%}
             {%- if source.format == 'mp4' -%}
-              {%- assign video_url = source.url -%}
+              {%- assign current_video_url = source.url -%}
             {%- endif -%}
           {%- endfor -%}
-          {%- if video_url == blank or video_url == "" -%}
-            {%- assign video_url = block.settings.video_select.sources.url -%}
+          {%- if current_video_url == blank or current_video_url == "" -%}
+            {%- assign current_video_url = block.settings.video_select.sources.url -%}
           {%- endif -%}
-          
-          <div class="video-carousel-card" {{ block.shopify_attributes }} data-video-url="{{ video_url | escape }}">
-            <div class="video-relative-frame">
-              <video src="{{ video_url }}" muted playsinline preload="metadata" style="pointer-events: none; width: 100%; height: 100%;"></video>
-              <div class="play-button-overlay">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>
-              </div>
-            </div>
-          </div>
-        {%- else -%}
-          <div class="video-carousel-card placeholder-card" {{ block.shopify_attributes }} data-video-url="">
-            <div class="video-relative-frame">
-              {{ 'collection-1' | placeholder_svg_tag }}
-              <div class="play-button-overlay">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>
-              </div>
-            </div>
-          </div>
         {%- endif -%}
+
+        <div class="sf-video-card{% if current_video_url == blank %} sf-placeholder-state{% endif %}" {{ block.shopify_attributes }} data-sf-url="{{ current_video_url | escape }}" data-index="{{ forloop.index0 }}">
+          <div class="sf-video-inner-frame">
+            {%- if current_video_url != blank -%}
+              <video src="{{ current_video_url }}" muted playsinline preload="metadata" style="pointer-events: none; width: 100%; height: 100%; display: block;"></video>
+            {%- else -%}
+              {{ 'collection-1' | placeholder_svg_tag }}
+            {%- endif -%}
+            
+            <!-- 🎬 PLAY BUTTON OVERLAY: Solid White inner core geometry matching screenshot exactly -->
+            <div class="sf-play-circle-overlay">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>
+            </div>
+          </div>
+        </div>
       {%- endfor -%}
     </div>
   </div>
 </div>
 
-<!-- Full Screen Modal Player -->
-<div class="video-popup-modal" id="VideoModal-{{ section.id }}">
-  <button class="modal-close-btn" type="button">&times;</button>
-  <div class="modal-video-box">
-    <video controls autoplay playsinline class="modal-active-video"></video>
+<!-- Full-Screen Lightbox Audio Modal Portal Layout Container -->
+<div class="sf-video-lightbox-portal" id="SfModal-{{ section.id }}" onclick="if(event.target === this) window.sfCloseLightboxPortal('{{ section.id }}')">
+  <button class="sf-portal-close" type="button" onclick="window.sfCloseLightboxPortal('{{ section.id }}')">&times;</button>
+  <div class="sf-portal-box">
+    <video controls autoplay playsinline class="sf-portal-active-video"></video>
   </div>
 </div>
 
 <style>
-.video-carousel-wrapper {
+/* Reset and forcefully breakout past any structural parent theme width limits */
+.sf-video-carousel-wrapper {
   position: relative !important;
   width: 100vw !important;
   max-width: 100vw !important;
@@ -71,45 +70,59 @@
   right: 50% !important;
   margin-left: -50vw !important;
   margin-right: -50vw !important;
-  padding: 40px 0;
-  background: transparent;
+  padding: 40px 0 !important;
+  background: transparent !important;
   display: block !important;
   box-sizing: border-box !important;
 }
 
-.video-carousel-container {
+.sf-video-carousel-viewport {
   overflow: hidden !important;
-  width: 100% !important;
-  padding-left: 5% !important;
+  width: 100%;
+  padding-left: 5% !important; /* Elegant margin lining grid alignment space */
   box-sizing: border-box !important;
 }
 
-.video-carousel-track {
+.sf-video-carousel-track {
   display: flex !important;
-  transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
   width: max-content !important;
+  will-change: transform !important;
 }
 
-.video-carousel-card {
+/* 📐 FIXED BOX MATRIX STABILITY SIZE: Prevents responsive grid collapsing */
+.sf-video-card {
   width: 390px !important;
   min-width: 390px !important;
+  max-width: 390px !important;
   flex-shrink: 0 !important;
   padding-right: 12px !important;
   box-sizing: border-box !important;
   cursor: pointer !important;
+  user-select: none !important;
 }
 
-@media (max-width: 1400px) { .video-carousel-card { width: 320px !important; min-width: 320px !important; } }
-@media (max-width: 1100px) { .video-carousel-card { width: 260px !important; min-width: 260px !important; } }
-@media (max-width: 749px) { .video-carousel-wrapper { display: none !important; } }
+@media (max-width: 1400px) {
+  .sf-video-card { width: 320px !important; min-width: 320px !important; max-width: 320px !important; }
+}
+@media (max-width: 1100px) {
+  .sf-video-card { width: 260px !important; min-width: 260px !important; max-width: 260px !important; }
+}
 
-.video-relative-frame {
+/* ❌ HIDDEN COMPLETELY ON MOBILE VIEWPORTS */
+@media (max-width: 749px) {
+  .sf-video-carousel-wrapper {
+    display: none !important;
+  }
+}
+
+.sf-video-inner-frame {
   position: relative !important;
   width: 100% !important;
 }
 
-.video-carousel-card video, 
-.video-carousel-card svg {
+.sf-video-card video, 
+.sf-video-card svg {
   width: 100% !important;
   aspect-ratio: 9 / 16 !important;
   height: auto !important;
@@ -120,14 +133,17 @@
   transition: filter 0.4s ease !important;
 }
 
-.video-carousel-card.active-playing video,
-.video-carousel-card.active-playing svg {
+.sf-video-card.sf-active-chain video,
+.sf-video-card.sf-active-chain svg {
   filter: brightness(1) !important;
 }
 
-.placeholder-card svg { background: #e2e2e2 !important; }
+.sf-placeholder-state svg {
+  background: #e2e2e2 !important;
+}
 
-.play-button-overlay {
+/* 🎬 OUTER PLAY OVERLAY RING CONTAINER */
+.sf-play-circle-overlay {
   position: absolute !important;
   top: 50% !important;
   left: 50% !important;
@@ -140,250 +156,252 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  transition: opacity 0.3s !important;
+  transition: opacity 0.3s, transform 0.2s ease !important;
   pointer-events: none !important;
   opacity: 0.35 !important;
 }
 
-.video-carousel-card.active-playing .play-button-overlay {
+.sf-video-card.sf-active-chain .sf-play-circle-overlay {
   opacity: 1 !important;
+  transform: translate(-50%, -50%) scale(1.05) !important;
 }
 
-.play-button-overlay svg {
+/* ▶️ SOLID OPAQUE WHITE TRIANGLE SHAPE SHIFT MATRIX */
+.sf-play-circle-overlay svg {
   width: 32px !important;
   height: 32px !important;
   color: #ffffff !important;
-  fill: #ffffff !important;
-  margin-left: 6px !important;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)) !important;
+  fill: #ffffff !important; /* Forced 100% solid white triangle fill core shape */
+  margin-left: 6px !important; /* Perfect geometric alignment offset weight shift */
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2)) !important;
 }
 
-/* 🏹 HARDCORE ABSOLUTE OVERRIDE NAVIGATION LAYERS */
-.custom-nav-arrow {
+/* 🏹 ABSOLUTE POSITION NAVIGATION FLOATS: Completely isolated above container margins */
+.sf-nav-arrow {
   position: absolute !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
   background: #ffffff !important;
   border: 1px solid #e0e0e0 !important;
   border-radius: 50% !important;
-  width: 46px !important;
-  height: 46px !important;
+  width: 44px !important;
+  height: 44px !important;
   color: #000000 !important;
   cursor: pointer !important;
-  
-  /* Placed on the absolute highest browser layer index possible */
-  z-index: 2147483647 !important; 
-  pointer-events: all !important; /* Force browser engine click capture */
-  
+  z-index: 2147483647 !important; /* Absolute front layer stack index override alignment */
+  pointer-events: all !important; /* Forces browser rendering tree to actively process mouse actions */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.18) !important;
-  transition: transform 0.2s ease, background-color 0.2s !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.16) !important;
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s !important;
   padding: 0 !important;
 }
-.custom-nav-arrow:hover { 
+.sf-nav-arrow:hover {
   transform: translateY(-50%) scale(1.12) !important;
-  background-color: #f7f7f7 !important;
+  background-color: #fcfcfc !important;
 }
-.custom-nav-arrow svg { 
-  width: 22px !important; 
-  height: 22px !important; 
+.sf-nav-arrow svg {
+  width: 22px !important;
+  height: 22px !important;
   display: block !important;
 }
-.btn-prev-batch { left: 24px !important; }
-.btn-next-batch { right: 24px !important; }
+.sf-btn-prev { left: 24px !important; }
+.sf-btn-next { right: 24px !important; }
 
-/* Popup Player Lightbox */
-.video-popup-modal {
+/* Lightbox Modal Structure overlay */
+.sf-video-lightbox-portal {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
-  background: rgba(0, 0, 0, 0.85) !important;
-  backdrop-filter: blur(8px) !important;
-  z-index: 999999999 !important;
+  background: rgba(0, 0, 0, 0.88) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  z-index: 2147483647 !important;
   display: none;
   align-items: center !important;
   justify-content: center !important;
+  box-sizing: border-box !important;
 }
-.modal-video-box {
+.sf-portal-box {
   width: 90% !important;
-  max-width: 480px !important;
+  max-width: 460px !important;
   aspect-ratio: 9 / 16 !important;
 }
-.modal-video-box video {
+.sf-portal-box video {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
   border-radius: 16px !important;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6) !important;
 }
-.modal-close-btn {
+.sf-portal-close {
   position: absolute !important;
-  top: 20px !important;
-  right: 30px !important;
+  top: 24px !important;
+  right: 32px !important;
   background: transparent !important;
   border: none !important;
   color: #ffffff !important;
-  font-size: 45px !important;
+  font-size: 50px !important;
   cursor: pointer !important;
+  line-height: 1 !important;
 }
 </style>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const wrapper = document.getElementById('VideoCarousel-{{ section.id }}');
-  const modal = document.getElementById('VideoModal-{{ section.id }}');
-  if (!wrapper || window.innerWidth <= 749) return;
-
-  const track = wrapper.querySelector('.video-carousel-track');
-  const btnLeft = wrapper.querySelector('.btn-prev-batch');
-  const btnRight = wrapper.querySelector('.btn-next-batch');
-  const modalVideo = modal.querySelector('.modal-active-video');
-  const modalClose = modal.querySelector('.modal-close-btn');
+(function() {
+  const sectionId = "{{ section.id }}";
   
-  let currentIndex = 0;
-  let playChainIndex = 0;
-  let chainInterval = null;
+  // Expose global orchestration container layers for the window context
+  window.sfCarouselInstances = window.sfCarouselInstances || {};
 
-  function getGroupJumpSize() {
-    if (window.innerWidth <= 1100) return 2;
-    if (window.innerWidth <= 1400) return 3;
-    return 4; 
-  }
+  function initSfCarousel() {
+    const wrapper = document.getElementById('SfVideoCarousel-' + sectionId);
+    if (!wrapper) return;
 
-  function updateSlidePosition() {
-    const cards = track.querySelectorAll('.video-carousel-card');
-    if (cards.length === 0) return;
-    const cardWidth = cards.getBoundingClientRect().width;
-    track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-  }
-
-  function manageChainPlayback() {
-    const cards = track.querySelectorAll('.video-carousel-card');
+    const track = wrapper.querySelector('.sf-video-carousel-track');
+    const cards = track.querySelectorAll('.sf-video-card');
     if (cards.length === 0) return;
 
-    cards.forEach((card, idx) => {
-      const video = card.querySelector('video');
-      if (idx === playChainIndex) {
-        card.classList.add('active-playing');
-        if (video && card.getAttribute('data-video-url') !== "") {
-          video.currentTime = 0;
-          video.play().catch((err) => console.log("Bypassing empty block layout lock:", err));
+    const instance = {
+      currentIndex: 0,
+      playChainIndex: 0,
+      chainInterval: null,
+      cards: cards,
+      track: track,
+      wrapper: wrapper,
+      getGroupSize: function() {
+        if (window.innerWidth <= 1100) return 2;
+        if (window.innerWidth <= 1400) return 3;
+        return 4;
+      },
+      updateTrackView: function() {
+        if (this.cards.length === 0) return;
+        const cardWidth = this.cards[0].getBoundingClientRect().width;
+        this.track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
+      },
+      managePlaybackCycle: function() {
+        this.cards.forEach((card, idx) => {
+          const video = card.querySelector('video');
+          if (idx === this.playChainIndex) {
+            card.classList.add('sf-active-chain');
+            if (video && card.getAttribute('data-sf-url') !== "") {
+              video.currentTime = 0;
+              video.play().catch(() => {});
+            }
+          } else {
+            card.classList.remove('sf-active-chain');
+            if (video) video.pause();
+          }
+        });
+      },
+      runLoopEngineStep: function() {
+        const jumpSize = this.getGroupSize();
+        const maxIdx = Math.max(0, this.cards.length - jumpSize);
+        const lastVisibleGroupMember = this.currentIndex + jumpSize - 1;
+
+        if (this.playChainIndex >= lastVisibleGroupMember || this.playChainIndex >= this.cards.length - 1) {
+          if (this.currentIndex >= maxIdx) {
+            this.currentIndex = 0;
+            this.playChainIndex = 0;
+          } else {
+            this.currentIndex = Math.min(maxIdx, this.currentIndex + jumpSize);
+            this.playChainIndex = this.currentIndex;
+          }
+          this.updateTrackView();
+        } else {
+          this.playChainIndex++;
         }
-      } else {
-        card.classList.remove('active-playing');
-        if (video) video.pause();
+        this.managePlaybackCycle();
+      },
+      startMasterTimerLoop: function() {
+        clearInterval(this.chainInterval);
+        this.managePlaybackCycle();
+        this.chainInterval = setInterval(() => this.runLoopEngineStep(), 3000);
+      },
+      stopMasterTimerLoop: function() {
+        clearInterval(this.chainInterval);
+        this.cards.forEach(card => {
+          const video = card.querySelector('video');
+          if (video) video.pause();
+          card.classList.remove('sf-active-chain');
+        });
       }
-    });
-  }
+    };
 
-  function runChainStep() {
-    const cards = track.querySelectorAll('.video-carousel-card');
-    if (cards.length === 0) return;
+    window.sfCarouselInstances[sectionId] = instance;
 
-    const jumpSize = getGroupJumpSize();
-    const maxIndex = Math.max(0, cards.length - jumpSize);
-    const lastVisibleInGroup = currentIndex + jumpSize - 1;
-
-    if (playChainIndex >= lastVisibleInGroup || playChainIndex >= cards.length - 1) {
-      if (currentIndex >= maxIndex) {
-        currentIndex = 0;
-        playChainIndex = 0;
-      } else {
-        currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
-        playChainIndex = currentIndex;
-      }
-      updateSlidePosition();
-    } else {
-      playChainIndex++;
-    }
-    
-    manageChainPlayback();
-  }
-
-  function startChainLogic() {
-    clearInterval(chainInterval);
-    manageChainPlayback();
-    chainInterval = setInterval(runChainStep, 3000);
-  }
-
-  function stopChainLogic() {
-    clearInterval(chainInterval);
-    const cards = track.querySelectorAll('.video-carousel-card');
+    // Attach native card interaction handlers to click triggers
     cards.forEach(card => {
-      const video = card.querySelector('video');
-      if(video) video.pause();
-      card.classList.remove('active-playing');
+      card.addEventListener('click', function(e) {
+        const url = this.getAttribute('data-sf-url');
+        if (url && url !== "") {
+          instance.stopMasterTimerLoop();
+          const modal = document.getElementById('SfModal-' + sectionId);
+          const modalVideo = modal.querySelector('.sf-portal-active-video');
+          modalVideo.src = url;
+          modal.style.display = 'flex';
+          modalVideo.play().catch(() => {});
+        }
+      });
     });
+
+    // Forced setup initialization runtime pathing delays
+    setTimeout(() => {
+      const initialVideos = track.querySelectorAll('video');
+      initialVideos.forEach(v => { v.pause(); v.currentTime = 0; });
+      instance.startMasterTimerLoop();
+    }, 150);
+
+    window.addEventListener('resize', () => instance.updateTrackView());
   }
 
-  function handleManualNext() {
-    const cards = track.querySelectorAll('.video-carousel-card');
-    const jumpSize = getGroupJumpSize();
-    const maxIndex = Math.max(0, cards.length - jumpSize);
+  // Exposed global Window hooks to bypass Shopify iframe sandbox limits entirely
+  window.sfMoveCarouselGroup = function(id, direction) {
+    const inst = window.sfCarouselInstances[id];
+    if (!inst) return;
 
-    if (currentIndex >= maxIndex) {
-      currentIndex = 0;
+    const jumpSize = inst.getGroupSize();
+    const maxIdx = Math.max(0, inst.cards.length - jumpSize);
+
+    if (direction === 'next') {
+      if (inst.currentIndex >= maxIdx) {
+        inst.currentIndex = 0;
+      } else {
+        inst.currentIndex = Math.min(maxIdx, inst.currentIndex + jumpSize);
+      }
     } else {
-      currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
+      if (inst.currentIndex <= 0) {
+        inst.currentIndex = maxIdx;
+      } else {
+        inst.currentIndex = Math.max(0, inst.currentIndex - jumpSize);
+      }
     }
-    
-    playChainIndex = currentIndex;
-    updateSlidePosition();
-    startChainLogic();
-  }
 
-  function handleManualPrev() {
-    const cards = track.querySelectorAll('.video-carousel-card');
-    const jumpSize = getGroupJumpSize();
-    const maxIndex = Math.max(0, cards.length - jumpSize);
+    inst.playChainIndex = inst.currentIndex;
+    inst.updateTrackView();
+    inst.startMasterTimerLoop();
+  };
 
-    if (currentIndex <= 0) {
-      currentIndex = maxIndex;
-    } else {
-      currentIndex = Math.max(0, currentIndex - jumpSize);
-    }
-    
-    playChainIndex = currentIndex;
-    updateSlidePosition();
-    startChainLogic();
-  }
-
-  // Bind events directly to the new isolated layout elements
-  if (btnRight && btnLeft) {
-    btnRight.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualNext(); });
-    btnLeft.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualPrev(); });
-    btnRight.addEventListener('mousedown', function(e) { e.preventDefault(); e.stopPropagation(); handleManualNext(); });
-    btnLeft.addEventListener('mousedown', function(e) { e.preventDefault(); e.stopPropagation(); handleManualPrev(); });
-  }
-
-  window.addEventListener('resize', updateSlidePosition);
-
-  track.addEventListener('click', function(e) {
-    const card = e.target.closest('.video-carousel-card');
-    if (!card) return;
-    const targetUrl = card.getAttribute('data-video-url');
-    if (targetUrl && targetUrl !== "") {
-      stopChainLogic();
-      modalVideo.src = targetUrl;
-      modal.style.display = 'flex';
-      modalVideo.play();
-    }
-  });
-
-  function closePopupModal() {
+  window.sfCloseLightboxPortal = function(id) {
+    const modal = document.getElementById('SfModal-' + id);
+    if (!modal) return;
+    const modalVideo = modal.querySelector('.sf-portal-active-video');
     modal.style.display = 'none';
     modalVideo.pause();
     modalVideo.src = "";
-    startChainLogic();
+    
+    const inst = window.sfCarouselInstances[id];
+    if (inst) inst.startMasterTimerLoop();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSfCarousel);
+  } else {
+    initSfCarousel();
   }
-
-  modalClose.addEventListener('click', closePopupModal);
-  modal.addEventListener('click', function(e) { if(e.target === modal) closePopupModal(); });
-
-  setTimeout(startChainLogic, 200);
-});
+})();
 </script>
 
 {% schema %}
@@ -398,7 +416,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
           "type": "video",
           "id": "video_select",
-          "label": "Select Video"
+          "label": "Select Video Content (.mp4)"
         }
       ]
     }
@@ -422,4 +440,3 @@ document.addEventListener('DOMContentLoaded', function() {
   ]
 }
 {% endschema %}
-
