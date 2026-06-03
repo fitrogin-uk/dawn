@@ -3,6 +3,7 @@
   - Strict pixel-based tracking engine independent of theme container widths
   - High-visibility custom solid white triangle play button overlay
   - Absolute positioning layer priority overrides for arrow navigation chevrons
+  - ADDED SIDE MARGINS & OUTER ARROW EXTENSIONS MATCHING SCREENSHOT EXACTLY
   - Hidden completely on mobile viewports
 {% endcomment %}
 
@@ -41,7 +42,7 @@
               {{ 'collection-1' | placeholder_svg_tag }}
             {%- endif -%}
             
-            <!-- 🎬 PLAY BUTTON OVERLAY: Solid White inner core geometry matching screenshot exactly -->
+            <!-- 🎬 PLAY BUTTON OVERLAY -->
             <div class="sf-play-circle-overlay">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>
             </div>
@@ -61,7 +62,7 @@
 </div>
 
 <style>
-/* Reset and forcefully breakout past any structural parent theme width limits */
+/* Reset and breakout past theme boundary width limits */
 .sf-video-carousel-wrapper {
   position: relative !important;
   width: 100vw !important;
@@ -71,7 +72,7 @@
   margin-left: -50vw !important;
   margin-right: -50vw !important;
   padding: 40px 0 !important;
-  background: transparent !important;
+  background: transparent;
   display: block !important;
   box-sizing: border-box !important;
 }
@@ -79,7 +80,9 @@
 .sf-video-carousel-viewport {
   overflow: hidden !important;
   width: 100%;
-  padding-left: 5% !important; /* Elegant margin lining grid alignment space */
+  /* 🏁 FIXED MARGIN: Creates clean side gaps so videos align perfectly with your theme layout padding bounds */
+  padding-left: 6% !important; 
+  padding-right: 6% !important;
   box-sizing: border-box !important;
 }
 
@@ -90,26 +93,26 @@
   will-change: transform !important;
 }
 
-/* 📐 FIXED BOX MATRIX STABILITY SIZE: Prevents responsive grid collapsing */
+/* Stable card framework geometry matrices */
 .sf-video-card {
   width: 390px !important;
   min-width: 390px !important;
   max-width: 390px !important;
   flex-shrink: 0 !important;
-  padding-right: 12px !important;
+  padding-right: 16px !important; /* Elegant modern side distance between video cards */
   box-sizing: border-box !important;
   cursor: pointer !important;
   user-select: none !important;
 }
 
 @media (max-width: 1400px) {
-  .sf-video-card { width: 320px !important; min-width: 320px !important; max-width: 320px !important; }
+  .sf-video-card { width: 310px !important; min-width: 310px !important; max-width: 310px !important; }
 }
 @media (max-width: 1100px) {
-  .sf-video-card { width: 260px !important; min-width: 260px !important; max-width: 260px !important; }
+  .sf-video-card { width: 250px !important; min-width: 250px !important; max-width: 250px !important; }
 }
 
-/* ❌ HIDDEN COMPLETELY ON MOBILE VIEWPORTS */
+/* Hidden entirely on mobile viewports */
 @media (max-width: 749px) {
   .sf-video-carousel-wrapper {
     display: none !important;
@@ -142,7 +145,7 @@
   background: #e2e2e2 !important;
 }
 
-/* 🎬 OUTER PLAY OVERLAY RING CONTAINER */
+/* Play button ring controller styling overlays */
 .sf-play-circle-overlay {
   position: absolute !important;
   top: 50% !important;
@@ -166,50 +169,47 @@
   transform: translate(-50%, -50%) scale(1.05) !important;
 }
 
-/* ▶️ SOLID OPAQUE WHITE TRIANGLE SHAPE SHIFT MATRIX */
 .sf-play-circle-overlay svg {
   width: 32px !important;
   height: 32px !important;
   color: #ffffff !important;
-  fill: #ffffff !important; /* Forced 100% solid white triangle fill core shape */
-  margin-left: 6px !important; /* Perfect geometric alignment offset weight shift */
+  fill: #ffffff !important;
+  margin-left: 6px !important;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2)) !important;
 }
 
-/* 🏹 ABSOLUTE POSITION NAVIGATION FLOATS: Completely isolated above container margins */
+/* 🏹 HARD FIXED NAVIGATION CHEVRONS: Moved cleanly past side padding gaps into absolute safety borders */
 .sf-nav-arrow {
   position: absolute !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
-  background: #ffffff !important;
-  border: 1px solid #e0e0e0 !important;
-  border-radius: 50% !important;
+  background: transparent !important; /* Transparent background matching your reference image layout precisely */
+  border: none !important;
   width: 44px !important;
   height: 44px !important;
   color: #000000 !important;
   cursor: pointer !important;
-  z-index: 2147483647 !important; /* Absolute front layer stack index override alignment */
-  pointer-events: all !important; /* Forces browser rendering tree to actively process mouse actions */
+  z-index: 2147483647 !important;
+  pointer-events: all !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.16) !important;
-  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s !important;
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1) !important;
   padding: 0 !important;
 }
 .sf-nav-arrow:hover {
-  transform: translateY(-50%) scale(1.12) !important;
-  background-color: #fcfcfc !important;
+  transform: translateY(-50%) scale(1.25) !important;
 }
 .sf-nav-arrow svg {
-  width: 22px !important;
-  height: 22px !important;
+  width: 28px !important; /* Crisp, slightly larger typographic chevrons */
+  height: 28px !important;
   display: block !important;
 }
-.sf-btn-prev { left: 24px !important; }
-.sf-btn-next { right: 24px !important; }
+/* Aligned past the inner padding lines to hover cleanly outside video boundaries */
+.sf-btn-prev { left: 2% !important; }
+.sf-btn-next { right: 2% !important; }
 
-/* Lightbox Modal Structure overlay */
+/* Lightbox Modal Structure */
 .sf-video-lightbox-portal {
   position: fixed !important;
   top: 0 !important;
@@ -347,7 +347,7 @@
       });
     });
 
-    // Forced setup initialization runtime pathing delays
+    // Setup initial delay loops to stop simultaneous browser fires
     setTimeout(() => {
       const initialVideos = track.querySelectorAll('video');
       initialVideos.forEach(v => { v.pause(); v.currentTime = 0; });
