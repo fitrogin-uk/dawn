@@ -1,0 +1,74 @@
+<div class="cr-experts">
+  <div class="cr-experts__inner">
+    <p class="cr-experts__eyebrow">{{ section.settings.eyebrow }}</p>
+    <h2 class="cr-section-title">{{ section.settings.title }}</h2>
+    <p class="cr-section-subtitle">{{ section.settings.subtitle }}</p>
+    <div class="cr-experts__grid">
+
+      <div class="cr-expert-card">
+        <div class="cr-expert-card__avatar">
+          {%- if section.settings.expert1_image != blank -%}
+            <img src="{{ section.settings.expert1_image | image_url: width: 200 }}" alt="{{ section.settings.expert1_name }}" width="80" height="80" loading="lazy">
+          {%- else -%}
+            <div class="cr-expert-card__avatar-placeholder">👨‍⚕️</div>
+          {%- endif -%}
+        </div>
+        <blockquote class="cr-expert-card__quote">"{{ section.settings.expert1_quote }}"</blockquote>
+        <div class="cr-expert-card__name">{{ section.settings.expert1_name }}</div>
+        <div class="cr-expert-card__title">{{ section.settings.expert1_role }}</div>
+      </div>
+
+      <div class="cr-expert-card">
+        <div class="cr-expert-card__avatar">
+          {%- if section.settings.expert2_image != blank -%}
+            <img src="{{ section.settings.expert2_image | image_url: width: 200 }}" alt="{{ section.settings.expert2_name }}" width="80" height="80" loading="lazy">
+          {%- else -%}
+            <div class="cr-expert-card__avatar-placeholder">👨‍⚕️</div>
+          {%- endif -%}
+        </div>
+        <blockquote class="cr-expert-card__quote">"{{ section.settings.expert2_quote }}"</blockquote>
+        <div class="cr-expert-card__name">{{ section.settings.expert2_name }}</div>
+        <div class="cr-expert-card__title">{{ section.settings.expert2_role }}</div>
+      </div>
+
+      <div class="cr-expert-card">
+        <div class="cr-expert-card__avatar">
+          {%- if section.settings.expert3_image != blank -%}
+            <img src="{{ section.settings.expert3_image | image_url: width: 200 }}" alt="{{ section.settings.expert3_name }}" width="80" height="80" loading="lazy">
+          {%- else -%}
+            <div class="cr-expert-card__avatar-placeholder">👩‍⚕️</div>
+          {%- endif -%}
+        </div>
+        <blockquote class="cr-expert-card__quote">"{{ section.settings.expert3_quote }}"</blockquote>
+        <div class="cr-expert-card__name">{{ section.settings.expert3_name }}</div>
+        <div class="cr-expert-card__title">{{ section.settings.expert3_role }}</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Expert Endorsements",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Recommended by Health Experts" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Trusted by Professionals" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Sports scientists and nutritionists trust Fitrogin's full-dose, lab-verified formula." },
+    { "type": "image_picker", "id": "expert1_image", "label": "Expert 1 photo" },
+    { "type": "textarea", "id": "expert1_quote", "label": "Expert 1 quote", "default": "Creatine monohydrate is the most evidence-backed performance supplement available. A full 5g dose in gummy form removes every barrier to consistent daily use — I recommend this to all my athletes." },
+    { "type": "text", "id": "expert1_name", "label": "Expert 1 name", "default": "Dr. Peter McClaren" },
+    { "type": "text", "id": "expert1_role", "label": "Expert 1 role", "default": "Sports Scientist, MSc" },
+    { "type": "image_picker", "id": "expert2_image", "label": "Expert 2 photo" },
+    { "type": "textarea", "id": "expert2_quote", "label": "Expert 2 quote", "default": "The gummy format ensures maximum compliance — patients actually take it every day. With Eurofins verification, I'm confident the dose on the label is exactly what's inside." },
+    { "type": "text", "id": "expert2_name", "label": "Expert 2 name", "default": "Dr. Yaj Kothari" },
+    { "type": "text", "id": "expert2_role", "label": "Expert 2 role", "default": "Performance Nutritionist" },
+    { "type": "image_picker", "id": "expert3_image", "label": "Expert 3 photo" },
+    { "type": "textarea", "id": "expert3_quote", "label": "Expert 3 quote", "default": "I switched my entire client base to gummy creatine after seeing the absorption data. The addition of L-Carnitine supports fat metabolism alongside strength gains — a clever, evidence-led formula." },
+    { "type": "text", "id": "expert3_name", "label": "Expert 3 name", "default": "Zara Adams Evans" },
+    { "type": "text", "id": "expert3_role", "label": "Expert 3 role", "default": "Certified Strength & Conditioning Coach" }
+  ],
+  "presets": [{ "name": "Expert Endorsements" }]
+}
+{% endschema %}

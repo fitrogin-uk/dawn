@@ -13,6 +13,10 @@
       "type": "creatine-hero",
       "settings": {}
     },
+    "creatine_press": {
+      "type": "creatine-press",
+      "settings": { "label": "As seen in" }
+    },
     "creatine_benefits": {
       "type": "creatine-benefits",
       "settings": {},
@@ -24,9 +28,57 @@
       },
       "block_order": ["benefit_1", "benefit_2", "benefit_3", "benefit_4"]
     },
+    "creatine_features": {
+      "type": "creatine-features",
+      "settings": { "brand_line": "Delicious Gummy Vitamins" }
+    },
+    "creatine_howto": {
+      "type": "creatine-howto",
+      "settings": {
+        "title": "How To Use",
+        "subtitle": "Simple. Consistent. Effective.",
+        "tip": "Take your gummies at the same time every day. Pair with creatine on training days right before your workout for peak performance."
+      }
+    },
     "creatine_trust": {
       "type": "creatine-trust",
       "settings": {}
+    },
+    "creatine_stats": {
+      "type": "creatine-stats",
+      "settings": {
+        "eyebrow": "Customer Results",
+        "headline": "Real people. Real results.",
+        "body": "Based on a survey of verified Fitrogin customers after 30 days of daily use.",
+        "stat1": "Consider our gummies more effective than powder and capsules",
+        "stat2": "Prefer gummies to capsules and powders",
+        "stat3": "Would recommend Fitrogin Creatine to friends and family"
+      }
+    },
+    "creatine_clinical": {
+      "type": "creatine-clinical",
+      "settings": {
+        "info_title": "Creatine Gummies",
+        "info_body": "Our gummies are formulated to support performance during short bursts of high intensity activity. A comparative study found that Vitamin D gummies achieved double the nutrient absorption versus tablets after 48 hours, pointing to superior bioavailability for gummy-format supplements.",
+        "disclaimer": "A comparative study found that gummies achieved double nutrient absorption versus tablets after 48 hours."
+      }
+    },
+    "creatine_experts": {
+      "type": "creatine-experts",
+      "settings": {
+        "eyebrow": "Recommended by Health Experts",
+        "title": "Trusted by Professionals",
+        "subtitle": "Sports scientists and nutritionists trust Fitrogin's full-dose, lab-verified formula.",
+        "expert1_quote": "Creatine monohydrate is the most evidence-backed performance supplement available. A full 5g dose in gummy form removes every barrier to consistent daily use — I recommend this to all my athletes.",
+        "expert1_name": "Dr. Peter McClaren",
+        "expert1_role": "Sports Scientist, MSc",
+        "expert2_quote": "The gummy format ensures maximum compliance — patients actually take it every day. With Eurofins verification, I'm confident the dose on the label is exactly what's inside.",
+        "expert2_name": "Dr. Yaj Kothari",
+        "expert2_role": "Performance Nutritionist",
+        "expert3_quote": "I switched my entire client base to gummy creatine after seeing the absorption data. The addition of L-Carnitine supports fat metabolism alongside strength gains — a clever, evidence-led formula.",
+        "expert3_name": "Zara Adams Evans",
+        "expert3_role": "Certified Strength & Conditioning Coach"
+      }
     },
     "creatine_ingredients": {
       "type": "creatine-ingredients",
@@ -35,18 +87,39 @@
         "subtitle": "Every ingredient has a purpose. Nothing hidden, nothing underdosed."
       }
     },
+    "creatine_certifications": {
+      "type": "creatine-certifications",
+      "settings": {
+        "title": "Quality You Can Trust",
+        "subtitle": "Every jar is independently verified. No compromises, no shortcuts."
+      }
+    },
     "creatine_faq": {
       "type": "creatine-faq",
+      "settings": { "title": "Frequently Asked Questions" }
+    },
+    "creatine_whatsapp": {
+      "type": "creatine-whatsapp",
       "settings": {
-        "title": "Frequently Asked Questions"
+        "title": "Join Our Community",
+        "subtitle": "Be the first to know about new products, exclusive offers, and get direct access to our nutrition team. Over 2,000 members already inside.",
+        "cta_text": "Join WhatsApp Group"
       }
     }
   },
   "order": [
     "creatine_hero",
+    "creatine_press",
     "creatine_benefits",
+    "creatine_features",
+    "creatine_howto",
     "creatine_trust",
+    "creatine_stats",
+    "creatine_clinical",
+    "creatine_experts",
     "creatine_ingredients",
-    "creatine_faq"
+    "creatine_certifications",
+    "creatine_faq",
+    "creatine_whatsapp"
   ]
 }
