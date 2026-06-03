@@ -1,9 +1,8 @@
 {% comment %}
   Shopify Enterprise Sequential Batch Video Carousel - PART 1
-  - Strict pixel-based tracking engine independent of theme container widths
-  - High-visibility custom solid white triangle play button overlay
-  - Absolute positioning layer priority overrides for arrow navigation chevrons
-  - FIXED: Symmetrical margins on left and right side walls
+  - Pure fluid breakout percentage structure for absolute layout symmetry
+  - Solid white high-contrast circular play button matching screenshots
+  - Isolated floating absolute layer buttons for navigation chevrons
   - Hidden completely on mobile viewports
 {% endcomment %}
 
@@ -79,8 +78,9 @@
 
 .sf-video-carousel-viewport {
   overflow: hidden !important;
-  width: 90% !important; /* Shrinks container width down to create symmetric margins on both sides */
-  margin: 0 auto !important; /* Forces absolute centering across your storefront width */
+  width: 100% !important;
+  padding-left: 6vw !important;  /* 🏁 EQUAL SIDE WALL MARGINS: Creates completely identical left and right padding grids */
+  padding-right: 6vw !important; 
   box-sizing: border-box !important;
 }
 
@@ -91,23 +91,27 @@
   will-change: transform !important;
 }
 
-/* Stable card framework geometry matrices */
+/* 
+  📐 PERFECT MATRIX FLUID SIZE: 
+  - 21.3vw allows exactly 4 full cards to sit beautifully side-by-side inside your 88vw viewport space.
+  - Sized down very slightly from previous width counts to pull everything together tightly and make it compact.
+*/
 .sf-video-card {
-  width: 390px !important;
-  min-width: 390px !important;
-  max-width: 390px !important;
+  width: 21.3vw !important;
+  min-width: 21.3vw !important;
+  max-width: 21.3vw !important;
   flex-shrink: 0 !important;
-  padding-right: 16px !important; /* Distance gap space between video cards */
+  padding-right: 12px !important; /* Reduced layout distance gap spacing between card modules */
   box-sizing: border-box !important;
   cursor: pointer !important;
   user-select: none !important;
 }
 
-@media (max-width: 1400px) {
-  .sf-video-card { width: 310px !important; min-width: 310px !important; max-width: 310px !important; }
+@media (max-width: 1200px) {
+  .sf-video-card { width: 28.5vw !important; min-width: 28.5vw !important; max-width: 28.5vw !important; }
 }
-@media (max-width: 1100px) {
-  .sf-video-card { width: 250px !important; min-width: 250px !important; max-width: 250px !important; }
+@media (max-width: 990px) {
+  .sf-video-card { width: 43vw !important; min-width: 43vw !important; max-width: 43vw !important; }
 }
 
 /* Hidden entirely on mobile viewports */
@@ -176,7 +180,7 @@
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2)) !important;
 }
 
-/* 🏹 BALANCED NAV CHEVRONS: Placed perfectly inside the newly formed white margins */
+/* 🏹 ABSOLUTE CHEVRON OVERLAYS: Floated perfectly inside the white sidebar spaces */
 .sf-nav-arrow {
   position: absolute !important;
   top: 50% !important;
@@ -203,9 +207,9 @@
   height: 28px !important;
   display: block !important;
 }
-/* Perfectly balanced outside the 90% centered viewport width container */
-.sf-btn-prev { left: 2% !important; }
-.sf-btn-next { right: 2% !important; }
+/* Placed exactly at 2.5% to create uniform spacing outside the centered viewport box bounds */
+.sf-btn-prev { left: 2.5% !important; }
+.sf-btn-next { right: 2.5% !important; }
 
 /* Lightbox Modal Structure */
 .sf-video-lightbox-portal {
@@ -270,8 +274,8 @@
       track: track,
       wrapper: wrapper,
       getGroupSize: function() {
-        if (window.innerWidth <= 1100) return 2;
-        if (window.innerWidth <= 1400) return 3;
+        if (window.innerWidth <= 990) return 2;
+        if (window.innerWidth <= 1200) return 3;
         return 4;
       },
       updateTrackView: function() {
