@@ -1,14 +1,14 @@
 {% comment %}
-  Shopify Custom Centered Video Carousel
-  - Moves automatically every 3 seconds
-  - Dual-sided overhanging peek layout (left and right)
+  Shopify Custom Fixed-Width Video Carousel
+  - Strict large layout container
+  - Forces 5th slide overhang on desktop screens
   - Hidden completely on mobile
 {% endcomment %}
 
 <div class="video-carousel-wrapper" id="VideoCarousel-{{ section.id }}">
   <!-- Left Navigation Arrow -->
   <button class="carousel-arrow arrow-left" aria-label="Previous slide">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
   </button>
 
   <div class="video-carousel-container">
@@ -29,87 +29,87 @@
 
   <!-- Right Navigation Arrow -->
   <button class="carousel-arrow arrow-right" aria-label="Next slide">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
   </button>
 </div>
 
 <style>
-/* Break theme layout containers to span 100% of display screen width */
+/* Forces break-out of standard theme container boundaries */
 .video-carousel-wrapper {
   position: relative;
-  width: 100vw;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  padding: 30px 0;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: -50vw !important;
+  margin-right: -50vw !important;
+  padding: 40px 0;
   background: transparent;
   display: block;
   box-sizing: border-box;
 }
 
 .video-carousel-container {
-  overflow: hidden;
+  overflow: hidden !important;
   width: 100%;
-  /* Padding on container acts as the gutter boundary space for the left side peek */
-  padding: 0 4vw; 
+  padding-left: 5%; /* Aligns the start point elegantly with your content margins */
   box-sizing: border-box;
 }
 
 .video-carousel-track {
-  display: flex;
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  display: flex !important;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  width: max-content !important; /* Prevents compression across container bounds */
 }
 
 /* 
-  Calculated sizing: 21.5vw width allows exactly 4 items to sit neatly inside 
-  the padded window while revealing neighboring cuts on left/right borders.
+  STRICT PIXEL SIZING: Sets a fixed width so frames remain 
+  large on your desktop monitor while preserving the peeking effect.
 */
 .video-carousel-card {
-  width: 21.5vw;
-  min-width: 21.5vw;
-  flex-shrink: 0;
-  padding: 0 8px; /* Balanced, clean spacing gaps between frames */
+  width: 320px !important;
+  min-width: 320px !important;
+  flex-shrink: 0 !important;
+  padding-right: 20px !important;
   box-sizing: border-box;
 }
 
-@media (max-width: 1200px) {
-  .video-carousel-container { padding: 0 5vw; }
-  .video-carousel-card { width: 30vw; min-width: 30vw; } 
-}
-@media (max-width: 990px) {
-  .video-carousel-container { padding: 0 6vw; }
-  .video-carousel-card { width: 44vw; min-width: 44vw; } 
+/* Tablet Fallback Adjustments */
+@media (max-width: 1024px) {
+  .video-carousel-card { 
+    width: 260px !important; 
+    min-width: 260px !important; 
+  } 
 }
 
-/* ❌ HIDDEN ON MOBILE SCREEN DEVICES */
+/* ❌ HIDDEN COMPLETELY ON MOBILE PREVIEW WINDOWS */
 @media (max-width: 749px) {
   .video-carousel-wrapper {
     display: none !important;
   }
 }
 
-/* Video Frame Dimensions */
+/* Vertically Large Portrait Video Blocks */
 .video-carousel-card video, 
 .video-carousel-card svg {
-  width: 100%;
-  aspect-ratio: 4 / 5; /* Clean portrait aspect ratio */
-  height: auto;
-  border-radius: 16px;
+  width: 100% !important;
+  aspect-ratio: 9 / 16 !important; /* Strict portrait formatting lock */
+  height: auto !important;
+  border-radius: 24px;
   object-fit: cover;
   display: block;
 }
 .placeholder-card svg {
-  background: #dbdbdb;
+  background: #e2e2e2;
 }
 
-/* Custom Navigation Chevron Buttons */
+/* Minimalist Arrow Elements mapped securely on layout edges */
 .carousel-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border: none;
   background: transparent;
   display: flex;
@@ -123,20 +123,19 @@
 }
 
 .carousel-arrow:hover {
-  transform: translateY(-50%) scale(1.2);
+  transform: translateY(-50%) scale(1.15);
 }
 
 .carousel-arrow svg {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
 }
 
-/* Anchored floating arrows mapped precisely past outer container lines */
 .arrow-left { 
-  left: 1vw; 
+  left: 20px; 
 }
 .arrow-right { 
-  right: 1vw; 
+  right: 20px; 
 }
 </style>
 
@@ -151,29 +150,23 @@ document.addEventListener('DOMContentLoaded', function() {
   
   let currentIndex = 0;
 
-  function getVisibleCardsCount() {
-    if (window.innerWidth <= 990) return 2;
-    if (window.innerWidth <= 1200) return 3;
-    return 4;
-  }
-
   function updateSlidePosition() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if(cards.length === 0) return;
-    
     const cardWidth = cards[0].getBoundingClientRect().width;
-    
-    // Smooth translation offset calculation based on current slide selection index
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
   function nextSlide() {
     const cards = track.querySelectorAll('.video-carousel-card');
-    const visibleCards = getVisibleCardsCount();
+    if (cards.length === 0) return;
+    
+    // Calculates window area to ensure the slider doesn't run into empty space at the end
+    const visibleCards = Math.floor(window.innerWidth / cards[0].getBoundingClientRect().width);
     const maxIndex = cards.length - visibleCards;
     
     if (currentIndex >= maxIndex) {
-      currentIndex = 0; // Seamless loop reset to block index 0
+      currentIndex = 0;
     } else {
       currentIndex++;
     }
@@ -182,7 +175,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function prevSlide() {
     const cards = track.querySelectorAll('.video-carousel-card');
-    const visibleCards = getVisibleCardsCount();
+    if (cards.length === 0) return;
+
+    const visibleCards = Math.floor(window.innerWidth / cards[0].getBoundingClientRect().width);
     const maxIndex = cards.length - visibleCards;
 
     if (currentIndex <= 0) {
