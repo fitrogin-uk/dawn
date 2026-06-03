@@ -1,0 +1,51 @@
+<section class="cr-trust-section" aria-label="Why choose us">
+  <div class="cr-trust-section__inner">
+
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        <div class="cr-trust-card" {{ block.shopify_attributes }}>
+          <div class="cr-trust-card__icon" aria-hidden="true">{{ block.settings.icon }}</div>
+          <div class="cr-trust-card__title">{{ block.settings.title }}</div>
+          <div class="cr-trust-card__desc">{{ block.settings.description }}</div>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <div class="cr-trust-card">
+        <div class="cr-trust-card__icon" aria-hidden="true">&#128300;</div>
+        <div class="cr-trust-card__title">Lab Tested by Eurofins</div>
+        <div class="cr-trust-card__desc">Every batch independently verified for purity and exact dosage. What&apos;s on the label is exactly what&apos;s in the jar.</div>
+      </div>
+      <div class="cr-trust-card">
+        <div class="cr-trust-card__icon" aria-hidden="true">&#128666;</div>
+        <div class="cr-trust-card__title">Free UK Delivery</div>
+        <div class="cr-trust-card__desc">Free tracked shipping on all UK orders. Dispatched within 24 hours of your order being placed.</div>
+      </div>
+      <div class="cr-trust-card">
+        <div class="cr-trust-card__icon" aria-hidden="true">&#128175;</div>
+        <div class="cr-trust-card__title">30-Day Money-Back</div>
+        <div class="cr-trust-card__desc">Not satisfied? We&apos;ll refund you in full &mdash; no questions asked. We stand behind our product 100%.</div>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust Section",
+  "tag": "div",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust Item",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji)", "default": "✅" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "description", "label": "Description" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Trust Section" }]
+}
+{% endschema %}

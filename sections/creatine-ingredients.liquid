@@ -1,0 +1,56 @@
+<section class="cr-ingredients">
+  <h2 class="cr-section-title">{{ section.settings.title | default: "What's Inside" }}</h2>
+  <p class="cr-section-subtitle">{{ section.settings.subtitle | default: "Every ingredient has a purpose. Nothing hidden, nothing underdosed." }}</p>
+
+  <div class="cr-ingredients__grid">
+
+    <div class="cr-ingredient-card">
+      <div class="cr-ingredient-card__icon" aria-hidden="true">&#9889;</div>
+      <div>
+        <div class="cr-ingredient-card__name">Creatine Monohydrate</div>
+        <div class="cr-ingredient-card__amount">5g per serving</div>
+        <div class="cr-ingredient-card__desc">The most researched performance supplement. Increases muscle strength, power output, and exercise capacity. Every batch is Eurofins verified for the exact dose on the label.</div>
+      </div>
+    </div>
+
+    <div class="cr-ingredient-card">
+      <div class="cr-ingredient-card__icon" aria-hidden="true">&#128293;</div>
+      <div>
+        <div class="cr-ingredient-card__name">L-Carnitine</div>
+        <div class="cr-ingredient-card__amount">Per serving</div>
+        <div class="cr-ingredient-card__desc">Plays a key role in energy production by transporting fatty acids into your cells&apos; mitochondria. Supports fat metabolism and faster post-workout recovery.</div>
+      </div>
+    </div>
+
+    <div class="cr-ingredient-card">
+      <div class="cr-ingredient-card__icon" aria-hidden="true">&#129514;</div>
+      <div>
+        <div class="cr-ingredient-card__name">Eurofins Lab Certified</div>
+        <div class="cr-ingredient-card__amount">Third-party verified</div>
+        <div class="cr-ingredient-card__desc">Every batch independently tested by Eurofins laboratories for purity, potency, and the absence of contaminants or banned substances.</div>
+      </div>
+    </div>
+
+    <div class="cr-ingredient-card">
+      <div class="cr-ingredient-card__icon" aria-hidden="true">&#127381;</div>
+      <div>
+        <div class="cr-ingredient-card__name">No Powder. Just Chew.</div>
+        <div class="cr-ingredient-card__amount">120 gummies &bull; 40 servings</div>
+        <div class="cr-ingredient-card__desc">Delicious gummy format means no powders, no shakers, no bad taste. Take 3 gummies any time of day &mdash; at home, at the gym, or on the go.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Ingredients",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Section title", "default": "What's Inside" },
+    { "type": "text", "id": "subtitle", "label": "Section subtitle", "default": "Every ingredient has a purpose. Nothing hidden, nothing underdosed." }
+  ],
+  "presets": [{ "name": "Ingredients" }]
+}
+{% endschema %}
