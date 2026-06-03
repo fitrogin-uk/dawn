@@ -1,7 +1,7 @@
 {% comment %}
   Shopify Sequential Group-Playback Video Carousel - PART 1
   - Breakout framework to bypass nested theme containers
-  - Solid white high-contrast play button triangle
+  - Solid white high-contrast play button triangle matching image
   - Isolated floating absolute layer buttons for navigation chevrons
   - Hidden completely on mobile viewports
 {% endcomment %}
@@ -253,9 +253,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const video = card.querySelector('video');
       if (idx === playChainIndex) {
         card.classList.add('active-playing');
+        // Play video if URL exists, fallback gracefully if card is a placeholder
         if (video && card.getAttribute('data-video-url') !== "") {
           video.currentTime = 0;
-          video.play().catch((err) => console.log(err));
+          video.play().catch((err) => console.log("Bypassing empty block layout lock:", err));
         }
       } else {
         card.classList.remove('active-playing');
@@ -264,19 +265,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Plays 1-by-1 internally, but slides by full batch groupings
   function runChainStep() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
 
     const jumpSize = getGroupJumpSize();
     const maxIndex = Math.max(0, cards.length - jumpSize);
-    
-    // Check if the current playing video is the last visible card in the active batch group
     const lastVisibleInGroup = currentIndex + jumpSize - 1;
 
+    // Checks if the current index frame matches the edge limits of the visible block group
     if (playChainIndex >= lastVisibleInGroup || playChainIndex >= cards.length - 1) {
-      // The current visible set has finished playing, shift by full batch size
       if (currentIndex >= maxIndex) {
         currentIndex = 0;
         playChainIndex = 0;
@@ -286,7 +284,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       updateSlidePosition();
     } else {
-      // Step to next internal video card in the active visible group block
       playChainIndex++;
     }
     
