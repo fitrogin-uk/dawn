@@ -1,6 +1,6 @@
 {% comment %}
-  Shopify Chain-Playback Video Carousel - PART 1
-  - Structural HTML Markup
+  Shopify Chain-Playback Video Carousel - PART 1 (FIXED PLAYBACK)
+  - Structural HTML Markup with forced pause state on render
   - Complete Responsive CSS Layout Styles
 {% endcomment %}
 
@@ -24,7 +24,8 @@
           
           <div class="video-carousel-card" {{ block.shopify_attributes }} data-video-url="{{ video_url }}">
             <div class="video-relative-frame">
-              {{ block.settings.video_select | video_tag: autoplay: false, loop: true, muted: true, controls: false, playsinline: true }}
+              {% comment %} Autoplay filter removed completely to stop simultaneous playback on render {% endcomment %}
+              {{ block.settings.video_select | video_tag: loop: true, muted: true, controls: false, playsinline: true }}
               <div class="play-button-overlay">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               </div>
@@ -112,10 +113,11 @@
   border-radius: 20px;
   object-fit: cover;
   display: block;
-  filter: brightness(0.85);
-  transition: filter 0.3s ease;
+  filter: brightness(0.65); /* Keeps unplayed videos noticeably dimmer */
+  transition: filter 0.4s ease;
 }
 
+/* Clear focus filter on the single video currently playing */
 .video-carousel-card.active-playing video {
   filter: brightness(1) !important;
 }
@@ -141,7 +143,7 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   transition: transform 0.2s ease, background 0.2s, opacity 0.3s;
   pointer-events: none;
-  opacity: 0.6;
+  opacity: 0.3; /* Play button stays quiet unless video is active */
 }
 
 .video-carousel-card.active-playing .play-button-overlay {
@@ -244,6 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
+  // FORCE EVERYTHING TO STOP, THEN PLAY ONLY ONE TARGET
   function manageChainPlayback() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
@@ -252,10 +255,16 @@ document.addEventListener('DOMContentLoaded', function() {
       const video = card.querySelector('video');
       if (!video) return;
 
+      // Reset and play the exact targeted index, completely freeze all others
       if (idx === playChainIndex) {
         card.classList.add('active-playing');
+        video.muted = true;
         video.currentTime = 0;
-        video.play().catch(() => {});
+        
+        // Use a slight timeout to ensure the browser has registered the pause on other videos first
+        setTimeout(() => {
+          video.play().catch((err) => console.log("Autoplay block bypass:", err));
+        }, 50);
       } else {
         card.classList.remove('active-playing');
         video.pause();
@@ -271,6 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxIndex = Math.max(0, cards.length - jumpSize);
     const lastVisibleInGroup = currentIndex + jumpSize - 1;
 
+    // If we reached the end of the current visible 4 videos
     if (playChainIndex >= lastVisibleInGroup || playChainIndex >= cards.length - 1) {
       if (currentIndex >= maxIndex) {
         currentIndex = 0;
@@ -303,6 +313,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Force-stop all running loops before initial run execution sets in
+  const allVideos = track.querySelectorAll('video');
+  allVideos.forEach(v => { v.pause(); v.currentTime = 0; });
+
+  // Start the structured playback loop
+  startChainLogic();
+
   btnRight.addEventListener('click', function(e) { 
     e.preventDefault();
     const cards = track.querySelectorAll('.video-carousel-card');
@@ -334,8 +351,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateSlidePosition();
     startChainLogic();
   });
-
-  startChainLogic();
 
   wrapper.addEventListener('mouseenter', () => clearInterval(chainInterval));
   wrapper.addEventListener('mouseleave', () => {
