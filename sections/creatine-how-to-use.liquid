@@ -1,0 +1,73 @@
+<section class="cr-how-to-use" aria-label="How to use">
+  <h2 class="cr-section-title">{{ section.settings.title | default: 'How to Use' }}</h2>
+  <p class="cr-section-subtitle">{{ section.settings.subtitle | default: 'Simple, delicious, effective — no shaker required.' }}</p>
+
+  <div class="cr-htu-steps">
+
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        <div class="cr-htu-step" {{ block.shopify_attributes }}>
+          <div class="cr-htu-step__number">{{ forloop.index }}</div>
+          <div class="cr-htu-step__icon" aria-hidden="true">{{ block.settings.icon }}</div>
+          <div class="cr-htu-step__title">{{ block.settings.title }}</div>
+          <div class="cr-htu-step__desc">{{ block.settings.description }}</div>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <div class="cr-htu-step">
+        <div class="cr-htu-step__number">1</div>
+        <div class="cr-htu-step__icon" aria-hidden="true">🌅</div>
+        <div class="cr-htu-step__title">Take 3 Gummies Daily</div>
+        <div class="cr-htu-step__desc">Take your 3 gummies at any time of day — morning, pre-workout, or evening. Consistency is key.</div>
+      </div>
+      <div class="cr-htu-step">
+        <div class="cr-htu-step__number">2</div>
+        <div class="cr-htu-step__icon" aria-hidden="true">💧</div>
+        <div class="cr-htu-step__title">Stay Hydrated</div>
+        <div class="cr-htu-step__desc">Drink plenty of water throughout the day. Creatine works best when you stay well hydrated.</div>
+      </div>
+      <div class="cr-htu-step">
+        <div class="cr-htu-step__number">3</div>
+        <div class="cr-htu-step__icon" aria-hidden="true">🏋️</div>
+        <div class="cr-htu-step__title">Train Hard</div>
+        <div class="cr-htu-step__desc">Creatine fuels your muscles during high-intensity training. Push harder, recover faster, grow stronger.</div>
+      </div>
+      <div class="cr-htu-step">
+        <div class="cr-htu-step__number">4</div>
+        <div class="cr-htu-step__icon" aria-hidden="true">📅</div>
+        <div class="cr-htu-step__title">Take Every Day</div>
+        <div class="cr-htu-step__desc">Results come from daily use. Each 120-gummy jar gives you a full 40-day supply at the clinically studied 5g dose.</div>
+      </div>
+    {%- endif -%}
+
+  </div>
+
+  <div class="cr-htu-note">
+    <strong>Pro tip:</strong> {{ section.settings.note | default: 'No loading phase required. Just 3 gummies a day, every day. You can split them across morning and evening if you prefer.' }}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "How to Use",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Section title", "default": "How to Use" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Simple, delicious, effective — no shaker required." },
+    { "type": "textarea", "id": "note", "label": "Pro tip note", "default": "No loading phase required. Just 3 gummies a day, every day." }
+  ],
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji)", "default": "✅" },
+        { "type": "text", "id": "title", "label": "Step title" },
+        { "type": "textarea", "id": "description", "label": "Step description" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "How to Use" }]
+}
+{% endschema %}
