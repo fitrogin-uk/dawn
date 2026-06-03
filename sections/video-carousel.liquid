@@ -1,6 +1,6 @@
 {% comment %}
   Shopify Sequential-Playback Video Carousel - PART 1
-  - Extreme breakout structural framework to bypass nested theme containers
+  - Breakout framework to bypass nested theme containers
   - Bright, high-contrast solid white play button matching reference screenshots
   - Isolated absolute layers for the batch navigation chevrons
   - Hidden completely on mobile viewports
@@ -125,7 +125,6 @@
 
 .placeholder-card svg { background: #e2e2e2 !important; }
 
-/* 🎬 PLAY BUTTON CIRCLE FRAME */
 .play-button-overlay {
   position: absolute !important;
   top: 50% !important;
@@ -134,7 +133,7 @@
   width: 64px !important;
   height: 64px !important;
   background: transparent !important;
-  border: 2px solid #ffffff !important; /* Enhanced crisp white boundary edge */
+  border: 2px solid #ffffff !important;
   border-radius: 50% !important;
   display: flex !important;
   align-items: center !important;
@@ -148,17 +147,15 @@
   opacity: 1 !important;
 }
 
-/* ▶️ HIGH CONTRAST SOLID WHITE TRIANGLE - Adjusted to look exactly like your screenshot */
 .play-button-overlay svg {
   width: 32px !important;
   height: 32px !important;
   color: #ffffff !important;
-  fill: #ffffff !important; /* Forced 100% solid white triangle core */
-  margin-left: 6px !important; /* Perfect geometric alignment offset shift */
+  fill: #ffffff !important;
+  margin-left: 6px !important;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)) !important;
 }
 
-/* 🏹 FLOATING CHEVRON NAV CONTROLS - Hard layer prioritized to intercept clicks cleanly */
 .carousel-arrow {
   position: absolute !important;
   top: 50% !important;
@@ -170,8 +167,8 @@
   height: 44px !important;
   color: #000000 !important;
   cursor: pointer !important;
-  z-index: 99999999 !important; /* Forces layout tracking to sit above conflicting elements */
-  pointer-events: all !important; /* Instructs browser architecture to catch pointer maps */
+  z-index: 99999999 !important;
+  pointer-events: all !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -184,7 +181,6 @@
 .arrow-left { left: 20px !important; }
 .arrow-right { right: 20px !important; }
 
-/* Popup Player Lightbox */
 .video-popup-modal {
   position: fixed !important;
   top: 0 !important;
@@ -269,26 +265,25 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function runChainStep() {
-    const cards = track.querySelectorAll('.video-carousel-card');
+    const cards = track.querySelectorAll('.video-carousel-track .video-carousel-card');
     if (cards.length === 0) return;
 
     const jumpSize = getGroupJumpSize();
     const maxIndex = Math.max(0, cards.length - jumpSize);
-    const lastVisibleInGroup = currentIndex + jumpSize - 1;
 
-    if (playChainIndex === lastVisibleInGroup || playChainIndex >= cards.length - 1) {
-      if (currentIndex >= maxIndex) {
-        currentIndex = 0;
-        playChainIndex = 0;
-      } else {
-        currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
-        playChainIndex = currentIndex;
-      }
-      updateSlidePosition();
+    // Auto-advance chain sequence by 1 video slot item every 3 seconds
+    if (playChainIndex >= cards.length - 1) {
+      currentIndex = 0;
+      playChainIndex = 0;
     } else {
       playChainIndex++;
+      // Pull the carousel viewing tracking lane forward if the next clip is hidden out of frame bounds
+      if (playChainIndex >= currentIndex + jumpSize) {
+        currentIndex = Math.min(maxIndex, currentIndex + 1);
+      }
     }
     
+    updateSlidePosition();
     manageChainPlayback();
   }
 
@@ -308,15 +303,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // 🚀 FIXED STEPPERS: Adjust view limits by precisely 1 index element per user pointer click interaction 
   function handleManualNext() {
     const cards = track.querySelectorAll('.video-carousel-card');
     const jumpSize = getGroupJumpSize();
     const maxIndex = Math.max(0, cards.length - jumpSize);
 
     if (currentIndex >= maxIndex) {
-      currentIndex = 0;
+      currentIndex = 0; // Seamless rewind back to frame 1 block boundary limits
     } else {
-      currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
+      currentIndex++; // Increment track shift step by exactly 1 position index
     }
     playChainIndex = currentIndex;
     updateSlidePosition();
@@ -329,9 +325,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxIndex = Math.max(0, cards.length - jumpSize);
 
     if (currentIndex <= 0) {
-      currentIndex = maxIndex;
+      currentIndex = maxIndex; // Jump forward to frame tail limits
     } else {
-      currentIndex = Math.max(0, currentIndex - jumpSize);
+      currentIndex--; // Decrement track shift step by exactly 1 position index
     }
     playChainIndex = currentIndex;
     updateSlidePosition();
