@@ -16,17 +16,20 @@
     <div class="video-carousel-track">
       {%- for block in section.blocks -%}
         {%- if block.settings.video_select != blank -%}
+          {% comment %} 🚀 HARD FIXED LINK EXTRACTION LOGIC ENGINE FOR MODERN SHOPIFY CDN STORAGE {% endcomment %}
           {%- assign video_url = "" -%}
           {%- for source in block.settings.video_select.sources -%}
             {%- if source.format == 'mp4' -%}
               {%- assign video_url = source.url -%}
-            {%- endif -%}
+            {%- endif -%}\
           {%- endfor -%}
-          {%- if video_url == "" -%}{%- assign video_url = block.settings.video_select.sources.url -%}{%- endif -%}
+          {%- if video_url == blank or video_url == "" -%}
+            {%- assign video_url = block.settings.video_select.sources[0].url -%}
+          {%- endif -%}
           
-          <div class="video-carousel-card" {{ block.shopify_attributes }} data-video-url="{{ video_url }}">
+          <div class="video-carousel-card" {{ block.shopify_attributes }} data-video-url="{{ video_url | escape }}">
             <div class="video-relative-frame">
-              <video src="{{ video_url }}" muted playsinline preload="metadata" style="pointer-events: none;"></video>
+              <video src="{{ video_url }}" muted playsinline preload="metadata" style="pointer-events: none; width: 100%; height: 100%;"></video>
               <div class="play-button-overlay">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>
               </div>
@@ -241,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateSlidePosition() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
-    const cardWidth = cards.getBoundingClientRect().width;
+    const cardWidth = cards[0].getBoundingClientRect().width;
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
@@ -253,10 +256,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const video = card.querySelector('video');
       if (idx === playChainIndex) {
         card.classList.add('active-playing');
-        // Play video if URL exists, fallback gracefully if card is a placeholder
+        // Check if there is an actual video path present or placeholder fallback state
         if (video && card.getAttribute('data-video-url') !== "") {
           video.currentTime = 0;
-          video.play().catch((err) => console.log("Bypassing empty block layout lock:", err));
+          video.play().catch((err) => console.log("Chain autoplay trace bypass:", err));
         }
       } else {
         card.classList.remove('active-playing');
@@ -273,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxIndex = Math.max(0, cards.length - jumpSize);
     const lastVisibleInGroup = currentIndex + jumpSize - 1;
 
-    // Checks if the current index frame matches the edge limits of the visible block group
+    // Shift views in pure blocks of 4 immediately when edge selection criteria is met
     if (playChainIndex >= lastVisibleInGroup || playChainIndex >= cards.length - 1) {
       if (currentIndex >= maxIndex) {
         currentIndex = 0;
@@ -336,6 +339,7 @@ document.addEventListener('DOMContentLoaded', function() {
     startChainLogic();
   }
 
+  // Cross-browser & editor event triggers
   btnRight.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualNext(); });
   btnLeft.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualPrev(); });
   btnRight.addEventListener('mousedown', function(e) { e.preventDefault(); e.stopPropagation(); handleManualNext(); });
