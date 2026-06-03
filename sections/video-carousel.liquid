@@ -1,26 +1,37 @@
 {% comment %}
-  Shopify Custom Fixed-Width Video Carousel
-  - XL card dimensions (450px width) for an immersive display
-  - Forces overhanging peeking layout on desktop screens
-  - Hidden completely on mobile
+  Shopify Group Video Carousel with Pop-up Modal
+  - Advances by 4 slides every 3 seconds
+  - Displays a clean play button overlay
+  - Click to open full-screen video player popup
+  - Hidden on mobile
 {% endcomment %}
 
 <div class="video-carousel-wrapper" id="VideoCarousel-{{ section.id }}">
   <!-- Left Navigation Arrow -->
-  <button class="carousel-arrow arrow-left" aria-label="Previous slide">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  <button class="carousel-arrow arrow-left" aria-label="Previous slide group">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
   </button>
 
   <div class="video-carousel-container">
     <div class="video-carousel-track">
       {%- for block in section.blocks -%}
         {%- if block.settings.video_select != blank -%}
-          <div class="video-carousel-card" {{ block.shopify_attributes }}>
-            {{ block.settings.video_select | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+          <div class="video-carousel-card" {{ block.shopify_attributes }} data-video-url="{{ block.settings.video_select.sources[0].url }}">
+            <div class="video-relative-frame">
+              {{ block.settings.video_select | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+              <div class="play-button-overlay">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
           </div>
         {%- else -%}
           <div class="video-carousel-card placeholder-card" {{ block.shopify_attributes }}>
-            {{ 'collection-1' | placeholder_svg_tag }}
+            <div class="video-relative-frame">
+              {{ 'collection-1' | placeholder_svg_tag }}
+              <div class="play-button-overlay">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
           </div>
         {%- endif -%}
       {%- endfor -%}
@@ -28,13 +39,20 @@
   </div>
 
   <!-- Right Navigation Arrow -->
-  <button class="carousel-arrow arrow-right" aria-label="Next slide">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+  <button class="carousel-arrow arrow-right" aria-label="Next slide group">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
   </button>
 </div>
 
+<!-- Full Screen Modal Player -->
+<div class="video-popup-modal" id="VideoModal-{{ section.id }}">
+  <button class="modal-close-btn">&times;</button>
+  <div class="modal-video-box">
+    <video controls autoplay playsinline class="modal-active-video"></video>
+  </div>
+</div>
+
 <style>
-/* Forces break-out of standard theme container boundaries */
 .video-carousel-wrapper {
   position: relative;
   width: 100vw !important;
@@ -52,70 +70,83 @@
 .video-carousel-container {
   overflow: hidden !important;
   width: 100%;
-  padding-left: 5%; /* Aligns the start point elegantly with your content margins */
+  padding-left: 5%;
   box-sizing: border-box;
 }
 
 .video-carousel-track {
   display: flex !important;
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-  width: max-content !important; /* Prevents compression across container bounds */
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  width: max-content !important;
 }
 
-/* 
-  EXTRA LARGE PIXEL SIZING: Sized up to 450px wide. 
-  Aspect ratio handles the proportional height auto-scaling.
-*/
 .video-carousel-card {
-  width: 450px !important;
-  min-width: 450px !important;
+  width: 390px !important;
+  min-width: 390px !important;
   flex-shrink: 0 !important;
-  padding-right: 28px !important; /* Clean layout gap spacing */
+  padding-right: 10px !important;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
-/* Tablet Fallback Adjustments */
-@media (max-width: 1400px) {
-  .video-carousel-card { 
-    width: 380px !important; 
-    min-width: 380px !important; 
-  } 
-}
-@media (max-width: 1100px) {
-  .video-carousel-card { 
-    width: 300px !important; 
-    min-width: 300px !important; 
-  } 
+@media (max-width: 1400px) { .video-carousel-card { width: 320px !important; min-width: 320px !important; } }
+@media (max-width: 1100px) { .video-carousel-card { width: 260px !important; min-width: 260px !important; } }
+@media (max-width: 749px) { .video-carousel-wrapper { display: none !important; } }
+
+.video-relative-frame {
+  position: relative;
+  width: 100%;
 }
 
-/* ❌ HIDDEN COMPLETELY ON MOBILE PREVIEW WINDOWS */
-@media (max-width: 749px) {
-  .video-carousel-wrapper {
-    display: none !important;
-  }
-}
-
-/* Vertically Huge Portrait Video Blocks */
 .video-carousel-card video, 
 .video-carousel-card svg {
   width: 100% !important;
-  aspect-ratio: 9 / 16 !important; /* Strict portrait formatting lock */
+  aspect-ratio: 9 / 16 !important;
   height: auto !important;
-  border-radius: 28px; /* Slightly larger radius to match the big scale */
+  border-radius: 20px;
   object-fit: cover;
   display: block;
 }
-.placeholder-card svg {
-  background: #e2e2e2;
+.placeholder-card svg { background: #e2e2e2; }
+
+/* Play Button Styling overlay */
+.play-button-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 55px;
+  height: 55px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, background 0.2s;
+  pointer-events: none;
+}
+.video-carousel-card:hover .play-button-overlay {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: rgba(255, 255, 255, 0.4);
+}
+.play-button-overlay svg {
+  width: 24px !important;
+  height: 24px !important;
+  margin-left: 3px;
 }
 
-/* Minimalist Arrow Elements mapped securely on layout edges */
+/* Floating Arrow Adjustments */
 .carousel-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 54px;
-  height: 54px;
+  width: 50px;
+  height: 50px;
   border: none;
   background: transparent;
   display: flex;
@@ -127,93 +158,139 @@
   transition: transform 0.2s ease;
   padding: 0;
 }
+.carousel-arrow:hover { transform: translateY(-50%) scale(1.2); }
+.carousel-arrow svg { width: 44px; height: 44px; }
+.arrow-left { left: 20px; }
+.arrow-right { right: 20px; }
 
-.carousel-arrow:hover {
-  transform: translateY(-50%) scale(1.15);
+/* Lightbox Modal Styles */
+.video-popup-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
 }
-
-.carousel-arrow svg {
-  width: 44px;
-  height: 44px;
+.modal-video-box {
+  width: 90%;
+  max-width: 480px;
+  aspect-ratio: 9 / 16;
 }
-
-.arrow-left { 
-  left: 25px; 
+.modal-video-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
-.arrow-right { 
-  right: 25px; 
+.modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 45px;
+  cursor: pointer;
+  line-height: 1;
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const wrapper = document.getElementById('VideoCarousel-{{ section.id }}');
+  const modal = document.getElementById('VideoModal-{{ section.id }}');
   if (!wrapper || window.innerWidth <= 749) return;
 
   const track = wrapper.querySelector('.video-carousel-track');
   const btnLeft = wrapper.querySelector('.arrow-left');
   const btnRight = wrapper.querySelector('.arrow-right');
+  const modalVideo = modal.querySelector('.modal-active-video');
+  const modalClose = modal.querySelector('.modal-close-btn');
   
   let currentIndex = 0;
 
+  function getGroupJumpSize() {
+    if (window.innerWidth <= 1100) return 2;
+    if (window.innerWidth <= 1400) return 3;
+    return 4;
+  }
+
   function updateSlidePosition() {
     const cards = track.querySelectorAll('.video-carousel-card');
-    if(cards.length === 0) return;
+    if (cards.length === 0) return;
     const cardWidth = cards.getBoundingClientRect().width;
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
-  function nextSlide() {
+  function nextGroup() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
     
-    // Calculates window area to ensure the slider doesn't run into empty space at the end
-    const visibleCards = Math.floor(window.innerWidth / cards.getBoundingClientRect().width);
-    const maxIndex = cards.length - visibleCards;
+    const jumpSize = getGroupJumpSize();
+    const maxIndex = Math.max(0, cards.length - jumpSize);
     
     if (currentIndex >= maxIndex) {
       currentIndex = 0;
     } else {
-      currentIndex++;
+      currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
     }
     updateSlidePosition();
   }
 
-  function prevSlide() {
+  function prevGroup() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
 
-    const visibleCards = Math.floor(window.innerWidth / cards.getBoundingClientRect().width);
-    const maxIndex = cards.length - visibleCards;
+    const jumpSize = getGroupJumpSize();
+    const maxIndex = Math.max(0, cards.length - jumpSize);
 
     if (currentIndex <= 0) {
-      currentIndex = maxIndex > 0 ? maxIndex : 0;
+      currentIndex = maxIndex;
     } else {
-      currentIndex--;
+      currentIndex = Math.max(0, currentIndex - jumpSize);
     }
     updateSlidePosition();
   }
 
-  btnRight.addEventListener('click', () => {
-    nextSlide();
-    resetTimer();
-  });
-  
-  btnLeft.addEventListener('click', () => {
-    prevSlide();
-    resetTimer();
-  });
+  btnRight.addEventListener('click', (e) => { e.preventDefault(); nextGroup(); resetTimer(); });
+  btnLeft.addEventListener('click', (e) => { e.preventDefault(); prevGroup(); resetTimer(); });
 
-  let carouselInterval = setInterval(nextSlide, 3000);
-
-  function resetTimer() {
-    clearInterval(carouselInterval);
-    carouselInterval = setInterval(nextSlide, 3000);
-  }
+  let carouselInterval = setInterval(nextGroup, 3000);
+  function resetTimer() { clearInterval(carouselInterval); carouselInterval = setInterval(nextGroup, 3000); }
 
   wrapper.addEventListener('mouseenter', () => clearInterval(carouselInterval));
-  wrapper.addEventListener('mouseleave', () => carouselInterval = setInterval(nextSlide, 3000));
+  wrapper.addEventListener('mouseleave', () => carouselInterval = setInterval(nextGroup, 3000));
   window.addEventListener('resize', updateSlidePosition);
+
+  const clickableCards = track.querySelectorAll('.video-carousel-card');
+  clickableCards.forEach(card => {
+    card.addEventListener('click', function() {
+      const targetUrl = this.getAttribute('data-video-url');
+      if (targetUrl) {
+        modalVideo.src = targetUrl;
+        modal.style.display = 'flex';
+        modalVideo.play();
+        clearInterval(carouselInterval);
+      }
+    });
+  });
+
+  function closePopupModal() {
+    modal.style.display = 'none';
+    modalVideo.pause();
+    modalVideo.src = "";
+    resetTimer();
+  }
+
+  modalClose.addEventListener('click', closePopupModal);
+  modal.addEventListener('click', function(e) { if(e.target === modal) closePopupModal(); });
 });
 </script>
 
