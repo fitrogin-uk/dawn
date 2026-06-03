@@ -1,7 +1,8 @@
 {% comment %}
   Shopify Sequential-Playback Video Carousel - PART 1
   - Explicit preload blocking to stop simultaneous browser playback
-  - Clean full-screen responsive layouts and play overlays
+  - Clean full-screen responsive layouts
+  - Custom thin white play button overlay matching reference screenshot
 {% endcomment %}
 
 <div class="video-carousel-wrapper" id="VideoCarousel-{{ section.id }}">
@@ -24,10 +25,6 @@
           
           <div class="video-carousel-card" {{ block.shopify_attributes }} data-video-url="{{ video_url }}">
             <div class="video-relative-frame">
-              {% comment %} 
-                Strict HTML attributes: loop, autoplay, and preload are stripped 
-                and locked to allow our JavaScript to control playback.
-              {% endcomment %}
               <video src="{{ video_url }}" muted playsinline preload="metadata" style="pointer-events: none;"></video>
               <div class="play-button-overlay">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
@@ -116,49 +113,47 @@
   border-radius: 20px;
   object-fit: cover;
   display: block;
-  filter: brightness(0.60); /* Dim out unselected videos heavily */
+  filter: brightness(0.60);
   transition: filter 0.4s ease;
 }
 
-/* Brighten the single video that is currently active */
-.video-carousel-card.active-playing video {
+.video-carousel-card.active-playing video,
+.video-carousel-card.active-playing svg {
   filter: brightness(1) !important;
 }
 
 .placeholder-card svg { background: #e2e2e2; }
 
+/* 🎬 PLAY BUTTON: Styled to perfectly match your reference screenshot image */
 .play-button-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 55px;
-  height: 55px;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border: 2px solid #ffffff;
+  width: 60px;
+  height: 60px;
+  background: transparent;
+  border: 1.5px solid #ffffff; /* Clean, thin white circular line boundary */
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  transition: transform 0.2s ease, background 0.2s, opacity 0.3s;
+  transition: transform 0.2s ease, opacity 0.3s;
   pointer-events: none;
-  opacity: 0.2; /* Hide button visibility unless active */
+  opacity: 0.3; /* Stays slightly transparent when video isn't focused */
 }
 
 .video-carousel-card.active-playing .play-button-overlay {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1.1);
-  background: rgba(255, 255, 255, 0.35);
+  transform: translate(-50%, -50%) scale(1.05);
 }
 
 .play-button-overlay svg {
-  width: 24px !important;
-  height: 24px !important;
-  margin-left: 3px;
+  width: 22px !important;
+  height: 22px !important;
+  margin-left: 4px; /* Visual balance centering adjustment for the triangle */
+  filter: none !important;
 }
 
 .carousel-arrow {
@@ -235,6 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentIndex = 0;
   let playChainIndex = 0;
   let chainInterval = null;
+  let delayTimeout = null;
 
   function getGroupJumpSize() {
     if (window.innerWidth <= 1100) return 2;
@@ -255,16 +251,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     cards.forEach((card, idx) => {
       const video = card.querySelector('video');
-      if (!video) return;
-
+      
       if (idx === playChainIndex) {
         card.classList.add('active-playing');
-        video.currentTime = 0;
-        // Strict play override mechanism to control browser rules
-        video.play().catch((err) => console.log("Autoplay block bypass:", err));
+        if (video && card.getAttribute('data-video-url') !== "") {
+          video.currentTime = 0;
+          video.play().catch((err) => console.log("Playback engine trace:", err));
+        }
       } else {
         card.classList.remove('active-playing');
-        video.pause();
+        if (video) video.pause();
       }
     });
   }
@@ -277,14 +273,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxIndex = Math.max(0, cards.length - jumpSize);
     const lastVisibleInGroup = currentIndex + jumpSize - 1;
 
-    // Checks if the active video is the final frame of the current visible set
     if (playChainIndex === lastVisibleInGroup || playChainIndex >= cards.length - 1) {
-      // Pause the interval immediately to let this 4th video play its full 3 seconds
       clearInterval(chainInterval);
       
-      // Delay row animation exactly 3 seconds so the 4th frame isn't cut off early
-      setTimeout(() => {
-        if (modal.style.display === 'flex') return; // Do not slide if full screen modal is open
+      delayTimeout = setTimeout(() => {
+        if (modal.style.display === 'flex') return;
         
         if (currentIndex >= maxIndex) {
           currentIndex = 0;
@@ -294,11 +287,10 @@ document.addEventListener('DOMContentLoaded', function() {
           playChainIndex = currentIndex;
         }
         updateSlidePosition();
-        startChainLogic(); // Restart the master running cycle interval
+        startChainLogic(); 
       }, 3000);
 
     } else {
-      // Step sequentially to the next sibling card item inside the same block group
       playChainIndex++;
       manageChainPlayback();
     }
@@ -306,12 +298,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function startChainLogic() {
     clearInterval(chainInterval);
+    clearTimeout(delayTimeout);
     manageChainPlayback();
     chainInterval = setInterval(runChainStep, 3000);
   }
 
   function stopChainLogic() {
     clearInterval(chainInterval);
+    clearTimeout(delayTimeout);
     const cards = track.querySelectorAll('.video-carousel-card');
     cards.forEach(card => {
       const video = card.querySelector('video');
@@ -320,7 +314,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Double-kill initial browser rendering actions before launch sequence triggers
   setTimeout(() => {
     const initialVideos = track.querySelectorAll('video');
     initialVideos.forEach(v => { v.pause(); v.currentTime = 0; });
@@ -359,12 +352,14 @@ document.addEventListener('DOMContentLoaded', function() {
     startChainLogic();
   });
 
-  wrapper.addEventListener('mouseenter', () => clearInterval(chainInterval));
+  wrapper.addEventListener('mouseenter', () => {
+    clearInterval(chainInterval);
+    clearTimeout(delayTimeout);
+  });
+  
   wrapper.addEventListener('mouseleave', () => {
     if (modal.style.display !== 'flex') {
-      chainInterval = setInterval(runChainStep, 3000);
-      const activeVideo = track.querySelectorAll('.video-carousel-card')[playChainIndex]?.querySelector('video');
-      if(activeVideo) activeVideo.play().catch(() => {});
+      startChainLogic();
     }
   });
   
