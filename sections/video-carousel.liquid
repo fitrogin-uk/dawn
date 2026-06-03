@@ -16,15 +16,14 @@
     <div class="video-carousel-track">
       {%- for block in section.blocks -%}
         {%- if block.settings.video_select != blank -%}
-          {% comment %} 🚀 HARD FIXED LINK EXTRACTION LOGIC ENGINE FOR MODERN SHOPIFY CDN STORAGE {% endcomment %}
           {%- assign video_url = "" -%}
           {%- for source in block.settings.video_select.sources -%}
             {%- if source.format == 'mp4' -%}
               {%- assign video_url = source.url -%}
-            {%- endif -%}\
+            {%- endif -%}
           {%- endfor -%}
           {%- if video_url == blank or video_url == "" -%}
-            {%- assign video_url = block.settings.video_select.sources[0].url -%}
+            {%- assign video_url = block.settings.video_select.sources.url -%}
           {%- endif -%}
           
           <div class="video-carousel-card" {{ block.shopify_attributes }} data-video-url="{{ video_url | escape }}">
@@ -244,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateSlidePosition() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
-    const cardWidth = cards[0].getBoundingClientRect().width;
+    const cardWidth = cards.getBoundingClientRect().width;
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
@@ -256,10 +255,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const video = card.querySelector('video');
       if (idx === playChainIndex) {
         card.classList.add('active-playing');
-        // Check if there is an actual video path present or placeholder fallback state
         if (video && card.getAttribute('data-video-url') !== "") {
           video.currentTime = 0;
-          video.play().catch((err) => console.log("Chain autoplay trace bypass:", err));
+          video.play().catch((err) => console.log("Bypassing empty block layout lock:", err));
         }
       } else {
         card.classList.remove('active-playing');
@@ -276,7 +274,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxIndex = Math.max(0, cards.length - jumpSize);
     const lastVisibleInGroup = currentIndex + jumpSize - 1;
 
-    // Shift views in pure blocks of 4 immediately when edge selection criteria is met
     if (playChainIndex >= lastVisibleInGroup || playChainIndex >= cards.length - 1) {
       if (currentIndex >= maxIndex) {
         currentIndex = 0;
@@ -309,6 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // 🚀 FIXED MANUAL NAVIGATION: Forces the play target to perfectly match the shifted index position
   function handleManualNext() {
     const cards = track.querySelectorAll('.video-carousel-card');
     const jumpSize = getGroupJumpSize();
@@ -319,9 +317,10 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
     }
-    playChainIndex = currentIndex;
+    
+    playChainIndex = currentIndex; // Anchor playing chain explicitly to the 1st visible item of new batch
     updateSlidePosition();
-    startChainLogic();
+    startChainLogic(); // Fully restart and reset the 3-second countdown cycle
   }
 
   function handleManualPrev() {
@@ -334,12 +333,12 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       currentIndex = Math.max(0, currentIndex - jumpSize);
     }
-    playChainIndex = currentIndex;
+    
+    playChainIndex = currentIndex; // Anchor playing chain explicitly to the 1st visible item of new batch
     updateSlidePosition();
-    startChainLogic();
+    startChainLogic(); // Fully restart and reset the 3-second countdown cycle
   }
 
-  // Cross-browser & editor event triggers
   btnRight.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualNext(); });
   btnLeft.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualPrev(); });
   btnRight.addEventListener('mousedown', function(e) { e.preventDefault(); e.stopPropagation(); handleManualNext(); });
