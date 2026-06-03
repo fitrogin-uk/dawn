@@ -354,6 +354,14 @@
     "video_carousel_N4HmCa": {
       "type": "video-carousel",
       "blocks": {
+        "video_slide_PgHUA6": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_gxahTA": {
+          "type": "video_slide",
+          "settings": {}
+        },
         "video_slide_UYcDLf": {
           "type": "video_slide",
           "settings": {}
@@ -402,6 +410,8 @@
         }
       },
       "block_order": [
+        "video_slide_PgHUA6",
+        "video_slide_gxahTA",
         "video_slide_UYcDLf",
         "video_slide_qPt9TY",
         "video_slide_EHzNpV",
@@ -420,13 +430,13 @@
     "custom_split_hero_banner_KRcnGm",
     "marquee_banner_PryjDH",
     "clinical_proven_FANGKL",
+    "video_carousel_N4HmCa",
     "trust_badges_3aHNzn",
     "image_banner",
     "rich_text",
     "featured_collection",
     "collage",
     "video",
-    "multicolumn",
-    "video_carousel_N4HmCa"
+    "multicolumn"
   ]
 }
