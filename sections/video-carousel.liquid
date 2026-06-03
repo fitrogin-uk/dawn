@@ -3,7 +3,7 @@
   - Strict pixel-based tracking engine independent of theme container widths
   - High-visibility custom solid white triangle play button overlay
   - Absolute positioning layer priority overrides for arrow navigation chevrons
-  - ADDED SIDE MARGINS & OUTER ARROW EXTENSIONS MATCHING SCREENSHOT EXACTLY
+  - FIXED: Symmetrical margins on left and right side walls
   - Hidden completely on mobile viewports
 {% endcomment %}
 
@@ -65,10 +65,7 @@
 /* Reset and breakout past theme boundary width limits */
 .sf-video-carousel-wrapper {
   position: relative !important;
-  width.sf-video-carousel-viewport {
-  overflow: hidden !important;
-  width: 100%;
-  padding-left: 6% !important;: 100vw !important;
+  width: 100vw !important;
   max-width: 100vw !important;
   left: 50% !important;
   right: 50% !important;
@@ -82,10 +79,8 @@
 
 .sf-video-carousel-viewport {
   overflow: hidden !important;
-  width: 100%;
-  /* 🏁 FIXED MARGIN: Creates clean side gaps so videos align perfectly with your theme layout padding bounds */
-  padding-left: 6% !important; 
-  padding-right: 6% !important;
+  width: 90% !important; /* Shrinks container width down to create symmetric margins on both sides */
+  margin: 0 auto !important; /* Forces absolute centering across your storefront width */
   box-sizing: border-box !important;
 }
 
@@ -102,7 +97,7 @@
   min-width: 390px !important;
   max-width: 390px !important;
   flex-shrink: 0 !important;
-  padding-right: 16px !important; /* Elegant modern side distance between video cards */
+  padding-right: 16px !important; /* Distance gap space between video cards */
   box-sizing: border-box !important;
   cursor: pointer !important;
   user-select: none !important;
@@ -181,12 +176,12 @@
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2)) !important;
 }
 
-/* 🏹 HARD FIXED NAVIGATION CHEVRONS: Moved cleanly past side padding gaps into absolute safety borders */
+/* 🏹 BALANCED NAV CHEVRONS: Placed perfectly inside the newly formed white margins */
 .sf-nav-arrow {
   position: absolute !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
-  background: transparent !important; /* Transparent background matching your reference image layout precisely */
+  background: transparent !important;
   border: none !important;
   width: 44px !important;
   height: 44px !important;
@@ -204,11 +199,11 @@
   transform: translateY(-50%) scale(1.25) !important;
 }
 .sf-nav-arrow svg {
-  width: 28px !important; /* Crisp, slightly larger typographic chevrons */
+  width: 28px !important;
   height: 28px !important;
   display: block !important;
 }
-/* Aligned past the inner padding lines to hover cleanly outside video boundaries */
+/* Perfectly balanced outside the 90% centered viewport width container */
 .sf-btn-prev { left: 2% !important; }
 .sf-btn-next { right: 2% !important; }
 
