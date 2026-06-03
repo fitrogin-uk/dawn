@@ -1,0 +1,67 @@
+<div class="cr-clinical">
+  <div class="cr-clinical__inner">
+
+    <div class="cr-clinical__chart-col">
+      <p class="cr-clinical__eyebrow">Clinically Proven</p>
+      <h2 class="cr-clinical__headline">Better Absorption<br>Than Tablets</h2>
+      <p class="cr-clinical__label-x">Vitamin D Absorption</p>
+      <p class="cr-clinical__label-sub">Gummies vs Tablets (48-Hour Study)</p>
+
+      <div class="cr-clinical__chart">
+        <div class="cr-clinical__y-axis">
+          <span>High</span>
+          <span>Med</span>
+          <span>Low</span>
+        </div>
+        <div class="cr-clinical__bars-wrap">
+          <div class="cr-clinical__bar-group">
+            <div class="cr-clinical__bar cr-clinical__bar--gummy" style="height:82%">
+              <span class="cr-clinical__bar-label">Gummies</span>
+            </div>
+            <div class="cr-clinical__bar cr-clinical__bar--tablet" style="height:41%">
+              <span class="cr-clinical__bar-label">Tablets</span>
+            </div>
+          </div>
+          <div class="cr-clinical__2x">
+            <span class="cr-clinical__2x-num">2x</span>
+            <span class="cr-clinical__2x-text">MORE<br>EFFECTIVE</span>
+          </div>
+        </div>
+        <p class="cr-clinical__disclaimer">{{ section.settings.disclaimer }}</p>
+      </div>
+    </div>
+
+    <div class="cr-clinical__info-col">
+      <h3 class="cr-clinical__info-title">{{ section.settings.info_title }}</h3>
+      <p class="cr-clinical__info-body">{{ section.settings.info_body }}</p>
+      <div class="cr-clinical__stats">
+        <div class="cr-clinical__stat">
+          <span class="cr-clinical__stat-num">2x</span>
+          <span class="cr-clinical__stat-label">Better nutrient absorption than capsules</span>
+        </div>
+        <div class="cr-clinical__stat">
+          <span class="cr-clinical__stat-num">5g</span>
+          <span class="cr-clinical__stat-label">Full clinical dose — every single serving</span>
+        </div>
+        <div class="cr-clinical__stat">
+          <span class="cr-clinical__stat-num">100%</span>
+          <span class="cr-clinical__stat-label">Eurofins lab verified for purity &amp; potency</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Clinical Absorption",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "info_title", "label": "Info column title", "default": "Creatine Gummies" },
+    { "type": "textarea", "id": "info_body", "label": "Info column body", "default": "Our gummies are formulated to support performance during short bursts of high intensity activity. A comparative study found that Vitamin D gummies achieved double the nutrient absorption versus tablets after 48 hours, pointing to superior bioavailability for gummy-format supplements." },
+    { "type": "textarea", "id": "disclaimer", "label": "Chart disclaimer", "default": "A comparative study found that gummies achieved double nutrient absorption versus tablets after 48 hours." }
+  ],
+  "presets": [{ "name": "Clinical Absorption" }]
+}
+{% endschema %}

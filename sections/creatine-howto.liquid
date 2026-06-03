@@ -1,0 +1,49 @@
+<div class="cr-howto">
+  <div class="cr-howto__inner">
+    <h2 class="cr-section-title">{{ section.settings.title }}</h2>
+    <p class="cr-section-subtitle">{{ section.settings.subtitle }}</p>
+    <div class="cr-howto__steps">
+      <div class="cr-howto__step">
+        <div class="cr-howto__step-num">1</div>
+        <div class="cr-howto__step-icon">🌅</div>
+        <h3 class="cr-howto__step-title">Take Daily</h3>
+        <p class="cr-howto__step-desc">Take 3 gummies every day — morning, pre-workout, or whenever suits you. No loading phase needed.</p>
+      </div>
+      <div class="cr-howto__step">
+        <div class="cr-howto__step-num">2</div>
+        <div class="cr-howto__step-icon">💧</div>
+        <h3 class="cr-howto__step-title">Stay Hydrated</h3>
+        <p class="cr-howto__step-desc">Drink plenty of water throughout the day. Creatine works best when you're well hydrated.</p>
+      </div>
+      <div class="cr-howto__step">
+        <div class="cr-howto__step-num">3</div>
+        <div class="cr-howto__step-icon">💪</div>
+        <h3 class="cr-howto__step-title">Train &amp; Perform</h3>
+        <p class="cr-howto__step-desc">Results build over 2–4 weeks. Consistent daily use is the key — your muscles need to saturate.</p>
+      </div>
+      <div class="cr-howto__step">
+        <div class="cr-howto__step-num">4</div>
+        <div class="cr-howto__step-icon">📈</div>
+        <h3 class="cr-howto__step-title">See Results</h3>
+        <p class="cr-howto__step-desc">Expect increased strength, better endurance, and faster recovery within 3–4 weeks of daily use.</p>
+      </div>
+    </div>
+    <div class="cr-howto__callout">
+      <span class="cr-howto__callout-icon">⚡</span>
+      <strong>Pro tip:</strong> {{ section.settings.tip }}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "How To Use",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "How To Use" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Simple. Consistent. Effective." },
+    { "type": "textarea", "id": "tip", "label": "Pro tip text", "default": "Take your gummies at the same time every day. Pair with creatine on training days right before your workout for peak performance." }
+  ],
+  "presets": [{ "name": "How To Use" }]
+}
+{% endschema %}
