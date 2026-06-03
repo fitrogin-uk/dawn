@@ -1,14 +1,14 @@
 {% comment %}
   Shopify Custom Full-Width Video Carousel with Side Arrows
   - Moves automatically every 3 seconds
-  - Overhanging 5th video card layout
+  - Overhanging video card layout matching reference screenshot
   - Hidden completely on mobile
 {% endcomment %}
 
 <div class="video-carousel-wrapper" id="VideoCarousel-{{ section.id }}">
   <!-- Left Navigation Arrow -->
   <button class="carousel-arrow arrow-left" aria-label="Previous slide">
-    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
   </button>
 
   <div class="video-carousel-container">
@@ -29,12 +29,12 @@
 
   <!-- Right Navigation Arrow -->
   <button class="carousel-arrow arrow-right" aria-label="Next slide">
-    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
   </button>
 </div>
 
 <style>
-/* Main Wrapper Setup */
+/* Reset and break theme container rules to force screen edge alignment */
 .video-carousel-wrapper {
   position: relative;
   width: 100vw;
@@ -42,45 +42,48 @@
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  padding: 30px 0;
+  padding: 20px 0;
   background: transparent;
   display: block;
+  box-sizing: border-box;
 }
 
-/* Container & Track layout */
 .video-carousel-container {
   overflow: hidden;
   width: 100%;
-}
-.video-carousel-track {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-  width: 100%;
+  padding-left: 15px; /* Creates the slight gap visible on the very first video edge */
+  box-sizing: border-box;
 }
 
-/* Sizing: 23% width creates 4 full items + small peak of 5th slide */
+.video-carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Sizing math to show 4 full videos + peeking 5th video card */
 .video-carousel-card {
-  min-width: 23%; 
+  width: 24.2vw;
+  min-width: 24.2vw;
   flex-shrink: 0;
-  padding: 0 10px;
+  padding-right: 12px; /* Uniform spacing between video blocks */
   box-sizing: border-box;
 }
 
 @media (max-width: 1200px) {
-  .video-carousel-card { min-width: 31%; } /* 3 items visible */
+  .video-carousel-card { width: 32vw; min-width: 32vw; } 
 }
 @media (max-width: 990px) {
-  .video-carousel-card { min-width: 46%; } /* 2 items visible */
+  .video-carousel-card { width: 47vw; min-width: 47vw; } 
 }
 
-/* ❌ HIDDEN ENTIRELY ON MOBILE */
+/* ❌ COMPLETELY HIDDEN ON MOBILE */
 @media (max-width: 749px) {
   .video-carousel-wrapper {
     display: none !important;
   }
 }
 
-/* Video Elements */
+/* Video Elements Styling */
 .video-carousel-card video, 
 .video-carousel-card svg {
   width: 100%;
@@ -89,40 +92,46 @@
   border-radius: 20px;
   object-fit: cover;
   display: block;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 .placeholder-card svg {
   background: #e0e0e0;
 }
 
-/* Arrow Styling */
+/* Arrow Navigation Styling Overlays */
 .carousel-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 10;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   color: #000000;
-  transition: background 0.2s, transform 0.2s translateY;
+  transition: transform 0.2s ease;
+  padding: 0;
 }
+
 .carousel-arrow:hover {
-  background: #f5f5f5;
+  transform: translateY(-50%) scale(1.1);
 }
+
 .carousel-arrow svg {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
 }
-.arrow-left { left: 20px; }
-.arrow-right { right: 20px; }
+
+/* Placed cleanly on top of the edges matching screenshot layout */
+.arrow-left { 
+  left: 30px; 
+}
+.arrow-right { 
+  right: 30px; 
+}
 </style>
 
 <script>
@@ -133,23 +142,24 @@ document.addEventListener('DOMContentLoaded', function() {
   const track = wrapper.querySelector('.video-carousel-track');
   const btnLeft = wrapper.querySelector('.arrow-left');
   const btnRight = wrapper.querySelector('.arrow-right');
-  let cards = track.querySelectorAll('.video-carousel-card');
   
   let currentIndex = 0;
 
   function getVisibleCardsCount() {
     if (window.innerWidth <= 990) return 2;
     if (window.innerWidth <= 1200) return 3;
-    return 4; // Desktop standard
+    return 4;
   }
 
   function updateSlidePosition() {
-    cards = track.querySelectorAll('.video-carousel-card');
+    const cards = track.querySelectorAll('.video-carousel-card');
+    if(cards.length === 0) return;
     const cardWidth = cards[0].getBoundingClientRect().width;
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
   function nextSlide() {
+    const cards = track.querySelectorAll('.video-carousel-card');
     const visibleCards = getVisibleCardsCount();
     const maxIndex = cards.length - visibleCards;
     
@@ -162,18 +172,18 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function prevSlide() {
+    const cards = track.querySelectorAll('.video-carousel-card');
     const visibleCards = getVisibleCardsCount();
     const maxIndex = cards.length - visibleCards;
 
     if (currentIndex <= 0) {
-      currentIndex = maxIndex;
+      currentIndex = maxIndex > 0 ? maxIndex : 0;
     } else {
       currentIndex--;
     }
     updateSlidePosition();
   }
 
-  // Hook button actions
   btnRight.addEventListener('click', () => {
     nextSlide();
     resetTimer();
@@ -184,7 +194,6 @@ document.addEventListener('DOMContentLoaded', function() {
     resetTimer();
   });
 
-  // Automated Scrolling Loop
   let carouselInterval = setInterval(nextSlide, 3000);
 
   function resetTimer() {
@@ -192,7 +201,6 @@ document.addEventListener('DOMContentLoaded', function() {
     carouselInterval = setInterval(nextSlide, 3000);
   }
 
-  // Interactivity triggers
   wrapper.addEventListener('mouseenter', () => clearInterval(carouselInterval));
   wrapper.addEventListener('mouseleave', () => carouselInterval = setInterval(nextSlide, 3000));
   window.addEventListener('resize', updateSlidePosition);
