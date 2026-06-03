@@ -1,7 +1,7 @@
 {% comment %}
-  Shopify Chain-Playback Video Carousel - PART 1 (FIXED PLAYBACK)
-  - Structural HTML Markup with forced pause state on render
-  - Complete Responsive CSS Layout Styles
+  Shopify Sequential-Playback Video Carousel - PART 1
+  - Explicit preload blocking to stop simultaneous browser playback
+  - Clean full-screen responsive layouts and play overlays
 {% endcomment %}
 
 <div class="video-carousel-wrapper" id="VideoCarousel-{{ section.id }}">
@@ -24,8 +24,11 @@
           
           <div class="video-carousel-card" {{ block.shopify_attributes }} data-video-url="{{ video_url }}">
             <div class="video-relative-frame">
-              {% comment %} Autoplay filter removed completely to stop simultaneous playback on render {% endcomment %}
-              {{ block.settings.video_select | video_tag: loop: true, muted: true, controls: false, playsinline: true }}
+              {% comment %} 
+                Strict HTML attributes: loop, autoplay, and preload are stripped 
+                and locked to allow our JavaScript to control playback.
+              {% endcomment %}
+              <video src="{{ video_url }}" muted playsinline preload="metadata" style="pointer-events: none;"></video>
               <div class="play-button-overlay">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               </div>
@@ -113,11 +116,11 @@
   border-radius: 20px;
   object-fit: cover;
   display: block;
-  filter: brightness(0.65); /* Keeps unplayed videos noticeably dimmer */
+  filter: brightness(0.60); /* Dim out unselected videos heavily */
   transition: filter 0.4s ease;
 }
 
-/* Clear focus filter on the single video currently playing */
+/* Brighten the single video that is currently active */
 .video-carousel-card.active-playing video {
   filter: brightness(1) !important;
 }
@@ -143,7 +146,7 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   transition: transform 0.2s ease, background 0.2s, opacity 0.3s;
   pointer-events: none;
-  opacity: 0.3; /* Play button stays quiet unless video is active */
+  opacity: 0.2; /* Hide button visibility unless active */
 }
 
 .video-carousel-card.active-playing .play-button-overlay {
@@ -246,7 +249,6 @@ document.addEventListener('DOMContentLoaded', function() {
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
-  // FORCE EVERYTHING TO STOP, THEN PLAY ONLY ONE TARGET
   function manageChainPlayback() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
@@ -255,16 +257,11 @@ document.addEventListener('DOMContentLoaded', function() {
       const video = card.querySelector('video');
       if (!video) return;
 
-      // Reset and play the exact targeted index, completely freeze all others
       if (idx === playChainIndex) {
         card.classList.add('active-playing');
-        video.muted = true;
         video.currentTime = 0;
-        
-        // Use a slight timeout to ensure the browser has registered the pause on other videos first
-        setTimeout(() => {
-          video.play().catch((err) => console.log("Autoplay block bypass:", err));
-        }, 50);
+        // Strict play override mechanism to control browser rules
+        video.play().catch((err) => console.log("Autoplay block bypass:", err));
       } else {
         card.classList.remove('active-playing');
         video.pause();
@@ -280,21 +277,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxIndex = Math.max(0, cards.length - jumpSize);
     const lastVisibleInGroup = currentIndex + jumpSize - 1;
 
-    // If we reached the end of the current visible 4 videos
-    if (playChainIndex >= lastVisibleInGroup || playChainIndex >= cards.length - 1) {
-      if (currentIndex >= maxIndex) {
-        currentIndex = 0;
-        playChainIndex = 0;
-      } else {
-        currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
-        playChainIndex = currentIndex;
-      }
-      updateSlidePosition();
+    // Checks if the active video is the final frame of the current visible set
+    if (playChainIndex === lastVisibleInGroup || playChainIndex >= cards.length - 1) {
+      // Pause the interval immediately to let this 4th video play its full 3 seconds
+      clearInterval(chainInterval);
+      
+      // Delay row animation exactly 3 seconds so the 4th frame isn't cut off early
+      setTimeout(() => {
+        if (modal.style.display === 'flex') return; // Do not slide if full screen modal is open
+        
+        if (currentIndex >= maxIndex) {
+          currentIndex = 0;
+          playChainIndex = 0;
+        } else {
+          currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
+          playChainIndex = currentIndex;
+        }
+        updateSlidePosition();
+        startChainLogic(); // Restart the master running cycle interval
+      }, 3000);
+
     } else {
+      // Step sequentially to the next sibling card item inside the same block group
       playChainIndex++;
+      manageChainPlayback();
     }
-    
-    manageChainPlayback();
   }
 
   function startChainLogic() {
@@ -313,12 +320,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Force-stop all running loops before initial run execution sets in
-  const allVideos = track.querySelectorAll('video');
-  allVideos.forEach(v => { v.pause(); v.currentTime = 0; });
-
-  // Start the structured playback loop
-  startChainLogic();
+  // Double-kill initial browser rendering actions before launch sequence triggers
+  setTimeout(() => {
+    const initialVideos = track.querySelectorAll('video');
+    initialVideos.forEach(v => { v.pause(); v.currentTime = 0; });
+    startChainLogic();
+  }, 100);
 
   btnRight.addEventListener('click', function(e) { 
     e.preventDefault();
