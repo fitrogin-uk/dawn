@@ -1,0 +1,66 @@
+<section class="cr-benefits" aria-label="Product benefits">
+  <div class="cr-benefits__inner">
+
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        <div class="cr-benefit" {{ block.shopify_attributes }}>
+          <span class="cr-benefit__icon" aria-hidden="true">{{ block.settings.icon }}</span>
+          <div class="cr-benefit__title">{{ block.settings.title }}</div>
+          <div class="cr-benefit__desc">{{ block.settings.description }}</div>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <div class="cr-benefit">
+        <span class="cr-benefit__icon" aria-hidden="true">&#128170;</span>
+        <div class="cr-benefit__title">5g Creatine Per Serving</div>
+        <div class="cr-benefit__desc">Full clinically-studied dose in every serving</div>
+      </div>
+      <div class="cr-benefit">
+        <span class="cr-benefit__icon" aria-hidden="true">&#128300;</span>
+        <div class="cr-benefit__title">Eurofins Lab Tested</div>
+        <div class="cr-benefit__desc">Third-party verified for purity &amp; potency</div>
+      </div>
+      <div class="cr-benefit">
+        <span class="cr-benefit__icon" aria-hidden="true">&#128293;</span>
+        <div class="cr-benefit__title">L-Carnitine Complex</div>
+        <div class="cr-benefit__desc">Supports energy metabolism &amp; fat burning</div>
+      </div>
+      <div class="cr-benefit">
+        <span class="cr-benefit__icon" aria-hidden="true">&#9989;</span>
+        <div class="cr-benefit__title">Full Amount Inside</div>
+        <div class="cr-benefit__desc">What's on the label is exactly what's in the jar</div>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Benefits Bar",
+  "tag": "div",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit Item",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji)", "default": "💪" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Benefit title" },
+        { "type": "text", "id": "description", "label": "Description", "default": "Short benefit description" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefits Bar",
+      "blocks": [
+        { "type": "benefit", "settings": { "icon": "💪", "title": "5g Creatine Per Serving", "description": "Full clinically-studied dose every time" } },
+        { "type": "benefit", "settings": { "icon": "🔬", "title": "Eurofins Lab Tested", "description": "Third-party verified purity & potency" } },
+        { "type": "benefit", "settings": { "icon": "🔥", "title": "L-Carnitine Complex", "description": "Supports energy metabolism & fat burning" } },
+        { "type": "benefit", "settings": { "icon": "✅", "title": "Full Amount Inside", "description": "Label accuracy guaranteed" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
