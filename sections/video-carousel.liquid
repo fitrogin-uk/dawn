@@ -1,0 +1,43 @@
+{% comment %}
+  Shopify Custom Auto-Scrolling Video Carousel
+  Moves right to left automatically every 3 seconds
+{% endcomment %}
+
+<div class="video-carousel-container" id="Carousel-{{ section.id }}">
+  <div class="video-carousel-track">
+      {%- for block in section.blocks -%}
+          <div class="video-carousel-card">
+              <video src="{{ block.settings.video_url }}" loop muted playsinline autoplay></video>
+          </div>
+      {%- endfor -%}
+  </div>
+</div>
+
+<style>
+.video-carousel-container { overflow: hidden; }
+.video-carousel-track { display: flex; transition: transform 0.5s ease-in-out; }
+.video-carousel-card { min-width: 25%; flex-shrink: 0; }
+@media (max-width: 768px) { .video-carousel-card { min-width: 80%; } }
+.video-carousel-card video { width: 100%; object-fit: cover; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const track = document.querySelector('#Carousel-{{ section.id }} .video-carousel-track');
+  let currentIndex = 0;
+  function moveLeft() {
+    const cards = track.querySelectorAll('.video-carousel-card');
+    currentIndex = (currentIndex >= cards.length - 1) ? 0 : currentIndex + 1;
+    track.style.transform = `translateX(-${currentIndex * cards[0].offsetWidth}px)`;
+  }
+  setInterval(moveLeft, 3000);
+});
+</script>
+
+{% schema %}
+{
+  "name": "Auto Video Carousel",
+  "blocks": [{"type": "video_block", "name": "Video", "settings": [{"type": "text", "id": "video_url", "label": "Video URL"}]}],
+  "presets": [{"name": "Auto Video Carousel"}]
+}
+{% endschema %}
