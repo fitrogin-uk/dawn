@@ -135,82 +135,6 @@
         "reference_text": "Reference: https://mdpi.com"
       }
     },
-    "video_carousel_N4HmCa": {
-      "type": "video-carousel",
-      "blocks": {
-        "video_slide_PgHUA6": {
-          "type": "video_slide",
-          "settings": {
-            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition_5.mp4"
-          }
-        },
-        "video_slide_gxahTA": {
-          "type": "video_slide",
-          "settings": {}
-        },
-        "video_slide_UYcDLf": {
-          "type": "video_slide",
-          "settings": {}
-        },
-        "video_slide_qPt9TY": {
-          "type": "video_slide",
-          "settings": {
-            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition_4.mp4"
-          }
-        },
-        "video_slide_EHzNpV": {
-          "type": "video_slide",
-          "settings": {
-            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition.mp4"
-          }
-        },
-        "video_slide_73T6qm": {
-          "type": "video_slide",
-          "settings": {
-            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition_3.mp4"
-          }
-        },
-        "video_slide_8d8CtY": {
-          "type": "video_slide",
-          "settings": {
-            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition_4.mp4"
-          }
-        },
-        "video_slide_hxtKyz": {
-          "type": "video_slide",
-          "settings": {
-            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition.mp4"
-          }
-        },
-        "video_slide_nrNmQR": {
-          "type": "video_slide",
-          "settings": {}
-        },
-        "video_slide_QiJQ7Y": {
-          "type": "video_slide",
-          "settings": {}
-        },
-        "video_slide_KMCn63": {
-          "type": "video_slide",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "video_slide_PgHUA6",
-        "video_slide_gxahTA",
-        "video_slide_UYcDLf",
-        "video_slide_qPt9TY",
-        "video_slide_EHzNpV",
-        "video_slide_73T6qm",
-        "video_slide_8d8CtY",
-        "video_slide_hxtKyz",
-        "video_slide_nrNmQR",
-        "video_slide_QiJQ7Y",
-        "video_slide_KMCn63"
-      ],
-      "name": "Auto Video Carousel",
-      "settings": {}
-    },
     "trust_badges_3aHNzn": {
       "type": "trust-badges",
       "name": "Trust Badges Section",
@@ -426,19 +350,134 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "video_carousel_phwREr": {
+      "type": "video-carousel",
+      "blocks": {
+        "video_slide_PqHk4g": {
+          "type": "video_slide",
+          "settings": {
+            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition_4.mp4"
+          }
+        },
+        "video_slide_cXbKdJ": {
+          "type": "video_slide",
+          "settings": {
+            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition_3.mp4"
+          }
+        },
+        "video_slide_hxB7FC": {
+          "type": "video_slide",
+          "settings": {
+            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition.mp4"
+          }
+        },
+        "video_slide_tMUGt3": {
+          "type": "video_slide",
+          "settings": {
+            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition_5.mp4"
+          }
+        },
+        "video_slide_MRCqcj": {
+          "type": "video_slide",
+          "settings": {
+            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition_3.mp4"
+          }
+        },
+        "video_slide_Fwqy7J": {
+          "type": "video_slide",
+          "settings": {
+            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition.mp4"
+          }
+        },
+        "video_slide_rbUyci": {
+          "type": "video_slide",
+          "settings": {
+            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition_4.mp4"
+          }
+        },
+        "video_slide_Qne3fr": {
+          "type": "video_slide",
+          "settings": {
+            "video_select": "shopify://files/videos/Novomins® - Premium Gummy Vitamins & Supplements - B-Corp – Novomins Nutrition_5.mp4"
+          }
+        },
+        "video_slide_RHpLxy": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_ELiFj6": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_VKeUFR": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_jwAKNe": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_Ka4AMY": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_L6qQkU": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_g8xn6j": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_BzdUi3": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_mFTXzm": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_JAWpDC": {
+          "type": "video_slide",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "video_slide_PqHk4g",
+        "video_slide_cXbKdJ",
+        "video_slide_hxB7FC",
+        "video_slide_tMUGt3",
+        "video_slide_MRCqcj",
+        "video_slide_Fwqy7J",
+        "video_slide_rbUyci",
+        "video_slide_Qne3fr",
+        "video_slide_RHpLxy",
+        "video_slide_ELiFj6",
+        "video_slide_VKeUFR",
+        "video_slide_jwAKNe",
+        "video_slide_Ka4AMY",
+        "video_slide_L6qQkU",
+        "video_slide_g8xn6j",
+        "video_slide_BzdUi3",
+        "video_slide_mFTXzm",
+        "video_slide_JAWpDC"
+      ],
+      "name": "Auto Video Carousel",
+      "settings": {}
     }
   },
   "order": [
     "custom_split_hero_banner_KRcnGm",
     "marquee_banner_PryjDH",
     "clinical_proven_FANGKL",
-    "video_carousel_N4HmCa",
     "trust_badges_3aHNzn",
     "image_banner",
     "rich_text",
     "featured_collection",
     "collage",
     "video",
-    "multicolumn"
+    "multicolumn",
+    "video_carousel_phwREr"
   ]
 }
