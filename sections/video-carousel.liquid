@@ -1,8 +1,10 @@
 {% comment %}
   Shopify Sequential-Playback Video Carousel - PART 1
+  - 390px Optimized card dimensions with tight gaps
   - Explicit preload blocking to stop simultaneous browser playback
-  - Clean full-screen responsive layouts
-  - Custom thin white play button overlay matching reference screenshot
+  - Thin white circular play button matching screenshot image exactly
+  - Forced navigation arrow layer positioning
+  - Hidden completely on mobile viewports
 {% endcomment %}
 
 <div class="video-carousel-wrapper" id="VideoCarousel-{{ section.id }}">
@@ -124,7 +126,7 @@
 
 .placeholder-card svg { background: #e2e2e2; }
 
-/* 🎬 PLAY BUTTON: Styled to perfectly match your reference screenshot image */
+/* 🎬 THIN CIRCLE PLAY BUTTON - Matches your image exactly */
 .play-button-overlay {
   position: absolute;
   top: 50%;
@@ -133,7 +135,7 @@
   width: 60px;
   height: 60px;
   background: transparent;
-  border: 1.5px solid #ffffff; /* Clean, thin white circular line boundary */
+  border: 1.5px solid #ffffff; /* Crisp thin white outline */
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -141,7 +143,7 @@
   color: #ffffff;
   transition: transform 0.2s ease, opacity 0.3s;
   pointer-events: none;
-  opacity: 0.3; /* Stays slightly transparent when video isn't focused */
+  opacity: 0.3;
 }
 
 .video-carousel-card.active-playing .play-button-overlay {
@@ -152,10 +154,11 @@
 .play-button-overlay svg {
   width: 22px !important;
   height: 22px !important;
-  margin-left: 4px; /* Visual balance centering adjustment for the triangle */
+  margin-left: 4px; /* Centering offset for visual triangle balance */
   filter: none !important;
 }
 
+/* Floating Navigation Arrows */
 .carousel-arrow {
   position: absolute;
   top: 50%;
@@ -168,7 +171,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 10;
+  z-index: 100; /* Brought to the absolute front layer */
   color: #000000;
   transition: transform 0.2s ease;
   padding: 0;
@@ -178,6 +181,7 @@
 .arrow-left { left: 20px; }
 .arrow-right { right: 20px; }
 
+/* Lightbox Modal Box */
 .video-popup-modal {
   position: fixed;
   top: 0;
@@ -256,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function() {
         card.classList.add('active-playing');
         if (video && card.getAttribute('data-video-url') !== "") {
           video.currentTime = 0;
-          video.play().catch((err) => console.log("Playback engine trace:", err));
+          video.play().catch((err) => console.log("Engine log tracing:", err));
         }
       } else {
         card.classList.remove('active-playing');
@@ -320,8 +324,8 @@ document.addEventListener('DOMContentLoaded', function() {
     startChainLogic();
   }, 100);
 
-  btnRight.addEventListener('click', function(e) { 
-    e.preventDefault();
+  // Manual Jump Controllers (Forces layout tracking to run manually upon request)
+  function handleManualNext() {
     const cards = track.querySelectorAll('.video-carousel-card');
     const jumpSize = getGroupJumpSize();
     const maxIndex = Math.max(0, cards.length - jumpSize);
@@ -334,10 +338,9 @@ document.addEventListener('DOMContentLoaded', function() {
     playChainIndex = currentIndex;
     updateSlidePosition();
     startChainLogic();
-  });
+  }
 
-  btnLeft.addEventListener('click', function(e) {
-    e.preventDefault();
+  function handleManualPrev() {
     const cards = track.querySelectorAll('.video-carousel-card');
     const jumpSize = getGroupJumpSize();
     const maxIndex = Math.max(0, cards.length - jumpSize);
@@ -350,7 +353,13 @@ document.addEventListener('DOMContentLoaded', function() {
     playChainIndex = currentIndex;
     updateSlidePosition();
     startChainLogic();
-  });
+  }
+
+  // Registering multiple click listener variations ensures iframe compliance
+  btnRight.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualNext(); });
+  btnLeft.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualPrev(); });
+  btnRight.addEventListener('mousedown', function(e) { e.preventDefault(); handleManualNext(); });
+  btnLeft.addEventListener('mousedown', function(e) { e.preventDefault(); handleManualPrev(); });
 
   wrapper.addEventListener('mouseenter', () => {
     clearInterval(chainInterval);
