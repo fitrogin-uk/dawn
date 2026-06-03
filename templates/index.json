@@ -135,6 +135,11 @@
         "reference_text": "Reference: https://mdpi.com"
       }
     },
+    "trust_badges_3aHNzn": {
+      "type": "trust-badges",
+      "name": "Trust Badges Section",
+      "settings": {}
+    },
     "image_banner": {
       "type": "image-banner",
       "blocks": {
@@ -346,9 +351,33 @@
         "padding_bottom": 36
       }
     },
-    "trust_badges_3aHNzn": {
-      "type": "trust-badges",
-      "name": "Trust Badges Section",
+    "video_carousel_N4HmCa": {
+      "type": "video-carousel",
+      "blocks": {
+        "video_slide_hxtKyz": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_nrNmQR": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_QiJQ7Y": {
+          "type": "video_slide",
+          "settings": {}
+        },
+        "video_slide_KMCn63": {
+          "type": "video_slide",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "video_slide_hxtKyz",
+        "video_slide_nrNmQR",
+        "video_slide_QiJQ7Y",
+        "video_slide_KMCn63"
+      ],
+      "name": "Auto Video Carousel",
       "settings": {}
     }
   },
@@ -362,6 +391,7 @@
     "featured_collection",
     "collage",
     "video",
-    "multicolumn"
+    "multicolumn",
+    "video_carousel_N4HmCa"
   ]
 }
