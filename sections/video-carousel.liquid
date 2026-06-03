@@ -1,8 +1,8 @@
 {% comment %}
-  Shopify Sequential-Playback Video Carousel - PART 1
+  Shopify Sequential Group-Playback Video Carousel - PART 1
   - Breakout framework to bypass nested theme containers
-  - Bright, high-contrast solid white play button matching reference screenshots
-  - Isolated absolute layers for the batch navigation chevrons
+  - Solid white high-contrast play button triangle
+  - Isolated floating absolute layer buttons for navigation chevrons
   - Hidden completely on mobile viewports
 {% endcomment %}
 
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateSlidePosition() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
-    const cardWidth = cards[0].getBoundingClientRect().width;
+    const cardWidth = cards.getBoundingClientRect().width;
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
@@ -264,26 +264,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Plays 1-by-1 internally, but slides by full batch groupings
   function runChainStep() {
-    const cards = track.querySelectorAll('.video-carousel-track .video-carousel-card');
+    const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
 
     const jumpSize = getGroupJumpSize();
     const maxIndex = Math.max(0, cards.length - jumpSize);
+    
+    // Check if the current playing video is the last visible card in the active batch group
+    const lastVisibleInGroup = currentIndex + jumpSize - 1;
 
-    // Auto-advance chain sequence by 1 video slot item every 3 seconds
-    if (playChainIndex >= cards.length - 1) {
-      currentIndex = 0;
-      playChainIndex = 0;
-    } else {
-      playChainIndex++;
-      // Pull the carousel viewing tracking lane forward if the next clip is hidden out of frame bounds
-      if (playChainIndex >= currentIndex + jumpSize) {
-        currentIndex = Math.min(maxIndex, currentIndex + 1);
+    if (playChainIndex >= lastVisibleInGroup || playChainIndex >= cards.length - 1) {
+      // The current visible set has finished playing, shift by full batch size
+      if (currentIndex >= maxIndex) {
+        currentIndex = 0;
+        playChainIndex = 0;
+      } else {
+        currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
+        playChainIndex = currentIndex;
       }
+      updateSlidePosition();
+    } else {
+      // Step to next internal video card in the active visible group block
+      playChainIndex++;
     }
     
-    updateSlidePosition();
     manageChainPlayback();
   }
 
@@ -303,16 +309,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // 🚀 FIXED STEPPERS: Adjust view limits by precisely 1 index element per user pointer click interaction 
   function handleManualNext() {
     const cards = track.querySelectorAll('.video-carousel-card');
     const jumpSize = getGroupJumpSize();
     const maxIndex = Math.max(0, cards.length - jumpSize);
 
     if (currentIndex >= maxIndex) {
-      currentIndex = 0; // Seamless rewind back to frame 1 block boundary limits
+      currentIndex = 0;
     } else {
-      currentIndex++; // Increment track shift step by exactly 1 position index
+      currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
     }
     playChainIndex = currentIndex;
     updateSlidePosition();
@@ -325,9 +330,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxIndex = Math.max(0, cards.length - jumpSize);
 
     if (currentIndex <= 0) {
-      currentIndex = maxIndex; // Jump forward to frame tail limits
+      currentIndex = maxIndex;
     } else {
-      currentIndex--; // Decrement track shift step by exactly 1 position index
+      currentIndex = Math.max(0, currentIndex - jumpSize);
     }
     playChainIndex = currentIndex;
     updateSlidePosition();
