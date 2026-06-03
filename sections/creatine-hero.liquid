@@ -1,1 +1,224 @@
-DN
+{{ 'creatine-product.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign product = section.settings.product | default: all_products['creatine-monohydrate-gummies']
+  assign variant = product.selected_or_first_available_variant
+  assign base_price_cents = variant.price
+  assign sub_price_cents = base_price_cents | times: 0.85 | round
+  assign per_serving = base_price_cents | divided_by: 4000.0 | round: 2
+-%}
+
+<section class="cr-hero">
+  <div class="cr-hero__inner">
+
+    {%- comment %} LEFT: Image Gallery {%- endcomment %}
+    <div class="cr-gallery">
+      <div class="cr-gallery__main">
+        {%- if product.featured_image -%}
+          <img
+            src="{{ product.featured_image | image_url: width: 800 }}"
+            alt="{{ product.featured_image.alt | escape }}"
+            width="800" height="800" loading="eager"
+            fetchpriority="high">
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+      {%- if product.images.size > 1 -%}
+        <div class="cr-gallery__thumbs">
+          {%- for image in product.images limit: 5 -%}
+            <div class="cr-gallery__thumb {% if forloop.first %}active{% endif %}">
+              <img src="{{ image | image_url: width: 200 }}" alt="{{ image.alt | escape }}" width="72" height="72" loading="lazy">
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment %} RIGHT: Product Info {%- endcomment %}
+    <div class="cr-hero__info">
+
+      <nav class="cr-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a> &rsaquo; <a href="/collections/all">Supplements</a> &rsaquo; {{ product.title }}
+      </nav>
+
+      <div class="cr-stars" aria-label="4.9 out of 5 stars, 127 reviews">
+        <span class="cr-stars__icons" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="cr-stars__count">4.9 &nbsp;(127 reviews)</span>
+      </div>
+
+      <h1 class="cr-title">{{ product.title }}</h1>
+      <p class="cr-hero-subtitle">{{ section.settings.hero_subtitle }}</p>
+
+      <div class="cr-feature-tags">
+        <span class="cr-feature-tag">120 Gummies</span>
+        <span class="cr-feature-tag">40 Servings</span>
+        <span class="cr-feature-tag">Strawberry Flavour</span>
+        <span class="cr-feature-tag">Vegan</span>
+        <span class="cr-feature-tag cr-feature-tag--highlight">From £0.50 per day</span>
+      </div>
+
+      <div class="cr-lab-badge">
+        <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14" aria-hidden="true"><path d="M8 1a1 1 0 0 1 1 1v4.586l2.707 2.707A1 1 0 0 1 11 11H5a1 1 0 0 1-.707-1.707L7 6.586V2a1 1 0 0 1 1-1z"/></svg>
+        Eurofins Lab Verified &rsaquo;
+      </div>
+
+      <p class="cr-hero-desc">{{ section.settings.hero_description }}</p>
+
+      <ul class="cr-hero-bullets">
+        <li>
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 3.293 9.879a1 1 0 011.414-1.414L8.414 12.172l6.879-6.879a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          Train harder daily
+        </li>
+        <li>
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 3.293 9.879a1 1 1 0 011.414-1.414L8.414 12.172l6.879-6.879a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          No powder needed
+        </li>
+        <li>
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 3.293 9.879a1 1 0 011.414-1.414L8.414 12.172l6.879-6.879a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          Supports high-intensity exercise
+        </li>
+        <li>
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 3.293 9.879a1 1 0 011.414-1.414L8.414 12.172l6.879-6.879a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          Lab verified strength
+        </li>
+        <li>
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 3.293 9.879a1 1 0 011.414-1.414L8.414 12.172l6.879-6.879a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          5g creatine per serving
+        </li>
+        <li>
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 3.293 9.879a1 1 0 011.414-1.414L8.414 12.172l6.879-6.879a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          Performance support daily
+        </li>
+      </ul>
+
+      <div class="cr-why-choose">
+        <h3 class="cr-why-choose__title">Why Choose This Product?</h3>
+        <p class="cr-why-choose__body">{{ section.settings.why_choose }}</p>
+      </div>
+
+      {%- comment %} Purchase Box {%- endcomment %}
+      <div class="cr-purchase-box">
+
+        <div class="cr-sub-toggle" role="radiogroup" aria-label="Purchase option">
+          <div class="cr-sub-toggle__option active" data-type="one-time" role="radio" aria-checked="true" tabindex="0">
+            <span class="cr-sub-toggle__label">One-Time Purchase</span>
+            <div>
+              <span class="cr-sub-toggle__price">{{ base_price_cents | money }}</span>
+            </div>
+          </div>
+          <div class="cr-sub-toggle__option" data-type="subscribe" role="radio" aria-checked="false" tabindex="0">
+            <span class="cr-sub-toggle__label">
+              Subscribe &amp; Save
+              <span class="cr-sub-toggle__save">15% OFF</span>
+            </span>
+            <div>
+              <span class="cr-sub-toggle__price">{{ sub_price_cents | money }}</span>
+            </div>
+            <div class="cr-sub-toggle__note">Cancel anytime &bull; Free delivery</div>
+          </div>
+        </div>
+
+        <div class="cr-frequency" aria-live="polite">
+          <label>Delivery frequency</label>
+          <div class="cr-frequency__options">
+            <button type="button" class="cr-freq-btn active" data-days="30">Every 30 days</button>
+            <button type="button" class="cr-freq-btn" data-days="45">Every 45 days</button>
+            <button type="button" class="cr-freq-btn" data-days="60">Every 60 days</button>
+          </div>
+        </div>
+
+        <div class="cr-price-row">
+          <span class="cr-price-current">{{ base_price_cents | money }}</span>
+          {%- if variant.compare_at_price > variant.price -%}
+            <span class="cr-price-compare">{{ variant.compare_at_price | money }}</span>
+            {%- assign savings_pct = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price | round -%}
+            <span class="cr-price-save">Save {{ savings_pct }}%</span>
+          {%- endif -%}
+          <span class="cr-price-per">£0.50 per serving</span>
+        </div>
+
+        <button
+          class="cr-atc-btn"
+          data-variant-id="{{ variant.id }}"
+          data-price="{{ base_price_cents | divided_by: 100.0 }}"
+          data-currency="{{ shop.currency }}"
+          data-is-subscription="0"
+          {% unless variant.available %}disabled{% endunless %}
+          aria-label="Add {{ product.title }} to cart">
+          {%- if variant.available -%}
+            Add to Cart &mdash; {{ base_price_cents | money }}
+          {%- else -%}
+            Sold Out
+          {%- endif -%}
+        </button>
+
+        <div class="cr-trust-icons">
+          <span class="cr-trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Free UK Shipping
+          </span>
+          <span class="cr-trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            30-Day Guarantee
+          </span>
+          <span class="cr-trust-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+            Secure Checkout
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment %} Sticky ATCbar {%- endcomment %}
+<div class="cr-sticky-atc" id="cr-sticky-atc" aria-hidden="true" aria-live="polite">
+  <div class="cr-sticky-atc__info">
+    <div class="cr-sticky-atc__title">{{ product.title }}</div>
+    <div class="cr-sticky-atc__price">{{ base_price_cents | money }}</div>
+  </div>
+  <button class="cr-sticky-atc__btn" aria-label="Add to cart">Add to Cart</button>
+</div>
+
+
+<script src="{{ 'creatine-product.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Creatine Hero",
+  "tag": "div",
+  "class": "creatine-hero-wrapper",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product (leave blank to auto-detect from URL)"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Hero subtitle",
+      "default": "Achieve Peak Performance"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_description",
+      "label": "Product description",
+      "default": "5g of lab-verified creatine monohydrate per serving — one of the most researched supplements in sport. No powder, no mixing. Three gummies a day to fuel your training, whenever and wherever."
+    },
+    {
+      "type": "textarea",
+      "id": "why_choose",
+      "label": "Why Choose This Product text",
+      "default": "Whether you train daily or a few times a week, creatine is one of the most studied supplements in sport. A convenient, no-fuss daily habit to support your sessions."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Creatine Hero"
+    }
+  ]
+}
+{% endschema %}
