@@ -1,17 +1,14 @@
 {% comment %}
   Shopify Sequential-Playback Video Carousel - PART 1
-  - 390px Optimized card dimensions with tight gaps
-  - Explicit preload blocking to stop simultaneous browser playback
-  - Thin white circular play button matching screenshot image exactly
-  - Forced navigation arrow layer positioning
+  - Pure breakout layout framework to bypass theme layout limitations
+  - Clean thin white circle play button overlays
+  - Left/Right arrows aligned exactly like the reference image
   - Hidden completely on mobile viewports
 {% endcomment %}
 
 <div class="video-carousel-wrapper" id="VideoCarousel-{{ section.id }}">
   <!-- Left Navigation Arrow -->
-  <button class="carousel-arrow arrow-left" type="button" aria-label="Previous slide group">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-  </button>
+  <button class="carousel-arrow arrow-left" type="button" aria-label="Previous batch">&lt;</button>
 
   <div class="video-carousel-container">
     <div class="video-carousel-track">
@@ -48,12 +45,10 @@
   </div>
 
   <!-- Right Navigation Arrow -->
-  <button class="carousel-arrow arrow-right" type="button" aria-label="Next slide group">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-  </button>
+  <button class="carousel-arrow arrow-right" type="button" aria-label="Next batch">&gt;</button>
 </div>
 
-<!-- Full Screen Modal Player -->
+<!-- Full Screen Modal Popup Player -->
 <div class="video-popup-modal" id="VideoModal-{{ section.id }}">
   <button class="modal-close-btn" type="button">&times;</button>
   <div class="modal-video-box">
@@ -62,6 +57,7 @@
 </div>
 
 <style>
+/* Absolute breakout wrapper to protect layout integrity from your theme files */
 .video-carousel-wrapper {
   position: relative;
   width: 100vw !important;
@@ -70,7 +66,7 @@
   right: 50% !important;
   margin-left: -50vw !important;
   margin-right: -50vw !important;
-  padding: 40px 0;
+  padding: 30px 0;
   background: transparent;
   display: block;
   box-sizing: border-box;
@@ -79,27 +75,28 @@
 .video-carousel-container {
   overflow: hidden !important;
   width: 100%;
-  padding-left: 5%;
+  padding-left: 4vw; /* Balanced structural padding gap layout */
   box-sizing: border-box;
 }
 
 .video-carousel-track {
   display: flex !important;
-  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-  width: max-content !important;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  width: max-content !important; /* Prevents themes from crushing video cards below each other */
 }
 
+/* Sizing optimized to display 4 full videos + peeking slice of number 5 */
 .video-carousel-card {
-  width: 390px !important;
-  min-width: 390px !important;
+  width: 22vw !important;
+  min-width: 22vw !important;
   flex-shrink: 0 !important;
-  padding-right: 10px !important;
+  padding-right: 12px !important;
   box-sizing: border-box;
   cursor: pointer;
 }
 
-@media (max-width: 1400px) { .video-carousel-card { width: 320px !important; min-width: 320px !important; } }
-@media (max-width: 1100px) { .video-carousel-card { width: 260px !important; min-width: 260px !important; } }
+@media (max-width: 1200px) { .video-carousel-card { width: 30vw !important; min-width: 30vw !important; } }
+@media (max-width: 990px) { .video-carousel-card { width: 44vw !important; min-width: 44vw !important; } }
 @media (max-width: 749px) { .video-carousel-wrapper { display: none !important; } }
 
 .video-relative-frame {
@@ -112,13 +109,14 @@
   width: 100% !important;
   aspect-ratio: 9 / 16 !important;
   height: auto !important;
-  border-radius: 20px;
+  border-radius: 16px; /* Smooth card curvature rounding */
   object-fit: cover;
   display: block;
-  filter: brightness(0.60);
+  filter: brightness(0.70);
   transition: filter 0.4s ease;
 }
 
+/* Focused playback card brightness illumination */
 .video-carousel-card.active-playing video,
 .video-carousel-card.active-playing svg {
   filter: brightness(1) !important;
@@ -126,16 +124,16 @@
 
 .placeholder-card svg { background: #e2e2e2; }
 
-/* 🎬 THIN CIRCLE PLAY BUTTON - Matches your image exactly */
+/* Thin White Circle Play Button Overlay */
 .play-button-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   background: transparent;
-  border: 1.5px solid #ffffff; /* Crisp thin white outline */
+  border: 1.5px solid #ffffff; /* Crisp thin edge lines matching reference screenshot */
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -143,7 +141,7 @@
   color: #ffffff;
   transition: transform 0.2s ease, opacity 0.3s;
   pointer-events: none;
-  opacity: 0.3;
+  opacity: 0.35;
 }
 
 .video-carousel-card.active-playing .play-button-overlay {
@@ -152,36 +150,34 @@
 }
 
 .play-button-overlay svg {
-  width: 22px !important;
-  height: 22px !important;
-  margin-left: 4px; /* Centering offset for visual triangle balance */
+  width: 18px !important;
+  height: 18px !important;
+  margin-left: 3px;
   filter: none !important;
 }
 
-/* Floating Navigation Arrows */
+/* Left/Right Text Arrow Indicators Overlay Layout */
 .carousel-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  border: none;
   background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 100; /* Brought to the absolute front layer */
+  border: none;
+  font-family: sans-serif;
+  font-size: 32px; /* Large typographic chevrons */
+  font-weight: 300;
   color: #000000;
-  transition: transform 0.2s ease;
-  padding: 0;
+  cursor: pointer;
+  z-index: 999 !important; /* Forces layout tracking layers to remain at front */
+  padding: 10px;
+  line-height: 1;
+  transition: transform 0.2s;
 }
 .carousel-arrow:hover { transform: translateY(-50%) scale(1.2); }
-.carousel-arrow svg { width: 44px; height: 44px; }
-.arrow-left { left: 20px; }
-.arrow-right { right: 20px; }
+.arrow-left { left: 15px; }
+.arrow-right { right: 15px; }
 
-/* Lightbox Modal Box */
+/* Popup Player Screen Window Box */
 .video-popup-modal {
   position: fixed;
   top: 0;
@@ -205,7 +201,6 @@
   height: 100%;
   object-fit: cover;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 .modal-close-btn {
   position: absolute;
@@ -216,7 +211,6 @@
   color: #ffffff;
   font-size: 45px;
   cursor: pointer;
-  line-height: 1;
 }
 </style>
 <script>
@@ -234,18 +228,17 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentIndex = 0;
   let playChainIndex = 0;
   let chainInterval = null;
-  let delayTimeout = null;
 
   function getGroupJumpSize() {
-    if (window.innerWidth <= 1100) return 2;
-    if (window.innerWidth <= 1400) return 3;
+    if (window.innerWidth <= 990) return 2;
+    if (window.innerWidth <= 1200) return 3;
     return 4; 
   }
 
   function updateSlidePosition() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
-    const cardWidth = cards.getBoundingClientRect().width;
+    const cardWidth = cards[0].getBoundingClientRect().width;
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
@@ -255,12 +248,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     cards.forEach((card, idx) => {
       const video = card.querySelector('video');
-      
       if (idx === playChainIndex) {
         card.classList.add('active-playing');
         if (video && card.getAttribute('data-video-url') !== "") {
           video.currentTime = 0;
-          video.play().catch((err) => console.log("Engine log tracing:", err));
+          video.play().catch((err) => console.log(err));
         }
       } else {
         card.classList.remove('active-playing');
@@ -269,6 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Clamps every single video clip to exactly 3 seconds max, then triggers rotation
   function runChainStep() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
@@ -277,39 +270,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxIndex = Math.max(0, cards.length - jumpSize);
     const lastVisibleInGroup = currentIndex + jumpSize - 1;
 
+    // Strict rule: If it reaches the end of the 4th frame block, slide immediately
     if (playChainIndex === lastVisibleInGroup || playChainIndex >= cards.length - 1) {
-      clearInterval(chainInterval);
-      
-      delayTimeout = setTimeout(() => {
-        if (modal.style.display === 'flex') return;
-        
-        if (currentIndex >= maxIndex) {
-          currentIndex = 0;
-          playChainIndex = 0;
-        } else {
-          currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
-          playChainIndex = currentIndex;
-        }
-        updateSlidePosition();
-        startChainLogic(); 
-      }, 3000);
-
+      if (currentIndex >= maxIndex) {
+        currentIndex = 0;
+        playChainIndex = 0;
+      } else {
+        currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
+        playChainIndex = currentIndex;
+      }
+      updateSlidePosition();
     } else {
       playChainIndex++;
-      manageChainPlayback();
     }
+    
+    manageChainPlayback();
   }
 
   function startChainLogic() {
     clearInterval(chainInterval);
-    clearTimeout(delayTimeout);
     manageChainPlayback();
-    chainInterval = setInterval(runChainStep, 3000);
+    chainInterval = setInterval(runChainStep, 3000); // Strict 3 second rule limit across all slides
   }
 
   function stopChainLogic() {
     clearInterval(chainInterval);
-    clearTimeout(delayTimeout);
     const cards = track.querySelectorAll('.video-carousel-card');
     cards.forEach(card => {
       const video = card.querySelector('video');
@@ -318,13 +303,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  setTimeout(() => {
-    const initialVideos = track.querySelectorAll('video');
-    initialVideos.forEach(v => { v.pause(); v.currentTime = 0; });
-    startChainLogic();
-  }, 100);
-
-  // Manual Jump Controllers (Forces layout tracking to run manually upon request)
   function handleManualNext() {
     const cards = track.querySelectorAll('.video-carousel-card');
     const jumpSize = getGroupJumpSize();
@@ -355,21 +333,15 @@ document.addEventListener('DOMContentLoaded', function() {
     startChainLogic();
   }
 
-  // Registering multiple click listener variations ensures iframe compliance
+  // Click interceptors that bypass the Shopify Customizer layout iframe boundaries
   btnRight.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualNext(); });
   btnLeft.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualPrev(); });
   btnRight.addEventListener('mousedown', function(e) { e.preventDefault(); handleManualNext(); });
   btnLeft.addEventListener('mousedown', function(e) { e.preventDefault(); handleManualPrev(); });
 
-  wrapper.addEventListener('mouseenter', () => {
-    clearInterval(chainInterval);
-    clearTimeout(delayTimeout);
-  });
-  
+  wrapper.addEventListener('mouseenter', () => clearInterval(chainInterval));
   wrapper.addEventListener('mouseleave', () => {
-    if (modal.style.display !== 'flex') {
-      startChainLogic();
-    }
+    if (modal.style.display !== 'flex') startChainLogic();
   });
   
   window.addEventListener('resize', updateSlidePosition);
@@ -395,6 +367,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   modalClose.addEventListener('click', closePopupModal);
   modal.addEventListener('click', function(e) { if(e.target === modal) closePopupModal(); });
+
+  // Initial startup execution
+  setTimeout(startChainLogic, 200);
 });
 </script>
 
