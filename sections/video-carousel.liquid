@@ -1,5 +1,5 @@
 {% comment %}
-  Shopify Custom Auto-Scrolling Video Carousel
+  Shopify Custom Auto-Scrolling Video Carousel (10 Videos Default)
   Moves right to left automatically every 3 seconds
 {% endcomment %}
 
@@ -12,7 +12,7 @@
         </div>
       {%- else -%}
         <!-- Placeholder when no video is selected -->
-        <div class="video-carousel-card placeholder-card">
+        <div class="video-carousel-card placeholder-card" {{ block.shopify_attributes }}>
           {{ 'collection-1' | placeholder_svg_tag }}
         </div>
       {%- endif -%}
@@ -34,14 +34,14 @@
   width: 100%;
 }
 .video-carousel-card {
-  min-width: 25%; /* Shows 4 videos on desktop */
+  min-width: 25%; /* Shows 4 videos on screen at once on desktop */
   flex-shrink: 0;
   padding: 0 10px;
   box-sizing: border-box;
 }
 @media (max-width: 990px) {
   .video-carousel-card {
-    min-width: 50%; /* Shows 2 videos on tablet */
+    min-width: 50%; /* Shows 2 videos on screen at once on tablet */
   }
 }
 @media (max-width: 749px) {
@@ -75,20 +75,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function moveLeft() {
     cards = track.querySelectorAll('.video-carousel-card');
+    
+    // Total slides available minus the ones visible on screen (4 visible)
+    const maxIndex = cards.length - 4 > 0 ? cards.length - 4 : cards.length - 1;
+    
     currentIndex++;
     
-    if (currentIndex >= cards.length) {
-      currentIndex = 0;
+    if (currentIndex > maxIndex) {
+      currentIndex = 0; // Reset to beginning
     }
     
     const cardWidth = cards[0].getBoundingClientRect().width;
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
-  // Runs every 3000ms (3 seconds)
+  // Runs automatically every 3000ms (3 seconds)
   let carouselInterval = setInterval(moveLeft, 3000);
 
-  // Pause on mouse hover for better user experience
+  // Pause on mouse hover for accessibility
   container.addEventListener('mouseenter', () => clearInterval(carouselInterval));
   container.addEventListener('mouseleave', () => carouselInterval = setInterval(moveLeft, 3000));
 });
@@ -116,6 +120,12 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       "name": "Auto Video Carousel",
       "blocks": [
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" },
         { "type": "video_slide" },
         { "type": "video_slide" },
         { "type": "video_slide" },
