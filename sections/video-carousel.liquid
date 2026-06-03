@@ -1,7 +1,7 @@
 {% comment %}
   Shopify Custom Fixed-Width Video Carousel
-  - Increased card dimensions for a larger display
-  - Forces 5th slide overhang on desktop screens
+  - XL card dimensions (450px width) for an immersive display
+  - Forces overhanging peeking layout on desktop screens
   - Hidden completely on mobile
 {% endcomment %}
 
@@ -63,28 +63,28 @@
 }
 
 /* 
-  LARGER PIXEL SIZING: Sized up to 380px wide. 
+  EXTRA LARGE PIXEL SIZING: Sized up to 450px wide. 
   Aspect ratio handles the proportional height auto-scaling.
 */
 .video-carousel-card {
-  width: 380px !important;
-  min-width: 380px !important;
+  width: 450px !important;
+  min-width: 450px !important;
   flex-shrink: 0 !important;
-  padding-right: 24px !important; /* Slightly larger gaps for bigger cards */
+  padding-right: 28px !important; /* Clean layout gap spacing */
   box-sizing: border-box;
 }
 
 /* Tablet Fallback Adjustments */
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
   .video-carousel-card { 
-    width: 320px !important; 
-    min-width: 320px !important; 
+    width: 380px !important; 
+    min-width: 380px !important; 
   } 
 }
-@media (max-width: 990px) {
+@media (max-width: 1100px) {
   .video-carousel-card { 
-    width: 280px !important; 
-    min-width: 280px !important; 
+    width: 300px !important; 
+    min-width: 300px !important; 
   } 
 }
 
@@ -95,13 +95,13 @@
   }
 }
 
-/* Vertically Large Portrait Video Blocks */
+/* Vertically Huge Portrait Video Blocks */
 .video-carousel-card video, 
 .video-carousel-card svg {
   width: 100% !important;
   aspect-ratio: 9 / 16 !important; /* Strict portrait formatting lock */
   height: auto !important;
-  border-radius: 24px;
+  border-radius: 28px; /* Slightly larger radius to match the big scale */
   object-fit: cover;
   display: block;
 }
@@ -114,8 +114,8 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 48px;
-  height: 48px;
+  width: 54px;
+  height: 54px;
   border: none;
   background: transparent;
   display: flex;
@@ -133,15 +133,15 @@
 }
 
 .carousel-arrow svg {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
 }
 
 .arrow-left { 
-  left: 20px; 
+  left: 25px; 
 }
 .arrow-right { 
-  right: 20px; 
+  right: 25px; 
 }
 </style>
 
