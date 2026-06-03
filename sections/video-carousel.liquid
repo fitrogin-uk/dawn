@@ -1,15 +1,20 @@
 {% comment %}
   Shopify Sequential Group-Playback Video Carousel - PART 1
-  - Breakout framework to bypass nested theme containers
-  - Solid white high-contrast play button triangle matching image
-  - Explicit inline onclick handlers to bypass Shopify's editor shield
+  - Pure edge breakout container framework
+  - Isolated floating arrow triggers with absolute priority pointer overrides
+  - Solid white high-contrast play button circle vector matching screenshot
   - Hidden completely on mobile viewports
 {% endcomment %}
 
 <div class="video-carousel-wrapper" id="VideoCarousel-{{ section.id }}">
-  <!-- Left Navigation Arrow Layer with inline click override -->
-  <button class="carousel-arrow arrow-left" type="button" onclick="window.customCarouselMoveLeft()" aria-label="Previous batch">
+  
+  <!-- 🏹 INDEPENDENT FLOATING ARROWS: Positioned outside container flow to bypass clicks -->
+  <button class="custom-nav-arrow btn-prev-batch" type="button" aria-label="Previous Batch">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  
+  <button class="custom-nav-arrow btn-next-batch" type="button" aria-label="Next Batch">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
   </button>
 
   <div class="video-carousel-container">
@@ -47,11 +52,6 @@
       {%- endfor -%}
     </div>
   </div>
-
-  <!-- Right Navigation Arrow Layer with inline click override -->
-  <button class="carousel-arrow arrow-right" type="button" onclick="window.customCarouselMoveRight()" aria-label="Next batch">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-  </button>
 </div>
 
 <!-- Full Screen Modal Player -->
@@ -158,31 +158,43 @@
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)) !important;
 }
 
-.carousel-arrow {
+/* 🏹 HARDCORE ABSOLUTE OVERRIDE NAVIGATION LAYERS */
+.custom-nav-arrow {
   position: absolute !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
   background: #ffffff !important;
   border: 1px solid #e0e0e0 !important;
   border-radius: 50% !important;
-  width: 44px !important;
-  height: 44px !important;
+  width: 46px !important;
+  height: 46px !important;
   color: #000000 !important;
   cursor: pointer !important;
-  z-index: 99999999 !important;
-  pointer-events: all !important;
+  
+  /* Placed on the absolute highest browser layer index possible */
+  z-index: 2147483647 !important; 
+  pointer-events: all !important; /* Force browser engine click capture */
+  
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.15) !important;
-  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18) !important;
+  transition: transform 0.2s ease, background-color 0.2s !important;
   padding: 0 !important;
 }
-.carousel-arrow:hover { transform: translateY(-50%) scale(1.15) !important; }
-.carousel-arrow svg { width: 22px !important; height: 22px !important; }
-.arrow-left { left: 20px !important; }
-.arrow-right { right: 20px !important; }
+.custom-nav-arrow:hover { 
+  transform: translateY(-50%) scale(1.12) !important;
+  background-color: #f7f7f7 !important;
+}
+.custom-nav-arrow svg { 
+  width: 22px !important; 
+  height: 22px !important; 
+  display: block !important;
+}
+.btn-prev-batch { left: 24px !important; }
+.btn-next-batch { right: 24px !important; }
 
+/* Popup Player Lightbox */
 .video-popup-modal {
   position: fixed !important;
   top: 0 !important;
@@ -225,6 +237,8 @@ document.addEventListener('DOMContentLoaded', function() {
   if (!wrapper || window.innerWidth <= 749) return;
 
   const track = wrapper.querySelector('.video-carousel-track');
+  const btnLeft = wrapper.querySelector('.btn-prev-batch');
+  const btnRight = wrapper.querySelector('.btn-next-batch');
   const modalVideo = modal.querySelector('.modal-active-video');
   const modalClose = modal.querySelector('.modal-close-btn');
   
@@ -255,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
         card.classList.add('active-playing');
         if (video && card.getAttribute('data-video-url') !== "") {
           video.currentTime = 0;
-          video.play().catch((err) => console.log("Playback error bypass:", err));
+          video.play().catch((err) => console.log("Bypassing empty block layout lock:", err));
         }
       } else {
         card.classList.remove('active-playing');
@@ -304,8 +318,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // 🚀 GLOBAL OVERRIDES: Exposing the functions straight to the global window space
-  window.customCarouselMoveRight = function() {
+  function handleManualNext() {
     const cards = track.querySelectorAll('.video-carousel-card');
     const jumpSize = getGroupJumpSize();
     const maxIndex = Math.max(0, cards.length - jumpSize);
@@ -319,9 +332,9 @@ document.addEventListener('DOMContentLoaded', function() {
     playChainIndex = currentIndex;
     updateSlidePosition();
     startChainLogic();
-  };
+  }
 
-  window.customCarouselMoveLeft = function() {
+  function handleManualPrev() {
     const cards = track.querySelectorAll('.video-carousel-card');
     const jumpSize = getGroupJumpSize();
     const maxIndex = Math.max(0, cards.length - jumpSize);
@@ -335,7 +348,15 @@ document.addEventListener('DOMContentLoaded', function() {
     playChainIndex = currentIndex;
     updateSlidePosition();
     startChainLogic();
-  };
+  }
+
+  // Bind events directly to the new isolated layout elements
+  if (btnRight && btnLeft) {
+    btnRight.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualNext(); });
+    btnLeft.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualPrev(); });
+    btnRight.addEventListener('mousedown', function(e) { e.preventDefault(); e.stopPropagation(); handleManualNext(); });
+    btnLeft.addEventListener('mousedown', function(e) { e.preventDefault(); e.stopPropagation(); handleManualPrev(); });
+  }
 
   window.addEventListener('resize', updateSlidePosition);
 
@@ -401,3 +422,4 @@ document.addEventListener('DOMContentLoaded', function() {
   ]
 }
 {% endschema %}
+
