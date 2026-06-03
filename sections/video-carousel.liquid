@@ -2,13 +2,13 @@
   Shopify Sequential Group-Playback Video Carousel - PART 1
   - Breakout framework to bypass nested theme containers
   - Solid white high-contrast play button triangle matching image
-  - Isolated floating absolute layer buttons for navigation chevrons
+  - Explicit inline onclick handlers to bypass Shopify's editor shield
   - Hidden completely on mobile viewports
 {% endcomment %}
 
 <div class="video-carousel-wrapper" id="VideoCarousel-{{ section.id }}">
-  <!-- Left Navigation Arrow Layer -->
-  <button class="carousel-arrow arrow-left" type="button" aria-label="Previous batch">
+  <!-- Left Navigation Arrow Layer with inline click override -->
+  <button class="carousel-arrow arrow-left" type="button" onclick="window.customCarouselMoveLeft()" aria-label="Previous batch">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
   </button>
 
@@ -48,8 +48,8 @@
     </div>
   </div>
 
-  <!-- Right Navigation Arrow Layer -->
-  <button class="carousel-arrow arrow-right" type="button" aria-label="Next batch">
+  <!-- Right Navigation Arrow Layer with inline click override -->
+  <button class="carousel-arrow arrow-right" type="button" onclick="window.customCarouselMoveRight()" aria-label="Next batch">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
   </button>
 </div>
@@ -225,8 +225,6 @@ document.addEventListener('DOMContentLoaded', function() {
   if (!wrapper || window.innerWidth <= 749) return;
 
   const track = wrapper.querySelector('.video-carousel-track');
-  const btnLeft = wrapper.querySelector('.arrow-left');
-  const btnRight = wrapper.querySelector('.arrow-right');
   const modalVideo = modal.querySelector('.modal-active-video');
   const modalClose = modal.querySelector('.modal-close-btn');
   
@@ -257,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
         card.classList.add('active-playing');
         if (video && card.getAttribute('data-video-url') !== "") {
           video.currentTime = 0;
-          video.play().catch((err) => console.log("Bypassing empty block layout lock:", err));
+          video.play().catch((err) => console.log("Playback error bypass:", err));
         }
       } else {
         card.classList.remove('active-playing');
@@ -306,8 +304,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // 🚀 FIXED MANUAL NAVIGATION: Forces the play target to perfectly match the shifted index position
-  function handleManualNext() {
+  // 🚀 GLOBAL OVERRIDES: Exposing the functions straight to the global window space
+  window.customCarouselMoveRight = function() {
     const cards = track.querySelectorAll('.video-carousel-card');
     const jumpSize = getGroupJumpSize();
     const maxIndex = Math.max(0, cards.length - jumpSize);
@@ -318,12 +316,12 @@ document.addEventListener('DOMContentLoaded', function() {
       currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
     }
     
-    playChainIndex = currentIndex; // Anchor playing chain explicitly to the 1st visible item of new batch
+    playChainIndex = currentIndex;
     updateSlidePosition();
-    startChainLogic(); // Fully restart and reset the 3-second countdown cycle
-  }
+    startChainLogic();
+  };
 
-  function handleManualPrev() {
+  window.customCarouselMoveLeft = function() {
     const cards = track.querySelectorAll('.video-carousel-card');
     const jumpSize = getGroupJumpSize();
     const maxIndex = Math.max(0, cards.length - jumpSize);
@@ -334,15 +332,10 @@ document.addEventListener('DOMContentLoaded', function() {
       currentIndex = Math.max(0, currentIndex - jumpSize);
     }
     
-    playChainIndex = currentIndex; // Anchor playing chain explicitly to the 1st visible item of new batch
+    playChainIndex = currentIndex;
     updateSlidePosition();
-    startChainLogic(); // Fully restart and reset the 3-second countdown cycle
-  }
-
-  btnRight.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualNext(); });
-  btnLeft.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); handleManualPrev(); });
-  btnRight.addEventListener('mousedown', function(e) { e.preventDefault(); e.stopPropagation(); handleManualNext(); });
-  btnLeft.addEventListener('mousedown', function(e) { e.preventDefault(); e.stopPropagation(); handleManualPrev(); });
+    startChainLogic();
+  };
 
   window.addEventListener('resize', updateSlidePosition);
 
