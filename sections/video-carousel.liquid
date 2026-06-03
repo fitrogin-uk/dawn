@@ -1,10 +1,7 @@
 {% comment %}
-  Shopify Group Video Carousel with Pop-up Modal
-  - Advances by 4 slides every 3 seconds
-  - Displays a clean play button overlay
-  - Click to open full-screen video player popup
-  - 100% Fixed navigation click triggers (works on placeholder states)
-  - Hidden on mobile
+  Shopify Chain-Playback Video Carousel - PART 1
+  - Structural HTML Markup
+  - Complete Responsive CSS Layout Styles
 {% endcomment %}
 
 <div class="video-carousel-wrapper" id="VideoCarousel-{{ section.id }}">
@@ -23,11 +20,11 @@
               {%- assign video_url = source.url -%}
             {%- endif -%}
           {%- endfor -%}
-          {%- if video_url == "" -%}{%- assign video_url = block.settings.video_select.sources[0].url -%}{%- endif -%}
+          {%- if video_url == "" -%}{%- assign video_url = block.settings.video_select.sources.url -%}{%- endif -%}
           
           <div class="video-carousel-card" {{ block.shopify_attributes }} data-video-url="{{ video_url }}">
             <div class="video-relative-frame">
-              {{ block.settings.video_select | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+              {{ block.settings.video_select | video_tag: autoplay: false, loop: true, muted: true, controls: false, playsinline: true }}
               <div class="play-button-overlay">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               </div>
@@ -115,10 +112,16 @@
   border-radius: 20px;
   object-fit: cover;
   display: block;
+  filter: brightness(0.85);
+  transition: filter 0.3s ease;
 }
+
+.video-carousel-card.active-playing video {
+  filter: brightness(1) !important;
+}
+
 .placeholder-card svg { background: #e2e2e2; }
 
-/* Play Button Styling Overlay */
 .play-button-overlay {
   position: absolute;
   top: 50%;
@@ -136,20 +139,23 @@
   justify-content: center;
   color: #ffffff;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  transition: transform 0.2s ease, background 0.2s;
+  transition: transform 0.2s ease, background 0.2s, opacity 0.3s;
   pointer-events: none;
+  opacity: 0.6;
 }
-.video-carousel-card:hover .play-button-overlay {
+
+.video-carousel-card.active-playing .play-button-overlay {
+  opacity: 1;
   transform: translate(-50%, -50%) scale(1.1);
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.35);
 }
+
 .play-button-overlay svg {
   width: 24px !important;
   height: 24px !important;
   margin-left: 3px;
 }
 
-/* Floating Arrow Navigation Elements */
 .carousel-arrow {
   position: absolute;
   top: 50%;
@@ -172,7 +178,6 @@
 .arrow-left { left: 20px; }
 .arrow-right { right: 20px; }
 
-/* Lightbox Full Screen Modal Window */
 .video-popup-modal {
   position: fixed;
   top: 0;
@@ -210,7 +215,6 @@
   line-height: 1;
 }
 </style>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const wrapper = document.getElementById('VideoCarousel-{{ section.id }}');
@@ -224,39 +228,100 @@ document.addEventListener('DOMContentLoaded', function() {
   const modalClose = modal.querySelector('.modal-close-btn');
   
   let currentIndex = 0;
+  let playChainIndex = 0;
+  let chainInterval = null;
 
   function getGroupJumpSize() {
     if (window.innerWidth <= 1100) return 2;
     if (window.innerWidth <= 1400) return 3;
-    return 4; // Moves 4 cards out on standard screen sizes
+    return 4; 
   }
 
   function updateSlidePosition() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
-    const cardWidth = cards[0].getBoundingClientRect().width;
+    const cardWidth = cards.getBoundingClientRect().width;
     track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   }
 
-  function nextGroup() {
+  function manageChainPlayback() {
     const cards = track.querySelectorAll('.video-carousel-card');
     if (cards.length === 0) return;
-    
+
+    cards.forEach((card, idx) => {
+      const video = card.querySelector('video');
+      if (!video) return;
+
+      if (idx === playChainIndex) {
+        card.classList.add('active-playing');
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      } else {
+        card.classList.remove('active-playing');
+        video.pause();
+      }
+    });
+  }
+
+  function runChainStep() {
+    const cards = track.querySelectorAll('.video-carousel-card');
+    if (cards.length === 0) return;
+
     const jumpSize = getGroupJumpSize();
     const maxIndex = Math.max(0, cards.length - jumpSize);
+    const lastVisibleInGroup = currentIndex + jumpSize - 1;
+
+    if (playChainIndex >= lastVisibleInGroup || playChainIndex >= cards.length - 1) {
+      if (currentIndex >= maxIndex) {
+        currentIndex = 0;
+        playChainIndex = 0;
+      } else {
+        currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
+        playChainIndex = currentIndex;
+      }
+      updateSlidePosition();
+    } else {
+      playChainIndex++;
+    }
     
+    manageChainPlayback();
+  }
+
+  function startChainLogic() {
+    clearInterval(chainInterval);
+    manageChainPlayback();
+    chainInterval = setInterval(runChainStep, 3000);
+  }
+
+  function stopChainLogic() {
+    clearInterval(chainInterval);
+    const cards = track.querySelectorAll('.video-carousel-card');
+    cards.forEach(card => {
+      const video = card.querySelector('video');
+      if(video) video.pause();
+      card.classList.remove('active-playing');
+    });
+  }
+
+  btnRight.addEventListener('click', function(e) { 
+    e.preventDefault();
+    const cards = track.querySelectorAll('.video-carousel-card');
+    const jumpSize = getGroupJumpSize();
+    const maxIndex = Math.max(0, cards.length - jumpSize);
+
     if (currentIndex >= maxIndex) {
-      currentIndex = 0; // Return back to first item block
+      currentIndex = 0;
     } else {
       currentIndex = Math.min(maxIndex, currentIndex + jumpSize);
     }
+    playChainIndex = currentIndex;
     updateSlidePosition();
-  }
+    startChainLogic();
+  });
 
-  function prevGroup() {
+  btnLeft.addEventListener('click', function(e) {
+    e.preventDefault();
     const cards = track.querySelectorAll('.video-carousel-card');
-    if (cards.length === 0) return;
-
     const jumpSize = getGroupJumpSize();
     const maxIndex = Math.max(0, cards.length - jumpSize);
 
@@ -265,42 +330,33 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       currentIndex = Math.max(0, currentIndex - jumpSize);
     }
+    playChainIndex = currentIndex;
     updateSlidePosition();
-  }
-
-  // Isolated Event Listeners ensuring absolute script execution stability
-  btnRight.addEventListener('click', function(e) { 
-    e.preventDefault(); 
-    e.stopPropagation();
-    nextGroup(); 
-    resetTimer(); 
+    startChainLogic();
   });
 
-  btnLeft.addEventListener('click', function(e) { 
-    e.preventDefault(); 
-    e.stopPropagation();
-    prevGroup(); 
-    resetTimer(); 
+  startChainLogic();
+
+  wrapper.addEventListener('mouseenter', () => clearInterval(chainInterval));
+  wrapper.addEventListener('mouseleave', () => {
+    if (modal.style.display !== 'flex') {
+      chainInterval = setInterval(runChainStep, 3000);
+      const activeVideo = track.querySelectorAll('.video-carousel-card')[playChainIndex]?.querySelector('video');
+      if(activeVideo) activeVideo.play().catch(() => {});
+    }
   });
-
-  let carouselInterval = setInterval(nextGroup, 3000);
-  function resetTimer() { clearInterval(carouselInterval); carouselInterval = setInterval(nextGroup, 3000); }
-
-  wrapper.addEventListener('mouseenter', () => clearInterval(carouselInterval));
-  wrapper.addEventListener('mouseleave', () => carouselInterval = setInterval(nextGroup, 3000));
+  
   window.addEventListener('resize', updateSlidePosition);
 
-  // Lightbox Modal execution trigger tracks
   track.addEventListener('click', function(e) {
     const card = e.target.closest('.video-carousel-card');
     if (!card) return;
-    
     const targetUrl = card.getAttribute('data-video-url');
     if (targetUrl && targetUrl !== "") {
+      stopChainLogic();
       modalVideo.src = targetUrl;
       modal.style.display = 'flex';
       modalVideo.play();
-      clearInterval(carouselInterval);
     }
   });
 
@@ -308,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
     modal.style.display = 'none';
     modalVideo.pause();
     modalVideo.src = "";
-    resetTimer();
+    startChainLogic();
   }
 
   modalClose.addEventListener('click', closePopupModal);
@@ -329,26 +385,26 @@ document.addEventListener('DOMContentLoaded', function() {
           "type": "video",
           "id": "video_select",
           "label": "Select Video"
-}
-]
-}
-],
-"presets": [
-  {
-    "name": "Auto Video Carousel",
-    "blocks": [
-      { "type": "video_slide" },
-      { "type": "video_slide" },
-      { "type": "video_slide" },
-      { "type": "video_slide" },
-      { "type": "video_slide" },
-      { "type": "video_slide" },
-      { "type": "video_slide" },
-      { "type": "video_slide" },
-      { "type": "video_slide" },
-      { "type": "video_slide" }
-    ]
-  }
-]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Auto Video Carousel",
+      "blocks": [
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" },
+        { "type": "video_slide" }
+      ]
+    }
+  ]
 }
 {% endschema %}
