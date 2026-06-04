@@ -76,8 +76,53 @@
           .ann3-right { grid-column: 2; justify-content: flex-end; }
           .ann3-slide p { font-size: 1.2rem; white-space: normal; }
         }
-            </style>
+                  {%- assign left_block = section.blocks.first -%}
+      {%- assign right_block = section.blocks.last -%}
 
+      <div class="ann3">
+
+        <div class="ann3-left" {{ left_block.shopify_attributes }}>
+          {%- if left_block.settings.link != blank -%}<a href="{{ left_block.settings.link }}" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;color:inherit;">{%- endif -%}
+          <span class="ann3-brand"><span class="ann3-dot"></span>REVIEWS.io</span>
+          <span class="ann3-stars">★★★★★</span>
+          <span class="ann3-rating">{{ left_block.settings.text | escape }}</span>
+          {%- if left_block.settings.link != blank -%}</a>{%- endif -%}
+        </div>
+
+        <div class="ann3-center" id="ann3center">
+          {%- assign si = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- unless forloop.first or forloop.last -%}
+              <div class="ann3-slide{% if si == 0 %} ann3-active{% endif %}" data-ann3 {{ block.shopify_attributes }}>
+                {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}" style="text-decoration:none;color:inherit;">{%- endif -%}
+                <p class="announcement-bar__message h5">{{ block.settings.text | escape }}</p>
+                {%- if block.settings.link != blank -%}</a>{%- endif -%}
+              </div>
+              {%- assign si = si | plus: 1 -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="ann3-right" {{ right_block.shopify_attributes }}>
+          {%- if right_block.settings.link != blank -%}<a href="{{ right_block.settings.link }}" class="ann3-right-text">{%- else -%}<span class="ann3-right-text">{%- endif -%}
+          {{ right_block.settings.text | escape }}
+          {%- if right_block.settings.link != blank -%}</a>{%- else -%}</span>{%- endif -%}
+        </div>
+
+      </div>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function(){
+          var slides = document.querySelectorAll('[data-ann3]');
+          if (slides.length < 2) return;
+          var cur = 0;
+          setInterval(function(){
+            slides[cur].classList.remove('ann3-active');
+            cur = (cur + 1) % slides.length;
+            slides[cur].classList.add('ann3-active');
+          }, 4000);
+        });
+      </script>
       {%- if request.design_mode -%}
         <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
         <style>
