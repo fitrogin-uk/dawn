@@ -14,16 +14,32 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
+        "announcement_z3LWdr": {
+          "type": "announcement",
+          "settings": {
+            "text": "★★★★★ 4.7 based on 11,090 reviews",
+            "link": ""
+          }
+        },
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "Welcome to our store",
+            "text": "World Wide Shipping",
+            "link": ""
+          }
+        },
+        "announcement_knWcQb": {
+          "type": "announcement",
+          "settings": {
+            "text": "£ GBP",
             "link": ""
           }
         }
       },
       "block_order": [
-        "announcement-bar-0"
+        "announcement_z3LWdr",
+        "announcement-bar-0",
+        "announcement_knWcQb"
       ],
       "custom_css": [
         "@media screen and (min-width: 750px) {.announcement-bar {display: flex !important; justify-content: space-between; align-items: center; padding: 0 4rem; } .announcement-bar__message {padding: 0 !important; margin: 0 !important; width: 33.33%; } .announcement-bar__message:nth-child(1) {text-align: left; } .announcement-bar__message:nth-child(2) {text-align: center; } .announcement-bar__message:nth-child(3) {text-align: right; }}"
