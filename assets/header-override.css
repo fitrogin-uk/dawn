@@ -1,0 +1,48 @@
+/*
+  Dawn theme header override
+  Matches: nav-left | logo-centre | icons-right layout
+  Add this file via: {{ 'header-override.css' | asset_url | stylesheet_tag }}
+  Place that tag inside sections/header.liquid, or in layout/theme.liquid <head>
+*/
+
+/* Ensure the header uses the centred-logo layout */
+.header--middle-left .header__heading {
+  /* already centred in Dawn's "logo center" preset — no override needed */
+}
+
+/* Nav items: left-aligned, same row as logo */
+.header__inline-menu .list-menu {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+.header__inline-menu .list-menu__item > a {
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  padding: 0;
+}
+
+/* Remove default underline decoration on nav links */
+.header__inline-menu .header__menu-item {
+  text-decoration: none;
+}
+
+/* Icons row: tighten spacing */
+.header__icons {
+  gap: 1.6rem;
+}
+
+/* Cart bubble */
+.cart-count-bubble {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Thin bottom border under header */
+.shopify-section-header-sticky .header-wrapper,
+.header-wrapper {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
