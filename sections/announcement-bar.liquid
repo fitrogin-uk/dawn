@@ -76,14 +76,18 @@
           .ann3-right { grid-column: 2; justify-content: flex-end; }
           .ann3-slide p { font-size: 1.2rem; white-space: normal; }
         }
-      </style>
+            </style>
+
+      {%- if request.design_mode -%}
+        <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
+        <style>
           /* theme editor power preview fix */
           .announcement-bar-slider .slider__slide[aria-hidden='true'] {
             visibility: hidden;
           }
         </style>
       {%- endif -%}
-    
+        {%- endif -%}
     <div class="localization-wrapper">
       {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
         <localization-form class="small-hide medium-hide">
