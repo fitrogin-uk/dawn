@@ -1,0 +1,90 @@
+Yes — here is the **complete code** with the star fix already applied. Copy everything below and paste it into the new `product-info-right.liquid` file:
+
+```liquid
+<style>
+  .npd-info { font-family: inherit; max-width: 640px; }
+
+  /* 1. Reviews */
+  .npd-reviews { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .npd-reviews__stars { display: inline-flex; gap: 1px; }
+  .npd-reviews__count { font-size: 14px; color: #111; font-weight: 500; }
+
+  /* 2. Heading */
+  .npd-title { font-size: 42px; line-height: 1.05; font-weight: 800; color: #111; margin: 0 0 8px; letter-spacing: -0.5px; }
+
+  /* 3. Subheading */
+  .npd-subtitle { font-size: 22px; font-weight: 700; color: #111; margin: 0 0 20px; }
+
+  /* 4. Five rounded boxes */
+  .npd-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+  .npd-tag { border: 1px solid #e3e3e3; background: #fafafa; border-radius: 10px; padding: 10px 18px; font-size: 15px; font-weight: 600; color: #222; white-space: nowrap; }
+
+  /* 5. Green clickable badge */
+  .npd-badge { display: inline-flex; align-items: center; gap: 8px; background: #e8f3ec; color: #1c7c45; border: none; border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 700; text-decoration: none; cursor: pointer; margin-bottom: 22px; }
+  .npd-badge:hover { background: #ddeee3; }
+  .npd-badge__check { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background: #1c7c45; border-radius: 50%; }
+  .npd-badge__label { display: flex; flex-direction: column; line-height: 1.1; text-align: left; }
+  .npd-badge__label small { font-size: 10px; font-weight: 600; opacity: 0.75; letter-spacing: 0.04em; }
+  .npd-badge__arrow { font-size: 14px; }
+
+  /* 6. Description */
+  .npd-desc { font-size: 17px; line-height: 1.6; color: #333; margin: 0; }
+
+  @media (max-width: 749px) {
+    .npd-title { font-size: 32px; }
+    .npd-subtitle { font-size: 19px; }
+  }
+</style>
+
+<div class="npd-info">
+
+  {%- assign npd_rating = 4.5 -%}
+  {%- assign npd_review_count = 105 -%}
+  <div class="npd-reviews">
+    <span class="npd-reviews__stars">
+      {%- assign npd_floor = npd_rating | floor -%}
+      {%- assign npd_ceil = npd_rating | ceil -%}
+      {%- assign npd_has_half = false -%}
+      {%- if npd_ceil != npd_floor -%}{%- assign npd_has_half = true -%}{%- endif -%}
+      {%- for i in (1..5) -%}
+        {%- if i <= npd_floor -%}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#111" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        {%- elsif i == npd_ceil and npd_has_half -%}
+          <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="npdhalf"><stop offset="50%" stop-color="#111"/><stop offset="50%" stop-color="#ccc"/></linearGradient></defs><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="url(#npdhalf)"/></svg>
+        {%- else -%}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#ccc" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        {%- endif -%}
+      {%- endfor -%}
+    </span>
+    <span class="npd-reviews__count">({{ npd_review_count }} Reviews)</span>
+  </div>
+
+  <h1 class="npd-title">{{ product.title | default: 'Creatine Gummies' }}</h1>
+
+  <p class="npd-subtitle">Achieve Peak Performance</p>
+
+  <div class="npd-tags">
+    <span class="npd-tag">90 Gummies</span>
+    <span class="npd-tag">1 Month Supply</span>
+    <span class="npd-tag">Strawberry Flavour</span>
+    <span class="npd-tag">Vegan</span>
+    <span class="npd-tag">From £0.62 per day</span>
+  </div>
+
+  <a href="#sustainability" class="npd-badge">
+    <span class="npd-badge__check">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </span>
+    <span class="npd-badge__label">
+      <span>Sustainability Claims</span>
+      <small>PROVENANCE</small>
+    </span>
+    <span class="npd-badge__arrow">›</span>
+  </a>
+
+  <p class="npd-desc">Fuel your physical performance; with 5000mg of lab-verified, sugar-free creatine in each serving, formulated to meet the demands of high-intensity exercise. No mixing required, just take 3 gummies daily.</p>
+
+</div>
+```
+
+Once pasted and saved, tell me — then we'll add it to the product page.
