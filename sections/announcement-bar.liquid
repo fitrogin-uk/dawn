@@ -50,71 +50,70 @@
           {%- endif -%}
         {%- endif -%}
       </div>
-       {%- elsif section.blocks.size > 1 -%}
-      {%- assign left_block = section.blocks.first -%}
-      {%- assign right_block = section.blocks.last -%}
+         {%- elsif section.blocks.size > 1 -%}
       <style>
-        .ann3 { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; width: 100%; padding: 0.6rem 1.5rem; box-sizing: border-box; }
-        .ann3-left { display: flex; align-items: center; justify-content: flex-start; gap: 0.5rem; text-decoration: none; color: inherit; }
+        .utility-bar, .utility-bar.gradient, [class*="color-"].utility-bar { background-color: #f5f5f5 !important; color: #333 !important; --color-foreground: 51,51,51 !important; --gradient-background: #f5f5f5 !important; }
+.utility-bar .h5, .utility-bar p, .utility-bar a { color: #333 !important; }
+.ann3 { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; width: 100%; padding: 0.35rem 0; box-sizing: border-box; }
+        .ann3-left { display: flex; align-items: center; justify-content: flex-start; gap: 0.5rem; white-space: nowrap; }
         .ann3-center { display: flex; align-items: center; justify-content: center; text-align: center; }
-        .ann3-right { display: flex; align-items: center; justify-content: flex-end; text-decoration: none; color: inherit; font-weight: 700; font-size: 1.3rem; white-space: nowrap; }
-        .ann3-brand { font-weight: 900; font-size: 1.25rem; letter-spacing: 0.04em; white-space: nowrap; }
-        .ann3-brand span { display: inline-block; width: 1em; height: 1em; background: currentColor; border-radius: 50%; margin-right: 2px; vertical-align: middle; }
-        .ann3-stars { color: #f5a623; font-size: 1.6rem; letter-spacing: -2px; line-height: 1; }
-        .ann3-rating { font-size: 1.2rem; white-space: nowrap; }
+        .ann3-right { display: flex; align-items: center; justify-content: flex-end; white-space: nowrap; }
+        .ann3-brand { font-weight: 900; font-size: 1.4rem; letter-spacing: 0.03em; white-space: nowrap; }
+        .ann3-dot { display: inline-block; width: 0.75em; height: 0.75em; background: currentColor; border-radius: 50%; margin-right: 2px; vertical-align: middle; }
+        .ann3-stars { color: #f5a623; font-size: 1.8rem; letter-spacing: -2px; line-height: 1; vertical-align: middle; }
+        .ann3-rating { font-size: 1.3rem; }
+        .ann3-right-text { font-weight: 700; font-size: 1.4rem; text-decoration: none; color: inherit; }
         .ann3-slide { display: none; }
-        .ann3-slide.ann3-active { display: flex; align-items: center; justify-content: center; animation: ann3fade 0.5s ease; }
-        @keyframes ann3fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-        .ann3-slide p { margin: 0; font-weight: 700; font-size: 1.3rem; white-space: nowrap; }
+        .ann3-slide.ann3-active { display: flex; align-items: center; justify-content: center; animation: ann3fade 0.6s ease; }
+        @keyframes ann3fade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .ann3-slide p { margin: 0; font-weight: 700; font-size: 1.4rem; white-space: nowrap; color: #333 !important; }
         @media (max-width: 749px) {
-          .ann3 { grid-template-columns: 1fr; padding: 0.6rem 1rem; }
-          .ann3-left, .ann3-right { display: none !important; }
-          .ann3-center { grid-column: 1; }
-          .ann3-slide p { font-size: 1.2rem; white-space: normal; text-align: center; }
+          .ann3 { grid-template-columns: 1fr 1fr; padding: 0.35rem 1rem; }
+          .ann3-left { display: none; }
+          .ann3-center { grid-column: 1; justify-content: flex-start; }
+          .ann3-right { grid-column: 2; justify-content: flex-end; }
+          .ann3-slide p { font-size: 1.2rem; white-space: normal; }
         }
       </style>
 
+      {%- assign left_block = section.blocks.first -%}
+      {%- assign right_block = section.blocks.last -%}
+
       <div class="ann3">
 
-        {{- '<!-- LEFT -->' -}}
-        <div class="ann3-left"
-          {%- if left_block.settings.link != blank %} href="{{ left_block.settings.link }}" style="cursor:pointer;"{% endif %}
-          {{ left_block.shopify_attributes }}
-        >
-          <span class="ann3-brand"><span></span>REVIEWS.io</span>
+        <div class="ann3-left" {{ left_block.shopify_attributes }}>
+          {%- if left_block.settings.link != blank -%}<a href="{{ left_block.settings.link }}" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;color:inherit;">{%- endif -%}
+          <span class="ann3-brand"><span class="ann3-dot"></span>REVIEWS.io</span>
           <span class="ann3-stars">★★★★★</span>
           <span class="ann3-rating">{{ left_block.settings.text | escape }}</span>
+          {%- if left_block.settings.link != blank -%}</a>{%- endif -%}
         </div>
 
-        {{- '<!-- CENTER -->' -}}
-        <div class="ann3-center" id="ann3-center">
-          {%- assign slide_i = 0 -%}
+        <div class="ann3-center" id="ann3center">
+          {%- assign si = 0 -%}
           {%- for block in section.blocks -%}
             {%- unless forloop.first or forloop.last -%}
-              <div class="ann3-slide{% if slide_i == 0 %} ann3-active{% endif %}" data-ann3-slide {{ block.shopify_attributes }}>
-                {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}" class="link link--text" style="text-decoration:none;color:inherit;">{%- endif -%}
+              <div class="ann3-slide{% if si == 0 %} ann3-active{% endif %}" data-ann3 {{ block.shopify_attributes }}>
+                {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}" style="text-decoration:none;color:inherit;">{%- endif -%}
                 <p class="announcement-bar__message h5">{{ block.settings.text | escape }}</p>
                 {%- if block.settings.link != blank -%}</a>{%- endif -%}
               </div>
-              {%- assign slide_i = slide_i | plus: 1 -%}
+              {%- assign si = si | plus: 1 -%}
             {%- endunless -%}
           {%- endfor -%}
         </div>
 
-        {{- '<!-- RIGHT -->' -}}
-        <div class="ann3-right"
-          {{ right_block.shopify_attributes }}
-        >
-          {%- if right_block.settings.link != blank -%}<a href="{{ right_block.settings.link }}" class="link link--text" style="text-decoration:none;color:inherit;">{%- endif -%}
+        <div class="ann3-right" {{ right_block.shopify_attributes }}>
+          {%- if right_block.settings.link != blank -%}<a href="{{ right_block.settings.link }}" class="ann3-right-text">{%- else -%}<span class="ann3-right-text">{%- endif -%}
           {{ right_block.settings.text | escape }}
-          {%- if right_block.settings.link != blank -%}</a>{%- endif -%}
+          {%- if right_block.settings.link != blank -%}</a>{%- else -%}</span>{%- endif -%}
         </div>
 
       </div>
 
       <script>
-        (function(){
-          var slides = document.querySelectorAll('[data-ann3-slide]');
+        document.addEventListener('DOMContentLoaded', function(){
+          var slides = document.querySelectorAll('[data-ann3]');
           if (slides.length < 2) return;
           var cur = 0;
           setInterval(function(){
@@ -122,9 +121,8 @@
             cur = (cur + 1) % slides.length;
             slides[cur].classList.add('ann3-active');
           }, 4000);
-        })();
+        });
       </script>
-    {%- endif -%}
       {%- if request.design_mode -%}
         <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
         <style>
@@ -160,7 +158,7 @@
     </div>
   </div>
 </div>
-
+{%- endif -%}
 {% schema %}
 {
   "name": "t:sections.announcement-bar.name",
