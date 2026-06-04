@@ -1,0 +1,194 @@
+{{ 'announcement-top-bar.css' | asset_url | stylesheet_tag }}
+
+<div class="announcement-top-bar" style="background-color: {{ section.settings.background_color }}; color: {{ section.settings.text_color }};">
+  <div class="announcement-top-bar__inner page-width">
+
+    {%- comment -%} LEFT: Reviews badge {%- endcomment -%}
+    <div class="announcement-top-bar__col announcement-top-bar__col--left">
+      {%- if section.settings.show_reviews -%}
+        <a href="{{ section.settings.reviews_url }}" target="_blank" rel="noopener" class="reviews-badge" style="color: {{ section.settings.text_color }};">
+          <span class="reviews-badge__logo">
+            {%- if section.settings.reviews_logo != blank -%}
+              <img src="{{ section.settings.reviews_logo | img_url: '80x' }}" alt="Reviews.io" width="60" height="14" loading="lazy">
+            {%- else -%}
+              <span class="reviews-badge__logo-text">REVIEWS.io</span>
+            {%- endif -%}
+          </span>
+          <span class="reviews-badge__stars" aria-hidden="true">
+            {%- assign rating = section.settings.review_score | times: 1.0 -%}
+            {%- assign rating_ceil = rating | ceil -%}
+            {%- assign rating_floor = rating | floor -%}
+            {%- assign rating_has_half = false -%}
+            {%- if rating_ceil != rating_floor -%}
+              {%- assign rating_has_half = true -%}
+            {%- endif -%}
+            {%- for i in (1..5) -%}
+              {%- if i <= rating_floor -%}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="{{ section.settings.star_color }}" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              {%- elsif i == rating_ceil and rating_has_half -%}
+                <svg width="12" height="12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="half{{ i }}"><stop offset="50%" stop-color="{{ section.settings.star_color }}"/><stop offset="50%" stop-color="#ccc"/></linearGradient></defs><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="url(#half{{ i }})"/></svg>
+              {%- else -%}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#ccc" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              {%- endif -%}
+            {%- endfor -%}
+          </span>
+          <span class="reviews-badge__text">
+            {%- assign reviews_text = section.settings.reviews_label | replace: '{count}', section.settings.review_count -%}
+            <strong>{{ section.settings.review_score }}</strong> {{ reviews_text }}
+          </span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} CENTER: Announcement text {%- endcomment -%}
+    <div class="announcement-top-bar__col announcement-top-bar__col--center">
+      {%- if section.settings.center_text != blank -%}
+        {%- if section.settings.center_url != blank -%}
+          <a href="{{ section.settings.center_url }}" class="announcement-top-bar__link" style="color: {{ section.settings.text_color }};">
+            <strong>{{ section.settings.center_text }}</strong>
+          </a>
+        {%- else -%}
+          <strong>{{ section.settings.center_text }}</strong>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} RIGHT: Currency / locale selector {%- endcomment -%}
+    <div class="announcement-top-bar__col announcement-top-bar__col--right">
+      {%- if section.settings.show_currency_selector -%}
+        {%- form 'currency' -%}
+          <div class="currency-selector">
+            {%- if section.settings.show_flag -%}
+              <span class="currency-selector__flag" aria-hidden="true">
+                {%- assign currency_code = cart.currency.iso_code -%}
+                {{ currency_code | downcase | slice: 0, 2 | prepend: '&#127' }}
+              </span>
+            {%- endif -%}
+            <select
+              name="currency"
+              class="currency-selector__select"
+              style="color: {{ section.settings.text_color }}; background: transparent; border: none; font-size: inherit; cursor: pointer;"
+              aria-label="{{ 'general.currency.dropdown_label' | t }}"
+            >
+              {%- for currency in shop.enabled_currencies -%}
+                <option
+                  value="{{ currency.iso_code }}"
+                  {%- if currency == cart.currency %} selected{%- endif -%}
+                >
+                  {{ currency.symbol }} {{ currency.iso_code }}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endform -%}
+      {%- endif -%}
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Top Announcement Bar",
+  "tag": "div",
+  "class": "section-announcement-top-bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#f5a623"
+    },
+    {
+      "type": "header",
+      "content": "Left — Reviews Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show reviews badge",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "reviews_logo",
+      "label": "Reviews platform logo (optional)"
+    },
+    {
+      "type": "text",
+      "id": "review_score",
+      "label": "Score (e.g. 4.7)",
+      "default": "4.7"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review count (e.g. 11,090)",
+      "default": "11,090"
+    },
+    {
+      "type": "text",
+      "id": "reviews_label",
+      "label": "Label text (use {count} for number)",
+      "default": "based on {count} reviews"
+    },
+    {
+      "type": "url",
+      "id": "reviews_url",
+      "label": "Reviews link URL"
+    },
+    {
+      "type": "header",
+      "content": "Centre — Announcement"
+    },
+    {
+      "type": "text",
+      "id": "center_text",
+      "label": "Centre text",
+      "default": "World Wide Shipping"
+    },
+    {
+      "type": "url",
+      "id": "center_url",
+      "label": "Centre link URL (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Right — Currency"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_currency_selector",
+      "label": "Show currency selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_flag",
+      "label": "Show currency flag emoji",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Top Announcement Bar"
+    }
+  ]
+}
+{% endschema %}
