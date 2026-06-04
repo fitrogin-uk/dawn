@@ -28,6 +28,20 @@
             "link": ""
           }
         },
+        "announcement_fzJKmV": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome 2",
+            "link": ""
+          }
+        },
+        "announcement_gfd4nd": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome 3",
+            "link": ""
+          }
+        },
         "announcement_knWcQb": {
           "type": "announcement",
           "settings": {
@@ -39,6 +53,8 @@
       "block_order": [
         "announcement_z3LWdr",
         "announcement-bar-0",
+        "announcement_fzJKmV",
+        "announcement_gfd4nd",
         "announcement_knWcQb"
       ],
       "custom_css": [],
