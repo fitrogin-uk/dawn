@@ -1,4 +1,4 @@
-:root {
+.page-width:root {
   --alpha-button-background: 1;
   --alpha-button-border: 1;
   --alpha-link: 0.85;
@@ -107,8 +107,8 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 
   .header.page-width,
   .utility-bar__grid.page-width {
-    padding-left: 3.2rem;
-    padding-right: 3.2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .page-width--narrow {
