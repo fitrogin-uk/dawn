@@ -1,4 +1,3 @@
-
 {%- comment -%}
   Custom Product Main Section — Novomins style
   Image gallery (left) + product info / buy box / accordions (right)
@@ -6,11 +5,11 @@
 
 <style>
   .cpm { --cpm-accent: {{ section.settings.accent_color }}; --cpm-green: #1c7c45; }
-  .cpm__wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; max-width: 1280px; margin: 0 auto; padding: 24px 20px; }
+  .cpm__wrap { display: grid; grid-template-columns: 55fr 45fr; gap: 48px; max-width: 1280px; margin: 0 auto; padding: 24px 20px; }
 
   /* ---------- LEFT: Gallery ---------- */
   .cpm__gallery { position: relative; }
-  .cpm__main-img { position: relative; border-radius: 16px; overflow: hidden; background: #f6f6f6; }
+  .cpm__main-img { position: relative; border-radius: 16px; overflow: hidden; background: #f6f6f6; min-height: 480px; display: flex; align-items: center; justify-content: center; }
   .cpm__main-img img { width: 100%; height: auto; display: block; }
   .cpm__main-img .cpm__slide { display: none; }
   .cpm__main-img .cpm__slide.is-active { display: block; }
@@ -24,13 +23,13 @@
   /* ---------- RIGHT: Info ---------- */
   .cpm__info { max-width: 600px; }
   .cpm__reviews { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-  .cpm__stars { display: inline-flex; gap: 1px; }
-  .cpm__reviews-count { font-size: 13px; color: #111; }
-  .cpm__title { font-size: 38px; font-weight: 800; color: #111; margin: 0 0 6px; letter-spacing: -0.5px; line-height: 1.05; }
-  .cpm__subtitle { font-size: 20px; font-weight: 700; color: #111; margin: 0 0 18px; }
+  .cpm__stars { display: inline-flex; gap: 2px; }
+  .cpm__reviews-count { font-size: 14px; color: #111; font-weight: 500; }
+  .cpm__title { font-size: 44px; font-weight: 800; color: #111; margin: 0 0 6px; letter-spacing: -0.5px; line-height: 1.05; }
+  .cpm__subtitle { font-size: 22px; font-weight: 700; color: #111; margin: 0 0 18px; }
 
   .cpm__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-  .cpm__tag { border: 1px solid #e3e3e3; background: #fafafa; border-radius: 9px; padding: 8px 14px; font-size: 14px; font-weight: 600; color: #222; }
+  .cpm__tag { border: 1px solid #e3e3e3; background: #fafafa; border-radius: 9px; padding: 10px 16px; font-size: 15px; font-weight: 600; color: #555; }
 
   .cpm__badge { display: inline-flex; align-items: center; gap: 8px; background: #e8f3ec; color: var(--cpm-green); border-radius: 999px; padding: 7px 13px; font-size: 12px; font-weight: 700; text-decoration: none; margin-bottom: 18px; }
   .cpm__badge-check { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; background: var(--cpm-green); border-radius: 50%; }
@@ -40,7 +39,7 @@
   .cpm__desc { font-size: 16px; line-height: 1.55; color: #333; margin: 0 0 20px; }
 
   .cpm__benefits { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; margin-bottom: 24px; }
-  .cpm__benefit { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #111; }
+  .cpm__benefit { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #444; }
   .cpm__benefit-check { flex: 0 0 20px; width: 20px; height: 20px; background: #111; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
 
   /* Buy box */
@@ -118,6 +117,7 @@
     {%- comment -%} ============ RIGHT: INFO ============ {%- endcomment -%}
     <div class="cpm__info">
 
+      {%- comment -%} Reviews {%- endcomment -%}
       {%- assign rating = section.settings.review_rating | times: 1.0 -%}
       {%- assign r_floor = rating | floor -%}
       {%- assign r_ceil = rating | ceil -%}
@@ -127,22 +127,24 @@
         <span class="cpm__stars">
           {%- for i in (1..5) -%}
             {%- if i <= r_floor -%}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="#111"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#111"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
             {%- elsif i == r_ceil and r_half -%}
-              <svg width="16" height="16" viewBox="0 0 24 24"><defs><linearGradient id="cpmhalf"><stop offset="50%" stop-color="#111"/><stop offset="50%" stop-color="#ccc"/></linearGradient></defs><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" fill="url(#cpmhalf)"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24"><defs><linearGradient id="cpmhalf"><stop offset="50%" stop-color="#111"/><stop offset="50%" stop-color="#ccc"/></linearGradient></defs><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" fill="url(#cpmhalf)"/></svg>
             {%- else -%}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="#ccc"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#ccc"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
             {%- endif -%}
           {%- endfor -%}
         </span>
         <span class="cpm__reviews-count">({{ section.settings.review_count }} Reviews)</span>
       </div>
 
+      {%- comment -%} Title + subtitle {%- endcomment -%}
       <h1 class="cpm__title">{{ product.title }}</h1>
       {%- if section.settings.subtitle != blank -%}
         <p class="cpm__subtitle">{{ section.settings.subtitle }}</p>
       {%- endif -%}
 
+      {%- comment -%} Tags {%- endcomment -%}
       {%- if section.settings.tags != blank -%}
         <div class="cpm__tags">
           {%- assign tag_items = section.settings.tags | split: ',' -%}
@@ -152,6 +154,7 @@
         </div>
       {%- endif -%}
 
+      {%- comment -%} Green badge {%- endcomment -%}
       {%- if section.settings.badge_text != blank -%}
         <a href="{{ section.settings.badge_link | default: '#' }}" class="cpm__badge">
           <span class="cpm__badge-check">
@@ -165,10 +168,12 @@
         </a>
       {%- endif -%}
 
+      {%- comment -%} Description {%- endcomment -%}
       {%- if section.settings.description != blank -%}
         <p class="cpm__desc">{{ section.settings.description }}</p>
       {%- endif -%}
 
+      {%- comment -%} Benefits grid {%- endcomment -%}
       {%- if section.settings.benefits != blank -%}
         <div class="cpm__benefits">
           {%- assign benefit_items = section.settings.benefits | newline_to_br | split: '<br />' -%}
@@ -184,10 +189,12 @@
         </div>
       {%- endif -%}
 
+      {%- comment -%} ============ BUY FORM ============ {%- endcomment -%}
       {%- form 'product', product, id: 'cpmForm' -%}
         <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
 
         <div class="cpm__buybox">
+          {%- comment -%} Subscribe plan (if available) {%- endcomment -%}
           {%- assign current_variant = product.selected_or_first_available_variant -%}
           {%- if current_variant.selling_plan_allocations.size > 0 -%}
             {%- assign plan_alloc = current_variant.selling_plan_allocations.first -%}
@@ -212,6 +219,7 @@
             </div>
           {%- endif -%}
 
+          {%- comment -%} One-time purchase {%- endcomment -%}
           <div class="cpm__plan{% unless current_variant.selling_plan_allocations.size > 0 %} is-active{% endunless %}" data-cpm-plan="onetime">
             <label class="cpm__plan-head">
               <input type="radio" name="selling_plan" value="" style="display:none;"{% unless current_variant.selling_plan_allocations.size > 0 %} checked{% endunless %}>
@@ -231,6 +239,7 @@
         <button type="submit" name="add" class="cpm__atc">Add to cart</button>
       {%- endform -%}
 
+      {%- comment -%} Payment icons {%- endcomment -%}
       <div class="cpm__pay">
         <span style="font-size:12px;color:#999;">Guaranteed safe checkout</span>
       </div>
@@ -240,6 +249,7 @@
         {%- endfor -%}
       </div>
 
+      {%- comment -%} ============ ACCORDIONS ============ {%- endcomment -%}
       <div class="cpm__acc">
         {%- for block in section.blocks -%}
           {%- if block.type == 'accordion' -%}
@@ -257,6 +267,8 @@
 
 <script>
   (function(){
+    var root = document.currentScript.previousElementSibling || document;
+    // Gallery
     var main = document.getElementById('cpmMain');
     var thumbs = document.getElementById('cpmThumbs');
     if (main) {
@@ -278,6 +290,7 @@
       if (prev) prev.addEventListener('click', function(){ show(cur - 1); });
       if (next) next.addEventListener('click', function(){ show(cur + 1); });
     }
+    // Plan selector
     var plans = document.querySelectorAll('[data-cpm-plan]');
     plans.forEach(function(p){
       p.querySelector('.cpm__plan-head').addEventListener('click', function(){
