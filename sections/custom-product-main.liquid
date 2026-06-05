@@ -1,0 +1,342 @@
+Here's the full code to copy into your new `custom-product-main` section file:
+
+```liquid
+{%- comment -%}
+  Custom Product Main Section — Novomins style
+  Image gallery (left) + product info / buy box / accordions (right)
+{%- endcomment -%}
+
+<style>
+  .cpm { --cpm-accent: {{ section.settings.accent_color }}; --cpm-green: #1c7c45; }
+  .cpm__wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; max-width: 1280px; margin: 0 auto; padding: 24px 20px; }
+
+  /* ---------- LEFT: Gallery ---------- */
+  .cpm__gallery { position: relative; }
+  .cpm__main-img { position: relative; border-radius: 16px; overflow: hidden; background: #f6f6f6; }
+  .cpm__main-img img { width: 100%; height: auto; display: block; }
+  .cpm__main-img .cpm__slide { display: none; }
+  .cpm__main-img .cpm__slide.is-active { display: block; }
+  .cpm__nav { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.85); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; }
+  .cpm__nav--prev { left: 12px; } .cpm__nav--next { right: 12px; }
+  .cpm__thumbs { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .cpm__thumb { width: 72px; height: 72px; border-radius: 10px; overflow: hidden; border: 2px solid transparent; cursor: pointer; background: #f6f6f6; padding: 0; }
+  .cpm__thumb.is-active { border-color: var(--cpm-accent); }
+  .cpm__thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ---------- RIGHT: Info ---------- */
+  .cpm__info { max-width: 600px; }
+  .cpm__reviews { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .cpm__stars { display: inline-flex; gap: 1px; }
+  .cpm__reviews-count { font-size: 13px; color: #111; }
+  .cpm__title { font-size: 38px; font-weight: 800; color: #111; margin: 0 0 6px; letter-spacing: -0.5px; line-height: 1.05; }
+  .cpm__subtitle { font-size: 20px; font-weight: 700; color: #111; margin: 0 0 18px; }
+
+  .cpm__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .cpm__tag { border: 1px solid #e3e3e3; background: #fafafa; border-radius: 9px; padding: 8px 14px; font-size: 14px; font-weight: 600; color: #222; }
+
+  .cpm__badge { display: inline-flex; align-items: center; gap: 8px; background: #e8f3ec; color: var(--cpm-green); border-radius: 999px; padding: 7px 13px; font-size: 12px; font-weight: 700; text-decoration: none; margin-bottom: 18px; }
+  .cpm__badge-check { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; background: var(--cpm-green); border-radius: 50%; }
+  .cpm__badge-label { display: flex; flex-direction: column; line-height: 1.1; text-align: left; }
+  .cpm__badge-label small { font-size: 9px; opacity: 0.75; letter-spacing: 0.04em; }
+
+  .cpm__desc { font-size: 16px; line-height: 1.55; color: #333; margin: 0 0 20px; }
+
+  .cpm__benefits { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; margin-bottom: 24px; }
+  .cpm__benefit { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #111; }
+  .cpm__benefit-check { flex: 0 0 20px; width: 20px; height: 20px; background: #111; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+
+  /* Buy box */
+  .cpm__buybox { border: 1px solid #e3e3e3; border-radius: 16px; overflow: hidden; margin-bottom: 16px; }
+  .cpm__plan { border-bottom: 1px solid #eee; }
+  .cpm__plan:last-child { border-bottom: none; }
+  .cpm__plan-head { display: flex; align-items: center; gap: 12px; padding: 16px; cursor: pointer; }
+  .cpm__plan.is-active { background: #faf7fb; }
+  .cpm__radio { flex: 0 0 20px; width: 20px; height: 20px; border-radius: 50%; border: 2px solid #ccc; position: relative; }
+  .cpm__plan.is-active .cpm__radio { border-color: var(--cpm-accent); }
+  .cpm__plan.is-active .cpm__radio::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--cpm-accent); }
+  .cpm__plan-name { font-weight: 700; font-size: 16px; color: #111; }
+  .cpm__plan-sub { font-size: 13px; color: #666; }
+  .cpm__plan-price { margin-left: auto; text-align: right; }
+  .cpm__plan-price .now { font-weight: 800; font-size: 18px; color: #111; }
+  .cpm__plan-price .was { font-size: 13px; color: #999; text-decoration: line-through; }
+  .cpm__plan-perks { padding: 0 16px 16px 48px; }
+  .cpm__plan-perk { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #444; margin-bottom: 4px; }
+
+  .cpm__atc { width: 100%; background: var(--cpm-accent); color: #fff; border: none; border-radius: 12px; padding: 16px; font-size: 16px; font-weight: 700; cursor: pointer; margin-bottom: 12px; }
+  .cpm__atc:hover { opacity: 0.92; }
+
+  .cpm__pay { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 8px; }
+  .cpm__pay img, .cpm__pay svg { height: 22px; }
+  .cpm__trust-line { text-align: center; font-size: 12px; color: #777; margin-bottom: 24px; }
+
+  /* Accordions */
+  .cpm__acc { border-top: 1px solid #eee; }
+  .cpm__acc details { border-bottom: 1px solid #eee; }
+  .cpm__acc summary { display: flex; align-items: center; justify-content: space-between; padding: 16px 4px; cursor: pointer; font-weight: 600; font-size: 16px; color: #111; list-style: none; }
+  .cpm__acc summary::-webkit-details-marker { display: none; }
+  .cpm__acc summary::after { content: '+'; font-size: 22px; color: #999; font-weight: 400; }
+  .cpm__acc details[open] summary::after { content: '−'; }
+  .cpm__acc-body { padding: 0 4px 18px; font-size: 15px; line-height: 1.6; color: #444; }
+
+  @media (max-width: 989px) {
+    .cpm__wrap { grid-template-columns: 1fr; gap: 28px; }
+    .cpm__title { font-size: 30px; }
+    .cpm__benefits { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="cpm">
+  <div class="cpm__wrap">
+
+    {%- comment -%} ============ LEFT: GALLERY ============ {%- endcomment -%}
+    <div class="cpm__gallery">
+      <div class="cpm__main-img" id="cpmMain">
+        {%- if product.media.size > 0 -%}
+          {%- for media in product.media -%}
+            <div class="cpm__slide{% if forloop.first %} is-active{% endif %}" data-cpm-slide="{{ forloop.index0 }}">
+              {{ media | image_url: width: 900 | image_tag: loading: 'lazy', alt: product.title }}
+            </div>
+          {%- endfor -%}
+          {%- if product.media.size > 1 -%}
+            <button class="cpm__nav cpm__nav--prev" data-cpm-prev aria-label="Previous">‹</button>
+            <button class="cpm__nav cpm__nav--next" data-cpm-next aria-label="Next">›</button>
+          {%- endif -%}
+        {%- else -%}
+          <div class="cpm__slide is-active">{{ 'product-1' | placeholder_svg_tag }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- if product.media.size > 1 -%}
+        <div class="cpm__thumbs" id="cpmThumbs">
+          {%- for media in product.media -%}
+            <button class="cpm__thumb{% if forloop.first %} is-active{% endif %}" data-cpm-thumb="{{ forloop.index0 }}">
+              {{ media | image_url: width: 150 | image_tag: loading: 'lazy', alt: product.title }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ============ RIGHT: INFO ============ {%- endcomment -%}
+    <div class="cpm__info">
+
+      {%- assign rating = section.settings.review_rating | times: 1.0 -%}
+      {%- assign r_floor = rating | floor -%}
+      {%- assign r_ceil = rating | ceil -%}
+      {%- assign r_half = false -%}
+      {%- if r_ceil != r_floor -%}{%- assign r_half = true -%}{%- endif -%}
+      <div class="cpm__reviews">
+        <span class="cpm__stars">
+          {%- for i in (1..5) -%}
+            {%- if i <= r_floor -%}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#111"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+            {%- elsif i == r_ceil and r_half -%}
+              <svg width="16" height="16" viewBox="0 0 24 24"><defs><linearGradient id="cpmhalf"><stop offset="50%" stop-color="#111"/><stop offset="50%" stop-color="#ccc"/></linearGradient></defs><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" fill="url(#cpmhalf)"/></svg>
+            {%- else -%}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#ccc"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+            {%- endif -%}
+          {%- endfor -%}
+        </span>
+        <span class="cpm__reviews-count">({{ section.settings.review_count }} Reviews)</span>
+      </div>
+
+      <h1 class="cpm__title">{{ product.title }}</h1>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="cpm__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.tags != blank -%}
+        <div class="cpm__tags">
+          {%- assign tag_items = section.settings.tags | split: ',' -%}
+          {%- for t in tag_items -%}
+            <span class="cpm__tag">{{ t | strip }}</span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.badge_text != blank -%}
+        <a href="{{ section.settings.badge_link | default: '#' }}" class="cpm__badge">
+          <span class="cpm__badge-check">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+          <span class="cpm__badge-label">
+            <span>{{ section.settings.badge_text }}</span>
+            {%- if section.settings.badge_subtext != blank -%}<small>{{ section.settings.badge_subtext }}</small>{%- endif -%}
+          </span>
+          <span>›</span>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <p class="cpm__desc">{{ section.settings.description }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.benefits != blank -%}
+        <div class="cpm__benefits">
+          {%- assign benefit_items = section.settings.benefits | newline_to_br | split: '<br />' -%}
+          {%- for b in benefit_items -%}
+            {%- assign bt = b | strip -%}
+            {%- if bt != blank -%}
+              <div class="cpm__benefit">
+                <span class="cpm__benefit-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span>{{ bt }}</span>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- form 'product', product, id: 'cpmForm' -%}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+        <div class="cpm__buybox">
+          {%- assign current_variant = product.selected_or_first_available_variant -%}
+          {%- if current_variant.selling_plan_allocations.size > 0 -%}
+            {%- assign plan_alloc = current_variant.selling_plan_allocations.first -%}
+            <div class="cpm__plan is-active" data-cpm-plan="subscribe">
+              <label class="cpm__plan-head">
+                <input type="radio" name="selling_plan" value="{{ plan_alloc.selling_plan.id }}" style="display:none;" checked>
+                <span class="cpm__radio"></span>
+                <span>
+                  <span class="cpm__plan-name">Subscribe &amp; Save</span><br>
+                  <span class="cpm__plan-sub">{{ plan_alloc.selling_plan.name }}</span>
+                </span>
+                <span class="cpm__plan-price">
+                  <span class="now">{{ plan_alloc.price | money }}</span><br>
+                  {%- if plan_alloc.compare_at_price > plan_alloc.price -%}<span class="was">{{ plan_alloc.compare_at_price | money }}</span>{%- endif -%}
+                </span>
+              </label>
+              <div class="cpm__plan-perks">
+                <div class="cpm__plan-perk">✓ Lowest price</div>
+                <div class="cpm__plan-perk">✓ Cancel anytime</div>
+                <div class="cpm__plan-perk">✓ Earn points &amp; rewards</div>
+              </div>
+            </div>
+          {%- endif -%}
+
+          <div class="cpm__plan{% unless current_variant.selling_plan_allocations.size > 0 %} is-active{% endunless %}" data-cpm-plan="onetime">
+            <label class="cpm__plan-head">
+              <input type="radio" name="selling_plan" value="" style="display:none;"{% unless current_variant.selling_plan_allocations.size > 0 %} checked{% endunless %}>
+              <span class="cpm__radio"></span>
+              <span>
+                <span class="cpm__plan-name">Buy Once</span><br>
+                <span class="cpm__plan-sub">One-time purchase</span>
+              </span>
+              <span class="cpm__plan-price">
+                <span class="now">{{ current_variant.price | money }}</span><br>
+                {%- if current_variant.compare_at_price > current_variant.price -%}<span class="was">{{ current_variant.compare_at_price | money }}</span>{%- endif -%}
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" name="add" class="cpm__atc">Add to cart</button>
+      {%- endform -%}
+
+      <div class="cpm__pay">
+        <span style="font-size:12px;color:#999;">Guaranteed safe checkout</span>
+      </div>
+      <div class="cpm__pay">
+        {%- for type in shop.enabled_payment_types -%}
+          {{ type | payment_type_svg_tag: class: 'cpm__pay-icon' }}
+        {%- endfor -%}
+      </div>
+
+      <div class="cpm__acc">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'accordion' -%}
+            <details {{ block.shopify_attributes }}{% if block.settings.open %} open{% endif %}>
+              <summary>{{ block.settings.heading }}</summary>
+              <div class="cpm__acc-body">{{ block.settings.content }}</div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    var main = document.getElementById('cpmMain');
+    var thumbs = document.getElementById('cpmThumbs');
+    if (main) {
+      var slides = main.querySelectorAll('[data-cpm-slide]');
+      var thumbBtns = thumbs ? thumbs.querySelectorAll('[data-cpm-thumb]') : [];
+      var cur = 0;
+      function show(i){
+        if (i < 0) i = slides.length - 1;
+        if (i >= slides.length) i = 0;
+        slides[cur].classList.remove('is-active');
+        if (thumbBtns[cur]) thumbBtns[cur].classList.remove('is-active');
+        cur = i;
+        slides[cur].classList.add('is-active');
+        if (thumbBtns[cur]) thumbBtns[cur].classList.add('is-active');
+      }
+      thumbBtns.forEach(function(b){ b.addEventListener('click', function(){ show(parseInt(b.dataset.cpmThumb)); }); });
+      var prev = main.querySelector('[data-cpm-prev]');
+      var next = main.querySelector('[data-cpm-next]');
+      if (prev) prev.addEventListener('click', function(){ show(cur - 1); });
+      if (next) next.addEventListener('click', function(){ show(cur + 1); });
+    }
+    var plans = document.querySelectorAll('[data-cpm-plan]');
+    plans.forEach(function(p){
+      p.querySelector('.cpm__plan-head').addEventListener('click', function(){
+        plans.forEach(function(x){ x.classList.remove('is-active'); });
+        p.classList.add('is-active');
+        var radio = p.querySelector('input[type=radio]');
+        if (radio) radio.checked = true;
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Custom Product Main",
+  "tag": "section",
+  "class": "section-custom-product-main",
+  "settings": [
+    { "type": "header", "content": "Style" },
+    { "type": "color", "id": "accent_color", "label": "Accent / button color", "default": "#111111" },
+    { "type": "header", "content": "Reviews" },
+    { "type": "text", "id": "review_rating", "label": "Star rating (e.g. 4.5)", "default": "4.5" },
+    { "type": "text", "id": "review_count", "label": "Review count", "default": "105" },
+    { "type": "header", "content": "Info" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Achieve Peak Performance" },
+    { "type": "text", "id": "tags", "label": "Tags (comma separated)", "default": "90 Gummies, 1 Month Supply, Strawberry Flavour, Vegan, From £0.62 per day" },
+    { "type": "textarea", "id": "description", "label": "Short description", "default": "Fuel your physical performance; with 5000mg of lab-verified, sugar-free creatine in each serving, formulated to meet the demands of high-intensity exercise. No mixing required, just take 3 gummies daily." },
+    { "type": "textarea", "id": "benefits", "label": "Benefits (one per line)", "default": "Lab Verified by Eurofins\n5000mg Creatine\nSugar-Free\nIncrease Physical Performance\nSupports High-Intensity Exercise\nPower Up" },
+    { "type": "header", "content": "Green Badge" },
+    { "type": "text", "id": "badge_text", "label": "Badge text", "default": "Sustainability Claims" },
+    { "type": "text", "id": "badge_subtext", "label": "Badge subtext", "default": "PROVENANCE" },
+    { "type": "url", "id": "badge_link", "label": "Badge link" }
+  ],
+  "blocks": [
+    {
+      "type": "accordion",
+      "name": "Accordion row",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Key Benefits" },
+        { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Add your content here.</p>" },
+        { "type": "checkbox", "id": "open", "label": "Open by default", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Product Main",
+      "blocks": [
+        { "type": "accordion", "settings": { "heading": "Key Benefits" } },
+        { "type": "accordion", "settings": { "heading": "How To Take" } },
+        { "type": "accordion", "settings": { "heading": "Nutritional Information & Ingredients" } },
+        { "type": "accordion", "settings": { "heading": "Delivery & Returns" } },
+        { "type": "accordion", "settings": { "heading": "Scientific Evidence" } },
+        { "type": "accordion", "settings": { "heading": "Claims" } },
+        { "type": "accordion", "settings": { "heading": "Sustainability" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
