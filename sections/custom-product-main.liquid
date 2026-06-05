@@ -94,6 +94,17 @@
   .cpm__atc-cart { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
   .cpm__atc-cart svg { color: #111; }
 
+  /* ===== Hard overrides to beat Dawn colour scheme ===== */
+  .cpm .cpm__desc, .cpm .cpm__desc * { color: #333 !important; }
+  .cpm .cpm__benefit, .cpm .cpm__benefit span { color: #222 !important; }
+  .cpm .cpm__title, .cpm .cpm__subtitle { color: #111 !important; }
+  .cpm .cpm__tag { color: #444 !important; background: #fff !important; }
+  .cpm a.cpm__badge, .cpm a.cpm__badge .cpm__badge-label > span { color: #1f2d27 !important; background: #fff !important; }
+  .cpm a.cpm__badge .cpm__badge-label small { color: #8a9a90 !important; background: transparent !important; }
+  .cpm a.cpm__badge .cpm__badge-arrow { color: #4a4a4a !important; }
+  .cpm a.cpm__badge .cpm__badge-check { background: #1c7c45 !important; }
+  .cpm .cpm__benefit-check { background: #fff !important; }
+
   @media (max-width: 989px) {
     .cpm__wrap { grid-template-columns: 1fr; gap: 28px; padding: 16px; }
     .cpm__title { font-size: 34px; }
