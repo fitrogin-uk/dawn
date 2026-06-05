@@ -125,6 +125,74 @@
         "rewards_text": "Earn Reward Points with each purchase"
       }
     },
+    "video_carousel_auto_DYk7Jy": {
+      "type": "video-carousel-auto",
+      "blocks": {
+        "video_aiPw3j": {
+          "type": "video",
+          "settings": {
+            "video_url": ""
+          }
+        },
+        "video_hRrtTa": {
+          "type": "video",
+          "settings": {
+            "video_url": ""
+          }
+        },
+        "video_qxTt3q": {
+          "type": "video",
+          "settings": {
+            "video_url": ""
+          }
+        },
+        "video_nzt3Bc": {
+          "type": "video",
+          "settings": {
+            "video_url": ""
+          }
+        },
+        "video_6gaQ4T": {
+          "type": "video",
+          "settings": {
+            "video_url": ""
+          }
+        },
+        "video_9rppyD": {
+          "type": "video",
+          "settings": {
+            "video_url": ""
+          }
+        },
+        "video_WJEemT": {
+          "type": "video",
+          "settings": {
+            "video_url": ""
+          }
+        },
+        "video_K4GWVd": {
+          "type": "video",
+          "settings": {
+            "video_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "video_aiPw3j",
+        "video_hRrtTa",
+        "video_qxTt3q",
+        "video_nzt3Bc",
+        "video_6gaQ4T",
+        "video_9rppyD",
+        "video_WJEemT",
+        "video_K4GWVd"
+      ],
+      "name": "Video Carousel (Auto)",
+      "settings": {
+        "title": "See What People Are Saying",
+        "bg_color": "#ffffff"
+      }
+    },
     "image-with-text": {
       "type": "image-with-text",
       "blocks": {
@@ -222,81 +290,13 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
-    },
-    "video_carousel_auto_DYk7Jy": {
-      "type": "video-carousel-auto",
-      "blocks": {
-        "video_aiPw3j": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_hRrtTa": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_qxTt3q": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_nzt3Bc": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_6gaQ4T": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_9rppyD": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_WJEemT": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_K4GWVd": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "video_aiPw3j",
-        "video_hRrtTa",
-        "video_qxTt3q",
-        "video_nzt3Bc",
-        "video_6gaQ4T",
-        "video_9rppyD",
-        "video_WJEemT",
-        "video_K4GWVd"
-      ],
-      "name": "Video Carousel (Auto)",
-      "settings": {
-        "title": "See What People Are Saying",
-        "bg_color": "#ffffff"
-      }
     }
   },
   "order": [
     "main",
     "custom_product_main_Uy7VKC",
-    "image-with-text",
     "video_carousel_auto_DYk7Jy",
+    "image-with-text",
     "multicolumn",
     "related-products"
   ]
