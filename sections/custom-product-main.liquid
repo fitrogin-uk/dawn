@@ -468,6 +468,13 @@
     var wrapEl = document.querySelector('.cpm .cpm__wrap');
     if (galEl && wrapEl) {
       var pinTop = 20, pinTicking = false;
+      function capturePinTop(){
+        // Pin the gallery exactly where it starts, so it stays put from the first scroll
+        galEl.style.transform = '';
+        var atTop = wrapEl.getBoundingClientRect().top + window.pageYOffset; // doc offset of wrap
+        var firstSeenTop = wrapEl.getBoundingClientRect().top; // viewport pos right now
+        pinTop = Math.max(20, firstSeenTop);
+      }
       function pinGallery(){
         pinTicking = false;
         if (window.innerWidth < 990) { galEl.style.transform = ''; return; }
@@ -483,7 +490,9 @@
       window.addEventListener('scroll', function(){
         if (!pinTicking) { pinTicking = true; window.requestAnimationFrame(pinGallery); }
       }, { passive: true });
-      window.addEventListener('resize', pinGallery);
+      window.addEventListener('resize', function(){ capturePinTop(); pinGallery(); });
+      // Capture starting position only when page is at the top
+      if (window.pageYOffset < 5) { capturePinTop(); }
       pinGallery();
     }
   })();
