@@ -485,7 +485,8 @@
         var shift = pinTop - wrapRect.top;
         if (shift < 0) shift = 0;
         if (shift > maxShift) shift = maxShift;
-        galEl.style.transform = 'translateY(' + shift + 'px)';
+        shift = Math.round(shift);
+        galEl.style.transform = 'translate3d(0,' + shift + 'px,0)';
       }
       window.addEventListener('scroll', function(){
         if (!pinTicking) { pinTicking = true; window.requestAnimationFrame(pinGallery); }
