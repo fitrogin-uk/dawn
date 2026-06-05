@@ -39,6 +39,92 @@
         "padding_bottom": 12
       }
     },
+    "custom_product_main_Uy7VKC": {
+      "type": "custom-product-main",
+      "blocks": {
+        "accordion_mwyCNd": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Key Benefits",
+            "content": "<p>Add your content here.</p>",
+            "open": false
+          }
+        },
+        "accordion_Dg6Hyn": {
+          "type": "accordion",
+          "settings": {
+            "heading": "How To Take",
+            "content": "<p>Add your content here.</p>",
+            "open": false
+          }
+        },
+        "accordion_dBTrLm": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Nutritional Information & Ingredients",
+            "content": "<p>Add your content here.</p>",
+            "open": false
+          }
+        },
+        "accordion_hMNC7x": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Delivery & Returns",
+            "content": "<p>Add your content here.</p>",
+            "open": false
+          }
+        },
+        "accordion_L98CRW": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Scientific Evidence",
+            "content": "<p>Add your content here.</p>",
+            "open": false
+          }
+        },
+        "accordion_UqAW96": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Claims",
+            "content": "<p>Add your content here.</p>",
+            "open": false
+          }
+        },
+        "accordion_jaABYq": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Sustainability",
+            "content": "<p>Add your content here.</p>",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "accordion_mwyCNd",
+        "accordion_Dg6Hyn",
+        "accordion_dBTrLm",
+        "accordion_hMNC7x",
+        "accordion_L98CRW",
+        "accordion_UqAW96",
+        "accordion_jaABYq"
+      ],
+      "name": "Custom Product Main",
+      "settings": {
+        "accent_color": "#111111",
+        "review_rating": "4.5",
+        "review_count": "105",
+        "subtitle": "Achieve Peak Performance",
+        "tags": "90 Gummies, 1 Month Supply, Strawberry Flavour, Vegan, From £0.62 per day",
+        "description": "Fuel your physical performance; with 5000mg of lab-verified, sugar-free creatine in each serving, formulated to meet the demands of high-intensity exercise. No mixing required, just take 3 gummies daily.",
+        "benefits": "Lab Verified by Eurofins\n5000mg Creatine\nSugar-Free\nIncrease Physical Performance\nSupports High-Intensity Exercise\nPower Up",
+        "badge_text": "Sustainability Claims",
+        "badge_subtext": "PROVENANCE",
+        "badge_link": "",
+        "per_day_text": "£0.75 per day",
+        "ship_text": "Spend £30 to unlock free shipping",
+        "rewards_text": "Earn Reward Points with each purchase"
+      }
+    },
     "image-with-text": {
       "type": "image-with-text",
       "blocks": {
@@ -137,87 +223,72 @@
         "padding_bottom": 28
       }
     },
-    "custom_product_main_Uy7VKC": {
-      "type": "custom-product-main",
+    "video_carousel_auto_DYk7Jy": {
+      "type": "video-carousel-auto",
       "blocks": {
-        "accordion_mwyCNd": {
-          "type": "accordion",
+        "video_aiPw3j": {
+          "type": "video",
           "settings": {
-            "heading": "Key Benefits",
-            "content": "<p>Add your content here.</p>",
-            "open": false
+            "video_url": ""
           }
         },
-        "accordion_Dg6Hyn": {
-          "type": "accordion",
+        "video_hRrtTa": {
+          "type": "video",
           "settings": {
-            "heading": "How To Take",
-            "content": "<p>Add your content here.</p>",
-            "open": false
+            "video_url": ""
           }
         },
-        "accordion_dBTrLm": {
-          "type": "accordion",
+        "video_qxTt3q": {
+          "type": "video",
           "settings": {
-            "heading": "Nutritional Information & Ingredients",
-            "content": "<p>Add your content here.</p>",
-            "open": false
+            "video_url": ""
           }
         },
-        "accordion_hMNC7x": {
-          "type": "accordion",
+        "video_nzt3Bc": {
+          "type": "video",
           "settings": {
-            "heading": "Delivery & Returns",
-            "content": "<p>Add your content here.</p>",
-            "open": false
+            "video_url": ""
           }
         },
-        "accordion_L98CRW": {
-          "type": "accordion",
+        "video_6gaQ4T": {
+          "type": "video",
           "settings": {
-            "heading": "Scientific Evidence",
-            "content": "<p>Add your content here.</p>",
-            "open": false
+            "video_url": ""
           }
         },
-        "accordion_UqAW96": {
-          "type": "accordion",
+        "video_9rppyD": {
+          "type": "video",
           "settings": {
-            "heading": "Claims",
-            "content": "<p>Add your content here.</p>",
-            "open": false
+            "video_url": ""
           }
         },
-        "accordion_jaABYq": {
-          "type": "accordion",
+        "video_WJEemT": {
+          "type": "video",
           "settings": {
-            "heading": "Sustainability",
-            "content": "<p>Add your content here.</p>",
-            "open": false
+            "video_url": ""
+          }
+        },
+        "video_K4GWVd": {
+          "type": "video",
+          "settings": {
+            "video_url": ""
           }
         }
       },
       "block_order": [
-        "accordion_mwyCNd",
-        "accordion_Dg6Hyn",
-        "accordion_dBTrLm",
-        "accordion_hMNC7x",
-        "accordion_L98CRW",
-        "accordion_UqAW96",
-        "accordion_jaABYq"
+        "video_aiPw3j",
+        "video_hRrtTa",
+        "video_qxTt3q",
+        "video_nzt3Bc",
+        "video_6gaQ4T",
+        "video_9rppyD",
+        "video_WJEemT",
+        "video_K4GWVd"
       ],
-      "name": "Custom Product Main",
+      "name": "Video Carousel (Auto)",
       "settings": {
-        "accent_color": "#111111",
-        "review_rating": "4.5",
-        "review_count": "105",
-        "subtitle": "Achieve Peak Performance",
-        "tags": "90 Gummies, 1 Month Supply, Strawberry Flavour, Vegan, From £0.62 per day",
-        "description": "Fuel your physical performance; with 5000mg of lab-verified, sugar-free creatine in each serving, formulated to meet the demands of high-intensity exercise. No mixing required, just take 3 gummies daily.",
-        "benefits": "Lab Verified by Eurofins\n5000mg Creatine\nSugar-Free\nIncrease Physical Performance\nSupports High-Intensity Exercise\nPower Up",
-        "badge_text": "Sustainability Claims",
-        "badge_subtext": "PROVENANCE",
-        "badge_link": ""
+        "title": "See What People Are Saying",
+        "bg_color": "#ffffff"
       }
     }
   },
@@ -225,6 +296,7 @@
     "main",
     "custom_product_main_Uy7VKC",
     "image-with-text",
+    "video_carousel_auto_DYk7Jy",
     "multicolumn",
     "related-products"
   ]
