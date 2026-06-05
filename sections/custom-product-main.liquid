@@ -463,37 +463,53 @@
       }
     }
 
-    // JS sticky pin (works even if a parent has overflow:hidden which breaks CSS sticky)
+    // Jitter-free sticky pin using position:fixed (works even if a parent overflow breaks CSS sticky)
     var galEl = document.querySelector('.cpm .cpm__gallery');
     var wrapEl = document.querySelector('.cpm .cpm__wrap');
     if (galEl && wrapEl) {
-      var pinTop = 20, pinTicking = false;
-      function capturePinTop(){
-        // Pin the gallery exactly where it starts, so it stays put from the first scroll
-        galEl.style.transform = '';
-        var atTop = wrapEl.getBoundingClientRect().top + window.pageYOffset; // doc offset of wrap
-        var firstSeenTop = wrapEl.getBoundingClientRect().top; // viewport pos right now
-        pinTop = Math.max(20, firstSeenTop);
+      var pinTop = 20, pinTicking = false, colLeft = 0, colWidth = 0, state = '';
+      wrapEl.style.position = 'relative';
+      function resetGallery(){
+        galEl.style.position = ''; galEl.style.top = ''; galEl.style.left = '';
+        galEl.style.width = ''; galEl.style.transform = ''; state = '';
+      }
+      function capture(){
+        resetGallery();
+        var r = galEl.getBoundingClientRect();
+        colLeft = r.left; colWidth = r.width;
+        pinTop = Math.max(20, wrapEl.getBoundingClientRect().top);
       }
       function pinGallery(){
         pinTicking = false;
-        if (window.innerWidth < 990) { galEl.style.transform = ''; return; }
+        if (window.innerWidth < 990) { if (state) resetGallery(); return; }
         var wrapRect = wrapEl.getBoundingClientRect();
         var galH = galEl.offsetHeight;
-        var maxShift = wrapRect.height - galH;
-        if (maxShift < 0) maxShift = 0;
-        var shift = pinTop - wrapRect.top;
-        if (shift < 0) shift = 0;
-        if (shift > maxShift) shift = maxShift;
-        shift = Math.round(shift);
-        galEl.style.transform = 'translate3d(0,' + shift + 'px,0)';
+        if (wrapRect.top >= pinTop) {
+          if (state !== 'static') { resetGallery(); state = 'static'; }
+        } else if (wrapRect.bottom - galH <= pinTop) {
+          // reached the bottom of the section -> park at bottom, scroll away with it
+          if (state !== 'bottom') {
+            galEl.style.position = 'absolute';
+            galEl.style.top = (wrapRect.height - galH) + 'px';
+            galEl.style.left = '0'; galEl.style.width = colWidth + 'px';
+            galEl.style.transform = ''; state = 'bottom';
+          }
+        } else {
+          // actively pinned -> fixed (browser holds it, no jitter)
+          if (state !== 'fixed') {
+            galEl.style.position = 'fixed';
+            galEl.style.top = pinTop + 'px';
+            galEl.style.left = colLeft + 'px';
+            galEl.style.width = colWidth + 'px';
+            galEl.style.transform = ''; state = 'fixed';
+          }
+        }
       }
       window.addEventListener('scroll', function(){
         if (!pinTicking) { pinTicking = true; window.requestAnimationFrame(pinGallery); }
       }, { passive: true });
-      window.addEventListener('resize', function(){ capturePinTop(); pinGallery(); });
-      // Capture starting position only when page is at the top
-      if (window.pageYOffset < 5) { capturePinTop(); }
+      window.addEventListener('resize', function(){ capture(); pinGallery(); });
+      if (window.pageYOffset < 5) { capture(); }
       pinGallery();
     }
   })();
