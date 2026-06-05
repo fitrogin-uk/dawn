@@ -22,6 +22,7 @@
       "block_order": [
         "custom_liquid_eGqMY7"
       ],
+      "disabled": true,
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "",
@@ -222,9 +223,9 @@
   },
   "order": [
     "main",
+    "custom_product_main_Uy7VKC",
     "image-with-text",
     "multicolumn",
-    "related-products",
-    "custom_product_main_Uy7VKC"
+    "related-products"
   ]
 }
