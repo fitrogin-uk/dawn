@@ -3602,7 +3602,7 @@ details-disclosure > details {
 /* 1. DEFINE MEDIUM WEIGHT */
 @font-face {
   font-family: 'PPAngaia';
-  src: url("{{ 'fonnts.com-PPPangaia-Medium-BF654c530cc98d5.OTF' | asset_url }}") format('opentype');
+  src: url("{{ 'fonnts.com-PPPangaia-Medium-BF654c530cc98d5.OTF' | file_url }}") format('opentype');
   font-weight: 400;
   font-style: normal;
 }
@@ -3610,8 +3610,9 @@ details-disclosure > details {
 /* 2. DEFINE BOLD WEIGHT */
 @font-face {
   font-family: 'PPAngaia';
-  src: url("{{ 'fonnts.com-PPPangaia-Bold-BF654c530cc27f8.OTF' | asset_url }}") format('opentype');
+  src: url("{{ 'fonnts.com-PPPangaia-Bold-BF654c530cc27f8.OTF' | file_url }}") format('opentype');
   font-weight: 700;
   font-style: normal;
 }
+
 
