@@ -1,0 +1,174 @@
+{%- comment -%} Auto-play video carousel — plays each video 3s then advances {%- endcomment -%}
+
+<style>
+  .vc { overflow: hidden; padding: 32px 0; background: {{ section.settings.bg_color }}; }
+  .vc__title { text-align: center; font-size: 24px; font-weight: 700; color: #111; margin: 0 0 20px; padding: 0 16px; }
+  .vc__track-wrap { overflow: hidden; position: relative; }
+  .vc__track { display: flex; gap: 12px; transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); will-change: transform; padding: 0 16px; box-sizing: border-box; }
+  .vc__item { flex: 0 0 calc(25% - 9px); position: relative; border-radius: 14px; overflow: hidden; cursor: pointer; background: #000; aspect-ratio: 9/16; }
+  .vc__item video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .vc__item .vc__play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.25); transition: opacity 0.3s; }
+  .vc__item.is-playing .vc__play { opacity: 0; pointer-events: none; }
+  .vc__play-btn { width: 48px; height: 48px; background: rgba(255,255,255,0.85); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .vc__play-btn svg { margin-left: 3px; }
+  .vc__progress { position: absolute; bottom: 0; left: 0; height: 3px; background: #fff; width: 0%; transition: width linear; border-radius: 0 2px 2px 0; }
+  @media (max-width: 767px) {
+    .vc__item { flex: 0 0 calc(50% - 6px); }
+    .vc__track { gap: 8px; padding: 0 12px; }
+  }
+</style>
+
+<div class="vc" id="vc-{{ section.id }}">
+  {%- if section.settings.title != blank -%}
+    <h2 class="vc__title">{{ section.settings.title }}</h2>
+  {%- endif -%}
+  <div class="vc__track-wrap">
+    <div class="vc__track" id="vct-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'video' and block.settings.video_url != blank -%}
+          <div class="vc__item" data-vc-item {{ block.shopify_attributes }}>
+            <video
+              src="{{ block.settings.video_url }}"
+              playsinline
+              muted
+              loop
+              preload="metadata"
+              poster="{% if block.settings.poster != blank %}{{ block.settings.poster | image_url: width: 400 }}{% endif %}"
+            ></video>
+            <div class="vc__play">
+              <div class="vc__play-btn">
+                <svg width="16" height="18" viewBox="0 0 16 18" fill="#111"><path d="M1 1l14 8-14 8V1z"/></svg>
+              </div>
+            </div>
+            <div class="vc__progress" data-vc-progress></div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var section = document.getElementById('vc-{{ section.id }}');
+  var track = document.getElementById('vct-{{ section.id }}');
+  if (!section || !track) return;
+
+  var items = Array.from(track.querySelectorAll('[data-vc-item]'));
+  if (!items.length) return;
+
+  var isMobile = window.innerWidth <= 767;
+  var perPage = isMobile ? 2 : 4;
+  var cur = 0;           // current item index
+  var pageStart = 0;     // first visible item index
+  var timer = null;
+  var progTimer = null;
+  var DURATION = 3000;
+
+  function visibleCount() { return window.innerWidth <= 767 ? 2 : 4; }
+
+  function stopAll() {
+    clearTimeout(timer);
+    clearTimeout(progTimer);
+    items.forEach(function(item) {
+      var v = item.querySelector('video');
+      if (v) { v.pause(); v.currentTime = 0; }
+      item.classList.remove('is-playing');
+      var p = item.querySelector('[data-vc-progress]');
+      if (p) { p.style.transition = 'none'; p.style.width = '0%'; }
+    });
+  }
+
+  function slideTo(startIdx) {
+    pageStart = startIdx;
+    var vp = visibleCount();
+    var itemWidth = items[0].offsetWidth + 12; // gap
+    var offset = startIdx * itemWidth;
+    track.style.transform = 'translateX(-' + offset + 'px)';
+  }
+
+  function playItem(idx) {
+    stopAll();
+    cur = idx;
+
+    var vp = visibleCount();
+    // If cur is outside the current page, slide
+    if (cur < pageStart || cur >= pageStart + vp) {
+      // Start a new page at cur
+      var newPage = Math.floor(cur / vp) * vp;
+      if (newPage + vp > items.length) newPage = Math.max(0, items.length - vp);
+      slideTo(newPage);
+    }
+
+    var item = items[cur];
+    var v = item.querySelector('video');
+    var p = item.querySelector('[data-vc-progress]');
+
+    if (v) {
+      v.currentTime = 0;
+      v.play().catch(function(){});
+      item.classList.add('is-playing');
+    }
+
+    // Animate progress bar
+    if (p) {
+      p.style.transition = 'none';
+      p.style.width = '0%';
+      // Force reflow
+      p.offsetWidth;
+      p.style.transition = 'width ' + DURATION + 'ms linear';
+      p.style.width = '100%';
+    }
+
+    timer = setTimeout(function() {
+      var next = cur + 1;
+      if (next >= items.length) next = 0;
+      playItem(next);
+    }, DURATION);
+  }
+
+  // Click to jump to item
+  items.forEach(function(item, i) {
+    item.addEventListener('click', function() { playItem(i); });
+  });
+
+  // Start
+  setTimeout(function() { playItem(0); }, 600);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Video Carousel (Auto)",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Section title", "default": "See What People Are Saying" },
+    { "type": "color", "id": "bg_color", "label": "Background color", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        { "type": "text", "id": "video_url", "label": "Video URL (MP4 or hosted URL)" },
+        { "type": "image_picker", "id": "poster", "label": "Poster / thumbnail image" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Carousel (Auto)",
+      "blocks": [
+        { "type": "video" },
+        { "type": "video" },
+        { "type": "video" },
+        { "type": "video" },
+        { "type": "video" },
+        { "type": "video" },
+        { "type": "video" },
+        { "type": "video" }
+      ]
+    }
+  ]
+}
+{% endschema %}
