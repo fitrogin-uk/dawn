@@ -31,7 +31,7 @@
   .cpm__info a { text-decoration: none; }
   .cpm__reviews { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
   .cpm__stars { display: inline-flex; gap: 2px; }
-  .cpm__reviews-count { font-size: 14px; color: #111; font-weight: 500; }
+  .cpm__reviews-count { font-size: 16px; color: #111; font-weight: 500; }
   .cpm__title { font-size: 50px; font-weight: 800; color: #111; margin: 0 0 6px; letter-spacing: -0.5px; line-height: 1.05; }
   .cpm__subtitle { font-size: 22px; font-weight: 700; color: #111; margin: 0 0 18px; }
 
@@ -96,9 +96,10 @@
 
   /* ===== Hard overrides to beat Dawn colour scheme ===== */
   .cpm .cpm__desc, .cpm .cpm__desc * { color: #333 !important; }
+  .cpm .cpm__reviews-count { color: #111 !important; }
   .cpm .cpm__benefit, .cpm .cpm__benefit span { color: #222 !important; }
   .cpm .cpm__title, .cpm .cpm__subtitle { color: #111 !important; }
-  .cpm .cpm__tag { color: #444 !important; background: #fff !important; }
+  .cpm .cpm__tag { color: #555 !important; background: #fff !important; font-weight: 400 !important; font-size: 17px !important; border-radius: 8px !important; border: 1px solid #999 !important; padding: 11px 18px !important; }
   .cpm a.cpm__badge, .cpm a.cpm__badge .cpm__badge-label > span { color: #1f2d27 !important; background: #fff !important; }
   .cpm a.cpm__badge .cpm__badge-label small { color: #8a9a90 !important; background: transparent !important; }
   .cpm a.cpm__badge .cpm__badge-arrow { color: #4a4a4a !important; }
@@ -170,9 +171,9 @@
             {%- if i <= r_floor -%}
               <svg width="20" height="20" viewBox="0 0 24 24" fill="#111"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
             {%- elsif i == r_ceil and r_half -%}
-              <svg width="20" height="20" viewBox="0 0 24 24"><defs><linearGradient id="cpmhalf"><stop offset="50%" stop-color="#111"/><stop offset="50%" stop-color="#ccc"/></linearGradient></defs><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" fill="url(#cpmhalf)"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24"><defs><linearGradient id="cpmhalf"><stop offset="50%" stop-color="#111"/><stop offset="50%" stop-color="#fff"/></linearGradient></defs><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" fill="url(#cpmhalf)" stroke="#111" stroke-width="1.2" stroke-linejoin="round"/></svg>
             {%- else -%}
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#ccc"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" stroke="#111" stroke-width="1.2" stroke-linejoin="round"/></svg>
             {%- endif -%}
           {%- endfor -%}
         </span>
