@@ -94,6 +94,18 @@
   .cpm__acc details[open] summary::after { transform: rotate(-135deg); }
   .cpm__acc-body { padding: 0 4px 18px; font-size: 15px; line-height: 1.6; color: #444; }
 
+  /* Video carousel (right column) */
+  .cpm__vc-title { text-align: center; font-size: 22px; font-weight: 700; color: #111; margin: 28px 0 16px; }
+  .cpm__vc { overflow: hidden; position: relative; margin-bottom: 8px; }
+  .cpm__vc-track { display: flex; gap: 10px; transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
+  .cpm__vc-item { flex: 0 0 calc(22% - 4px); position: relative; border-radius: 12px; overflow: hidden; cursor: pointer; background: #000; aspect-ratio: 9/16; }
+  .cpm__vc-item video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cpm__vc-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); transition: opacity 0.3s; }
+  .cpm__vc-item.is-playing .cpm__vc-play { opacity: 0; pointer-events: none; }
+  .cpm__vc-play-btn { width: 40px; height: 40px; background: rgba(255,255,255,0.85); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .cpm__vc-play-btn svg { margin-left: 2px; }
+  .cpm__vc-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: #fff; width: 0%; border-radius: 0 2px 2px 0; }
+
   .cpm__atc { position: relative; width: 100%; background: var(--cpm-accent); color: #fff; border: none; border-radius: 999px; padding: 14px 18px; font-size: 17px; font-weight: 700; cursor: pointer; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; }
   .cpm__atc:hover { opacity: 0.92; }
   .cpm__atc-cart { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
@@ -127,6 +139,8 @@
     .cpm__acc summary { font-size: 17px; padding: 14px 4px; }
     .cpm__acc { border-top: none; }
     .cpm__acc details { border-bottom: none; }
+    .cpm__vc-item { flex: 0 0 calc(44% - 6px); }
+    .cpm__vc-title { font-size: 18px; }
   }
 </style>
 
@@ -344,6 +358,29 @@
         {%- endfor -%}
       </div>
 
+      {%- comment -%} ============ VIDEO CAROUSEL (right column) ============ {%- endcomment -%}
+      {%- assign has_video = false -%}
+      {%- for block in section.blocks -%}{%- if block.type == 'video' -%}{%- assign has_video = true -%}{%- endif -%}{%- endfor -%}
+      {%- if has_video -%}
+        {%- if section.settings.video_title != blank -%}
+          <h3 class="cpm__vc-title">{{ section.settings.video_title }}</h3>
+        {%- endif -%}
+        <div class="cpm__vc" id="cpmVC-{{ section.id }}">
+          <div class="cpm__vc-track" id="cpmVCT-{{ section.id }}">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'video' and block.settings.video_url != blank -%}
+                <div class="cpm__vc-item" data-cpm-vc-item {{ block.shopify_attributes }}>
+                  <video src="{{ block.settings.video_url }}" playsinline muted loop preload="metadata"
+                    poster="{% if block.settings.poster != blank %}{{ block.settings.poster | image_url: width: 400 }}{% endif %}"></video>
+                  <div class="cpm__vc-play"><div class="cpm__vc-play-btn"><svg width="14" height="16" viewBox="0 0 16 18" fill="#111"><path d="M1 1l14 8-14 8V1z"/></svg></div></div>
+                  <div class="cpm__vc-progress" data-cpm-vc-progress></div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
     </div>
   </div>
 </div>
@@ -383,6 +420,50 @@
         if (radio) radio.checked = true;
       });
     });
+
+    // Video carousel autoplay (3s each, slides to next batch)
+    var vc = document.getElementById('cpmVC-{{ section.id }}');
+    var vct = document.getElementById('cpmVCT-{{ section.id }}');
+    if (vc && vct) {
+      var vItems = Array.prototype.slice.call(vct.querySelectorAll('[data-cpm-vc-item]'));
+      if (vItems.length) {
+        var vCur = 0, vTimer = null, V_DUR = 3000, vPageStart = 0;
+        function vVisible(){ return window.innerWidth <= 989 ? 2 : 4; }
+        function vStopAll(){
+          clearTimeout(vTimer);
+          vItems.forEach(function(it){
+            var vid = it.querySelector('video');
+            if (vid){ vid.pause(); vid.currentTime = 0; }
+            it.classList.remove('is-playing');
+            var pr = it.querySelector('[data-cpm-vc-progress]');
+            if (pr){ pr.style.transition='none'; pr.style.width='0%'; }
+          });
+        }
+        function vSlide(start){
+          vPageStart = start;
+          var w = vItems[0].offsetWidth + 10;
+          vct.style.transform = 'translateX(-' + (start * w) + 'px)';
+        }
+        function vPlay(idx){
+          vStopAll();
+          vCur = idx;
+          var vp = vVisible();
+          if (vCur < vPageStart || vCur >= vPageStart + vp){
+            var np = Math.floor(vCur / vp) * vp;
+            if (np + vp > vItems.length) np = Math.max(0, vItems.length - vp);
+            vSlide(np);
+          }
+          var it = vItems[vCur];
+          var vid = it.querySelector('video');
+          var pr = it.querySelector('[data-cpm-vc-progress]');
+          if (vid){ vid.currentTime = 0; vid.play().catch(function(){}); it.classList.add('is-playing'); }
+          if (pr){ pr.style.transition='none'; pr.style.width='0%'; pr.offsetWidth; pr.style.transition='width '+V_DUR+'ms linear'; pr.style.width='100%'; }
+          vTimer = setTimeout(function(){ var n = vCur + 1; if (n >= vItems.length) n = 0; vPlay(n); }, V_DUR);
+        }
+        vItems.forEach(function(it, i){ it.addEventListener('click', function(){ vPlay(i); }); });
+        setTimeout(function(){ vPlay(0); }, 500);
+      }
+    }
   })();
 </script>
 
@@ -409,7 +490,9 @@
     { "type": "header", "content": "Buy Box / Trust" },
     { "type": "text", "id": "per_day_text", "label": "Per-day price text (Buy Once)", "default": "£0.75 per day" },
     { "type": "text", "id": "ship_text", "label": "Free shipping line", "default": "Spend £30 to unlock free shipping" },
-    { "type": "text", "id": "rewards_text", "label": "Rewards bar text", "default": "Earn Reward Points with each purchase" }
+    { "type": "text", "id": "rewards_text", "label": "Rewards bar text", "default": "Earn Reward Points with each purchase" },
+    { "type": "header", "content": "Video Carousel" },
+    { "type": "text", "id": "video_title", "label": "Video section title", "default": "See What People Are Saying" }
   ],
   "blocks": [
     {
@@ -419,6 +502,14 @@
         { "type": "text", "id": "heading", "label": "Heading", "default": "Key Benefits" },
         { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Add your content here.</p>" },
         { "type": "checkbox", "id": "open", "label": "Open by default", "default": false }
+      ]
+    },
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        { "type": "text", "id": "video_url", "label": "Video URL (MP4)" },
+        { "type": "image_picker", "id": "poster", "label": "Poster / thumbnail image" }
       ]
     }
   ],
@@ -432,7 +523,13 @@
         { "type": "accordion", "settings": { "heading": "Delivery & Returns" } },
         { "type": "accordion", "settings": { "heading": "Scientific Evidence" } },
         { "type": "accordion", "settings": { "heading": "Claims" } },
-        { "type": "accordion", "settings": { "heading": "Sustainability" } }
+        { "type": "accordion", "settings": { "heading": "Sustainability" } },
+        { "type": "video", "settings": { "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" } },
+        { "type": "video", "settings": { "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" } },
+        { "type": "video", "settings": { "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" } },
+        { "type": "video", "settings": { "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" } },
+        { "type": "video", "settings": { "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" } },
+        { "type": "video", "settings": { "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" } }
       ]
     }
   ]
