@@ -15,7 +15,7 @@
   /* ---------- LEFT: Gallery ---------- */
   .cpm__gallery { position: relative; }
   @media (min-width: 990px) {
-    .cpm__gallery { position: sticky; top: 20px; align-self: start; }
+    .cpm__gallery { position: relative; align-self: start; will-change: transform; }
   }
   .cpm__main-img { position: relative; border-radius: 16px; overflow: hidden; background: #f6f6f6; display: flex; align-items: center; justify-content: center; }
   .cpm__main-img img { width: 100%; height: auto; max-height: calc(100vh - 60px); object-fit: contain; display: block; }
@@ -461,6 +461,30 @@
         vItems.forEach(function(it, i){ it.addEventListener('click', function(){ vPlay(i); }); });
         setTimeout(function(){ vPlay(0); }, 500);
       }
+    }
+
+    // JS sticky pin (works even if a parent has overflow:hidden which breaks CSS sticky)
+    var galEl = document.querySelector('.cpm .cpm__gallery');
+    var wrapEl = document.querySelector('.cpm .cpm__wrap');
+    if (galEl && wrapEl) {
+      var pinTop = 20, pinTicking = false;
+      function pinGallery(){
+        pinTicking = false;
+        if (window.innerWidth < 990) { galEl.style.transform = ''; return; }
+        var wrapRect = wrapEl.getBoundingClientRect();
+        var galH = galEl.offsetHeight;
+        var maxShift = wrapRect.height - galH;
+        if (maxShift < 0) maxShift = 0;
+        var shift = pinTop - wrapRect.top;
+        if (shift < 0) shift = 0;
+        if (shift > maxShift) shift = maxShift;
+        galEl.style.transform = 'translateY(' + shift + 'px)';
+      }
+      window.addEventListener('scroll', function(){
+        if (!pinTicking) { pinTicking = true; window.requestAnimationFrame(pinGallery); }
+      }, { passive: true });
+      window.addEventListener('resize', pinGallery);
+      pinGallery();
     }
   })();
 </script>
