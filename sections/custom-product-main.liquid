@@ -461,6 +461,27 @@
         setTimeout(function(){ vPlay(0); }, 500);
       }
     }
+
+    // Sticky gallery + video lock: bottle pins through accordions, then moves up together with videos
+    var galleryEl = document.querySelector('.cpm .cpm__gallery');
+    var vcEl = document.getElementById('cpmVC-{{ section.id }}');
+    if (galleryEl && vcEl) {
+      var ticking = false;
+      function syncGallery(){
+        ticking = false;
+        if (window.innerWidth < 990) { galleryEl.style.top = ''; return; }
+        var galH = galleryEl.offsetHeight;
+        var vcTop = vcEl.getBoundingClientRect().top;
+        // Keep gallery bottom glued to videos top once they meet; otherwise normal sticky at top:0
+        var desiredTop = Math.min(0, vcTop - galH);
+        galleryEl.style.top = desiredTop + 'px';
+      }
+      window.addEventListener('scroll', function(){
+        if (!ticking) { ticking = true; window.requestAnimationFrame(syncGallery); }
+      }, { passive: true });
+      window.addEventListener('resize', syncGallery);
+      syncGallery();
+    }
   })();
 </script>
 
