@@ -36,27 +36,9 @@
       "default": 80
     }
   ],
-  "blocks": [
-    {
-      "type": "logo",
-      "name": "Logo",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Logo Image"
-        }
-      ]
-    }
-  ],
   "presets": [
     {
-      "name": "Marquee Banner",
-      "blocks": [
-        { "type": "logo" },
-        { "type": "logo" },
-        { "type": "logo" }
-      ]
+      "name": "Marquee Banner"
     }
   ]
 }
@@ -64,34 +46,92 @@
 
 <div class="inline-marquee-container" style="background-color: {{ section.settings.bg_color }};">
   <div class="marquee-sub-wrapper">
-    <!-- Inline Override styling directly on the text characters -->
     <span class="marquee-label"><strong style="color: #666666 !important;">As seen in</strong></span>
-    
-    <!-- Moving Ticker Window with Fading Effect -->
+
     <div class="marquee-window fading-mask">
       <div class="marquee-content animate-left" style="animation-duration: {{ section.settings.speed }}s;">
+
         {% for i in (1..4) %}
-          <div class="marquee-group">
-            {% for block in section.blocks %}
-              {% if block.settings.image != blank %}
-                <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.image.alt }}" loading="lazy" style="--desktop-height: {{ section.settings.logo_height }}px;">
-              {% else %}
-                <span class="placeholder-text">Logo</span>
-              {% endif %}
-            {% endfor %}
-          </div>
+        <div class="marquee-group" style="--logo-h: {{ section.settings.logo_height }}px;">
+
+          <!-- The Independent -->
+          <svg class="marquee-logo" viewBox="0 0 220 40" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="20" r="10" fill="#000"/>
+            <text x="28" y="26" font-family="Georgia, serif" font-size="17" font-weight="700" fill="#000">The Independent</text>
+          </svg>
+
+          <!-- Metro -->
+          <svg class="marquee-logo" viewBox="0 0 130 40" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="30" font-family="Arial Black, sans-serif" font-size="32" font-weight="900" fill="#000" letter-spacing="-1">METRO</text>
+          </svg>
+
+          <!-- The Irish Times -->
+          <svg class="marquee-logo" viewBox="0 0 200 40" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="16" font-family="Georgia, serif" font-size="11" fill="#000">THE</text>
+            <text x="0" y="34" font-family="Georgia, serif" font-size="20" font-weight="700" fill="#000">Irish Times</text>
+          </svg>
+
+          <!-- The Times -->
+          <svg class="marquee-logo" viewBox="0 0 160 40" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="14" font-family="Georgia, serif" font-size="10" fill="#000" letter-spacing="3">THE</text>
+            <line x1="0" y1="17" x2="155" y2="17" stroke="#000" stroke-width="1"/>
+            <text x="0" y="34" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#000">TIMES</text>
+          </svg>
+
+          <!-- Woman's Own -->
+          <svg class="marquee-logo" viewBox="0 0 170 40" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="17" font-family="Georgia, serif" font-size="13" font-style="italic" fill="#000">Woman's</text>
+            <text x="0" y="35" font-family="Georgia, serif" font-size="20" font-weight="700" fill="#000">Own</text>
+          </svg>
+
+          <!-- The Guardian -->
+          <svg class="marquee-logo" viewBox="0 0 190 40" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="16" font-family="Georgia, serif" font-size="10" fill="#000" letter-spacing="2">the</text>
+            <text x="0" y="36" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#000">Guardian</text>
+          </svg>
+
+          <!-- Heart -->
+          <svg class="marquee-logo" viewBox="0 0 110 40" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="32" font-family="Georgia, serif" font-size="30" font-style="italic" font-weight="700" fill="#000">heart</text>
+          </svg>
+
+          <!-- Mirror -->
+          <svg class="marquee-logo" viewBox="0 0 130 40" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="128" height="38" rx="2" fill="#000"/>
+            <text x="64" y="27" font-family="Arial, sans-serif" font-size="18" font-weight="900" fill="#fff" text-anchor="middle" letter-spacing="2">MIRROR</text>
+          </svg>
+
+          <!-- The Sun -->
+          <svg class="marquee-logo" viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="98" height="38" rx="2" fill="#000"/>
+            <text x="8" y="13" font-family="Arial, sans-serif" font-size="9" fill="#fff" letter-spacing="1">THE</text>
+            <text x="4" y="32" font-family="Arial Black, sans-serif" font-size="22" font-weight="900" fill="#fff">Sun</text>
+          </svg>
+
+          <!-- Cosmopolitan -->
+          <svg class="marquee-logo" viewBox="0 0 230 40" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="30" font-family="Georgia, serif" font-size="24" font-weight="700" fill="#000" letter-spacing="1">COSMOPOLITAN</text>
+          </svg>
+
+          <!-- Natural Health -->
+          <svg class="marquee-logo" viewBox="0 0 190 40" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="17" font-family="Georgia, serif" font-size="14" font-style="italic" fill="#000">Natural</text>
+            <text x="0" y="36" font-family="Georgia, serif" font-size="19" font-weight="700" fill="#000">Health</text>
+          </svg>
+
+        </div>
         {% endfor %}
+
       </div>
     </div>
   </div>
 </div>
 
 <style>
-/* DESKTOP STYLES */
 .inline-marquee-container {
   display: block;
   width: 100%;
-  padding-top: 25px;   
+  padding-top: 25px;
   padding-bottom: 25px;
   padding-left: {{ section.settings.side_padding }}px;
   padding-right: {{ section.settings.side_padding }}px;
@@ -102,17 +142,17 @@
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 30px; 
+  gap: 30px;
 }
 .marquee-label {
-  font-family: Arial, sans-serif !important; 
-  font-size: 15px !important; 
+  font-family: Arial, sans-serif !important;
+  font-size: 15px !important;
   white-space: nowrap;
 }
 .marquee-label strong {
-  font-weight: 700 !important; 
+  font-weight: 700 !important;
   display: inline-block;
-  color: #666666 !important; 
+  color: #666666 !important;
 }
 .marquee-window {
   overflow: hidden;
@@ -120,13 +160,10 @@
   display: flex;
   align-items: center;
 }
-
-/* GRADIENT FADE EFFECT FOR MOVING LOGOS (Desktop & Mobile) */
 .fading-mask {
   -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, transparent 100%);
   mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, transparent 100%);
 }
-
 .marquee-content {
   display: flex;
   width: max-content;
@@ -134,58 +171,43 @@
 .marquee-group {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 65px; 
+  gap: 65px;
   padding-right: 65px;
 }
-.marquee-group img {
-  height: var(--desktop-height);
+.marquee-logo {
+  height: var(--logo-h, 35px);
   width: auto;
-  object-fit: contain;
+  display: block;
   filter: grayscale(100%);
-  opacity: 0.85; 
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
 }
-.marquee-group .placeholder-text {
-  color: #ccc;
-  font-size: 13px;
-  white-space: nowrap;
-  margin-right: 40px;
+.marquee-logo:hover {
+  opacity: 1;
 }
 .animate-left {
   animation: inline-scroll-left linear infinite;
 }
 @keyframes inline-scroll-left {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-25%); }
 }
 
-/* MOBILE RESPONSIVE FIXES */
 @media screen and (max-width: 767px) {
   .inline-marquee-container {
-    padding-left: 15px !important;  
+    padding-left: 15px !important;
     padding-right: 15px !important;
     padding-top: 15px;
     padding-bottom: 15px;
   }
-  .marquee-sub-wrapper {
-    gap: 15px; 
-  }
-  .marquee-label {
-    font-size: 13px !important; 
-  }
-  
-  /* Slightly deeper fade edge for tight mobile view screens */
+  .marquee-sub-wrapper { gap: 15px; }
+  .marquee-label { font-size: 13px !important; }
   .fading-mask {
     -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, transparent 100%);
     mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, transparent 100%);
   }
-
-  .marquee-group {
-    gap: 25px; 
-    padding-right: 25px;
-  }
-  .marquee-group img {
-    height: calc(var(--desktop-height) * 0.73) !important; 
-  }
+  .marquee-group { gap: 25px; padding-right: 25px; }
+  .marquee-logo { height: calc(var(--logo-h, 35px) * 0.73) !important; }
 }
 </style>
