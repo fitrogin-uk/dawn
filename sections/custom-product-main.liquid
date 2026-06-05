@@ -27,7 +27,8 @@
   .cpm__thumb img { width: 100%; height: 100%; object-fit: cover; }
 
   /* ---------- RIGHT: Info ---------- */
-  .cpm__info { max-width: 100%; }
+  .cpm__info { max-width: 100%; color: #222; }
+  .cpm__info a { text-decoration: none; }
   .cpm__reviews { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
   .cpm__stars { display: inline-flex; gap: 2px; }
   .cpm__reviews-count { font-size: 14px; color: #111; font-weight: 500; }
@@ -35,19 +36,20 @@
   .cpm__subtitle { font-size: 22px; font-weight: 700; color: #111; margin: 0 0 18px; }
 
   .cpm__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-  .cpm__tag { border: 1px solid #d8d8d8; background: #fff; border-radius: 6px; padding: 9px 16px; font-size: 16px; font-weight: 400; color: #444; }
+  .cpm__tag { border: 1px solid #d8d8d8; background: #fff !important; border-radius: 6px; padding: 8px 14px; font-size: 15px; font-weight: 400; color: #444 !important; white-space: nowrap; }
 
-  .cpm__badge { display: inline-flex; align-items: center; gap: 10px; background: #fff; color: #1f3a2e; border: 1px solid #cfe3d6; border-radius: 999px; padding: 7px 16px 7px 7px; font-size: 14px; font-weight: 600; text-decoration: none; margin-bottom: 18px; }
-  .cpm__badge-check { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; background: var(--cpm-green); border-radius: 50%; flex: 0 0 26px; }
+  .cpm__badge { display: inline-flex; align-items: center; gap: 10px; background: #fff !important; color: #1f2d27 !important; border: 1px solid #cfe3d6; border-radius: 999px; padding: 7px 16px 7px 7px; font-size: 14px; font-weight: 600; text-decoration: none; margin-bottom: 18px; }
+  .cpm__badge-check { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; background: var(--cpm-green) !important; border-radius: 50%; flex: 0 0 26px; }
   .cpm__badge-label { display: flex; flex-direction: column; line-height: 1.15; text-align: left; }
-  .cpm__badge-label small { font-size: 10px; font-weight: 600; color: #6a8576; letter-spacing: 0.06em; }
-  .cpm__badge-arrow { color: #1f3a2e; font-size: 18px; font-weight: 700; line-height: 1; }
+  .cpm__badge-label > span { color: #1f2d27 !important; font-weight: 700; }
+  .cpm__badge-label small { font-size: 10px; font-weight: 600; color: #8a9a90 !important; letter-spacing: 0.06em; }
+  .cpm__badge-arrow { color: #4a4a4a !important; font-size: 18px; font-weight: 700; line-height: 1; }
 
-  .cpm__desc { font-size: 16px; line-height: 1.55; color: #333; margin: 0 0 20px; }
+  .cpm__desc { font-size: 16px; line-height: 1.55; color: #333 !important; margin: 0 0 20px; }
 
   .cpm__benefits { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; margin-bottom: 24px; }
-  .cpm__benefit { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; color: #333; }
-  .cpm__benefit-check { flex: 0 0 20px; width: 20px; height: 20px; background: #fff; border: 1.5px solid #111; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+  .cpm__benefit { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; color: #222 !important; }
+  .cpm__benefit-check { flex: 0 0 20px; width: 20px; height: 20px; background: #fff !important; border: 1.5px solid #444; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
 
   /* Buy box */
   .cpm__buybox { border: 1px solid #e3e3e3; border-radius: 16px; overflow: hidden; margin-bottom: 16px; }
