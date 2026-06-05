@@ -40,7 +40,7 @@
   .cpm__tag { border: 1px solid #d8d8d8; background: #fff !important; border-radius: 6px; padding: 8px 14px; font-size: 15px; font-weight: 400; color: #444 !important; white-space: nowrap; }
 
   .cpm__badge { display: inline-flex; align-items: center; gap: 7px; background: #d7ebdd !important; color: #1c4a30 !important; border: 1px solid #c2ddca; border-radius: 999px; padding: 0 10px 0 3px; font-size: 12px; font-weight: 600; text-decoration: none; margin-bottom: 18px; }
-  .cpm__badge-check { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: var(--cpm-green) !important; border-radius: 50%; flex: 0 0 22px; }
+  .cpm__badge-check { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background: var(--cpm-green) !important; border-radius: 50%; flex: 0 0 18px; }
   .cpm__badge-label { display: flex; flex-direction: column; line-height: 1.15; text-align: left; }
   .cpm__badge-label > span { color: #1c4a30 !important; font-weight: 700; }
   .cpm__badge-label small { font-size: 9px; font-weight: 600; color: #6f8a77 !important; letter-spacing: 0.06em; }
@@ -203,13 +203,13 @@
       {%- if section.settings.badge_text != blank -%}
         <a href="{{ section.settings.badge_link | default: '#' }}" class="cpm__badge">
           <span class="cpm__badge-check">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </span>
           <span class="cpm__badge-label">
             <span>{{ section.settings.badge_text }}</span>
             {%- if section.settings.badge_subtext != blank -%}<small>{{ section.settings.badge_subtext }}&reg;</small>{%- endif -%}
           </span>
-          <span class="cpm__badge-arrow"><svg width="11" height="18" viewBox="0 0 11 18" fill="none" stroke="#1c4a30" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 2 9 9 2 16"/></svg></span>
+          <span class="cpm__badge-arrow"><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#1c4a30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 1 6 6 1 11"/></svg></span>
         </a>
       {%- endif -%}
 
