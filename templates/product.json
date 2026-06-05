@@ -272,6 +272,16 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "marquee_banner_WcmFgf": {
+      "type": "marquee-banner",
+      "name": "Marquee Banner",
+      "settings": {
+        "bg_color": "transparent",
+        "speed": 20,
+        "logo_height": 35,
+        "side_padding": 80
+      }
     }
   },
   "order": [
@@ -279,6 +289,7 @@
     "custom_product_main_Uy7VKC",
     "image-with-text",
     "multicolumn",
-    "related-products"
+    "related-products",
+    "marquee_banner_WcmFgf"
   ]
 }
