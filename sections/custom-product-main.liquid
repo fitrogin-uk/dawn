@@ -14,6 +14,9 @@
 
   /* ---------- LEFT: Gallery ---------- */
   .cpm__gallery { position: relative; }
+  @media (min-width: 990px) {
+    .cpm__gallery { position: sticky; top: 20px; align-self: start; }
+  }
   .cpm__main-img { position: relative; border-radius: 16px; overflow: hidden; background: #f6f6f6; min-height: 520px; display: flex; align-items: center; justify-content: center; }
   .cpm__main-img img { width: 100%; height: auto; display: block; }
   .cpm__main-img .cpm__slide { display: none; width: 100%; }
