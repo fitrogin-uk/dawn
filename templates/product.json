@@ -42,10 +42,46 @@
     "custom_product_main_Uy7VKC": {
       "type": "custom-product-main",
       "blocks": {
+        "video_BGWhR7": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+          }
+        },
+        "video_T9kJGw": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"
+          }
+        },
+        "video_xLcP3g": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+          }
+        },
+        "video_tqJtQf": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+          }
+        },
+        "video_WnEyAW": {
+          "type": "video",
+          "settings": {
+            "video_url": ""
+          }
+        },
+        "video_ghgACi": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+          }
+        },
         "video_pgTYz9": {
           "type": "video",
           "settings": {
-            "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+            "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
           }
         },
         "accordion_mwyCNd": {
@@ -106,6 +142,12 @@
         }
       },
       "block_order": [
+        "video_BGWhR7",
+        "video_T9kJGw",
+        "video_xLcP3g",
+        "video_tqJtQf",
+        "video_WnEyAW",
+        "video_ghgACi",
         "video_pgTYz9",
         "accordion_mwyCNd",
         "accordion_Dg6Hyn",
@@ -131,74 +173,6 @@
         "ship_text": "Spend £30 to unlock free shipping",
         "rewards_text": "Earn Reward Points with each purchase",
         "video_title": "See What People Are Saying"
-      }
-    },
-    "video_carousel_auto_DYk7Jy": {
-      "type": "video-carousel-auto",
-      "blocks": {
-        "video_aiPw3j": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_hRrtTa": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_qxTt3q": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_nzt3Bc": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_6gaQ4T": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_9rppyD": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_WJEemT": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        },
-        "video_K4GWVd": {
-          "type": "video",
-          "settings": {
-            "video_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "video_aiPw3j",
-        "video_hRrtTa",
-        "video_qxTt3q",
-        "video_nzt3Bc",
-        "video_6gaQ4T",
-        "video_9rppyD",
-        "video_WJEemT",
-        "video_K4GWVd"
-      ],
-      "name": "Video Carousel (Auto)",
-      "settings": {
-        "title": "See What People Are Saying",
-        "bg_color": "#ffffff"
       }
     },
     "image-with-text": {
@@ -303,7 +277,6 @@
   "order": [
     "main",
     "custom_product_main_Uy7VKC",
-    "video_carousel_auto_DYk7Jy",
     "image-with-text",
     "multicolumn",
     "related-products"
