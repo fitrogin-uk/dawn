@@ -1,5 +1,5 @@
 {% comment %}
-  Expert & Customer Reviews - Tight Letter Spacing Edition
+  Expert & Customer Reviews - Word Spacing Edition
   - Part 1 of 2: Structure markup and styling rules.
 {% endcomment %}
 
@@ -42,7 +42,8 @@
           <div class="review-text-container">
             
             <div class="review-quote-content">
-              <p class="review-quote-text">
+              <!-- Inline style applied here pulls the dynamic word spacing value directly from the slider schema in Part 2 -->
+              <p class="review-quote-text" style="word-spacing: {{ section.settings.review_word_spacing }}px !important;">
                 {%- if block.settings.quote_text != blank -%}
                   “{{ block.settings.quote_text | escape }}”
                 {%- else -%}
@@ -195,11 +196,10 @@
     margin-bottom: 28px !important;
   }
 
-  /* Added negative letter-spacing (-0.03em) to pull the alphabet characters tightly together */
   .review-quote-text {
     font-size: 20.5px !important; 
     line-height: 1.25 !important; 
-    letter-spacing: -0.03em !important; 
+    letter-spacing: normal !important; /* Resets letter/alphabet spacing */
     font-weight: 400 !important;
     color: #2a2d38 !important;
     margin: 0 0 14px 0 !important;
@@ -211,7 +211,6 @@
     color: #9ca3af !important;
     margin: 0 !important;
     text-transform: capitalize !important;
-    letter-spacing: -0.01em !important;
   }
 
   .review-author-meta {
@@ -233,7 +232,6 @@
     font-weight: 600 !important;
     color: #1c1e24 !important;
     margin: 0 !important;
-    letter-spacing: -0.02em !important;
   }
 
   .review-verified-badge {
@@ -257,7 +255,6 @@
     font-weight: 500 !important;
     color: #555864 !important;
     margin: 0 !important;
-    letter-spacing: -0.01em !important;
   }
 
   .review-author-location {
@@ -265,7 +262,7 @@
     color: #9ca3af !important;
     margin: 0 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.01em !important;
+    letter-spacing: 0.02em !important;
   }
 
   @media screen and (max-width: 749px) {
@@ -299,6 +296,17 @@
       "id": "subheading",
       "label": "Subheading Text",
       "default": "Novomins gummies aren't just delicious, they're formulated on serious science..."
+    },
+    {
+      "type": "range",
+      "id": "review_word_spacing",
+      "min": -10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Word Spacing Gap Distance",
+      "default": 0,
+      "info": "Drag left to bring whole words closer together, or drag right to spread them out."
     },
     {
       "type": "range",
