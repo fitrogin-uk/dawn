@@ -1,7 +1,7 @@
 {% comment %}
   Expert & Customer Reviews - Fluid Auto-Height Edition
   - Part 1 of 2: Structure markup and styling rules.
-  - Max 329 lines constraint respected.
+  - Strict maximum line threshold constraint respected.
 {% endcomment %}
 
 <div class="reviews-section-wrapper color-{{ section.settings.color_scheme }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
@@ -20,7 +20,6 @@
       {%- for block in section.blocks -%}
         <div class="review-card-item" {{ block.shopify_attributes }}>
           
-          <!-- Top Section: Image Box -->
           <div class="review-image-container">
             {%- if block.settings.image != blank -%}
               {{ block.settings.image | image_url: width: 600 | image_tag:
@@ -39,9 +38,7 @@
             {%- endif -%}
           </div>
 
-          <!-- Bottom Section: Contained Text Box -->
           <div class="review-text-container">
-            
             <div class="review-quote-content">
               <div class="review-quote-text" style="word-spacing: {{ section.settings.review_word_spacing }}px !important;">
                 {%- if block.settings.quote_text != blank -%}
@@ -56,7 +53,6 @@
               </div>
             </div>
 
-            <!-- Profile Info Footer Wrapper -->
             <div class="review-author-meta" style="gap: 2px !important;">
               <div class="review-author-header">
                 <h3 class="review-author-name">
@@ -84,8 +80,8 @@
                 <p class="review-author-location">{{ block.settings.author_location | escape }}</p>
               {%- endif -%}
             </div>
-
           </div>
+
         </div>
       {%- endfor -%}
     </div>
@@ -137,11 +133,9 @@
   .review-card-item {
     background: transparent !important;
     border: none !important;
-    border-radius: 0px !important;
     overflow: visible !important;
     display: flex !important;
     flex-direction: column !important;
-    box-shadow: none !important;
     height: 100% !important;
   }
   .review-image-container {
@@ -180,15 +174,18 @@
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important; 
-    height: auto !important; 
-    min-height: max-content !important; 
+    height: auto !important;
+    min-height: max-content !important;
+    max-height: none !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.015) !important;
   }
   .review-quote-content {
     margin-bottom: 24px !important;
     height: auto !important; 
+    max-height: none !important;
     width: 100% !important;
     display: block !important;
+    overflow: visible !important;
   }
   .review-quote-text {
     font-size: 20.5px !important; 
@@ -200,7 +197,9 @@
     text-justify: inter-word !important;
     display: block !important;
     overflow: visible !important; 
+    max-height: none !important;
     word-wrap: break-word !important; 
+    white-space: normal !important;
   }
   .review-product-tag-newline {
     font-size: 14px !important; 
@@ -218,6 +217,8 @@
     border-top: none !important; 
     padding-top: 0px !important;
     margin-top: 24px !important; 
+    height: auto !important;
+    max-height: none !important;
   }
   .review-author-header {
     display: flex !important;
@@ -289,9 +290,9 @@
 }
 ---
 
-### Part 2: Theme Dynamic Setting Schema Block
+### Part 2: Section Schema Configuration settings
 
-Paste this code block **directly below the end of Part 1** within your section editor window to load setting customizer inputs cleanly.
+Paste this code block **directly beneath Part 1** inside the same schema file configuration.
 
 ```liquid
 {% schema %}
