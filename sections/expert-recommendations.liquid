@@ -6,7 +6,7 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
-  @media screen and m-width: 750px) {
+  @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
@@ -20,6 +20,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    border: 1px solid #e8e8e8;
   }
 
   .expert-card__image-wrapper {
@@ -57,6 +58,7 @@
     letter-spacing: 0.1rem;
     color: #707070;
     margin-bottom: 1.5rem;
+    font-weight: 500;
   }
 
   .expert-card__meta {
@@ -64,13 +66,18 @@
     padding-top: 1.5rem;
   }
 
+  .expert-card__name-wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 0.2rem;
+  }
+
   .expert-card__name {
     font-size: 1.6rem;
     font-weight: 600;
-    margin: 0 0 0.2rem 0;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+    margin: 0;
   }
 
   .expert-card__verified-badge {
@@ -79,10 +86,22 @@
     color: #1d9bf0;
   }
 
-  .expert-card__title {
+  .expert-card__subtext {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .expert-card__title,
+  .expert-card__location {
     font-size: 1.2rem;
     color: #6a6a6a;
     margin: 0;
+  }
+
+  .expert-card__location {
+    font-style: italic;
+    color: #8c8c8c;
   }
 
   /* Native CSS Scroll Snap Slider for Mobile Performance */
@@ -96,6 +115,7 @@
       scrollbar-width: none;
       padding-left: 1.5rem;
       padding-right: 1.5rem;
+      gap: 1.5rem;
     }
     .expert-grid-slider::-webkit-scrollbar {
       display: none;
@@ -105,6 +125,7 @@
       max-width: 80% !important;
       flex-shrink: 0;
       scroll-snap-align: start;
+      padding: 0 !important;
     }
   }
 {%- endstyle -%}
@@ -152,19 +173,25 @@
               {%- endif -%}
 
               <div class="expert-card__meta">
-                <h3 class="expert-card__name">
-                  {{ block.settings.name }}
+                <div class="expert-card__name-wrapper">
+                  <h3 class="expert-card__name">{{ block.settings.name }}</h3>
                   {%- if block.settings.show_verified -%}
-                    <span class="expert-card__verified-badge" title="Verified Expert">
+                    <span class="expert-card__verified-badge" title="Verified Profile">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                       </svg>
                     </span>
                   {%- endif -%}
-                </h3>
-                {%- if block.settings.expert_title != blank -%}
-                  <p class="expert-card__title">{{ block.settings.expert_title }}</p>
-                {%- endif -%}
+                </div>
+                
+                <div class="expert-card__subtext">
+                  {%- if block.settings.expert_title != blank -%}
+                    <p class="expert-card__title">{{ block.settings.expert_title }}</p>
+                  {%- endif -%}
+                  {%- if block.settings.reviewer_location != blank -%}
+                    <p class="expert-card__location">{{ block.settings.reviewer_location }}</p>
+                  {%- endif -%}
+                </div>
               </div>
             </div>
 
@@ -239,7 +266,7 @@
     {
       "type": "expert",
       "name": "Expert Card",
-      "limit": 4,
+      "limit": 8,
       "settings": [
         {
           "type": "image_picker",
@@ -271,6 +298,12 @@
           "label": "Expert Credentials / Title"
         },
         {
+          "type": "text",
+          "id": "reviewer_location",
+          "default": "London, UK",
+          "label": "Reviewer Location"
+        },
+        {
           "type": "checkbox",
           "id": "show_verified",
           "label": "Show Verified Badge",
@@ -292,4 +325,3 @@
   ]
 }
 {% endschema %}
-
