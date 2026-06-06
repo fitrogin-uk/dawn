@@ -178,6 +178,7 @@
     },
     "related-products": {
       "type": "related-products",
+      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
@@ -243,7 +244,7 @@
         "review_CiypFw": {
           "type": "review",
           "settings": {
-            "quote": "4444444444444444444",
+            "quote": "4",
             "product_label": "Creatine Gummies",
             "name": "Dr Peter McQuillan",
             "expert_title": "Registered Doctor",
@@ -261,11 +262,8 @@
       "name": "Expert Recommendations",
       "settings": {
         "title": "Recommended by Health Experts",
-        "subtitle": "<p>Novomins gummies aren't just delicious, they're formulated on serious science...</p>",
-        "heading_size": "h1",
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "subtitle": "Novomins gummies aren't just delicious, they're formulated on serious science...",
+        "color_scheme": ""
       }
     }
   },
