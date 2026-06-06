@@ -10,13 +10,10 @@
   .cpm__breadcrumb a:hover { text-decoration: underline; }
   .cpm__crumb-sep { margin: 0 6px; color: #aaa; }
   .cpm__crumb-current { color: #777; }
-  .cpm__wrap { display: grid; grid-template-columns: 55fr 45fr; gap: 32px; max-width: 100%; margin: 0 auto; padding: 16px 40px 24px; }
+  .cpm__wrap { display: grid; grid-template-columns: 55fr 45fr; gap: 32px; max-width: 100%; margin: 0 auto; padding: 16px 40px 24px; align-items: start; position: relative; }
 
   /* ---------- LEFT: Gallery ---------- */
   .cpm__gallery { position: relative; }
-  @media (min-width: 990px) {
-    .cpm__gallery { position: relative; align-self: start; will-change: transform; }
-  }
   .cpm__main-img { position: relative; border-radius: 16px; overflow: hidden; background: #f6f6f6; display: flex; align-items: center; justify-content: center; }
   .cpm__main-img img { width: 100%; height: auto; max-height: min(520px, calc(100vh - 200px)); object-fit: contain; display: block; }
   .cpm__main-img .cpm__slide { display: none; width: 100%; }
@@ -126,6 +123,7 @@
 
   @media (max-width: 989px) {
     .cpm__wrap { grid-template-columns: 1fr; gap: 28px; padding: 16px; }
+    .cpm__gallery { position: static !important; top: auto !important; left: auto !important; width: auto !important; }
     .cpm__title { font-size: 29px; }
     .cpm__subtitle { font-size: 17px; }
     .cpm__tags { gap: 6px; }
@@ -160,7 +158,7 @@
   <div class="cpm__wrap">
 
     {%- comment -%} ============ LEFT: GALLERY ============ {%- endcomment -%}
-    <div class="cpm__gallery">
+    <div class="cpm__gallery" id="cpmGallery">
       <div class="cpm__main-img" id="cpmMain">
         {%- if product.media.size > 0 -%}
           {%- for media in product.media -%}
@@ -268,7 +266,6 @@
         <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
 
         <div class="cpm__buybox">
-          {%- comment -%} Subscribe plan (if available) {%- endcomment -%}
           {%- assign current_variant = product.selected_or_first_available_variant -%}
           {%- if current_variant.selling_plan_allocations.size > 0 -%}
             {%- assign plan_alloc = current_variant.selling_plan_allocations.first -%}
@@ -293,7 +290,6 @@
             </div>
           {%- endif -%}
 
-          {%- comment -%} One-time purchase {%- endcomment -%}
           <div class="cpm__plan{% unless current_variant.selling_plan_allocations.size > 0 %} is-active{% endunless %}" data-cpm-plan="onetime">
             <label class="cpm__plan-head">
               <input type="radio" name="selling_plan" value="" style="display:none;"{% unless current_variant.selling_plan_allocations.size > 0 %} checked{% endunless %}>
@@ -324,7 +320,6 @@
         </button>
       {%- endform -%}
 
-      {%- comment -%} Free shipping line {%- endcomment -%}
       {%- if section.settings.ship_text != blank -%}
         <div class="cpm__shipline">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
@@ -332,14 +327,12 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} Payment icons {%- endcomment -%}
       <div class="cpm__pay">
         {%- for type in shop.enabled_payment_types -%}
           {{ type | payment_type_svg_tag: class: 'cpm__pay-icon' }}
         {%- endfor -%}
       </div>
 
-      {%- comment -%} Rewards bar {%- endcomment -%}
       {%- if section.settings.rewards_text != blank -%}
         <div class="cpm__rewards">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>
@@ -359,7 +352,7 @@
         {%- endfor -%}
       </div>
 
-      {%- comment -%} ============ VIDEO CAROUSEL (right column) ============ {%- endcomment -%}
+      {%- comment -%} ============ VIDEO CAROUSEL ============ {%- endcomment -%}
       {%- assign has_video = false -%}
       {%- for block in section.blocks -%}{%- if block.type == 'video' -%}{%- assign has_video = true -%}{%- endif -%}{%- endfor -%}
       {%- if has_video -%}
@@ -385,15 +378,15 @@
 
 <script>
   (function(){
-    var root = document.currentScript.previousElementSibling || document;
-    // Gallery
+
+    // ============ GALLERY SLIDER ============
     var main = document.getElementById('cpmMain');
     var thumbs = document.getElementById('cpmThumbs');
     if (main) {
       var slides = main.querySelectorAll('[data-cpm-slide]');
       var thumbBtns = thumbs ? thumbs.querySelectorAll('[data-cpm-thumb]') : [];
       var cur = 0;
-      function show(i){
+      function show(i) {
         if (i < 0) i = slides.length - 1;
         if (i >= slides.length) i = 0;
         slides[cur].classList.remove('is-active');
@@ -402,51 +395,54 @@
         slides[cur].classList.add('is-active');
         if (thumbBtns[cur]) thumbBtns[cur].classList.add('is-active');
       }
-      thumbBtns.forEach(function(b){ b.addEventListener('click', function(){ show(parseInt(b.dataset.cpmThumb)); }); });
+      thumbBtns.forEach(function(b) {
+        b.addEventListener('click', function() { show(parseInt(b.dataset.cpmThumb)); });
+      });
       var prev = main.querySelector('[data-cpm-prev]');
       var next = main.querySelector('[data-cpm-next]');
-      if (prev) prev.addEventListener('click', function(){ show(cur - 1); });
-      if (next) next.addEventListener('click', function(){ show(cur + 1); });
+      if (prev) prev.addEventListener('click', function() { show(cur - 1); });
+      if (next) next.addEventListener('click', function() { show(cur + 1); });
     }
-    // Plan selector
+
+    // ============ PLAN SELECTOR ============
     var plans = document.querySelectorAll('[data-cpm-plan]');
-    plans.forEach(function(p){
-      p.querySelector('.cpm__plan-head').addEventListener('click', function(){
-        plans.forEach(function(x){ x.classList.remove('is-active'); });
+    plans.forEach(function(p) {
+      p.querySelector('.cpm__plan-head').addEventListener('click', function() {
+        plans.forEach(function(x) { x.classList.remove('is-active'); });
         p.classList.add('is-active');
         var radio = p.querySelector('input[type=radio]');
         if (radio) radio.checked = true;
       });
     });
 
-    // Video carousel autoplay (3s each, slides to next batch)
+    // ============ VIDEO CAROUSEL ============
     var vc = document.getElementById('cpmVC-{{ section.id }}');
     var vct = document.getElementById('cpmVCT-{{ section.id }}');
     if (vc && vct) {
       var vItems = Array.prototype.slice.call(vct.querySelectorAll('[data-cpm-vc-item]'));
       if (vItems.length) {
         var vCur = 0, vTimer = null, V_DUR = 3000, vPageStart = 0;
-        function vVisible(){ return window.innerWidth <= 989 ? 2 : 4; }
-        function vStopAll(){
+        function vVisible() { return window.innerWidth <= 989 ? 2 : 4; }
+        function vStopAll() {
           clearTimeout(vTimer);
-          vItems.forEach(function(it){
+          vItems.forEach(function(it) {
             var vid = it.querySelector('video');
-            if (vid){ vid.pause(); vid.currentTime = 0; }
+            if (vid) { vid.pause(); vid.currentTime = 0; }
             it.classList.remove('is-playing');
             var pr = it.querySelector('[data-cpm-vc-progress]');
-            if (pr){ pr.style.transition='none'; pr.style.width='0%'; }
+            if (pr) { pr.style.transition = 'none'; pr.style.width = '0%'; }
           });
         }
-        function vSlide(start){
+        function vSlide(start) {
           vPageStart = start;
           var w = vItems[0].offsetWidth + 10;
           vct.style.transform = 'translateX(-' + (start * w) + 'px)';
         }
-        function vPlay(idx){
+        function vPlay(idx) {
           vStopAll();
           vCur = idx;
           var vp = vVisible();
-          if (vCur < vPageStart || vCur >= vPageStart + vp){
+          if (vCur < vPageStart || vCur >= vPageStart + vp) {
             var np = Math.floor(vCur / vp) * vp;
             if (np + vp > vItems.length) np = Math.max(0, vItems.length - vp);
             vSlide(np);
@@ -454,64 +450,86 @@
           var it = vItems[vCur];
           var vid = it.querySelector('video');
           var pr = it.querySelector('[data-cpm-vc-progress]');
-          if (vid){ vid.currentTime = 0; vid.play().catch(function(){}); it.classList.add('is-playing'); }
-          if (pr){ pr.style.transition='none'; pr.style.width='0%'; pr.offsetWidth; pr.style.transition='width '+V_DUR+'ms linear'; pr.style.width='100%'; }
-          vTimer = setTimeout(function(){ var n = vCur + 1; if (n >= vItems.length) n = 0; vPlay(n); }, V_DUR);
+          if (vid) { vid.currentTime = 0; vid.play().catch(function(){}); it.classList.add('is-playing'); }
+          if (pr) { pr.style.transition = 'none'; pr.style.width = '0%'; pr.offsetWidth; pr.style.transition = 'width ' + V_DUR + 'ms linear'; pr.style.width = '100%'; }
+          vTimer = setTimeout(function() { var n = vCur + 1; if (n >= vItems.length) n = 0; vPlay(n); }, V_DUR);
         }
-        vItems.forEach(function(it, i){ it.addEventListener('click', function(){ vPlay(i); }); });
-        setTimeout(function(){ vPlay(0); }, 500);
+        vItems.forEach(function(it, i) { it.addEventListener('click', function() { vPlay(i); }); });
+        setTimeout(function() { vPlay(0); }, 500);
       }
     }
 
-    // Jitter-free sticky pin using position:fixed (works even if a parent overflow breaks CSS sticky)
-    var galEl = document.querySelector('.cpm .cpm__gallery');
+    // ============ STICKY GALLERY (desktop only) ============
+    var galEl = document.getElementById('cpmGallery');
     var wrapEl = document.querySelector('.cpm .cpm__wrap');
-    if (galEl && wrapEl) {
-      var pinTop = 20, pinTicking = false, colLeft = 0, colWidth = 0, state = '';
-      wrapEl.style.position = 'relative';
-      function resetGallery(){
-        galEl.style.position = ''; galEl.style.top = ''; galEl.style.left = '';
-        galEl.style.width = ''; galEl.style.transform = ''; state = '';
-      }
-      function capture(){
-        resetGallery();
-        var r = galEl.getBoundingClientRect();
-        colLeft = r.left; colWidth = r.width;
-        pinTop = Math.max(20, wrapEl.getBoundingClientRect().top);
-      }
-      function pinGallery(){
-        pinTicking = false;
-        if (window.innerWidth < 990) { if (state) resetGallery(); return; }
+
+    if (galEl && wrapEl && window.innerWidth >= 990) {
+      var PIN_TOP = 20;
+      var ticking = false;
+      var state = '';
+
+      function pinGallery() {
+        ticking = false;
+
+        if (window.innerWidth < 990) {
+          galEl.style.cssText = '';
+          state = 'mobile';
+          return;
+        }
+
         var wrapRect = wrapEl.getBoundingClientRect();
         var galH = galEl.offsetHeight;
-        if (wrapRect.top >= pinTop) {
-          if (state !== 'static') { resetGallery(); state = 'static'; }
-        } else if (wrapRect.bottom - galH <= pinTop) {
-          // reached the bottom of the section -> park at bottom, scroll away with it
+
+        if (wrapRect.top >= PIN_TOP) {
+          // Section not yet scrolled to — reset to normal flow
+          if (state !== 'static') {
+            galEl.style.cssText = '';
+            state = 'static';
+          }
+
+        } else if (wrapRect.bottom - galH <= PIN_TOP) {
+          // Bottom of section reached — park absolutely at bottom of wrap
           if (state !== 'bottom') {
+            var galW = wrapEl.offsetWidth * 0.55 - 16;
+            galEl.style.cssText = '';
             galEl.style.position = 'absolute';
-            galEl.style.top = (wrapRect.height - galH) + 'px';
-            galEl.style.left = '0'; galEl.style.width = colWidth + 'px';
-            galEl.style.transform = ''; state = 'bottom';
+            galEl.style.top = (wrapEl.offsetHeight - galH) + 'px';
+            galEl.style.left = '0';
+            galEl.style.width = galW + 'px';
+            state = 'bottom';
           }
+
         } else {
-          // actively pinned -> fixed (browser holds it, no jitter)
-          if (state !== 'fixed') {
-            galEl.style.position = 'fixed';
-            galEl.style.top = pinTop + 'px';
-            galEl.style.left = colLeft + 'px';
-            galEl.style.width = colWidth + 'px';
-            galEl.style.transform = ''; state = 'fixed';
-          }
+          // Actively pinned — recalculate left every frame so it tracks correctly
+          // as announcement bar / nav scrolls away and shifts layout
+          var freshWrapRect = wrapEl.getBoundingClientRect();
+          var galW = wrapEl.offsetWidth * 0.55 - 16;
+          galEl.style.position = 'fixed';
+          galEl.style.top = PIN_TOP + 'px';
+          galEl.style.left = freshWrapRect.left + 'px';
+          galEl.style.width = galW + 'px';
+          galEl.style.bottom = 'auto';
+          state = 'fixed';
         }
       }
-      window.addEventListener('scroll', function(){
-        if (!pinTicking) { pinTicking = true; window.requestAnimationFrame(pinGallery); }
+
+      window.addEventListener('scroll', function() {
+        if (!ticking) { ticking = true; requestAnimationFrame(pinGallery); }
       }, { passive: true });
-      window.addEventListener('resize', function(){ capture(); pinGallery(); });
-      if (window.pageYOffset < 5) { capture(); }
+
+      window.addEventListener('resize', function() {
+        if (window.innerWidth < 990) {
+          galEl.style.cssText = '';
+          state = 'mobile';
+        } else {
+          pinGallery();
+        }
+      });
+
+      // Run once on load
       pinGallery();
     }
+
   })();
 </script>
 
