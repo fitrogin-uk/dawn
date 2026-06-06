@@ -1,7 +1,10 @@
 {% comment %}
-  Expert & Customer Reviews Grid Section
-  - Supports image scaling, text bounding boxes, and custom badge integration.
+  Expert & Customer Reviews Wide-Grid Section
+  - Renders a horizontal and vertical scaled matrix layout
 {% endcomment %}
+
+<!-- Link to external stylesheet asset -->
+{{ 'section-expert-reviews.css' | asset_url | stylesheet_tag }}
 
 <div class="reviews-section-wrapper color-{{ section.settings.color_scheme }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
   <div class="page-width">
@@ -24,11 +27,10 @@
             {%- if block.settings.image != blank -%}
               {{ block.settings.image | image_url: width: 800 | image_tag:
                 loading: 'lazy',
-                sizes: '(min-width: 750px) 50vw, 100vw',
+                sizes: '(min-width: 750px) 33vw, 100vw',
                 class: 'review-card-img'
               }}
             {%- else -%}
-              <!-- Standard Placeholder for Empty States -->
               <div class="review-image-placeholder">
                 <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="placeholder-icon">
                   <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -42,7 +44,6 @@
           <!-- Bottom Section: Content Text Box -->
           <div class="review-text-container">
             
-            <!-- Quote Block -->
             <div class="review-quote-content">
               <p class="review-quote-text">
                 {%- if block.settings.quote_text != blank -%}
@@ -57,7 +58,7 @@
               {%- endif -%}
             </div>
 
-            <!-- Author & Verification Row -->
+            <!-- Author Info with Embedded Verification Badge -->
             <div class="review-author-meta">
               <div class="review-author-header">
                 <h3 class="review-author-name">
@@ -65,7 +66,6 @@
                 </h3>
                 
                 {%- if block.settings.show_verified -%}
-                  <!-- Crisp, Responsive Native Vector Checkmark Badge -->
                   <span class="review-verified-badge" aria-label="Verified account">
                     <svg viewBox="0 0 24 24" class="verified-svg-icon">
                       <g>
@@ -91,175 +91,6 @@
 
   </div>
 </div>
-
-{% style %}
-  /* Section Layout & Spacing Rules */
-  .reviews-section-wrapper {
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #ffffff;
-  }
-  .section-heading-container {
-    text-align: left;
-    margin-bottom: 40px;
-    font-family: inherit;
-  }
-  .reviews-main-heading {
-    font-size: 32px;
-    font-weight: 700;
-    color: #1c1e24;
-    margin: 0 0 12px 0;
-    line-height: 1.2;
-  }
-  .reviews-subheading {
-    font-size: 16px;
-    color: #6b7280;
-    margin: 0;
-  }
-
-  /* Flex Grid Engine - Matches Image Columns Proportionally */
-  .reviews-flexible-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 40px;
-    align-items: start;
-    width: 100%;
-  }
-
-  /* The Card Component Container */
-  .review-card-item {
-    background: #ffffff;
-    border-radius: 24px;
-    border: 1px solid #f3f4f6;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-    transition: transform 0.2s ease;
-    height: 100%;
-  }
-
-  /* Image Area Scales Horizontally & Vertically */
-  .review-image-container {
-    position: relative;
-    width: 100%;
-    height: 420px;
-    background-color: #e5e7eb;
-    overflow: hidden;
-  }
-  .review-card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-  }
-  .review-image-placeholder {
-    width: 100%;
-    height: 100%;
-    background-color: #e5e7eb;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .placeholder-icon {
-    width: 64px;
-    height: 64px;
-    color: #9ca3af;
-  }
-
-  /* Bottom Content Text Box Adjustments */
-  .review-text-container {
-    padding: 36px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-  }
-  .review-quote-content {
-    margin-bottom: 32px;
-  }
-  .review-quote-text {
-    font-size: 20px;
-    line-height: 1.6;
-    font-weight: 400;
-    color: #2d3142;
-    margin: 0 0 16px 0;
-  }
-  .review-product-tag {
-    font-size: 14px;
-    font-weight: 500;
-    color: #9ca3af;
-    margin: 0;
-    text-transform: capitalize;
-  }
-
-  /* Meta & Verification Badge Integration Rules */
-  .review-author-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    border-top: 1px solid #f3f4f6;
-    padding-top: 20px;
-  }
-  .review-author-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .review-author-name {
-    font-size: 24px;
-    font-weight: 600;
-    color: #1c1e24;
-    margin: 0;
-  }
-  .review-verified-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    color: #1d9bf0;
-    flex-shrink: 0;
-  }
-  .verified-svg-icon {
-    width: 100%;
-    height: 100%;
-    fill: currentColor;
-  }
-  .review-author-title {
-    font-size: 14px;
-    font-weight: 500;
-    color: #6b7280;
-    margin: 0;
-  }
-  .review-author-location {
-    font-size: 12px;
-    color: #9ca3af;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  /* Responsive Rules for Small Devices */
-  @media screen and (max-width: 749px) {
-    .reviews-flexible-grid {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    .review-image-container {
-      height: 320px;
-    }
-    .review-text-container {
-      padding: 24px;
-    }
-    .review-quote-text {
-      font-size: 18px;
-    }
-    .review-author-name {
-      font-size: 20px;
-    }
-  }
-{% endstyle %}
 
 {% schema %}
 {
@@ -312,7 +143,7 @@
           "type": "textarea",
           "id": "quote_text",
           "label": "Review Quote",
-          "default": "Biotin gummies everyday for 2 months changed my hair health."
+          "default": "They worked!! After taking Biotin gummies everyday for 2 months I could not actually believe the results! After taking out my braids I noticed how thicker and longer my hair was. The gummies were also easy to take and tasted really good."
         },
         {
           "type": "text",
@@ -349,13 +180,224 @@
   ],
   "presets": [
     {
-
-        "name": "Expert & Customer Reviews",
-        "blocks": [
-            { "type": "review_card" },
-            { "type": "review_card" }
+      "name": "Expert & Customer Reviews",
+      "blocks": [
+        {
+          "type": "review_card",
+          "settings": {
+            "quote_text": "They worked!! After taking Biotin gummies everyday for 2 months I could not actually believe the results! After taking out my braids I noticed how thicker and longer my hair was. The gummies were also easy to take and tasted really good.",
+            "product_tag": "Biotin Gummies",
+            "author_name": "Zara Asare Evans",
+            "author_title": "Registered Nurse",
+            "author_location": "London, UK"
+          }
+        },
+        {
+          "type": "review_card",
+          "settings": {
+            "quote_text": "Creatine is one of the most researched supplements...",
+            "product_tag": "Creatine Gummies",
+            "author_name": "Dr Peter McQuillan",
+            "author_title": "Registered Doctor",
+            "author_location": "London, UK"
+          }
+        }
       ]
     }
   ]
 }
 {% endschema %}
+/* Layout Spacing Overrides to maximize horizontal scale */
+.reviews-section-wrapper {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+/* Forces container wide, overriding template rules */
+.reviews-section-wrapper .page-width {
+  max-width: 1600px !important; 
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+}
+
+.section-heading-container {
+  text-align: left;
+  margin-bottom: 44px;
+}
+
+.reviews-main-heading {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1c1e24;
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+}
+
+.reviews-subheading {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Flex Grid Engine rules */
+.reviews-flexible-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 40px; 
+  align-items: start;
+  width: 100%;
+}
+
+/* Card Block Design formatting */
+.review-card-item {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid #f3f4f6;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s ease;
+  height: 100%;
+}
+
+/* Vertically scales up portraits smoothly */
+.review-image-container {
+  position: relative;
+  width: 100%;
+  height: 440px; 
+  background-color: #e5e7eb;
+  overflow: hidden;
+}
+
+.review-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.review-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-icon {
+  width: 64px;
+  height: 64px;
+  color: #9ca3af;
+}
+
+/* Spacings within Text Content boxes */
+.review-text-container {
+  padding: 36px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.review-quote-content {
+  margin-bottom: 32px;
+}
+
+.review-quote-text {
+  font-size: 20px;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #2d3142;
+  margin: 0 0 16px 0;
+}
+
+.review-product-tag {
+  font-size: 14px;
+  font-weight: 500;
+  color: #9ca3af;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+/* Profile alignment row */
+.review-author-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 20px;
+}
+
+.review-author-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-author-name {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1c1e24;
+  margin: 0;
+}
+
+.review-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: #1d9bf0;
+  flex-shrink: 0;
+}
+
+.verified-svg-icon {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.review-author-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 0;
+}
+
+.review-author-location {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Breakpoint Handling for Tablet and Handset viewports */
+@media screen and (max-width: 749px) {
+  .reviews-section-wrapper {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .reviews-flexible-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .review-image-container {
+    height: 340px;
+  }
+  .review-text-container {
+    padding: 24px;
+  }
+  .review-quote-text {
+    font-size: 18px;
+  }
+  .review-author-name {
+    font-size: 20px;
+  }
+}
