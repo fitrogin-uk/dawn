@@ -42,6 +42,18 @@
     "custom_product_main_Uy7VKC": {
       "type": "custom-product-main",
       "blocks": {
+        "review_PRMPyF": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "reviewer_name": "CHECK",
+            "reviewer_location": "LONDON",
+            "verified": true,
+            "review_title": "GFDGDFGDF",
+            "review_text": "Great product!FDGDFGDFG",
+            "review_date": "3 DAYS AGO"
+          }
+        },
         "video_BGWhR7": {
           "type": "video",
           "settings": {
@@ -142,6 +154,7 @@
         }
       },
       "block_order": [
+        "review_PRMPyF",
         "video_BGWhR7",
         "video_T9kJGw",
         "video_xLcP3g",
@@ -162,7 +175,7 @@
         "accent_color": "#111111",
         "review_rating": "4.5",
         "review_count": "105",
-        "review_link": "",
+        "write_review_url": "",
         "subtitle": "Achieve Peak Performance",
         "tags": "90 Gummies, 1 Month Supply, Strawberry Flavour, Vegan, From £0.62 per day",
         "description": "Fuel your physical performance; with 5000mg of lab-verified, sugar-free creatine in each serving, formulated to meet the demands of high-intensity exercise. No mixing required, just take 3 gummies daily.",
