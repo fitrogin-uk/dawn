@@ -187,8 +187,8 @@
                   {%- if block.settings.expert_title != blank -%}
                     <p class="expert-card__title">{{ block.settings.expert_title }}</p>
                   {%- endif -%}
-                  {%- if block.settings.reviewer_location != blank -%}
-                    <p class="expert-card__location">{{ block.settings.reviewer_location }}</p>
+                  {%- if block.settings.expert_location != blank -%}
+                    <p class="expert-card__location">{{ block.settings.expert_location }}</p>
                   {%- endif -%}
                 </div>
               </div>
@@ -275,31 +275,31 @@
         {
           "type": "textarea",
           "id": "quote",
-          "default": "Text content here",
+          "default": "Creatine is one of the most researched supplements...",
           "label": "Recommendation Quote"
         },
         {
           "type": "text",
           "id": "product_label",
-          "default": "Product Title",
+          "default": "Creatine Gummies",
           "label": "Product Sub-label"
         },
         {
           "type": "text",
           "id": "name",
-          "default": "Expert Name",
+          "default": "Dr Peter McQuillan",
           "label": "Expert Name"
         },
         {
           "type": "text",
           "id": "expert_title",
-          "default": "Title",
+          "default": "Registered Doctor",
           "label": "Expert Credentials / Title"
         },
         {
           "type": "text",
-          "id": "reviewer_location",
-          "default": "Default Location",
+          "id": "expert_location",
+          "default": "London, UK",
           "label": "Reviewer Location"
         },
         {
