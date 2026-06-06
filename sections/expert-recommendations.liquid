@@ -1,7 +1,7 @@
 {% comment %}
-  Expert & Customer Reviews - Fluid Auto-Height Edition
+  Expert & Customer Reviews - Full Width Unlocked
   - Part 1 of 2: Structure markup and styling rules.
-  - Strict maximum line threshold constraint respected.
+  - Strict line limit enforced. Completely unmasks section subheadings.
 {% endcomment %}
 
 <div class="reviews-section-wrapper color-{{ section.settings.color_scheme }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
@@ -88,7 +88,6 @@
 
   </div>
 </div>
-
 <style>
   .reviews-section-wrapper {
     width: 100% !important;
@@ -108,6 +107,7 @@
   .section-heading-container {
     text-align: left;
     margin-bottom: 36px;
+    width: 100% !important;
   }
   .reviews-main-heading {
     font-size: 38px !important; 
@@ -121,7 +121,9 @@
     line-height: 1.6 !important;
     color: #555864 !important;
     margin: 0 !important;
-    max-width: 1000px;
+    max-width: none !important; /* Unlocks paragraph width to flow freely across the page */
+    width: 100% !important;
+    display: block !important;
   }
   .reviews-flexible-grid {
     display: grid !important;
@@ -281,20 +283,15 @@
       height: 288px !important;
       margin-bottom: 10px !important; 
     }
-.review-text-container {
-    padding: 24px !important;
-}
-.review-quote-text {
-    text-align: left !important;
-}
-}
----
+    .review-text-container {
+      padding: 24px !important;
+    }
+    .review-quote-text {
+      text-align: left !important;
+    }
+  }
+</style>
 
-### Part 2: Section Schema Configuration settings
-
-Paste this code block **directly beneath Part 1** inside the same schema file configuration.
-
-```liquid
 {% schema %}
 {
   "name": "Expert & Customer Reviews",
