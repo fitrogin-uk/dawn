@@ -1,7 +1,7 @@
 {% comment %}
-  Expert & Customer Reviews - Parallel Text Alignment
+  Expert & Customer Reviews - Raw Unbound Text Layout
   - Part 1 of 2: Structure markup and styling rules.
-  - Strict line limit monitored.
+  - Completely strips all wrapping filters to prevent truncation.
 {% endcomment %}
 
 <div class="reviews-section-wrapper color-{{ section.settings.color_scheme }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
@@ -11,7 +11,8 @@
       <div class="section-heading-container">
         <h2 class="reviews-main-heading">{{ section.settings.heading }}</h2>
         {%- if section.settings.subheading != blank -%}
-          <p class="reviews-subheading">{{ section.settings.subheading | escape }}</p>
+          <!-- Raw output without character escaping prevents template cutoff bugs -->
+          <div class="reviews-subheading">{{ section.settings.subheading }}</div>
         {%- endif -%}
       </div>
     {%- endif -%}
@@ -40,13 +41,9 @@
 
           <div class="review-text-container">
             <div class="review-quote-content">
+              <!-- Raw text output block allows long paragraphs to fully flow edge-to-edge -->
               <div class="review-quote-text" style="word-spacing: {{ section.settings.review_word_spacing }}px !important;">
-                {%- if block.settings.quote_text != blank -%}
-                  {{ block.settings.quote_text | escape }}
-                {%- else -%}
-                  Review text goes here...
-                {%- endif -%}
-                
+                {{ block.settings.quote_text }}
                 {%- if block.settings.product_tag != blank -%}
                   <span class="review-product-tag-newline">{{ block.settings.product_tag | escape }}</span>
                 {%- endif -%}
@@ -124,6 +121,9 @@
     max-width: none !important; 
     width: 100% !important;
     display: block !important;
+    word-wrap: break-word !important;
+    white-space: normal !important;
+    overflow: visible !important;
   }
   .reviews-flexible-grid {
     display: grid !important;
@@ -206,7 +206,7 @@
   .review-product-tag-newline {
     font-size: 14px !important; 
     font-weight: 400 !important;
-    color: #9ca3af | !important; 
+    color: #9ca3af !important; 
     display: block !important;
     text-transform: none !important;
     margin-top: 10px !important; 
@@ -275,7 +275,6 @@
     line-height: 1.2 !important;
   }
 
-  /* MOBILE INTERFACE OPTIMIZATION ENGINE */
   @media screen and (max-width: 749px) {
     .reviews-flexible-grid {
       display: flex !important;
@@ -300,7 +299,7 @@
     .review-text-container {
       padding: 20px !important;
     }
-    /* MOBILE-ONLY EXTENSION: Employs full text justification constraints to align all paragraph sentence ending fragments in completely flat, sharp, edge-to-edge columns */
+    /* Fixed mobile justification formatting properties to force sharp columns */
     .review-quote-text {
       font-size: 19.5px !important; 
       text-align: justify !important;
@@ -309,7 +308,6 @@
     .reviews-main-heading {
       font-size: 30px !important;
     }
-    /* Applies matching parallel flow guidelines to Section Subheading text arrays on compact screen widths */
     .reviews-subheading {
       font-size: 18px !important; 
       text-align: justify !important;
