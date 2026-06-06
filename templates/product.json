@@ -207,62 +207,63 @@
     "expert_recommendations_k37i8d": {
       "type": "expert-recommendations",
       "blocks": {
-        "review_G3aKkt": {
-          "type": "review",
+        "review_card_d4gNLh": {
+          "type": "review_card",
           "settings": {
-            "quote": "Creatine is one of the most researched supplements...",
-            "product_label": "Creatine Gummies",
-            "name": "Dr Peter McQuillan",
-            "expert_title": "Registered Doctor",
-            "expert_location": "London, UK",
-            "show_verified": true
+            "quote_text": "Biotin gummies everyday for 2 months changed my hair health.",
+            "product_tag": "Biotin Gummies",
+            "author_name": "Zara Asare Evans",
+            "show_verified": true,
+            "author_title": "Registered Nurse",
+            "author_location": "London, UK"
           }
         },
-        "review_AWqcVh": {
-          "type": "review",
+        "review_card_KhpeHG": {
+          "type": "review_card",
           "settings": {
-            "quote": "asasa..",
-            "product_label": "Creatine Gummies",
-            "name": "Dr Peter McQuillan",
-            "expert_title": "Registered Doctor",
-            "expert_location": "London, UK",
-            "show_verified": true
+            "quote_text": "Biotin gummies everyday for 2 months changed my hair health.",
+            "product_tag": "Biotin Gummies",
+            "author_name": "Zara Asare Evans",
+            "show_verified": true,
+            "author_title": "Registered Nurse",
+            "author_location": "London, UK"
           }
         },
-        "review_X8zpHx": {
-          "type": "review",
+        "review_card_iiXL43": {
+          "type": "review_card",
           "settings": {
-            "quote": "Creatine is one of the most researched supplements...asa",
-            "product_label": "Creatine Gummies",
-            "name": "Dr Peter McQuillan",
-            "expert_title": "Registered Doctor",
-            "expert_location": "London, UK",
-            "show_verified": true
+            "quote_text": "Biotin gummies everyday for 2 months changed my hair health.",
+            "product_tag": "Biotin Gummies",
+            "author_name": "Zara Asare Evans",
+            "show_verified": true,
+            "author_title": "Registered Nurse",
+            "author_location": "London, UK"
           }
         },
-        "review_CiypFw": {
-          "type": "review",
+        "review_card_nUR4kJ": {
+          "type": "review_card",
           "settings": {
-            "quote": "4",
-            "product_label": "Creatine Gummies",
-            "name": "Dr Peter McQuillan",
-            "expert_title": "Registered Doctor",
-            "expert_location": "London, UK",
-            "show_verified": true
+            "quote_text": "Biotin gummies everyday for 2 months changed my hair health.",
+            "product_tag": "Biotin Gummies",
+            "author_name": "Zara Asare Evans",
+            "show_verified": true,
+            "author_title": "Registered Nurse",
+            "author_location": "London, UK"
           }
         }
       },
       "block_order": [
-        "review_G3aKkt",
-        "review_AWqcVh",
-        "review_X8zpHx",
-        "review_CiypFw"
+        "review_card_d4gNLh",
+        "review_card_KhpeHG",
+        "review_card_iiXL43",
+        "review_card_nUR4kJ"
       ],
       "name": "Expert Recommendations",
       "settings": {
-        "title": "Recommended by Health Experts",
-        "subtitle": "Novomins gummies aren't just delicious, they're formulated on serious science...",
-        "color_scheme": ""
+        "heading": "Recommended by Health Experts",
+        "subheading": "Formulated on serious science...",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     }
   },
