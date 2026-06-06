@@ -1,5 +1,5 @@
 {% comment %}
-  Expert & Customer Reviews - Quoteless Clean Layout Edition
+  Expert & Customer Reviews - Horizontally Scaled Layout Edition
   - Part 1 of 2: Structure markup and styling rules.
 {% endcomment %}
 
@@ -104,7 +104,7 @@
   }
 
   .reviews-section-wrapper .page-width {
-    max-width: 1555px !important; 
+    max-width: 1618px !important; /* Expanded 4% horizontally from 1555px */
     width: 100% !important;
     padding: 0 !important;
     margin: 0 auto !important;
@@ -133,7 +133,8 @@
 
   .reviews-flexible-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(322px, 1fr)) !important; 
+    /* Expanded card block minimum width 4% horizontally from 322px to 335px */
+    grid-template-columns: repeat(auto-fit, minmax(335px, 1fr)) !important; 
     gap: 28px !important; 
     align-items: start !important;
     width: 100% !important;
@@ -157,7 +158,6 @@
     background-color: #e5e5e7 !important;
     border-radius: 20px !important; 
     overflow: hidden !important;
-    /* Reduced margin-bottom by 10% more down to 12px */
     margin-bottom: 12px !important; 
   }
 
