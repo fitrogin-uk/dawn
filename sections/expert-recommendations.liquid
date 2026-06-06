@@ -1,5 +1,5 @@
 {% comment %}
-  Expert & Customer Reviews - Dynamic Content & Balanced Footer Spacing
+  Expert & Customer Reviews - Quoteless Clean Layout Edition
   - Part 1 of 2: Structure markup and styling rules.
 {% endcomment %}
 
@@ -44,20 +44,18 @@
             <div class="review-quote-content">
               <p class="review-quote-text" style="word-spacing: {{ section.settings.review_word_spacing }}px !important;">
                 {%- if block.settings.quote_text != blank -%}
-                  “{{ block.settings.quote_text | escape }}
+                  {{ block.settings.quote_text | escape }}
                 {%- else -%}
-                  "Review text goes here...
+                  Review text goes here...
                 {%- endif -%}
                 
                 {%- if block.settings.product_tag != blank -%}
-                  <!-- Forces a clean line break before the label and scales down its font size -->
                   <span class="review-product-tag-newline">{{ block.settings.product_tag | escape }}</span>
-                {%- endif -%}”
+                {%- endif -%}
               </p>
             </div>
 
             <!-- Profile Info Footer Wrapper -->
-            <!-- Reduced the line-to-line vertical inter-distance spacing to a tight 2px -->
             <div class="review-author-meta" style="gap: 2px !important;">
               <div class="review-author-header">
                 <h3 class="review-author-name">
@@ -159,7 +157,8 @@
     background-color: #e5e5e7 !important;
     border-radius: 20px !important; 
     overflow: hidden !important;
-    margin-bottom: 15px !important; 
+    /* Reduced margin-bottom by 10% more down to 12px */
+    margin-bottom: 12px !important; 
   }
 
   .review-card-img {
@@ -173,7 +172,8 @@
     width: 100% !important;
     height: 100% !important;
     background-color: #e5e5e7 !important;
-    display: flex !items-center;
+    display: flex !important;
+    align-items: center;
     justify-content: center !important;
   }
 
@@ -207,7 +207,6 @@
     margin: 0 !important;
   }
 
-  /* Forces a clean layout wrap onto a brand new line and scales down font size */
   .review-product-tag-newline {
     font-size: 14px !important; 
     font-weight: 400 !important;
@@ -268,7 +267,6 @@
     color: #2a2d38 !important;
   }
 
-  /* Scaled subtitle lines down for neat layout proportions */
   .review-author-title {
     font-size: 14px !important; 
     font-weight: 400 !important;
@@ -277,7 +275,6 @@
     line-height: 1.2 !important;
   }
 
-  /* Scaled down location line precisely */
   .review-author-location {
     font-size: 12.5px !important; 
     color: #9ca3af !important;
@@ -294,23 +291,16 @@
     }
     .review-image-container {
       height: 288px !important;
-      margin-bottom: 12px !important; 
+      margin-bottom: 10px !important; 
     }
     .review-text-container {
-padding: 24px !important;
-}
-.reviews-main-heading {
-    font-size: 32px !important;
-}
-}
-
----
-
-### Part 2: The Schema Settings Block
-
-Paste this block directly below Part 1 inside the same file. I have updated the default field values to look exactly like your template target configuration right from the initial screen reload:
-
-```liquid
+      padding: 24px !important;
+    }
+    .reviews-main-heading {
+      font-size: 32px !important;
+    }
+  }
+</style>
 {% schema %}
 {
   "name": "Expert & Customer Reviews",
