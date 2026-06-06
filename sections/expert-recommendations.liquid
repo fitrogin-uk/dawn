@@ -1,0 +1,295 @@
+{{ 'section-multi-column.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and m-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .expert-card {
+    background: #fdfdfd;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .expert-card__image-wrapper {
+    position: relative;
+    background-color: #f3f3f3;
+    width: 100%;
+  }
+
+  .expert-card__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .expert-card__info {
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .expert-card__quote {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: #2b2b2b;
+    margin: 0 0 1.5rem 0;
+    flex-grow: 1;
+  }
+
+  .expert-card__product-tag {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    color: #707070;
+    margin-bottom: 1.5rem;
+  }
+
+  .expert-card__meta {
+    border-top: 1px solid #e8e8e8;
+    padding-top: 1.5rem;
+  }
+
+  .expert-card__name {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0 0 0.2rem 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .expert-card__verified-badge {
+    display: inline-flex;
+    align-items: center;
+    color: #1d9bf0;
+  }
+
+  .expert-card__title {
+    font-size: 1.2rem;
+    color: #6a6a6a;
+    margin: 0;
+  }
+
+  /* Native CSS Scroll Snap Slider for Mobile Performance */
+  @media screen and (max-width: 749px) {
+    .expert-grid-slider {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+    .expert-grid-slider::-webkit-scrollbar {
+      display: none;
+    }
+    .expert-grid-slider .grid__item {
+      width: 80% !important;
+      max-width: 80% !important;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin">
+        <h2 class="title inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.title }}
+        </h2>
+        {%- if section.settings.subtitle != blank -%}
+          <div class="rich-text__text rte" style="margin-top: 1rem; color: #555;">
+            {{ section.settings.subtitle }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <ul class="grid grid--1-col grid--2-col-tablet grid--4-col-desktop expert-grid-slider" role="list">
+      {%- for block in section.blocks -%}
+        <li class="grid__item" {{ block.shopify_attributes }}>
+          <div class="expert-card">
+            
+            <div class="expert-card__image-wrapper">
+              {%- if block.settings.image != blank -%}
+                {%- capture sizes -%}(min-width: 990px) 25vw, (min-width: 750px) 50vw, 80vw{%- endcapture -%}
+                {{ block.settings.image | image_url: width: 600 | image_tag:
+                  loading: 'lazy',
+                  sizes: sizes,
+                  widths: '300, 450, 600',
+                  class: 'expert-card__image'
+                }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg expert-card__image' }}
+              {%- endif -%}
+            </div>
+
+            <div class="expert-card__info">
+              <p class="expert-card__quote">“{{ block.settings.quote }}”</p>
+              
+              {%- if block.settings.product_label != blank -%}
+                <div class="expert-card__product-tag">{{ block.settings.product_label }}</div>
+              {%- endif -%}
+
+              <div class="expert-card__meta">
+                <h3 class="expert-card__name">
+                  {{ block.settings.name }}
+                  {%- if block.settings.show_verified -%}
+                    <span class="expert-card__verified-badge" title="Verified Expert">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                      </svg>
+                    </span>
+                  {%- endif -%}
+                </h3>
+                {%- if block.settings.expert_title != blank -%}
+                  <p class="expert-card__title">{{ block.settings.expert_title }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Expert Recommendations",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Recommended by Health Experts",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "default": "<p>Novomins gummies aren't just delicious, they're formulated on serious science...</p>",
+      "label": "Description Subtitle"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1",
+      "label": "Heading Size"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "expert",
+      "name": "Expert Card",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Expert Portrait Image"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "default": "Creatine is one of the most researched supplements...",
+          "label": "Recommendation Quote"
+        },
+        {
+          "type": "text",
+          "id": "product_label",
+          "default": "Creatine Gummies",
+          "label": "Product Sub-label"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "default": "Dr Peter McQuillan",
+          "label": "Expert Name"
+        },
+        {
+          "type": "text",
+          "id": "expert_title",
+          "default": "Registered Doctor",
+          "label": "Expert Credentials / Title"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_verified",
+          "label": "Show Verified Badge",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Expert Recommendations",
+      "blocks": [
+        { "type": "expert" },
+        { "type": "expert" },
+        { "type": "expert" },
+        { "type": "expert" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
