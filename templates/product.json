@@ -323,6 +323,7 @@
         "feature_g9d4m7": {
           "type": "feature",
           "settings": {
+            "image": "shopify://shop_images/Certified_B_Corporation_B_Corp_Logo_2022_Black_RGB_svg.png",
             "title": "B Corp Certified",
             "text": "<p>Add short descriptive text here matching your badge asset.</p>"
           }
@@ -375,7 +376,7 @@
       "settings": {
         "title": "Delicious Gummy Vitamins",
         "bg_color": "#ffffff",
-        "padding_top": 40,
+        "padding_top": 35,
         "padding_bottom": 40
       }
     }
