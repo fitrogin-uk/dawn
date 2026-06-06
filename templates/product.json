@@ -42,6 +42,18 @@
     "custom_product_main_Uy7VKC": {
       "type": "custom-product-main",
       "blocks": {
+        "review_8pbpQz": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "reviewer_name": "Anonymous 2",
+            "reviewer_location": "MANCHESTER",
+            "verified": true,
+            "review_title": "ERWRWER",
+            "review_text": "Great product!REWREW",
+            "review_date": "4 DAYS AGO"
+          }
+        },
         "review_PRMPyF": {
           "type": "review",
           "settings": {
@@ -154,6 +166,7 @@
         }
       },
       "block_order": [
+        "review_8pbpQz",
         "review_PRMPyF",
         "video_BGWhR7",
         "video_T9kJGw",
