@@ -33,7 +33,8 @@
   /* ---------- RIGHT: Info ---------- */
   .cpm__info { max-width: 100%; color: #222; }
   .cpm__info a { text-decoration: none; }
-  .cpm__reviews { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 12px; }
+  .cpm__reviews { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 12px; text-decoration: none; }
+  .cpm__reviews:hover .cpm__reviews-count { text-decoration: underline; }
   .cpm__stars { display: inline-flex; align-items: center; gap: 1px; }
   .cpm__stars svg { display: block; }
   .cpm__reviews-count { font-size: 11px; color: #111; font-weight: 500; line-height: 1; position: relative; top: -3px; }
@@ -199,7 +200,7 @@
       {%- assign r_ceil = rating | ceil -%}
       {%- assign r_half = false -%}
       {%- if r_ceil != r_floor -%}{%- assign r_half = true -%}{%- endif -%}
-      <div class="cpm__reviews">
+      <a class="cpm__reviews" href="{{ section.settings.review_link | default: '#reviews' }}">
         <span class="cpm__stars">
           {%- for i in (1..5) -%}
             {%- if i <= r_floor -%}
@@ -212,7 +213,7 @@
           {%- endfor -%}
         </span>
         <span class="cpm__reviews-count">({{ section.settings.review_count }} Reviews)</span>
-      </div>
+      </a>
 
       {%- comment -%} Title + subtitle {%- endcomment -%}
       <h1 class="cpm__title">{{ product.title }}</h1>
@@ -564,6 +565,7 @@
     { "type": "header", "content": "Reviews" },
     { "type": "text", "id": "review_rating", "label": "Star rating (e.g. 4.5)", "default": "4.5" },
     { "type": "text", "id": "review_count", "label": "Review count", "default": "105" },
+    { "type": "url", "id": "review_link", "label": "Reviews page link (clicking stars opens this)" },
     { "type": "header", "content": "Info" },
     { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Achieve Peak Performance" },
     { "type": "text", "id": "tags", "label": "Tags (comma separated)", "default": "90 Gummies, 1 Month Supply, Strawberry Flavour, Vegan, From £0.62 per day" },
