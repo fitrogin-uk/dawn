@@ -70,7 +70,7 @@
   margin-left: 20px;
 }
 
-/* GAP REDUCED TO HALF: Changed from 32px to 16px */
+/* Desktop Grid Setup */
 .gummy-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -78,9 +78,9 @@
 }
 
 /* 
-  BOX ADJUSTMENTS APPLIED:
-  - Vertical inner padding increased 10% (from 65px to 72px)
-  - Horizontal inner padding increased 10% (from 30px to 33px)
+  DESKTOP BOX ADJUSTMENTS:
+  - Vertical inner padding: 72px
+  - Horizontal inner padding: 33px
 */
 .gummy-card {
   background-color: #f5f5f5;
@@ -94,7 +94,7 @@
   width: 100%;
 }
 
-/* 10% vertical increase applied to icon height area (from 130px to 143px) */
+/* Desktop Icon Wrapper Zone */
 .gummy-icon-wrapper {
   height: 143px;
   display: flex;
@@ -135,27 +135,85 @@
   margin: 0;
 }
 
-/* Responsive Scaling Breakpoints */
+/* Tablet Responsive Breakpoint */
 @media (max-width: 1400px) {
   .gummy-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px; /* Halved from 24px */
+    gap: 12px;
   }
 }
 
+/* 
+  MOBILE OPTIMIZATION (SCROLL & SMALL SIZE)
+  Applies to mobile layout widths up to 768px
+*/
 @media (max-width: 768px) {
   .gummy-container {
     padding: 0 20px;
+    overflow: hidden; /* Avoids breaking parent containers */
+  }
+
+  /* Main Title Scaling */
+  .gummy-main-title {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+
+  /* Converts grid into a fluid horizontal scroller */
+  .gummy-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    gap: 12px;
+    padding-bottom: 15px; /* Clear room for smooth touch actions */
+    margin-right: -20px;  /* Lets cards elegantly bleed past container edges */
+    padding-right: 20px;
+  }
+
+  /* Hides ugly native browser scrollbars */
+  .gummy-grid::-webkit-scrollbar {
+    display: none;
   }
   .gummy-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px; /* Halved from 15px */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
+
+  /* 
+    DOWNSIZED MOBILE CARDS:
+    - Sized at 75% viewport width so users can easily see there are more cards to horizontal scroll to
+    - Significantly tightened internal paddings for mobile screens
+  */
   .gummy-card {
-    padding: 45px 20px;
+    flex: 0 0 75%; 
+    scroll-snap-align: start;
+    padding: 35px 20px; 
+    border-radius: 14px;
   }
-  .gummy-main-title {
-    font-size: 28px;
+
+  /* Compacted Mobile Icons */
+  .gummy-icon-wrapper {
+    height: 70px;
+    margin-bottom: 15px;
+  }
+
+  .gummy-placeholder {
+    width: 55px;
+    height: 55px;
+  }
+
+  /* Compact Mobile Text */
+  .gummy-card-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .gummy-card-text {
+    font-size: 13px;
+    line-height: 1.5;
   }
 }
 {% endstyle %}
