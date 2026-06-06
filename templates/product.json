@@ -45,10 +45,11 @@
         "review_CfXcn3": {
           "type": "review",
           "settings": {
-            "rating": 5,
+            "rating": "4.5",
             "reviewer_name": "Anonymous",
             "reviewer_location": "",
             "verified": true,
+            "recommend": true,
             "review_title": "",
             "review_text": "Great product!",
             "review_date": ""
@@ -57,10 +58,11 @@
         "review_8pbpQz": {
           "type": "review",
           "settings": {
-            "rating": 4,
+            "rating": "4",
             "reviewer_name": "Anonymous 2",
             "reviewer_location": "MANCHESTER",
             "verified": true,
+            "recommend": true,
             "review_title": "ERWRWER",
             "review_text": "Great product!REWREW",
             "review_date": "4 DAYS AGO"
@@ -69,10 +71,11 @@
         "review_PRMPyF": {
           "type": "review",
           "settings": {
-            "rating": 5,
+            "rating": "5",
             "reviewer_name": "CHECK",
             "reviewer_location": "LONDON",
             "verified": true,
+            "recommend": true,
             "review_title": "GFDGDFGDF",
             "review_text": "Great product!FDGDFGDFG",
             "review_date": "3 DAYS AGO"
