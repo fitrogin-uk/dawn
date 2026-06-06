@@ -465,15 +465,13 @@
     }
 
     // Sticky gallery pin — desktop only (>= 990px).
-    // On mobile the gallery is in normal document flow (single-column layout),
-    // so we must never apply position:fixed there or right-column content
-    // will scroll underneath the floating image.
+    // The gallery pins at its exact initial viewport position the moment
+    // scrolling begins: breadcrumb scrolls away, text scrolls up, image stays.
     var galEl = document.querySelector('.cpm .cpm__gallery');
     var wrapEl = document.querySelector('.cpm .cpm__wrap');
     if (galEl && wrapEl) {
-      var PIN_TOP = 20;
       var pinTicking = false;
-      var colLeft = 0, colWidth = 0, state = '';
+      var colLeft = 0, colWidth = 0, galPinTop = 0, state = '';
 
       function isDesktop(){ return window.innerWidth >= 990; }
 
@@ -484,58 +482,55 @@
         galEl.style.top = '';
         galEl.style.left = '';
         galEl.style.width = '';
-        galEl.style.transform = '';
-        // Restore natural grid column sizing
         wrapEl.style.gridTemplateColumns = '';
         state = '';
       }
 
       function capture(){
         resetGallery();
-        var r = galEl.getBoundingClientRect();
-        colLeft = r.left;
-        colWidth = r.width;
+        var gr = galEl.getBoundingClientRect();
+        colLeft  = gr.left;
+        colWidth = gr.width;
+        // Record the gallery's natural distance from the viewport top.
+        // This becomes both the pin threshold and the fixed top offset so
+        // the image appears to freeze in place the instant scrolling starts.
+        galPinTop = gr.top;
       }
 
       function pinGallery(){
         pinTicking = false;
 
-        // Never pin on mobile — single-column layout, pinning causes overlap
         if (!isDesktop()) {
           if (state !== '') resetGallery();
           return;
         }
 
         var wrapRect = wrapEl.getBoundingClientRect();
-        var galH = galEl.offsetHeight;
+        var galH    = galEl.offsetHeight;
 
-        if (wrapRect.top >= PIN_TOP) {
-          // Section hasn't reached the pin point yet
+        if (window.pageYOffset <= 0) {
+          // Back at the very top — restore natural flow
           if (state !== 'static') { resetGallery(); state = 'static'; }
-        } else if (wrapRect.bottom - galH <= PIN_TOP) {
-          // Gallery reached the bottom of the section — park it there
+        } else if (wrapRect.bottom - galH <= galPinTop) {
+          // Section bottom is close — park gallery at bottom of section
           if (state !== 'bottom') {
-            // Lock column width before going absolute so grid doesn't collapse
             wrapEl.style.gridTemplateColumns = colWidth + 'px 1fr';
             galEl.style.position = 'absolute';
-            galEl.style.top = (wrapEl.offsetHeight - galH) + 'px';
+            galEl.style.top  = (wrapEl.offsetHeight - galH) + 'px';
             galEl.style.left = '0';
             galEl.style.width = colWidth + 'px';
-            galEl.style.transform = '';
             state = 'bottom';
           }
         } else {
-          // Actively pinned — use fixed so the browser handles it without jitter.
-          // Also lock the grid column to a pixel width: when the gallery is
-          // position:fixed it leaves the grid flow, which would otherwise collapse
-          // the left column and let the right column expand over the image.
+          // Pin at the gallery's original viewport position so it never moves.
+          // Lock gridTemplateColumns so the empty col-1 cell doesn't collapse
+          // and push .cpm__info into column 1 underneath the fixed image.
           if (state !== 'fixed') {
             wrapEl.style.gridTemplateColumns = colWidth + 'px 1fr';
             galEl.style.position = 'fixed';
-            galEl.style.top = PIN_TOP + 'px';
-            galEl.style.left = colLeft + 'px';
+            galEl.style.top   = galPinTop + 'px';
+            galEl.style.left  = colLeft + 'px';
             galEl.style.width = colWidth + 'px';
-            galEl.style.transform = '';
             state = 'fixed';
           }
         }
@@ -546,18 +541,12 @@
       }, { passive: true });
 
       window.addEventListener('resize', function(){
-        if (!isDesktop()) {
-          resetGallery();
-          return;
-        }
+        if (!isDesktop()) { resetGallery(); return; }
         capture();
         pinGallery();
       });
 
-      // Only capture position on desktop; on mobile leave gallery in flow
-      if (isDesktop()) {
-        capture();
-      }
+      if (isDesktop()) { capture(); }
       pinGallery();
     }
   })();
