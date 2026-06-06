@@ -162,6 +162,7 @@
         "accent_color": "#111111",
         "review_rating": "4.5",
         "review_count": "105",
+        "review_link": "",
         "subtitle": "Achieve Peak Performance",
         "tags": "90 Gummies, 1 Month Supply, Strawberry Flavour, Vegan, From £0.62 per day",
         "description": "Fuel your physical performance; with 5000mg of lab-verified, sugar-free creatine in each serving, formulated to meet the demands of high-intensity exercise. No mixing required, just take 3 gummies daily.",
@@ -197,10 +198,74 @@
       "type": "marquee-banner",
       "name": "Marquee Banner",
       "settings": {
-        "bg_color": "transparent",
+        "bg_color": "rgba(0,0,0,0)",
         "speed": 20,
         "logo_height": 35,
         "side_padding": 80
+      }
+    },
+    "expert_recommendations_k37i8d": {
+      "type": "expert-recommendations",
+      "blocks": {
+        "review_G3aKkt": {
+          "type": "review",
+          "settings": {
+            "quote": "Creatine is one of the most researched supplements...",
+            "product_label": "Creatine Gummies",
+            "name": "Dr Peter McQuillan",
+            "expert_title": "Registered Doctor",
+            "expert_location": "London, UK",
+            "show_verified": true
+          }
+        },
+        "review_AWqcVh": {
+          "type": "review",
+          "settings": {
+            "quote": "asasa..",
+            "product_label": "Creatine Gummies",
+            "name": "Dr Peter McQuillan",
+            "expert_title": "Registered Doctor",
+            "expert_location": "London, UK",
+            "show_verified": true
+          }
+        },
+        "review_X8zpHx": {
+          "type": "review",
+          "settings": {
+            "quote": "Creatine is one of the most researched supplements...asa",
+            "product_label": "Creatine Gummies",
+            "name": "Dr Peter McQuillan",
+            "expert_title": "Registered Doctor",
+            "expert_location": "London, UK",
+            "show_verified": true
+          }
+        },
+        "review_CiypFw": {
+          "type": "review",
+          "settings": {
+            "quote": "4444444444444444444",
+            "product_label": "Creatine Gummies",
+            "name": "Dr Peter McQuillan",
+            "expert_title": "Registered Doctor",
+            "expert_location": "London, UK",
+            "show_verified": true
+          }
+        }
+      },
+      "block_order": [
+        "review_G3aKkt",
+        "review_AWqcVh",
+        "review_X8zpHx",
+        "review_CiypFw"
+      ],
+      "name": "Expert Recommendations",
+      "settings": {
+        "title": "Recommended by Health Experts",
+        "subtitle": "<p>Novomins gummies aren't just delicious, they're formulated on serious science...</p>",
+        "heading_size": "h1",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     }
   },
@@ -208,6 +273,7 @@
     "main",
     "custom_product_main_Uy7VKC",
     "related-products",
-    "marquee_banner_WcmFgf"
+    "marquee_banner_WcmFgf",
+    "expert_recommendations_k37i8d"
   ]
 }
