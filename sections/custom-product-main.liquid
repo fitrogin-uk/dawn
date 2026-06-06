@@ -75,7 +75,6 @@
   .cpm__lb-product-name { font-size: 14px; font-weight: 600; color: #111; text-align: center; }
   .cpm__lb-buy { background: #111; color: #fff; border: none; border-radius: 999px; padding: 9px 22px; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 4px; }
   .cpm__lb-buy:hover { opacity: 0.85; }
-  .cpm__lb-reviewer { font-size: 13px; color: #555; text-align: center; margin-top: 4px; }
   .cpm__modal-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; border-bottom: 2px solid #eee; gap: 12px; }
   .cpm__modal-sort { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: #111; cursor: pointer; background: none; border: none; }
   .cpm__modal-search { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #555; background: none; border: none; cursor: pointer; }
@@ -119,6 +118,25 @@
   .cpm__write-cancel:hover { background: #f5f5f5; }
   .cpm__write-submit { background: #111; color: #fff; border: none; border-radius: 999px; padding: 10px 22px; font-size: 14px; font-weight: 700; cursor: pointer; }
   .cpm__write-submit:hover { opacity: 0.85; }
+  .cpm__write-order-row { margin-bottom: 16px; }
+  .cpm__write-order-row input { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #111; box-sizing: border-box; font-family: inherit; }
+  .cpm__write-order-row input:focus { outline: none; border-color: #111; }
+  .cpm__write-thanks { display: none; padding: 32px 24px; text-align: center; }
+  .cpm__write-thanks.is-shown { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .cpm__write-thanks-icon { width: 64px; height: 64px; }
+  .cpm__write-thanks h3 { font-size: 18px; font-weight: 700; color: #111; margin: 0; }
+  .cpm__write-thanks p { font-size: 14px; color: #555; margin: 0; }
+  /* Lightbox reviewer info */
+  .cpm__lb-reviewer { font-size: 13px; color: #555; text-align: center; margin-top: 4px; }
+  .cpm__lb-review-info { border-bottom: 1px solid #eee; padding-bottom: 16px; margin-bottom: 16px; }
+  .cpm__lb-review-name { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 6px; }
+  .cpm__lb-review-stars { display: flex; gap: 2px; margin-bottom: 8px; }
+  .cpm__lb-review-title { font-size: 14px; font-weight: 700; color: #111; margin-bottom: 6px; }
+  .cpm__lb-review-text { font-size: 14px; color: #444; line-height: 1.55; margin-bottom: 8px; }
+  .cpm__lb-review-date { font-size: 12px; color: #999; margin-bottom: 12px; }
+  .cpm__lb-share { display: flex; gap: 10px; align-items: center; }
+  .cpm__lb-share-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; color: #555; flex-shrink: 0; }
+  .cpm__lb-share-btn:hover { background: #f5f5f5; }
   .cpm__stars { display: inline-flex; align-items: center; gap: 1px; }
   .cpm__stars svg { display: block; }
   .cpm__reviews-count { font-size: 11px; color: #111; font-weight: 500; line-height: 1; position: relative; top: -3px; }
@@ -227,7 +245,6 @@
     .cpm__acc details { border-bottom: none; }
     .cpm__vc-item { flex: 0 0 calc(44% - 6px); height: 280px; }
     .cpm__vc-title { font-size: 18px; }
-    .cpm__write-form-row { grid-template-columns: 1fr; }
   }
 </style>
 
@@ -529,10 +546,25 @@
           <input type="email" id="cpmWriteEmail" placeholder="your@email.com">
         </div>
       </div>
+      <div class="cpm__write-order-row">
+        <label class="cpm__write-form-label" style="margin-bottom:6px;">Order number <span style="color:#e53;">(required)</span></label>
+        <input type="text" id="cpmWriteOrder" placeholder="e.g. #1234">
+      </div>
       <div class="cpm__write-form-actions">
         <button class="cpm__write-cancel" type="button" data-cpm-close-write-review>Cancel</button>
-        <button class="cpm__write-submit" type="button">Submit</button>
+        <button class="cpm__write-submit" type="button" id="cpmWriteSubmit">Submit</button>
       </div>
+    </div>
+
+    <div class="cpm__write-thanks" id="cpmWriteThanks">
+      <svg class="cpm__write-thanks-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="38" stroke="#e0e0e0" stroke-width="2"/>
+        <path d="M40 14 L43.5 29.5 L58 26 L49.5 38.5 L62 47 L47 48.5 L46 64 L40 51 L34 64 L33 48.5 L18 47 L30.5 38.5 L22 26 L36.5 29.5 Z" stroke="#111" stroke-width="2" stroke-linejoin="round" fill="none"/>
+        <circle cx="55" cy="55" r="13" fill="#1a9e47"/>
+        <polyline points="49 55 53 59 61 51" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h3>Thank you for your review!</h3>
+      <p>Your review has been submitted. We appreciate your feedback.</p>
     </div>
 
     {%- if has_review_photos -%}
@@ -540,12 +572,12 @@
         {%- assign rp_idx = 0 -%}
         {%- for block in section.blocks -%}
           {%- if block.type == 'review_photo' and block.settings.photo != blank -%}
-            <div class="cpm__modal-photo" data-cpm-photo="{{ rp_idx }}" data-cpm-photo-src="{{ block.settings.photo | image_url: width: 1200 }}" data-cpm-photo-reviewer="" data-cpm-photo-date="" {{ block.shopify_attributes }}>
+            <div class="cpm__modal-photo" data-cpm-photo="{{ rp_idx }}" data-cpm-photo-src="{{ block.settings.photo | image_url: width: 1200 }}" data-cpm-photo-reviewer="" data-cpm-photo-date="" data-cpm-photo-rating="" data-cpm-photo-title="" data-cpm-photo-text="" {{ block.shopify_attributes }}>
               {{ block.settings.photo | image_url: width: 200 | image_tag: loading: 'lazy', alt: 'Review photo' }}
             </div>
             {%- assign rp_idx = rp_idx | plus: 1 -%}
           {%- elsif block.type == 'review' and block.settings.photo != blank -%}
-            <div class="cpm__modal-photo" data-cpm-photo="{{ rp_idx }}" data-cpm-photo-src="{{ block.settings.photo | image_url: width: 1200 }}" data-cpm-photo-reviewer="{{ block.settings.reviewer_name }}" data-cpm-photo-date="{{ block.settings.review_date }}" {{ block.shopify_attributes }}>
+            <div class="cpm__modal-photo" data-cpm-photo="{{ rp_idx }}" data-cpm-photo-src="{{ block.settings.photo | image_url: width: 1200 }}" data-cpm-photo-reviewer="{{ block.settings.reviewer_name }}" data-cpm-photo-date="{{ block.settings.review_date }}" data-cpm-photo-rating="{{ block.settings.rating }}" data-cpm-photo-title="{{ block.settings.review_title }}" data-cpm-photo-text="{{ block.settings.review_text }}" {{ block.shopify_attributes }}>
               {{ block.settings.photo | image_url: width: 200 | image_tag: loading: 'lazy', alt: 'Review photo' }}
             </div>
             {%- assign rp_idx = rp_idx | plus: 1 -%}
@@ -653,6 +685,25 @@
         </button>
         <button class="cpm__lb-close" id="cpmLbClose" aria-label="Close">&#x2715;</button>
       </div>
+      <div class="cpm__lb-review-info" id="cpmLbReviewInfo">
+        <div class="cpm__lb-review-name" id="cpmLbRevName"></div>
+        <div class="cpm__lb-review-stars" id="cpmLbRevStars"></div>
+        <div class="cpm__lb-review-title" id="cpmLbRevTitle"></div>
+        <div class="cpm__lb-review-text" id="cpmLbRevText"></div>
+        <div class="cpm__lb-review-date" id="cpmLbRevDate"></div>
+        <div class="cpm__lb-share">
+          <span style="font-size:12px;color:#999;">Share:</span>
+          <a class="cpm__lb-share-btn" id="cpmLbShareTw" href="#" target="_blank" rel="noopener" aria-label="Share on Twitter">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.736l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a class="cpm__lb-share-btn" id="cpmLbShareFb" href="#" target="_blank" rel="noopener" aria-label="Share on Facebook">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a class="cpm__lb-share-btn" id="cpmLbShareMail" href="#" aria-label="Share via email">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+        </div>
+      </div>
       <div class="cpm__lb-product">
         {%- if product.featured_image -%}
           <img src="{{ product.featured_image | image_url: width: 150 }}" alt="{{ product.title }}">
@@ -673,7 +724,6 @@
         </div>
         <div class="cpm__lb-product-name">{{ product.title }}</div>
         <a href="{{ product.url }}" class="cpm__lb-buy">Buy Now</a>
-        <div class="cpm__lb-reviewer" id="cpmLbReviewer"></div>
       </div>
     </div>
   </div>
@@ -712,7 +762,7 @@
       revOpen.addEventListener('click', function(){ revOverlay.classList.add('is-open'); document.body.style.overflow = 'hidden'; });
       if (revClose) revClose.addEventListener('click', function(){ revOverlay.classList.remove('is-open'); document.body.style.overflow = ''; });
       revOverlay.addEventListener('click', function(e){ if (e.target === revOverlay){ revOverlay.classList.remove('is-open'); document.body.style.overflow = ''; } });
-      document.addEventListener('keydown', function(e){ if (e.key === 'Escape'){ revOverlay.classList.remove('is-open'); if(cpmLbOverlay) cpmLbOverlay.classList.remove('is-open'); document.body.style.overflow = ''; } });
+      document.addEventListener('keydown', function(e){ if (e.key === 'Escape'){ revOverlay.classList.remove('is-open'); cpmLbOverlay.classList.remove('is-open'); document.body.style.overflow = ''; } });
     }
 
     // Photo lightbox
@@ -721,24 +771,60 @@
     var cpmLbPrev = document.getElementById('cpmLbPrev');
     var cpmLbNext = document.getElementById('cpmLbNext');
     var cpmLbClose = document.getElementById('cpmLbClose');
-    var cpmLbReviewer = document.getElementById('cpmLbReviewer');
     var lbPhotos = [];
     var lbCur = 0;
     document.querySelectorAll('[data-cpm-photo]').forEach(function(el){
-      lbPhotos.push({ src: el.getAttribute('data-cpm-photo-src'), reviewer: el.getAttribute('data-cpm-photo-reviewer') || '', date: el.getAttribute('data-cpm-photo-date') || '' });
+      lbPhotos.push({
+        src: el.getAttribute('data-cpm-photo-src'),
+        reviewer: el.getAttribute('data-cpm-photo-reviewer') || '',
+        date: el.getAttribute('data-cpm-photo-date') || '',
+        rating: parseFloat(el.getAttribute('data-cpm-photo-rating')) || 0,
+        title: el.getAttribute('data-cpm-photo-title') || '',
+        text: el.getAttribute('data-cpm-photo-text') || ''
+      });
       el.addEventListener('click', function(){
         lbCur = parseInt(el.getAttribute('data-cpm-photo'));
         lbShow(lbCur);
         cpmLbOverlay.classList.add('is-open');
       });
     });
+    function lbStarHTML(rating){
+      var html = '';
+      for (var i = 1; i <= 5; i++){
+        if (i <= Math.floor(rating)){
+          html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
+        } else if (i === Math.ceil(rating) && Math.ceil(rating) !== Math.floor(rating)){
+          html += '<svg width="14" height="14" viewBox="0 0 24 24"><defs><linearGradient id="lbsh'+i+'"><stop offset="55%" stop-color="#111"/><stop offset="55%" stop-color="#fff"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#lbsh'+i+')" stroke="#111" stroke-width="1.2"/></svg>';
+        } else {
+          html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#ccc" stroke-width="1.5"/></svg>';
+        }
+      }
+      return html;
+    }
     function lbShow(i){
       lbCur = (i + lbPhotos.length) % lbPhotos.length;
       cpmLbImg.src = lbPhotos[lbCur].src;
-      if (cpmLbReviewer) {
-        var r = lbPhotos[lbCur].reviewer, d = lbPhotos[lbCur].date;
-        cpmLbReviewer.textContent = (r && d) ? r + ' · ' + d : (r || d || '');
-      }
+      var p = lbPhotos[lbCur];
+      var nameEl = document.getElementById('cpmLbRevName');
+      var starsEl = document.getElementById('cpmLbRevStars');
+      var titleEl = document.getElementById('cpmLbRevTitle');
+      var textEl = document.getElementById('cpmLbRevText');
+      var dateEl = document.getElementById('cpmLbRevDate');
+      var shareTw = document.getElementById('cpmLbShareTw');
+      var shareFb = document.getElementById('cpmLbShareFb');
+      var shareMail = document.getElementById('cpmLbShareMail');
+      if (nameEl) nameEl.textContent = p.reviewer || '';
+      if (starsEl) starsEl.innerHTML = p.rating ? lbStarHTML(p.rating) : '';
+      if (titleEl) { titleEl.textContent = p.title || ''; titleEl.style.display = p.title ? '' : 'none'; }
+      if (textEl) textEl.textContent = p.text || '';
+      if (dateEl) dateEl.textContent = p.date || '';
+      var shareText = encodeURIComponent((p.reviewer || 'A customer') + ' said: ' + (p.text || ''));
+      var pageUrl = encodeURIComponent(window.location.href);
+      if (shareTw) shareTw.href = 'https://twitter.com/intent/tweet?text=' + shareText + '&url=' + pageUrl;
+      if (shareFb) shareFb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + pageUrl;
+      if (shareMail) shareMail.href = 'mailto:?subject=Check%20out%20this%20review&body=' + shareText + '%0A' + pageUrl;
+      var infoEl = document.getElementById('cpmLbReviewInfo');
+      if (infoEl) infoEl.style.display = (p.reviewer || p.text) ? '' : 'none';
     }
     if (cpmLbPrev) cpmLbPrev.addEventListener('click', function(){ lbShow(lbCur - 1); });
     if (cpmLbNext) cpmLbNext.addEventListener('click', function(){ lbShow(lbCur + 1); });
@@ -758,16 +844,36 @@
 
     // Write review form toggle
     var writeForm = document.getElementById('cpmWriteForm');
+    var writeThanks = document.getElementById('cpmWriteThanks');
     var openWriteBtn = document.querySelector('[data-cpm-open-write-review]');
     var closeWriteBtn = document.querySelector('[data-cpm-close-write-review]');
     if (openWriteBtn && writeForm) {
       openWriteBtn.addEventListener('click', function(){
+        if (writeThanks) writeThanks.classList.remove('is-shown');
         writeForm.classList.add('is-open');
         writeForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
     }
     if (closeWriteBtn && writeForm) {
       closeWriteBtn.addEventListener('click', function(){ writeForm.classList.remove('is-open'); });
+    }
+    var submitBtn = document.getElementById('cpmWriteSubmit');
+    if (submitBtn && writeForm && writeThanks) {
+      submitBtn.addEventListener('click', function(){
+        var rating = wRating;
+        var text = document.getElementById('cpmWriteText') ? document.getElementById('cpmWriteText').value.trim() : '';
+        var name = document.getElementById('cpmWriteName') ? document.getElementById('cpmWriteName').value.trim() : '';
+        var email = document.getElementById('cpmWriteEmail') ? document.getElementById('cpmWriteEmail').value.trim() : '';
+        var order = document.getElementById('cpmWriteOrder') ? document.getElementById('cpmWriteOrder').value.trim() : '';
+        if (!rating){ alert('Please select a star rating.'); return; }
+        if (!text){ alert('Please enter your feedback.'); return; }
+        if (!name){ alert('Please enter your name.'); return; }
+        if (!email){ alert('Please enter your email address.'); return; }
+        if (!order){ alert('Please enter your order number.'); return; }
+        writeForm.classList.remove('is-open');
+        writeThanks.classList.add('is-shown');
+        writeThanks.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
     }
 
     // Write review star picker
@@ -843,6 +949,8 @@
     }
 
     // Sticky gallery pin — desktop only (>= 990px).
+    // The gallery pins at its exact initial viewport position the moment
+    // scrolling begins: breadcrumb scrolls away, text scrolls up, image stays.
     var galEl = document.querySelector('.cpm .cpm__gallery');
     var wrapEl = document.querySelector('.cpm .cpm__wrap');
     if (galEl && wrapEl) {
@@ -867,6 +975,9 @@
         var gr = galEl.getBoundingClientRect();
         colLeft  = gr.left;
         colWidth = gr.width;
+        // Record the gallery's natural distance from the viewport top.
+        // This becomes both the pin threshold and the fixed top offset so
+        // the image appears to freeze in place the instant scrolling starts.
         galPinTop = gr.top;
       }
 
@@ -882,8 +993,10 @@
         var galH    = galEl.offsetHeight;
 
         if (window.pageYOffset <= 0) {
+          // Back at the very top — restore natural flow
           if (state !== 'static') { resetGallery(); state = 'static'; }
         } else if (wrapRect.bottom - galH <= galPinTop) {
+          // Section bottom is close — park gallery at bottom of section
           if (state !== 'bottom') {
             wrapEl.style.gridTemplateColumns = colWidth + 'px 1fr';
             galEl.style.position = 'absolute';
@@ -893,6 +1006,9 @@
             state = 'bottom';
           }
         } else {
+          // Pin at the gallery's original viewport position so it never moves.
+          // Lock gridTemplateColumns so the empty col-1 cell doesn't collapse
+          // and push .cpm__info into column 1 underneath the fixed image.
           if (state !== 'fixed') {
             wrapEl.style.gridTemplateColumns = colWidth + 'px 1fr';
             galEl.style.position = 'fixed';
