@@ -373,5 +373,57 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+    <!-- Floating Global WhatsApp Chat Node -->
+<a href="https://wa.me." 
+   target="_blank" 
+   rel="noopener" 
+   class="global-floating-whatsapp" 
+   aria-label="Chat with us on WhatsApp">
+  <svg viewBox="0 0 24 24" class="floating-whatsapp-icon">
+    <path fill="currentColor" d="M12.004 2c-5.51 0-9.99 4.48-9.99 9.99 0 2.09.64 4.03 1.73 5.65L2.334 22l4.52-1.38c1.55.94 3.36 1.47 5.15 1.47 5.51 0 9.99-4.48 9.99-9.99h.01c0-5.51-4.48-9.99-9.99-9.99zm5.95 14.22c-.25.7-1.45 1.3-2 1.38-.55.07-1.27.1-3.65-.89-3.03-1.26-4.96-4.34-5.11-4.54-.15-.2-1.21-1.6-1.21-3.06 0-1.46.76-2.18 1.03-2.46.2-.2.53-.27.75-.27l.55.01c.2 0 .46-.08.69.49.25.61.85 2.07.92 2.22.07.15.12.33.02.53-.1.2-.15.33-.3.51-.15.18-.32.35-.45.48-.15.15-.3.31-.13.61.18.3.79 1.3 1.7 2.11.16.15.33.31.53.42.33.18.51.15.7-.06.2-.23.85-.99.1-1.24-.13-.05-.44-.22-.92-.44s-.69-.33-.8-.38c-.12-.05-.23-.08-.33.08-.1.15-.46.58-.56.69-.1.12-.22.13-.43.03s-.9-.33-1.72-1.07c-.64-.57-1.07-1.27-1.2-1.49-.12-.22-.01-.34.1-.45.1-.1.22-.25.33-.38.12-.13.15-.22.23-.38.08-.15.04-.3-.02-.43-.06-.13-.56-1.35-.77-1.85-.2-.5-.41-.42-.56-.43h-.48c-.16 0-.43.06-.65.3-.23.25-.89.87-.89 2.12s.91 2.46 1.03 2.63c.13.16 1.79 2.74 4.33 3.84 2.11.91 2.95.98 3.99.71 1.05-.27 2-.85 2.28-1.63z"/>
+  </svg>
+</a>
+
+<style>
+  .global-floating-whatsapp {
+    position: fixed !important;
+    bottom: 24px !important;
+    right: 24px !important;
+    width: 60px !important;
+    height: 60px !important;
+    background-color: #25D366 !important;
+    color: #ffffff !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3) !important;
+    z-index: 999999 !important; /* Kept extremely high to clear overlay items */
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease !important;
+    text-decoration: none !important;
+  }
+  .global-floating-whatsapp:hover {
+    transform: scale(1.08) !important;
+    background-color: #20ba56 !important;
+  }
+  .floating-whatsapp-icon {
+    width: 34px !important;
+    height: 34px !important;
+    fill: currentColor !important;
+  }
+  @media screen and (max-width: 749px) {
+    .global-floating-whatsapp {
+      bottom: 16px !important;
+      right: 16px !important;
+      width: 52px !important;
+      height: 52px !important;
+    }
+    .floating-whatsapp-icon {
+      width: 28px !important;
+      height: 28px !important;
+    }
+  }
+</style>
+
   </body>
 </html>
