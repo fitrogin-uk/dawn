@@ -45,7 +45,7 @@
         "review_CfXcn3": {
           "type": "review",
           "settings": {
-            "rating": "4.5",
+            "rating": "5",
             "reviewer_name": "Anonymous",
             "reviewer_location": "",
             "verified": true,
@@ -304,7 +304,7 @@
       "name": "Expert Recommendations",
       "settings": {
         "heading": "Recommended by Health Experts",
-        "subheading": "FUELX Creatine isn’t built on marketing hype—it’s built on undeniable proof. We pack every single serving with the full, clinically effective dose your muscles demand to grow, recover, and perform at their peak. No under-dosed scoops, no hidden proprietary blends. Just pure, maximum-potency power independently verified by Eurofins, the global gold standard in laboratory testing.",
+        "subheading": "SFUELX Creatine isn’t built on marketing hype—it’s built on undeniable proof. We pack every single serving with the full, clinically effective dose your muscles demand to grow, recover, and perform at their peak. No under-dosed scoops, no hidden proprietary blends. Just pure, maximum-potency power independently verified by Eurofins, the global gold standard in laboratory testing.",
         "review_word_spacing": 0,
         "padding_top": 36,
         "padding_bottom": 36
