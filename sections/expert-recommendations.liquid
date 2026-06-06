@@ -1,6 +1,7 @@
 {% comment %}
-  Expert & Customer Reviews - Justified & Block Aligned Edition
+  Expert & Customer Reviews - Auto-Expanding Height Matrix
   - Part 1 of 2: Structure markup and styling rules.
+  - Optimized to allow auto-wrapping without truncation limits.
 {% endcomment %}
 
 <div class="reviews-section-wrapper color-{{ section.settings.color_scheme }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
@@ -42,7 +43,6 @@
           <div class="review-text-container">
             
             <div class="review-quote-content">
-              <!-- Inline style holds the word-spacing variable from theme customizer drawer settings panel -->
               <p class="review-quote-text" style="word-spacing: {{ section.settings.review_word_spacing }}px !important;">
                 {%- if block.settings.quote_text != blank -%}
                   {{ block.settings.quote_text | escape }}
@@ -103,19 +103,16 @@
     display: block !important;
     clear: both !important;
   }
-
   .reviews-section-wrapper .page-width {
     max-width: 1618px !important; 
     width: 100% !important;
     padding: 0 !important;
     margin: 0 auto !important;
   }
-
   .section-heading-container {
     text-align: left;
     margin-bottom: 36px;
   }
-
   .reviews-main-heading {
     font-size: 38px !important; 
     font-weight: 700 !important;
@@ -123,7 +120,6 @@
     margin: 0 0 10px 0 !important;
     line-height: 1.25 !important;
   }
-
   .reviews-subheading {
     font-size: 20px !important; 
     line-height: 1.6 !important;
@@ -131,15 +127,13 @@
     margin: 0 !important;
     max-width: 1000px;
   }
-
   .reviews-flexible-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(335px, 1fr)) !important; 
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)) !important; 
     gap: 28px !important; 
-    align-items: start !important;
+    align-items: stretch !important; 
     width: 100% !important;
   }
-
   .review-card-item {
     background: transparent !important;
     border: none !important;
@@ -150,7 +144,6 @@
     box-shadow: none !important;
     height: 100% !important;
   }
-
   .review-image-container {
     position: relative !important;
     width: 100% !important;
@@ -160,14 +153,12 @@
     overflow: hidden !important;
     margin-bottom: 12px !important; 
   }
-
   .review-card-img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
     object-position: top center !important;
   }
-
   .review-image-placeholder {
     width: 100% !important;
     height: 100% !important;
@@ -176,13 +167,11 @@
     align-items: center;
     justify-content: center !important;
   }
-
   .placeholder-icon {
     width: 50px !important;
     height: 50px !important;
     color: #b4b6bc !important;
   }
-
   .review-text-container {
     background: #ffffff !important; 
     border: 1px solid #f0f1f4 !important;
@@ -191,51 +180,46 @@
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
-    flex-grow: 1 !important;
+    min-height: min-content !important; 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.015) !important;
   }
-
   .review-quote-content {
     margin-bottom: 24px !important;
+    height: auto !important; 
   }
-
   .review-quote-text {
     font-size: 20.5px !important; 
-    line-height: 1.25 !important; 
+    line-height: 1.35 !important; 
     font-weight: 400 !important;
     color: #2a2d38 !important;
     margin: 0 !important;
-    /* Forces the text edges to snap perfectly flush on both sides */
     text-align: justify !important; 
     text-justify: inter-word !important;
+    overflow: visible !important; 
   }
-
   .review-product-tag-newline {
     font-size: 14px !important; 
     font-weight: 400 !important;
     color: #9ca3af !important; 
     display: block !important;
     text-transform: none !important;
-    margin-top: 6px !important;
+    margin-top: 10px !important; 
     margin-bottom: 0px !important;
-    /* Keeps tag left-aligned even when quote above it is justified */
     text-align: left !important; 
   }
-
   .review-author-meta {
     display: flex !important;
     flex-direction: column !important;
     border-top: none !important; 
     padding-top: 0px !important;
+    margin-top: auto !important; 
   }
-
   .review-author-header {
     display: flex !important;
     align-items: center !important;
     gap: 8px !important;
     margin-bottom: 0px !important;
   }
-
   .review-author-name {
     font-size: 21.5px !important; 
     font-weight: 600 !important;
@@ -243,13 +227,11 @@
     margin: 0 !important;
     line-height: 1.1 !important;
   }
-
   .review-verified-badge-group {
     display: inline-flex !important;
     align-items: center !important;
     gap: 4px !important;
   }
-
   .review-verified-badge {
     display: inline-flex !important;
     align-items: center !important;
@@ -259,19 +241,16 @@
     color: #1d9bf0 !important;
     flex-shrink: 0 !important;
   }
-
   .verified-svg-icon {
     width: 100% !important;
     height: 100% !important;
     fill: currentColor !important;
   }
-
   .review-verified-text {
     font-size: 13px !important;
     font-weight: 500 !important;
     color: #2a2d38 !important;
   }
-
   .review-author-title {
     font-size: 14px !important; 
     font-weight: 400 !important;
@@ -279,7 +258,6 @@
     margin: 0 !important;
     line-height: 1.2 !important;
   }
-
   .review-author-location {
     font-size: 12.5px !important; 
     color: #9ca3af !important;
@@ -288,7 +266,6 @@
     letter-spacing: 0.02em !important;
     line-height: 1.2 !important;
   }
-
   @media screen and (max-width: 749px) {
     .reviews-flexible-grid {
       grid-template-columns: 1fr !important;
@@ -299,23 +276,13 @@
       margin-bottom: 10px !important; 
     }
     .review-text-container {
-padding: 24px !important;
-}
-.reviews-main-heading {
-    font-size: 32px !important;
-}
-/* Disable justification on mobile handsets for cleaner rendering text block shapes */
-.review-quote-text {
-    text-align: left !important;
-}
-}
----
-
-### Part 2: The Schema Settings Block
-
-Paste this block directly below Part 1 inside the same file to keep your customization tools up to date:
-
-```liquid
+      padding: 24px !important;
+    }
+    .review-quote-text {
+      text-align: left !important;
+    }
+  }
+</style>
 {% schema %}
 {
   "name": "Expert & Customer Reviews",
