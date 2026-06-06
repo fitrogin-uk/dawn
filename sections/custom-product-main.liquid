@@ -10,12 +10,12 @@
   .cpm__breadcrumb a:hover { text-decoration: underline; }
   .cpm__crumb-sep { margin: 0 6px; color: #aaa; }
   .cpm__crumb-current { color: #777; }
-  .cpm__wrap { display: grid; grid-template-columns: 55fr 45fr; gap: 32px; max-width: 100%; margin: 0 auto; padding: 16px 40px 24px; align-items: start; }
+  .cpm__wrap { display: grid; grid-template-columns: 55fr 45fr; gap: 32px; max-width: 100%; margin: 0 auto; padding: 16px 40px 24px; }
 
   /* ---------- LEFT: Gallery ---------- */
   .cpm__gallery { position: relative; }
   @media (min-width: 990px) {
-    .cpm__gallery { position: sticky; top: 20px; align-self: start; }
+    .cpm__gallery { position: relative; align-self: start; will-change: transform; }
   }
   .cpm__main-img { position: relative; border-radius: 16px; overflow: hidden; background: #f6f6f6; display: flex; align-items: center; justify-content: center; }
   .cpm__main-img img { width: 100%; height: auto; max-height: min(520px, calc(100vh - 200px)); object-fit: contain; display: block; }
@@ -385,6 +385,7 @@
 
 <script>
   (function(){
+    var root = document.currentScript.previousElementSibling || document;
     // Gallery
     var main = document.getElementById('cpmMain');
     var thumbs = document.getElementById('cpmThumbs');
@@ -407,7 +408,6 @@
       if (prev) prev.addEventListener('click', function(){ show(cur - 1); });
       if (next) next.addEventListener('click', function(){ show(cur + 1); });
     }
-
     // Plan selector
     var plans = document.querySelectorAll('[data-cpm-plan]');
     plans.forEach(function(p){
@@ -461,6 +461,56 @@
         vItems.forEach(function(it, i){ it.addEventListener('click', function(){ vPlay(i); }); });
         setTimeout(function(){ vPlay(0); }, 500);
       }
+    }
+
+    // Jitter-free sticky pin using position:fixed (works even if a parent overflow breaks CSS sticky)
+    var galEl = document.querySelector('.cpm .cpm__gallery');
+    var wrapEl = document.querySelector('.cpm .cpm__wrap');
+    if (galEl && wrapEl) {
+      var pinTop = 20, pinTicking = false, colLeft = 0, colWidth = 0, state = '';
+      wrapEl.style.position = 'relative';
+      function resetGallery(){
+        galEl.style.position = ''; galEl.style.top = ''; galEl.style.left = '';
+        galEl.style.width = ''; galEl.style.transform = ''; state = '';
+      }
+      function capture(){
+        resetGallery();
+        var r = galEl.getBoundingClientRect();
+        colLeft = r.left; colWidth = r.width;
+        pinTop = Math.max(20, wrapEl.getBoundingClientRect().top);
+      }
+      function pinGallery(){
+        pinTicking = false;
+        if (window.innerWidth < 990) { if (state) resetGallery(); return; }
+        var wrapRect = wrapEl.getBoundingClientRect();
+        var galH = galEl.offsetHeight;
+        if (wrapRect.top >= pinTop) {
+          if (state !== 'static') { resetGallery(); state = 'static'; }
+        } else if (wrapRect.bottom - galH <= pinTop) {
+          // reached the bottom of the section -> park at bottom, scroll away with it
+          if (state !== 'bottom') {
+            galEl.style.position = 'absolute';
+            galEl.style.top = (wrapRect.height - galH) + 'px';
+            galEl.style.left = '0'; galEl.style.width = colWidth + 'px';
+            galEl.style.transform = ''; state = 'bottom';
+          }
+        } else {
+          // actively pinned -> fixed (browser holds it, no jitter)
+          if (state !== 'fixed') {
+            galEl.style.position = 'fixed';
+            galEl.style.top = pinTop + 'px';
+            galEl.style.left = colLeft + 'px';
+            galEl.style.width = colWidth + 'px';
+            galEl.style.transform = ''; state = 'fixed';
+          }
+        }
+      }
+      window.addEventListener('scroll', function(){
+        if (!pinTicking) { pinTicking = true; window.requestAnimationFrame(pinGallery); }
+      }, { passive: true });
+      window.addEventListener('resize', function(){ capture(); pinGallery(); });
+      if (window.pageYOffset < 5) { capture(); }
+      pinGallery();
     }
   })();
 </script>
