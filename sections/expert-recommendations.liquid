@@ -1,5 +1,5 @@
 {% comment %}
-  Expert & Customer Reviews - Fixed Icon & Compact Tag Edition
+  Expert & Customer Reviews - Dynamic Content & Balanced Footer Spacing
   - Part 1 of 2: Structure markup and styling rules.
 {% endcomment %}
 
@@ -50,21 +50,21 @@
                 {%- endif -%}
                 
                 {%- if block.settings.product_tag != blank -%}
-                  <!-- Font size reduced to 14px to contrast cleanly with the main quote -->
-                  <span class="review-product-tag-inline">{{ block.settings.product_tag | escape }}</span>
+                  <!-- Forces a clean line break before the label and scales down its font size -->
+                  <span class="review-product-tag-newline">{{ block.settings.product_tag | escape }}</span>
                 {%- endif -%}”
               </p>
             </div>
 
             <!-- Profile Info Footer Wrapper -->
-            <div class="review-author-meta">
+            <!-- Reduced the line-to-line vertical inter-distance spacing to a tight 2px -->
+            <div class="review-author-meta" style="gap: 2px !important;">
               <div class="review-author-header">
                 <h3 class="review-author-name">
                   {{ block.settings.author_name | default: "Name" | escape }}
                 </h3>
                 
                 {%- if block.settings.show_verified -%}
-                  <!-- Restored crisp vector layout structure badge with inline text companion -->
                   <div class="review-verified-badge-group">
                     <span class="review-verified-badge" aria-label="Verified account">
                       <svg viewBox="0 0 24 24" class="verified-svg-icon">
@@ -173,8 +173,7 @@
     width: 100% !important;
     height: 100% !important;
     background-color: #e5e5e7 !important;
-    display: flex !important;
-    align-items: center;
+    display: flex !items-center;
     justify-content: center !important;
   }
 
@@ -205,23 +204,23 @@
     line-height: 1.25 !important; 
     font-weight: 400 !important;
     color: #2a2d38 !important;
-    margin: 0 0 14px 0 !important;
+    margin: 0 !important;
   }
 
-  /* Target formatting style: Reduced size to 14px to cleanly contrast inline */
-  .review-product-tag-inline {
+  /* Forces a clean layout wrap onto a brand new line and scales down font size */
+  .review-product-tag-newline {
     font-size: 14px !important; 
     font-weight: 400 !important;
     color: #9ca3af !important; 
-    display: inline !important;
+    display: block !important;
     text-transform: none !important;
-    margin-left: 2px;
+    margin-top: 6px !important;
+    margin-bottom: 0px !important;
   }
 
   .review-author-meta {
     display: flex !important;
     flex-direction: column !important;
-    gap: 3px !important;
     border-top: none !important; 
     padding-top: 0px !important;
   }
@@ -230,6 +229,7 @@
     display: flex !important;
     align-items: center !important;
     gap: 8px !important;
+    margin-bottom: 0px !important;
   }
 
   .review-author-name {
@@ -237,9 +237,9 @@
     font-weight: 600 !important;
     color: #1c1e24 !important;
     margin: 0 !important;
+    line-height: 1.1 !important;
   }
 
-  /* Layout rules to bind verification badge assets alongside descriptive tags */
   .review-verified-badge-group {
     display: inline-flex !important;
     align-items: center !important;
@@ -268,19 +268,23 @@
     color: #2a2d38 !important;
   }
 
+  /* Scaled subtitle lines down for neat layout proportions */
   .review-author-title {
-    font-size: 18.5px !important; 
-    font-weight: 500 !important;
+    font-size: 14px !important; 
+    font-weight: 400 !important;
     color: #555864 !important;
     margin: 0 !important;
+    line-height: 1.2 !important;
   }
 
+  /* Scaled down location line precisely */
   .review-author-location {
-    font-size: 17px !important; 
+    font-size: 12.5px !important; 
     color: #9ca3af !important;
     margin: 0 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.02em !important;
+    line-height: 1.2 !important;
   }
 
   @media screen and (max-width: 749px) {
@@ -293,13 +297,20 @@
       margin-bottom: 12px !important; 
     }
     .review-text-container {
-      padding: 24px !important;
-    }
-    .reviews-main-heading {
-      font-size: 32px !important;
-    }
-  }
-</style>
+padding: 24px !important;
+}
+.reviews-main-heading {
+    font-size: 32px !important;
+}
+}
+
+---
+
+### Part 2: The Schema Settings Block
+
+Paste this block directly below Part 1 inside the same file. I have updated the default field values to look exactly like your template target configuration right from the initial screen reload:
+
+```liquid
 {% schema %}
 {
   "name": "Expert & Customer Reviews",
@@ -368,7 +379,7 @@
           "type": "text",
           "id": "product_tag",
           "label": "Product Tag Label",
-          "default": "Biotin Gummies"
+          "default": "Creatine Gummies"
         },
         {
           "type": "text",
