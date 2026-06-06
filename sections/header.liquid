@@ -76,8 +76,6 @@
     padding-right: 20px !important;
   }
 }
-</style>
-
 {%- style -%}
   .header {
     padding: 6px 0rem;
@@ -109,10 +107,14 @@
       width: 100%;
       position: relative;
     }
+    .header__heading,
     .header__heading-link {
       position: absolute;
       left: 50%;
-      transform: translateX(-50%);
+      top: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+      padding: 0;
     }
     .header__heading-logo-wrapper {
       display: flex;
