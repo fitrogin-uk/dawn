@@ -1,5 +1,5 @@
 {% comment %}
-  Expert & Customer Reviews - Horizontally Scaled Layout Edition
+  Expert & Customer Reviews - Justified & Block Aligned Edition
   - Part 1 of 2: Structure markup and styling rules.
 {% endcomment %}
 
@@ -42,6 +42,7 @@
           <div class="review-text-container">
             
             <div class="review-quote-content">
+              <!-- Inline style holds the word-spacing variable from theme customizer drawer settings panel -->
               <p class="review-quote-text" style="word-spacing: {{ section.settings.review_word_spacing }}px !important;">
                 {%- if block.settings.quote_text != blank -%}
                   {{ block.settings.quote_text | escape }}
@@ -104,7 +105,7 @@
   }
 
   .reviews-section-wrapper .page-width {
-    max-width: 1618px !important; /* Expanded 4% horizontally from 1555px */
+    max-width: 1618px !important; 
     width: 100% !important;
     padding: 0 !important;
     margin: 0 auto !important;
@@ -133,7 +134,6 @@
 
   .reviews-flexible-grid {
     display: grid !important;
-    /* Expanded card block minimum width 4% horizontally from 322px to 335px */
     grid-template-columns: repeat(auto-fit, minmax(335px, 1fr)) !important; 
     gap: 28px !important; 
     align-items: start !important;
@@ -205,6 +205,9 @@
     font-weight: 400 !important;
     color: #2a2d38 !important;
     margin: 0 !important;
+    /* Forces the text edges to snap perfectly flush on both sides */
+    text-align: justify !important; 
+    text-justify: inter-word !important;
   }
 
   .review-product-tag-newline {
@@ -215,6 +218,8 @@
     text-transform: none !important;
     margin-top: 6px !important;
     margin-bottom: 0px !important;
+    /* Keeps tag left-aligned even when quote above it is justified */
+    text-align: left !important; 
   }
 
   .review-author-meta {
@@ -294,120 +299,13 @@
       margin-bottom: 10px !important; 
     }
     .review-text-container {
-      padding: 24px !important;
-    }
-    .reviews-main-heading {
-      font-size: 32px !important;
-    }
-  }
-</style>
-{% schema %}
-{
-  "name": "Expert & Customer Reviews",
-  "settings": [
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
-      "default": "Recommended by Health Experts"
-    },
-    {
-      "type": "textarea",
-      "id": "subheading",
-      "label": "Subheading Text",
-      "default": "Novomins gummies aren't just delicious, they're formulated on serious science..."
-    },
-    {
-      "type": "range",
-      "id": "review_word_spacing",
-      "min": -10,
-      "max": 20,
-      "step": 1,
-      "unit": "px",
-      "label": "Word Spacing Gap Distance",
-      "default": 0,
-      "info": "Drag left to bring whole words closer together, or drag right to spread them out."
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Top Padding",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Bottom Padding",
-      "default": 36
-    }
-  ],
-  "blocks": [
-    {
-      "type": "review_card",
-      "name": "Review Card",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Reviewer Image"
-        },
-        {
-          "type": "textarea",
-          "id": "quote_text",
-          "label": "Review Quote",
-          "default": "They worked!! After taking Biotin gummies everyday for 2 months I could not actually believe the results! After taking out my braids I noticed how thicker and longer my hair was. The gummies were also easy to take and tasted really good."
-        },
-        {
-          "type": "text",
-          "id": "product_tag",
-          "label": "Product Tag Label",
-          "default": "Creatine Gummies"
-        },
-        {
-          "type": "text",
-          "id": "author_name",
-          "label": "Author Name",
-          "default": "Zara Asare Evans"
-        },
-        {
-          "type": "checkbox",
-          "id": "show_verified",
-          "label": "Show Verified Checkmark Badge",
-          "default": true
-        },
-        {
-          "type": "text",
-          "id": "author_title",
-          "label": "Author Subtitle / Job Title",
-          "default": "Registered Nurse"
-        },
-        {
-          "type": "text",
-          "id": "author_location",
-          "label": "Author Location (Optional)",
-          "default": "London, UK"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Expert & Customer Reviews",
-      "blocks": [
-        { "type": "review_card" },
-        { "type": "review_card" },
-        { "type": "review_card" },
-        { "type": "review_card" }
-      ]
-    }
-  ]
+padding: 24px !important;
 }
-{% endschema %}
+.reviews-main-heading {
+    font-size: 32px !important;
+}
+/* Disable justification on mobile handsets for cleaner rendering text block shapes */
+.review-quote-text {
+    text-align: left !important;
+}
+}
