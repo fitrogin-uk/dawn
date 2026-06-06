@@ -1,5 +1,5 @@
 {% comment %}
-  Expert & Customer Reviews - Tight Typography Edition
+  Expert & Customer Reviews - Tight Letter Spacing Edition
   - Part 1 of 2: Structure markup and styling rules.
 {% endcomment %}
 
@@ -195,10 +195,11 @@
     margin-bottom: 28px !important;
   }
 
-  /* Reduced inter-text distance line-height from 1.55 to tight 1.25 */
+  /* Added negative letter-spacing (-0.03em) to pull the alphabet characters tightly together */
   .review-quote-text {
     font-size: 20.5px !important; 
     line-height: 1.25 !important; 
+    letter-spacing: -0.03em !important; 
     font-weight: 400 !important;
     color: #2a2d38 !important;
     margin: 0 0 14px 0 !important;
@@ -210,6 +211,7 @@
     color: #9ca3af !important;
     margin: 0 !important;
     text-transform: capitalize !important;
+    letter-spacing: -0.01em !important;
   }
 
   .review-author-meta {
@@ -231,6 +233,7 @@
     font-weight: 600 !important;
     color: #1c1e24 !important;
     margin: 0 !important;
+    letter-spacing: -0.02em !important;
   }
 
   .review-verified-badge {
@@ -254,6 +257,7 @@
     font-weight: 500 !important;
     color: #555864 !important;
     margin: 0 !important;
+    letter-spacing: -0.01em !important;
   }
 
   .review-author-location {
@@ -261,7 +265,7 @@
     color: #9ca3af !important;
     margin: 0 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.02em !important;
+    letter-spacing: 0.01em !important;
   }
 
   @media screen and (max-width: 749px) {
