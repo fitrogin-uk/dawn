@@ -5,12 +5,12 @@
 
 <style>
   .cpm { --cpm-accent: {{ section.settings.accent_color }}; --cpm-green: #1c7c45; }
-  .cpm__breadcrumb { max-width: 100%; padding: 12px 40px 0; font-size: 13px; color: #777; }
+  .cpm__breadcrumb { max-width: 100%; padding: 12px 55px 0; font-size: 13px; color: #777; }
   .cpm__breadcrumb a { color: #777; text-decoration: none; }
   .cpm__breadcrumb a:hover { text-decoration: underline; }
   .cpm__crumb-sep { margin: 0 6px; color: #aaa; }
   .cpm__crumb-current { color: #777; }
-  .cpm__wrap { display: grid; grid-template-columns: 55fr 45fr; gap: 32px; max-width: 100%; margin: 0 auto; padding: 16px 40px 24px; }
+  .cpm__wrap { display: grid; grid-template-columns: 55fr 45fr; gap: 32px; max-width: 100%; margin: 0 auto; padding: 16px 55px 24px; }
 
   /* ---------- LEFT: Gallery ---------- */
   .cpm__gallery { position: relative; }
@@ -19,9 +19,9 @@
     .cpm__info { grid-column: 2; }
   }
   .cpm__main-img { position: relative; border-radius: 16px; overflow: hidden; background: #f6f6f6; display: flex; align-items: center; justify-content: center; }
-  .cpm__main-img img { width: 100%; height: auto; max-height: min(520px, calc(100vh - 200px)); object-fit: contain; display: block; }
-  .cpm__main-img .cpm__slide { display: none; width: 100%; }
-  .cpm__main-img .cpm__slide.is-active { display: block; }
+  .cpm__slides-track { display: flex; transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94); will-change: transform; }
+  .cpm__slide { flex: 0 0 100%; min-width: 0; }
+  .cpm__slide img { width: 100%; height: auto; max-height: min(520px, calc(100vh - 200px)); object-fit: contain; display: block; }
   .cpm__nav { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 1px solid #e3e3e3; box-shadow: 0 2px 6px rgba(0,0,0,0.10); cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; color: #111; font-size: 18px; line-height: 1; }
   .cpm__nav:hover { background: #f5f5f5; }
   .cpm__nav--prev { left: 10px; } .cpm__nav--next { right: 10px; }
@@ -164,17 +164,19 @@
     <div class="cpm__gallery">
       <div class="cpm__main-img" id="cpmMain">
         {%- if product.media.size > 0 -%}
-          {%- for media in product.media -%}
-            <div class="cpm__slide{% if forloop.first %} is-active{% endif %}" data-cpm-slide="{{ forloop.index0 }}">
-              {{ media | image_url: width: 900 | image_tag: loading: 'lazy', alt: product.title }}
-            </div>
-          {%- endfor -%}
+          <div class="cpm__slides-track" id="cpmSlidesTrack">
+            {%- for media in product.media -%}
+              <div class="cpm__slide" data-cpm-slide="{{ forloop.index0 }}">
+                {{ media | image_url: width: 900 | image_tag: loading: 'lazy', alt: product.title }}
+              </div>
+            {%- endfor -%}
+          </div>
           {%- if product.media.size > 1 -%}
             <button class="cpm__nav cpm__nav--prev" data-cpm-prev aria-label="Previous"><svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M8 2L2 8l6 6" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <button class="cpm__nav cpm__nav--next" data-cpm-next aria-label="Next"><svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M2 2l6 6-6 6" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           {%- endif -%}
         {%- else -%}
-          <div class="cpm__slide is-active">{{ 'product-1' | placeholder_svg_tag }}</div>
+          <div class="cpm__slides-track"><div class="cpm__slide">{{ 'product-1' | placeholder_svg_tag }}</div></div>
         {%- endif -%}
       </div>
 
@@ -386,20 +388,20 @@
 
 <script>
   (function(){
-    // Gallery
-    var main = document.getElementById('cpmMain');
+    // Gallery — sliding track transition
+    var main   = document.getElementById('cpmMain');
+    var track  = document.getElementById('cpmSlidesTrack');
     var thumbs = document.getElementById('cpmThumbs');
-    if (main) {
-      var slides = main.querySelectorAll('[data-cpm-slide]');
+    if (main && track) {
+      var slides    = main.querySelectorAll('[data-cpm-slide]');
       var thumbBtns = thumbs ? thumbs.querySelectorAll('[data-cpm-thumb]') : [];
       var cur = 0;
       function show(i){
         if (i < 0) i = slides.length - 1;
         if (i >= slides.length) i = 0;
-        slides[cur].classList.remove('is-active');
         if (thumbBtns[cur]) thumbBtns[cur].classList.remove('is-active');
         cur = i;
-        slides[cur].classList.add('is-active');
+        track.style.transform = 'translateX(-' + (cur * 100) + '%)';
         if (thumbBtns[cur]) thumbBtns[cur].classList.add('is-active');
       }
       thumbBtns.forEach(function(b){ b.addEventListener('click', function(){ show(parseInt(b.dataset.cpmThumb)); }); });
