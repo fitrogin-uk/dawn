@@ -10,7 +10,7 @@
           <div class="gummy-icon-wrapper">
             {%- if block.settings.image != blank -%}
               <img 
-                src="{{ block.settings.image | image_url: width: 200 }}" 
+                src="{{ block.settings.image | image_url: width: 250 }}" 
                 alt="{{ block.settings.title | escape }}"
                 loading="lazy"
                 width="auto"
@@ -39,60 +39,68 @@
   padding-bottom: {{ section.settings.padding_bottom }}px;
 }
 
-/* Upscaled layout boundary from 1200px to 1600px */
+/* Wide screen boundary layout */
 .gummy-container {
-  max-width: 1600px;
+  max-width: 1800px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 50px;
 }
 
-/* Bigger Section Heading */
+/* Section Header - Line repositioned in front (above) the text */
 .gummy-main-title {
-  font-size: 36px;
+  font-size: 38px;
   font-weight: 700;
   color: #1a1a1a;
   margin-top: 0;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
   font-family: inherit;
   position: relative;
+  padding-top: 25px; /* Adds space between the top line and the text */
 }
 
-/* Section divider line */
-.gummy-main-title::after {
+/* Horizontal line placed BEFORE/IN FRONT of the heading text */
+.gummy-main-title::before {
   content: '';
   display: block;
   width: 100%;
   height: 1px;
   background-color: #e0e0e0;
-  margin-top: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-/* Spacing between large blocks */
+/* Spacing between scaled cards */
 .gummy-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 24px;
+  gap: 32px;
 }
 
-/* Deep padding and rounded styling to make cards visually larger */
+/* 
+  BOX ADJUSTMENTS COMPLETED:
+  - Vertical spacing (Padding top/bottom) increased by 45% (to 65px)
+  - Horizontal spacing (Padding left/right) increased by 20% (to 30px)
+*/
 .gummy-card {
   background-color: #f5f5f5;
-  border-radius: 16px;
-  padding: 45px 25px;
+  border-radius: 20px;
+  padding: 65px 30px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+  width: 100%;
 }
 
-/* Upscaled logo containers */
+/* 45% vertical increase applied to the logo container zone */
 .gummy-icon-wrapper {
-  height: 90px;
+  height: 130px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 25px;
+  margin-bottom: 35px;
   width: 100%;
 }
 
@@ -103,36 +111,36 @@
 }
 
 .gummy-placeholder {
-  width: 70px;
-  height: 70px;
+  width: 90px;
+  height: 90px;
   fill: #999;
 }
 
-/* Larger card headlines */
+/* Scaled card headers */
 .gummy-card-title {
-  font-size: 19px;
+  font-size: 21px;
   font-weight: 700;
   color: #222222;
   margin-top: 0;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
-/* Scaled paragraph text */
+/* Scaled card body text */
 .gummy-card-text {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.6;
-  color: #505050;
+  color: #4a4a4a;
 }
 
 .gummy-card-text p {
   margin: 0;
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 1200px) {
+/* Responsive Scaling Breakpoints */
+@media (max-width: 1400px) {
   .gummy-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 24px;
   }
 }
 
@@ -145,10 +153,11 @@
     gap: 15px;
   }
   .gummy-card {
-    padding: 30px 15px;
+    padding: 45px 20px;
   }
   .gummy-main-title {
-    font-size: 26px;
+    font-size: 28px;
+    padding-top: 20px;
   }
 }
 {% endstyle %}
