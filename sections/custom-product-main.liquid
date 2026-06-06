@@ -385,7 +385,6 @@
 
 <script>
   (function(){
-    var root = document.currentScript.previousElementSibling || document;
     // Gallery
     var main = document.getElementById('cpmMain');
     var thumbs = document.getElementById('cpmThumbs');
@@ -408,6 +407,7 @@
       if (prev) prev.addEventListener('click', function(){ show(cur - 1); });
       if (next) next.addEventListener('click', function(){ show(cur + 1); });
     }
+
     // Plan selector
     var plans = document.querySelectorAll('[data-cpm-plan]');
     plans.forEach(function(p){
@@ -463,53 +463,100 @@
       }
     }
 
-    // Jitter-free sticky pin using position:fixed (works even if a parent overflow breaks CSS sticky)
+    // Sticky gallery pin — desktop only (>= 990px).
+    // On mobile the gallery is in normal document flow (single-column layout),
+    // so we must never apply position:fixed there or right-column content
+    // will scroll underneath the floating image.
     var galEl = document.querySelector('.cpm .cpm__gallery');
     var wrapEl = document.querySelector('.cpm .cpm__wrap');
     if (galEl && wrapEl) {
-      var pinTop = 20, pinTicking = false, colLeft = 0, colWidth = 0, state = '';
+      var PIN_TOP = 20;
+      var pinTicking = false;
+      var colLeft = 0, colWidth = 0, state = '';
+
+      function isDesktop(){ return window.innerWidth >= 990; }
+
       wrapEl.style.position = 'relative';
+
       function resetGallery(){
-        galEl.style.position = ''; galEl.style.top = ''; galEl.style.left = '';
-        galEl.style.width = ''; galEl.style.transform = ''; state = '';
+        galEl.style.position = '';
+        galEl.style.top = '';
+        galEl.style.left = '';
+        galEl.style.width = '';
+        galEl.style.transform = '';
+        // Restore natural grid column sizing
+        wrapEl.style.gridTemplateColumns = '';
+        state = '';
       }
+
       function capture(){
         resetGallery();
         var r = galEl.getBoundingClientRect();
-        colLeft = r.left; colWidth = r.width;
-        pinTop = Math.max(20, wrapEl.getBoundingClientRect().top);
+        colLeft = r.left;
+        colWidth = r.width;
       }
+
       function pinGallery(){
         pinTicking = false;
-        if (window.innerWidth < 990) { if (state) resetGallery(); return; }
+
+        // Never pin on mobile — single-column layout, pinning causes overlap
+        if (!isDesktop()) {
+          if (state !== '') resetGallery();
+          return;
+        }
+
         var wrapRect = wrapEl.getBoundingClientRect();
         var galH = galEl.offsetHeight;
-        if (wrapRect.top >= pinTop) {
+
+        if (wrapRect.top >= PIN_TOP) {
+          // Section hasn't reached the pin point yet
           if (state !== 'static') { resetGallery(); state = 'static'; }
-        } else if (wrapRect.bottom - galH <= pinTop) {
-          // reached the bottom of the section -> park at bottom, scroll away with it
+        } else if (wrapRect.bottom - galH <= PIN_TOP) {
+          // Gallery reached the bottom of the section — park it there
           if (state !== 'bottom') {
+            // Lock column width before going absolute so grid doesn't collapse
+            wrapEl.style.gridTemplateColumns = colWidth + 'px 1fr';
             galEl.style.position = 'absolute';
-            galEl.style.top = (wrapRect.height - galH) + 'px';
-            galEl.style.left = '0'; galEl.style.width = colWidth + 'px';
-            galEl.style.transform = ''; state = 'bottom';
+            galEl.style.top = (wrapEl.offsetHeight - galH) + 'px';
+            galEl.style.left = '0';
+            galEl.style.width = colWidth + 'px';
+            galEl.style.transform = '';
+            state = 'bottom';
           }
         } else {
-          // actively pinned -> fixed (browser holds it, no jitter)
+          // Actively pinned — use fixed so the browser handles it without jitter.
+          // Also lock the grid column to a pixel width: when the gallery is
+          // position:fixed it leaves the grid flow, which would otherwise collapse
+          // the left column and let the right column expand over the image.
           if (state !== 'fixed') {
+            wrapEl.style.gridTemplateColumns = colWidth + 'px 1fr';
             galEl.style.position = 'fixed';
-            galEl.style.top = pinTop + 'px';
+            galEl.style.top = PIN_TOP + 'px';
             galEl.style.left = colLeft + 'px';
             galEl.style.width = colWidth + 'px';
-            galEl.style.transform = ''; state = 'fixed';
+            galEl.style.transform = '';
+            state = 'fixed';
           }
         }
       }
+
       window.addEventListener('scroll', function(){
         if (!pinTicking) { pinTicking = true; window.requestAnimationFrame(pinGallery); }
       }, { passive: true });
-      window.addEventListener('resize', function(){ capture(); pinGallery(); });
-      if (window.pageYOffset < 5) { capture(); }
+
+      window.addEventListener('resize', function(){
+        if (!isDesktop()) {
+          resetGallery();
+          return;
+        }
+        capture();
+        pinGallery();
+      });
+
+      // Only capture position on desktop; on mobile leave gallery in flow
+      if (isDesktop()) {
+        capture();
+      }
       pinGallery();
     }
   })();
