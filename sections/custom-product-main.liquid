@@ -41,8 +41,8 @@
   .cpm__modal-overlay.is-open { display: flex; }
   .cpm__modal-wrap { position: relative; width: 100%; max-width: 640px; }
   .cpm__modal { background: #fff; border-radius: 16px; width: 100%; max-height: 88vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.22); }
-  .cpm__modal-close { position: absolute; top: -16px; right: -16px; width: 34px; height: 34px; border-radius: 50%; background: #fff; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #444; line-height: 1; z-index: 10; }
-  .cpm__modal-close:hover { background: #f5f5f5; }
+  .cpm__modal-close { position: absolute; top: -16px; right: -16px; width: 36px; height: 36px; border-radius: 50%; background: #fff; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.18); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #222; line-height: 1; z-index: 10; }
+  .cpm__modal-close:hover { background: #f0f0f0; }
   .cpm__modal-head { display: flex; align-items: center; justify-content: space-between; padding: 24px 24px 16px; border-bottom: 1px solid #eee; gap: 12px; }
   .cpm__modal-rating { display: flex; flex-direction: column; gap: 2px; }
   .cpm__modal-rating-row { display: flex; align-items: center; gap: 8px; }
@@ -53,23 +53,44 @@
   .cpm__modal-photos { display: flex; gap: 8px; padding: 14px 24px; overflow-x: auto; border-bottom: 1px solid #eee; }
   .cpm__modal-photos::-webkit-scrollbar { height: 4px; }
   .cpm__modal-photos::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
-  .cpm__modal-photo { flex: 0 0 88px; height: 88px; border-radius: 8px; overflow: hidden; background: #f0f0f0; }
-  .cpm__modal-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cpm__modal-photo { flex: 0 0 88px; height: 88px; border-radius: 8px; overflow: hidden; background: #f0f0f0; cursor: pointer; position: relative; }
+  .cpm__modal-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.2s; }
+  .cpm__modal-photo:hover img { opacity: 0.85; }
+
+  /* ---- Photo lightbox ---- */
+  .cpm__lb { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 9100; align-items: center; justify-content: center; padding: 20px; }
+  .cpm__lb.is-open { display: flex; }
+  .cpm__lb-inner { display: flex; background: #fff; border-radius: 16px; overflow: hidden; width: 100%; max-width: 860px; max-height: 88vh; }
+  .cpm__lb-photo { flex: 0 0 50%; background: #111; display: flex; align-items: center; justify-content: center; }
+  .cpm__lb-photo img { width: 100%; height: 100%; object-fit: cover; display: block; max-height: 88vh; }
+  .cpm__lb-side { flex: 1; display: flex; flex-direction: column; padding: 20px 24px 24px; overflow-y: auto; min-width: 0; }
+  .cpm__lb-controls { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+  .cpm__lb-prev, .cpm__lb-next { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #333; flex-shrink: 0; }
+  .cpm__lb-prev:hover, .cpm__lb-next:hover { background: #f5f5f5; }
+  .cpm__lb-close { margin-left: auto; width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #333; }
+  .cpm__lb-close:hover { background: #f5f5f5; }
+  .cpm__lb-product { border: 1px solid #eee; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 16px; }
+  .cpm__lb-product img { width: 80px; height: 80px; object-fit: contain; border-radius: 8px; }
+  .cpm__lb-product-stars { display: flex; gap: 2px; }
+  .cpm__lb-product-name { font-size: 14px; font-weight: 600; color: #111; text-align: center; }
+  .cpm__lb-buy { background: #111; color: #fff; border: none; border-radius: 999px; padding: 9px 22px; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 4px; }
+  .cpm__lb-buy:hover { opacity: 0.85; }
+
   .cpm__modal-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; border-bottom: 2px solid #eee; gap: 12px; }
   .cpm__modal-sort { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: #111; cursor: pointer; background: none; border: none; }
   .cpm__modal-search { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #555; background: none; border: none; cursor: pointer; }
   .cpm__modal-tab { font-size: 14px; font-weight: 700; color: #111; border-bottom: 2px solid #111; padding-bottom: 12px; margin-bottom: -14px; }
   .cpm__modal-reviews { padding: 0 24px 24px; }
-  .cpm__modal-review { display: grid; grid-template-columns: 130px 1fr; gap: 16px; padding: 20px 0; border-bottom: 1px solid #f0f0f0; align-items: start; }
+  .cpm__modal-review { display: grid; grid-template-columns: 160px 1fr; gap: 16px; padding: 20px 0; border-bottom: 1px solid #f0f0f0; align-items: start; }
   .cpm__modal-review:last-child { border-bottom: none; }
   .cpm__modal-left { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
   .cpm__modal-avatar { width: 44px; height: 44px; border-radius: 50%; background: #e8e8e8; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700; color: #666; flex-shrink: 0; margin-bottom: 4px; }
   .cpm__modal-reviewer { font-weight: 700; font-size: 14px; color: #111; word-break: break-word; }
   .cpm__modal-location { font-size: 12px; color: #888; }
-  .cpm__modal-verified { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #444; flex-wrap: wrap; }
+  .cpm__modal-verified { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #444; }
   .cpm__modal-verified svg { flex-shrink: 0; }
-  .cpm__modal-recommend { display: flex; align-items: flex-start; gap: 5px; font-size: 12px; color: #333; margin-top: 4px; }
-  .cpm__modal-recommend svg { flex-shrink: 0; margin-top: 1px; }
+  .cpm__modal-recommend { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #333; margin-top: 4px; white-space: nowrap; }
+  .cpm__modal-recommend svg { flex-shrink: 0; }
   .cpm__review-stars { display: flex; gap: 2px; margin-bottom: 6px; }
   .cpm__review-title { font-weight: 700; font-size: 15px; color: #111; margin-bottom: 4px; }
   .cpm__review-body { font-size: 14px; color: #444; line-height: 1.5; margin-bottom: 10px; }
@@ -185,7 +206,9 @@
     .cpm__acc details { border-bottom: none; }
     .cpm__vc-item { flex: 0 0 calc(44% - 6px); height: 280px; }
     .cpm__vc-title { font-size: 18px; }
-    .cpm__modal-review { grid-template-columns: 110px 1fr; gap: 12px; }
+    .cpm__lb-inner { flex-direction: column; }
+    .cpm__lb-photo { flex: 0 0 auto; max-height: 50vw; }
+    .cpm__modal-review { grid-template-columns: 140px 1fr; gap: 12px; }
   }
 </style>
 
@@ -474,11 +497,13 @@
 
       {%- if has_review_photos -%}
         <div class="cpm__modal-photos">
+          {%- assign rp_idx = 0 -%}
           {%- for block in section.blocks -%}
             {%- if block.type == 'review_photo' and block.settings.photo != blank -%}
-              <div class="cpm__modal-photo" {{ block.shopify_attributes }}>
+              <div class="cpm__modal-photo" data-cpm-photo="{{ rp_idx }}" data-cpm-photo-src="{{ block.settings.photo | image_url: width: 1200 }}" {{ block.shopify_attributes }}>
                 {{ block.settings.photo | image_url: width: 200 | image_tag: loading: 'lazy', alt: 'Review photo' }}
               </div>
+              {%- assign rp_idx = rp_idx | plus: 1 -%}
             {%- endif -%}
           {%- endfor -%}
         </div>
@@ -506,7 +531,7 @@
                   <div class="cpm__modal-avatar">{{ block.settings.reviewer_name | upcase | slice: 0 }}</div>
                   {%- if block.settings.verified -%}
                     <div class="cpm__modal-verified">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#1c7c45"/><polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1d9bf0"/><polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                       Verified Customer
                     </div>
                   {%- endif -%}
@@ -560,6 +585,47 @@
   </div>
 </div>
 
+{%- comment -%} ============ PHOTO LIGHTBOX ============ {%- endcomment -%}
+<div class="cpm__lb" id="cpmPhotoLb" role="dialog" aria-modal="true" aria-label="Review photo">
+  <div class="cpm__lb-inner">
+    <div class="cpm__lb-photo">
+      <img src="" alt="Review photo" id="cpmLbImg">
+    </div>
+    <div class="cpm__lb-side">
+      <div class="cpm__lb-controls">
+        <button class="cpm__lb-prev" id="cpmLbPrev" aria-label="Previous">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M7 1L1 7l6 6" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="cpm__lb-next" id="cpmLbNext" aria-label="Next">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="cpm__lb-close" id="cpmLbClose" aria-label="Close">&#x2715;</button>
+      </div>
+      <div class="cpm__lb-product">
+        {%- if product.featured_image -%}
+          <img src="{{ product.featured_image | image_url: width: 150 }}" alt="{{ product.title }}">
+        {%- endif -%}
+        <div class="cpm__lb-product-stars">
+          {%- assign lb_r = section.settings.review_rating | times: 1.0 -%}
+          {%- assign lb_rf = lb_r | floor -%}
+          {%- assign lb_rc = lb_r | ceil -%}
+          {%- for i in (1..5) -%}
+            {%- if i <= lb_rf -%}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            {%- elsif i == lb_rc and lb_rc != lb_rf -%}
+              <svg width="14" height="14" viewBox="0 0 24 24"><defs><linearGradient id="lbhalf"><stop offset="60%" stop-color="#111"/><stop offset="60%" stop-color="#fff"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#lbhalf)" stroke="#111" stroke-width="1.2"/></svg>
+            {%- else -%}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#ccc" stroke-width="1.5"/></svg>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="cpm__lb-product-name">{{ product.title }}</div>
+        <a href="{{ product.url }}" class="cpm__lb-buy">Buy Now</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   (function(){
     // Gallery — sliding track transition
@@ -589,12 +655,34 @@
     var revOverlay = document.getElementById('cpmReviewsModal');
     var revOpen = document.querySelector('[data-cpm-open-reviews]');
     var revClose = document.querySelector('[data-cpm-close-reviews]');
+    var cpmLbOverlay = document.getElementById('cpmPhotoLb');
     if (revOverlay && revOpen) {
       revOpen.addEventListener('click', function(){ revOverlay.classList.add('is-open'); document.body.style.overflow = 'hidden'; });
       if (revClose) revClose.addEventListener('click', function(){ revOverlay.classList.remove('is-open'); document.body.style.overflow = ''; });
       revOverlay.addEventListener('click', function(e){ if (e.target === revOverlay){ revOverlay.classList.remove('is-open'); document.body.style.overflow = ''; } });
-      document.addEventListener('keydown', function(e){ if (e.key === 'Escape'){ revOverlay.classList.remove('is-open'); document.body.style.overflow = ''; } });
+      document.addEventListener('keydown', function(e){ if (e.key === 'Escape'){ revOverlay.classList.remove('is-open'); if(cpmLbOverlay) cpmLbOverlay.classList.remove('is-open'); document.body.style.overflow = ''; } });
     }
+
+    // Photo lightbox
+    var cpmLbImg = document.getElementById('cpmLbImg');
+    var cpmLbPrev = document.getElementById('cpmLbPrev');
+    var cpmLbNext = document.getElementById('cpmLbNext');
+    var cpmLbClose = document.getElementById('cpmLbClose');
+    var lbPhotos = [];
+    var lbCur = 0;
+    document.querySelectorAll('[data-cpm-photo]').forEach(function(el){
+      lbPhotos.push(el.getAttribute('data-cpm-photo-src'));
+      el.addEventListener('click', function(){
+        lbCur = parseInt(el.getAttribute('data-cpm-photo'));
+        cpmLbImg.src = lbPhotos[lbCur];
+        if(cpmLbOverlay) cpmLbOverlay.classList.add('is-open');
+      });
+    });
+    function lbShow(i){ lbCur = (i + lbPhotos.length) % lbPhotos.length; cpmLbImg.src = lbPhotos[lbCur]; }
+    if (cpmLbPrev) cpmLbPrev.addEventListener('click', function(){ lbShow(lbCur - 1); });
+    if (cpmLbNext) cpmLbNext.addEventListener('click', function(){ lbShow(lbCur + 1); });
+    if (cpmLbClose) cpmLbClose.addEventListener('click', function(){ if(cpmLbOverlay) cpmLbOverlay.classList.remove('is-open'); });
+    if (cpmLbOverlay) cpmLbOverlay.addEventListener('click', function(e){ if (e.target === cpmLbOverlay) cpmLbOverlay.classList.remove('is-open'); });
 
     // Plan selector
     var plans = document.querySelectorAll('[data-cpm-plan]');
