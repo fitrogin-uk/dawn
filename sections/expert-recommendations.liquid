@@ -2,28 +2,28 @@
 
 {%- style -%}
   .section-{{ section.id }}-padding {
-    padding-top: 60px;
-    padding-bottom: 60px;
+    padding-top: 50px;
+    padding-bottom: 50px;
   }
 
   .expert-section-wrapper {
-    max-width: 1560px; 
+    max-width: 1280px; /* Reduced canvas width to make cards narrower */
     margin: 0 auto;
-    padding: 0 3rem;
+    padding: 0 2rem;
   }
 
   /* Headings Typography Layout */
   .expert-heading-area {
-    margin-bottom: 4.5rem;
+    margin-bottom: 4rem;
   }
 
   .expert-heading-area .title {
     font-family: inherit;
-    font-size: 4.2rem; 
+    font-size: 3.6rem; 
     font-weight: 700;
     color: #121212;
-    margin: 0 0 1.5rem 0;
-    letter-spacing: -0.03em;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
   }
 
   .expert-heading-area .title em {
@@ -32,18 +32,18 @@
   }
 
   .expert-subtitle-text {
-    font-size: 1.8rem; 
-    line-height: 1.6;
-    color: #2b2b2b;
-    max-width: 1200px;
+    font-size: 1.6rem; 
+    line-height: 1.5;
+    color: #4a4a4a;
+    max-width: 900px;
     margin: 0;
   }
 
-  /* Grid Layout Configuration */
+  /* Grid Layout: Adjusted columns to prevent landscape stretching */
   .expert-grid-layout {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px; 
+    grid-template-columns: repeat(3, 1fr); /* 3 columns matches the narrow card proportion perfectly */
+    gap: 24px; 
     list-style: none;
     padding: 0;
     margin: 0;
@@ -55,16 +55,16 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px; 
+    gap: 16px; 
     border: none;
   }
 
-  /* Top Image Container Layout - Configured for horizontal expansion */
+  /* Image Box Shape Settings */
   .expert-card__image-wrapper {
     position: relative;
     background-color: #dfdfdf;
     width: 100%;
-    border-radius: 20px; 
+    border-radius: 16px; 
     overflow: hidden;
   }
 
@@ -72,28 +72,27 @@
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 1.45 / 1; /* Updated to expand horizontally and decrease vertical height */
+    aspect-ratio: 0.95 / 1; /* Made nearly square, matching the Zara Asare card ratio */
     object-fit: cover;
   }
 
   /* The Text Container Card Block */
   .expert-card__info {
     background: #ffffff; 
-    border: 1px solid #eaeaea; 
-    border-radius: 20px; 
-    padding: 3rem 2.5rem; 
+    border: 1px solid #e5e5e5; 
+    border-radius: 16px; 
+    padding: 2.5rem 2rem; 
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.01);
   }
 
   /* Main Testimonial Typography Styles */
   .expert-card__quote {
-    font-size: 1.7rem; 
-    line-height: 1.6;
+    font-size: 1.55rem; 
+    line-height: 1.5;
     color: #2c2c2c;
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 1.2rem 0;
     flex-grow: 1;
     font-weight: 400;
     letter-spacing: -0.01em;
@@ -102,9 +101,9 @@
   /* Product Sub-Label Text Styling */
   .expert-card__product-tag {
     display: block;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: #8a8a8a;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     font-weight: 400;
   }
 
@@ -113,57 +112,53 @@
     margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
   .expert-card__name-wrapper {
     display: inline-flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: 0.5rem;
+    margin-bottom: 0.2rem;
   }
 
   .expert-card__name {
-    font-size: 1.9rem; 
+    font-size: 1.75rem; 
     font-weight: 600;
     color: #121212;
     margin: 0;
   }
 
-  /* Exact Twitter/X Vector Verified Badge Mark Variant Styling */
+  /* Verified Badge Styling */
   .expert-card__verified-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     color: #1da1f2; 
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 500;
   }
 
   .expert-card__verified-badge svg {
-    width: 18px; 
-    height: 18px;
+    width: 16px; 
+    height: 16px;
     fill: currentColor;
     flex-shrink: 0;
   }
 
   .expert-card__title,
   .expert-card__location {
-    font-size: 1.35rem;
-    color: #7a7a7a;
+    font-size: 1.3rem;
+    color: #6a6a6a;
     margin: 0;
     font-weight: 400;
-    letter-spacing: 0.02em;
   }
 
-  /* Responsive Display Viewports Optimization Slider Logic */
-  @media screen and (max-width: 1199px) {
+  /* Responsive Display Breakpoints */
+  @media screen and (max-width: 989px) {
     .expert-grid-layout {
       grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
-    .expert-card__image {
-      aspect-ratio: 1.35 / 1;
     }
   }
 
@@ -172,7 +167,7 @@
       padding: 0 1.5rem;
     }
     .expert-heading-area .title {
-      font-size: 3.2rem;
+      font-size: 2.8rem;
     }
     .expert-grid-layout {
       display: flex !important;
@@ -181,18 +176,15 @@
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
       scrollbar-width: none;
-      gap: 20px;
+      gap: 16px;
     }
     .expert-grid-layout::-webkit-scrollbar {
       display: none;
     }
     .expert-grid-layout > li {
-      width: 85% !important;
+      width: 82% !important;
       flex-shrink: 0;
       scroll-snap-align: start;
-    }
-    .expert-card__image {
-      aspect-ratio: 1.35 / 1;
     }
   }
 {%- endstyle -%}
@@ -219,11 +211,11 @@
               
               <div class="expert-card__image-wrapper">
                 {%- if block.settings.image != blank -%}
-                  {%- capture sizes -%}(min-width: 1200px) 25vw, (min-width: 750px) 50vw, 85vw{%- endcapture -%}
-                  {{ block.settings.image | image_url: width: 700 | image_tag:
+                  {%- capture sizes -%}(min-width: 1200px) 33vw, (min-width: 750px) 50vw, 82vw{%- endcapture -%}
+                  {{ block.settings.image | image_url: width: 600 | image_tag:
                     loading: 'lazy',
                     sizes: sizes,
-                    widths: '350, 500, 700',
+                    widths: '300, 450, 600',
                     class: 'expert-card__image'
                   }}
                 {%- else -%}
@@ -301,7 +293,7 @@
     {
       "type": "review",
       "name": "Expert Card",
-      "limit": 8,
+      "limit": 6,
       "settings": [
         {
           "type": "image_picker",
@@ -311,25 +303,25 @@
         {
           "type": "textarea",
           "id": "quote",
-          "default": "Magnesium deficiency is often overlooked and safe to say, myself and my family don't struggle to keep our magnesium levels up anymore since discovering these gummies.",
+          "default": "They worked!! After taking Biotin gummies everyday for 2 months I could not actually believe the results!",
           "label": "Recommendation Quote"
         },
         {
           "type": "text",
           "id": "product_label",
-          "default": "Magnesium Gummies",
+          "default": "Biotin Gummies",
           "label": "Product Sub-label Text"
         },
         {
           "type": "text",
           "id": "name",
-          "default": "Dr Rej Khafaf",
+          "default": "Zara Asare Evans",
           "label": "Expert Name"
         },
         {
           "type": "text",
           "id": "expert_title",
-          "default": "MFDS RCPS",
+          "default": "Registered Nurse",
           "label": "Expert Credentials / Title"
         },
         {
@@ -350,7 +342,6 @@
     {
       "name": "Expert Recommendations",
       "blocks": [
-        { "type": "review" },
         { "type": "review" },
         { "type": "review" },
         { "type": "review" }
