@@ -1,6 +1,6 @@
 {% comment %}
-  Expert & Customer Reviews - Compact Grid Edition
-  - Part 1 of 2: Contains the structural markup layer and responsive presentation style overrides.
+  Expert & Customer Reviews - Target Match Edition
+  - Part 1 of 2: Structure markup and styling rules.
 {% endcomment %}
 
 <div class="reviews-section-wrapper color-{{ section.settings.color_scheme }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
@@ -19,7 +19,7 @@
       {%- for block in section.blocks -%}
         <div class="review-card-item" {{ block.shopify_attributes }}>
           
-          <!-- Top Section: Compact Image Box -->
+          <!-- Top Section: Clean Portrait Canvas Box -->
           <div class="review-image-container">
             {%- if block.settings.image != blank -%}
               {{ block.settings.image | image_url: width: 600 | image_tag:
@@ -38,7 +38,7 @@
             {%- endif -%}
           </div>
 
-          <!-- Bottom Section: Balanced Text Box -->
+          <!-- Bottom Section: Separate White Contained Text Box -->
           <div class="review-text-container">
             
             <div class="review-quote-content">
@@ -55,7 +55,7 @@
               {%- endif -%}
             </div>
 
-            <!-- Profile Info Footer -->
+            <!-- Profile Info Footer Wrapper -->
             <div class="review-author-meta">
               <div class="review-author-header">
                 <h3 class="review-author-name">
@@ -90,18 +90,16 @@
 </div>
 
 <style>
-  /* Standard Container Spacings */
   .reviews-section-wrapper {
     width: 100% !important;
     box-sizing: border-box !important;
-    background-color: #ffffff !important;
+    background-color: #fcfcfc !important; /* Soft backdrop layout contrast */
     padding-left: 1.5rem !important;
     padding-right: 1.5rem !important;
     display: block !important;
     clear: both !important;
   }
 
-  /* Matches template alignments perfectly */
   .reviews-section-wrapper .page-width {
     max-width: 1340px !important; 
     width: 100% !important;
@@ -111,53 +109,54 @@
 
   .section-heading-container {
     text-align: left;
-    margin-bottom: 28px;
+    margin-bottom: 32px;
   }
 
   .reviews-main-heading {
     font-size: 28px !important;
     font-weight: 700 !important;
     color: #1c1e24 !important;
-    margin: 0 0 8px 0 !important;
+    margin: 0 0 10px 0 !important;
     line-height: 1.25 !important;
   }
 
   .reviews-subheading {
     font-size: 14px !important;
-    line-height: 1.5 !important;
+    line-height: 1.6 !important;
     color: #555864 !important;
     margin: 0 !important;
-    max-width: 800px;
+    max-width: 900px;
   }
 
-  /* Compact Flexible Grid Engine */
   .reviews-flexible-grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
-    gap: 20px !important; 
+    gap: 24px !important; 
     align-items: start !important;
     width: 100% !important;
   }
 
-  /* Compact Card Shell Formatting */
+  /* Core Card Layout Configuration */
   .review-card-item {
-    background: #ffffff !important;
-    border: 1px solid #f1f2f4 !important;
-    border-radius: 16px !important;
-    overflow: hidden !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0px !important;
+    overflow: visible !important;
     display: flex !important;
     flex-direction: column !important;
     box-shadow: none !important;
     height: 100% !important;
   }
 
-  /* Compact Canvas Dimensions */
+  /* Portrait Canvas Area Configuration */
   .review-image-container {
     position: relative !important;
     width: 100% !important;
-    height: 260px !important; 
-    background-color: #f1f1f3 !important;
+    height: 270px !important; 
+    background-color: #e5e5e7 !important;
+    border-radius: 20px !important; /* Matching target curvature style */
     overflow: hidden !important;
+    margin-bottom: 16px !important; /* Distinct gap separating image and container */
   }
 
   .review-card-img {
@@ -170,54 +169,57 @@
   .review-image-placeholder {
     width: 100% !important;
     height: 100% !important;
-    background-color: #f1f1f3 !important;
+    background-color: #e5e5e7 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
   }
 
   .placeholder-icon {
-    width: 40px !important;
-    height: 40px !important;
+    width: 44px !important;
+    height: 44px !important;
     color: #b4b6bc !important;
   }
 
-  /* Tightened Text Content Layout */
+  /* White Contained Text Block Layer */
   .review-text-container {
-    padding: 20px !important; 
+    background: #ffffff !important; /* Explicit white box container profile */
+    border: 1px solid #f0f1f4 !important;
+    border-radius: 20px !important; /* Curves mirroring portrait layer */
+    padding: 24px !important; 
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
     flex-grow: 1 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.015) !important;
   }
 
   .review-quote-content {
-    margin-bottom: 20px !important;
+    margin-bottom: 24px !important;
   }
 
   .review-quote-text {
-    font-size: 15px !important;
-    line-height: 1.5 !important;
+    font-size: 14.5px !important;
+    line-height: 1.55 !important;
     font-weight: 400 !important;
-    color: #2d3142 !important;
+    color: #2a2d38 !important;
     margin: 0 0 12px 0 !important;
   }
 
   .review-product-tag {
-    font-size: 12px !important;
+    font-size: 11.5px !important;
     font-weight: 500 !important;
     color: #9ca3af !important;
     margin: 0 !important;
     text-transform: capitalize !important;
   }
 
-  /* Profile Details Alignment */
   .review-author-meta {
     display: flex !important;
     flex-direction: column !important;
     gap: 2px !important;
     border-top: 1px solid #f1f2f4 !important;
-    padding-top: 14px !important;
+    padding-top: 16px !important;
   }
 
   .review-author-header {
@@ -227,7 +229,7 @@
   }
 
   .review-author-name {
-    font-size: 16px !important;
+    font-size: 15.5px !important;
     font-weight: 600 !important;
     color: #1c1e24 !important;
     margin: 0 !important;
@@ -237,8 +239,8 @@
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 15px !important;
-    height: 15px !important;
+    width: 14px !important;
+    height: 14px !important;
     color: #1d9bf0 !important;
     flex-shrink: 0 !important;
   }
@@ -250,7 +252,7 @@
   }
 
   .review-author-title {
-    font-size: 13px !important;
+    font-size: 12.5px !important;
     font-weight: 500 !important;
     color: #555864 !important;
     margin: 0 !important;
@@ -261,20 +263,19 @@
     color: #9ca3af !important;
     margin: 0 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.03em !important;
+    letter-spacing: 0.02em !important;
   }
 
-  /* Responsive Rules for Small Handsets */
   @media screen and (max-width: 749px) {
     .reviews-flexible-grid {
       grid-template-columns: 1fr !important;
-      gap: 16px !important;
+      gap: 20px !important;
     }
     .review-image-container {
-      height: 240px !important;
+      height: 250px !important;
     }
     .review-text-container {
-      padding: 16px !important;
+      padding: 20px !important;
     }
   }
 </style>
