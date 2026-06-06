@@ -1,6 +1,6 @@
 {% comment %}
-  Expert & Customer Reviews Wide-Grid Section
-  - Part 1 of 2: Handles rendering markup and style sheets
+  Expert & Customer Reviews - Compact Grid Edition
+  - Part 1 of 2: Contains the structural markup layer and responsive presentation style overrides.
 {% endcomment %}
 
 <div class="reviews-section-wrapper color-{{ section.settings.color_scheme }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
@@ -8,7 +8,7 @@
     
     {%- if section.settings.heading != blank -%}
       <div class="section-heading-container">
-        <h2 class="reviews-main-heading">{{ section.settings.heading | escape }}</h2>
+        <h2 class="reviews-main-heading">{{ section.settings.heading }}</h2>
         {%- if section.settings.subheading != blank -%}
           <p class="reviews-subheading">{{ section.settings.subheading | escape }}</p>
         {%- endif -%}
@@ -19,12 +19,12 @@
       {%- for block in section.blocks -%}
         <div class="review-card-item" {{ block.shopify_attributes }}>
           
-          <!-- Top Section: Image Box -->
+          <!-- Top Section: Compact Image Box -->
           <div class="review-image-container">
             {%- if block.settings.image != blank -%}
-              {{ block.settings.image | image_url: width: 800 | image_tag:
+              {{ block.settings.image | image_url: width: 600 | image_tag:
                 loading: 'lazy',
-                sizes: '(min-width: 750px) 33vw, 100vw',
+                sizes: '(min-width: 750px) 25vw, 100vw',
                 class: 'review-card-img'
               }}
             {%- else -%}
@@ -38,7 +38,7 @@
             {%- endif -%}
           </div>
 
-          <!-- Bottom Section: Content Text Box -->
+          <!-- Bottom Section: Balanced Text Box -->
           <div class="review-text-container">
             
             <div class="review-quote-content">
@@ -55,7 +55,7 @@
               {%- endif -%}
             </div>
 
-            <!-- Author Info with Embedded Verification Badge -->
+            <!-- Profile Info Footer -->
             <div class="review-author-meta">
               <div class="review-author-header">
                 <h3 class="review-author-name">
@@ -90,20 +90,20 @@
 </div>
 
 <style>
-  /* Layout Spacing Overrides to maximize horizontal scale */
+  /* Standard Container Spacings */
   .reviews-section-wrapper {
     width: 100% !important;
     box-sizing: border-box !important;
     background-color: #ffffff !important;
-    padding-left: 2.5rem !important;
-    padding-right: 2.5rem !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
     display: block !important;
     clear: both !important;
   }
 
-  /* Forces container wide, overriding template rules */
+  /* Matches template alignments perfectly */
   .reviews-section-wrapper .page-width {
-    max-width: 1600px !important; 
+    max-width: 1340px !important; 
     width: 100% !important;
     padding: 0 !important;
     margin: 0 auto !important;
@@ -111,51 +111,52 @@
 
   .section-heading-container {
     text-align: left;
-    margin-bottom: 44px;
+    margin-bottom: 28px;
   }
 
   .reviews-main-heading {
-    font-size: 32px;
-    font-weight: 700;
-    color: #1c1e24;
-    margin: 0 0 12px 0;
-    line-height: 1.2;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    color: #1c1e24 !important;
+    margin: 0 0 8px 0 !important;
+    line-height: 1.25 !important;
   }
 
   .reviews-subheading {
-    font-size: 16px;
-    color: #6b7280;
-    margin: 0;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    color: #555864 !important;
+    margin: 0 !important;
+    max-width: 800px;
   }
 
-  /* Flex Grid Engine rules */
+  /* Compact Flexible Grid Engine */
   .reviews-flexible-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)) !important;
-    gap: 40px !important; 
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
+    gap: 20px !important; 
     align-items: start !important;
     width: 100% !important;
   }
 
-  /* Card Block Design formatting */
+  /* Compact Card Shell Formatting */
   .review-card-item {
     background: #ffffff !important;
-    border: 1px solid #f3f4f6 !important;
-    border-radius: 24px !important;
+    border: 1px solid #f1f2f4 !important;
+    border-radius: 16px !important;
     overflow: hidden !important;
     display: flex !important;
     flex-direction: column !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
-    transition: transform 0.2s ease !important;
+    box-shadow: none !important;
     height: 100% !important;
   }
 
-  /* Vertically scales up portraits smoothly */
+  /* Compact Canvas Dimensions */
   .review-image-container {
     position: relative !important;
     width: 100% !important;
-    height: 440px !important; 
-    background-color: #e5e7eb !important;
+    height: 260px !important; 
+    background-color: #f1f1f3 !important;
     overflow: hidden !important;
   }
 
@@ -169,21 +170,21 @@
   .review-image-placeholder {
     width: 100% !important;
     height: 100% !important;
-    background-color: #e5e7eb !important;
+    background-color: #f1f1f3 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
   }
 
   .placeholder-icon {
-    width: 64px !important;
-    height: 64px !important;
-    color: #9ca3af !important;
+    width: 40px !important;
+    height: 40px !important;
+    color: #b4b6bc !important;
   }
 
-  /* Spacings within Text Content boxes */
+  /* Tightened Text Content Layout */
   .review-text-container {
-    padding: 36px !important; 
+    padding: 20px !important; 
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
@@ -191,44 +192,44 @@
   }
 
   .review-quote-content {
-    margin-bottom: 32px !important;
+    margin-bottom: 20px !important;
   }
 
   .review-quote-text {
-    font-size: 20px !important;
-    line-height: 1.6 !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
     font-weight: 400 !important;
     color: #2d3142 !important;
-    margin: 0 0 16px 0 !important;
+    margin: 0 0 12px 0 !important;
   }
 
   .review-product-tag {
-    font-size: 14px !important;
+    font-size: 12px !important;
     font-weight: 500 !important;
     color: #9ca3af !important;
     margin: 0 !important;
     text-transform: capitalize !important;
   }
 
-  /* Profile alignment row */
+  /* Profile Details Alignment */
   .review-author-meta {
     display: flex !important;
     flex-direction: column !important;
-    gap: 4px !important;
-    border-top: 1px solid #f3f4f6 !important;
-    padding-top: 20px !important;
+    gap: 2px !important;
+    border-top: 1px solid #f1f2f4 !important;
+    padding-top: 14px !important;
   }
 
   .review-author-header {
     display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
+    gap: 6px !important;
   }
 
   .review-author-name {
-    font-size: 24px;
-    font-weight: 600;
-    color: #1c1e24;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: #1c1e24 !important;
     margin: 0 !important;
   }
 
@@ -236,8 +237,8 @@
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 20px !important;
-    height: 20px !important;
+    width: 15px !important;
+    height: 15px !important;
     color: #1d9bf0 !important;
     flex-shrink: 0 !important;
   }
@@ -249,41 +250,31 @@
   }
 
   .review-author-title {
-    font-size: 14px !important;
+    font-size: 13px !important;
     font-weight: 500 !important;
-    color: #6b7280 !important;
+    color: #555864 !important;
     margin: 0 !important;
   }
 
   .review-author-location {
-    font-size: 12px !important;
+    font-size: 11px !important;
     color: #9ca3af !important;
     margin: 0 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: 0.03em !important;
   }
 
-  /* Breakpoint Handling for Mobile viewports */
+  /* Responsive Rules for Small Handsets */
   @media screen and (max-width: 749px) {
-    .reviews-section-wrapper {
-      padding-left: 1.5rem !important;
-      padding-right: 1.5rem !important;
-    }
     .reviews-flexible-grid {
       grid-template-columns: 1fr !important;
-      gap: 24px !important;
+      gap: 16px !important;
     }
     .review-image-container {
-      height: 340px !important;
+      height: 240px !important;
     }
     .review-text-container {
-      padding: 24px !important;
-    }
-    .review-quote-text {
-      font-size: 18px !important;
-    }
-    .review-author-name {
-      font-size: 20px !important;
+      padding: 16px !important;
     }
   }
 </style>
@@ -298,10 +289,10 @@
       "default": "Recommended by Health Experts"
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "subheading",
       "label": "Subheading Text",
-      "default": "Formulated on serious science..."
+      "default": "Novomins gummies aren't just delicious, they're formulated on serious science..."
     },
     {
       "type": "range",
@@ -338,7 +329,7 @@
           "type": "textarea",
           "id": "quote_text",
           "label": "Review Quote",
-          "default": "They worked!! After taking Biotin gummies everyday for 2 months I could not actually believe the results! After taking out my braids I noticed how thicker and longer my hair was. The gummies were also easy to take and tasted really good."
+          "default": "They worked!! After taking Biotin gummies everyday for 2 months I could not actually believe the results! After taking out my braids I noticed how thicker and longer my hair was."
         },
         {
           "type": "text",
@@ -377,26 +368,10 @@
     {
       "name": "Expert & Customer Reviews",
       "blocks": [
-        {
-          "type": "review_card",
-          "settings": {
-            "quote_text": "They worked!! After taking Biotin gummies everyday for 2 months I could not actually believe the results! After taking out my braids I noticed how thicker and longer my hair was. The gummies were also easy to take and tasted really good.",
-            "product_tag": "Biotin Gummies",
-            "author_name": "Zara Asare Evans",
-            "author_title": "Registered Nurse",
-            "author_location": "London, UK"
-          }
-        },
-        {
-          "type": "review_card",
-          "settings": {
-            "quote_text": "Creatine is one of the most researched supplements...",
-            "product_tag": "Creatine Gummies",
-            "author_name": "Dr Peter McQuillan",
-            "author_title": "Registered Doctor",
-            "author_location": "London, UK"
-          }
-        }
+        { "type": "review_card" },
+        { "type": "review_card" },
+        { "type": "review_card" },
+        { "type": "review_card" }
       ]
     }
   ]
