@@ -2,29 +2,28 @@
 
 {%- style -%}
   .section-{{ section.id }}-padding {
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 60px;
+    padding-bottom: 60px;
   }
 
   .expert-section-wrapper {
-    max-width: 1440px;
+    max-width: 1520px; /* Expanded section canvas width */
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 3rem;
   }
 
   /* Headings Typography Layout */
   .expert-heading-area {
-    margin-bottom: 4rem;
-    max-width: 100%;
+    margin-bottom: 4.5rem;
   }
 
   .expert-heading-area .title {
     font-family: inherit;
-    font-size: 3.8rem; /* Increased size */
+    font-size: 4.2rem; 
     font-weight: 700;
     color: #121212;
     margin: 0 0 1.5rem 0;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
   }
 
   .expert-heading-area .title em {
@@ -33,39 +32,39 @@
   }
 
   .expert-subtitle-text {
-    font-size: 1.6rem; /* Increased size */
+    font-size: 1.8rem; 
     line-height: 1.6;
     color: #2b2b2b;
     max-width: 1200px;
     margin: 0;
   }
 
-  /* Grid Layout and Exact Distances */
+  /* Grid Layout Configuration */
   .expert-grid-layout {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px; /* Distinct gap spacing */
+    gap: 30px; /* Enhanced horizontal card distance spacing */
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  /* Card Structure Elements */
+  /* Structural Card Element Wrapper */
   .expert-card {
     background: transparent;
-    overflow: hidden;
     height: 100%;
     display: flex;
     flex-direction: column;
+    gap: 20px; /* Vertical gap spacing between image box and text card box */
     border: none;
   }
 
-  /* Modified Image Box Proportions - Horizontally wider than vertical */
+  /* Top Image Container Layout */
   .expert-card__image-wrapper {
     position: relative;
     background-color: #dfdfdf;
     width: 100%;
-    border-radius: 12px;
+    border-radius: 20px; /* Soft corner radii matching image */
     overflow: hidden;
   }
 
@@ -73,40 +72,40 @@
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 1.35 / 1; /* Horizontal landscape ratio - wider than tall */
+    aspect-ratio: 1.15 / 1; /* Balanced wide landscape framing footprint */
     object-fit: cover;
   }
 
+  /* The Text Container Card Block */
   .expert-card__info {
-    padding: 2rem 0 1rem 0;
+    background: #ffffff; /* White background layout card container matching reference */
+    border: 1px solid #eaeaea; /* Light border outlining text module element */
+    border-radius: 20px; /* Rounded corners matching outer frame */
+    padding: 3rem 2.5rem; /* Spacious internal padding */
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.01);
   }
 
-  /* Quote Font Scaling */
+  /* Main Testimonial Typography Styles */
   .expert-card__quote {
-    font-size: 1.5rem; /* Increased text font size */
+    font-size: 1.7rem; /* Enlarged text view size */
     line-height: 1.6;
-    color: #121212;
-    margin: 0 0 2rem 0;
+    color: #2c2c2c;
+    margin: 0 0 1.5rem 0;
     flex-grow: 1;
     font-weight: 400;
     letter-spacing: -0.01em;
   }
 
-  /* Description Product Tag Box Styles */
+  /* Product Sub-Label Text Styling */
   .expert-card__product-tag {
-    display: inline-flex;
-    align-self: flex-start;
-    font-size: 1.1rem;
-    color: #6a6a6a;
-    background-color: #f4f4f4; /* Clean background fill tag */
-    padding: 0.4rem 1rem;
-    border-radius: 4px;
-    margin-bottom: 2rem;
+    display: block;
+    font-size: 1.3rem;
+    color: #8a8a8a;
+    margin-bottom: 2.5rem;
     font-weight: 400;
-    border: 1px solid #e5e5e5;
   }
 
   /* Identity Metadata Block Alignment */
@@ -114,7 +113,7 @@
     margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.5rem;
   }
 
   .expert-card__name-wrapper {
@@ -125,49 +124,52 @@
   }
 
   .expert-card__name {
-    font-size: 1.7rem; /* Increased size */
-    font-weight: 700;
+    font-size: 1.9rem; /* Bigger name text */
+    font-weight: 600;
     color: #121212;
     margin: 0;
   }
 
-  /* Custom Blue Checked Text Badge Element */
+  /* Exact Twitter/X Vector Verified Badge Mark Variant Styling */
   .expert-card__verified-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    color: #0084ff; /* Pure branding blue */
-    font-size: 1.2rem;
-    font-weight: 600;
+    gap: 0.5rem;
+    color: #1da1f2; /* Twitter/X signature verified blue hex color identifier */
+    font-size: 1.3rem;
+    font-weight: 500;
   }
 
   .expert-card__verified-badge svg {
-    width: 14px;
-    height: 14px;
+    width: 18px; /* Perfectly dimensioned icon scaling */
+    height: 18px;
     fill: currentColor;
     flex-shrink: 0;
   }
 
   .expert-card__title,
   .expert-card__location {
-    font-size: 1.3rem;
-    color: #6a6a6a;
+    font-size: 1.35rem;
+    color: #7a7a7a;
     margin: 0;
     font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
   }
 
-  /* High performance CSS mobile responsive view slider */
-  @media screen and (max-width: 989px) {
+  /* Responsive Display Viewports Optimization Slider Logic */
+  @media screen and (max-width: 1199px) {
     .expert-grid-layout {
       grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
     }
   }
 
   @media screen and (max-width: 749px) {
     .expert-section-wrapper {
       padding: 0 1.5rem;
+    }
+    .expert-heading-area .title {
+      font-size: 3.2rem;
     }
     .expert-grid-layout {
       display: flex !important;
@@ -176,18 +178,15 @@
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
       scrollbar-width: none;
-      gap: 15px;
+      gap: 20px;
     }
     .expert-grid-layout::-webkit-scrollbar {
       display: none;
     }
     .expert-grid-layout > li {
-      width: 82% !important;
+      width: 85% !important;
       flex-shrink: 0;
       scroll-snap-align: start;
-    }
-    .expert-heading-area .title {
-      font-size: 2.8rem;
     }
   }
 {%- endstyle -%}
@@ -214,11 +213,11 @@
               
               <div class="expert-card__image-wrapper">
                 {%- if block.settings.image != blank -%}
-                  {%- capture sizes -%}(min-width: 990px) 25vw, (min-width: 750px) 50vw, 80vw{%- endcapture -%}
-                  {{ block.settings.image | image_url: width: 600 | image_tag:
+                  {%- capture sizes -%}(min-width: 1200px) 25vw, (min-width: 750px) 50vw, 85vw{%- endcapture -%}
+                  {{ block.settings.image | image_url: width: 700 | image_tag:
                     loading: 'lazy',
                     sizes: sizes,
-                    widths: '300, 450, 600',
+                    widths: '350, 500, 700',
                     class: 'expert-card__image'
                   }}
                 {%- else -%}
@@ -227,12 +226,10 @@
               </div>
 
               <div class="expert-card__info">
-                <p class="expert-card__quote">{{ block.settings.quote }}</p>
+                <p class="expert-card__quote">“{{ block.settings.quote }}”</p>
                 
                 {%- if block.settings.product_label != blank -%}
-                  <div>
-                    <span class="expert-card__product-tag">{{ block.settings.product_label }}</span>
-                  </div>
+                  <span class="expert-card__product-tag">{{ block.settings.product_label }}</span>
                 {%- endif -%}
 
                 <div class="expert-card__meta">
@@ -240,8 +237,9 @@
                     <h3 class="expert-card__name">{{ block.settings.name }}</h3>
                     {%- if block.settings.show_verified -%}
                       <span class="expert-card__verified-badge">
-                        <svg viewBox="0 0 24 24">
-                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        <!-- Precise Twitter/X Vector Asset Path Configuration -->
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.17-2.9-.81-3.88s-2.49-1.27-3.88-.81C14.67 2.66 13.43 1.75 12 1.75s-2.67.91-3.37 2.22c-1.39-.46-2.9-.17-3.88.81s-1.27 2.49-.81 3.88C2.66 9.33 1.75 10.57 1.75 12s.91 2.67 2.22 3.37c-.46 1.39-.17 2.9.81 3.88s2.49 1.27 3.88.81c.7 1.31 1.94 2.22 3.37 2.22s2.67-.91 3.37-2.22c1.39.46 2.9.17 3.88-.81s1.27-2.49.81-3.88c1.31-.7 2.22-1.94 2.22-3.37zM9.93 16.12l-3.17-3.17 1.41-1.41 1.76 1.76 4.79-4.79 1.41 1.41-6.2 6.2z"/>
                         </svg>
                         Verified
                       </span>
@@ -308,32 +306,31 @@
         {
           "type": "textarea",
           "id": "quote",
-          "default": "Creatine is one of the most researched supplements, shown to effectively increase muscle strength...",
+          "default": "Magnesium deficiency is often overlooked and safe to say, myself and my family don't struggle to keep our magnesium levels up anymore since discovering these gummies.",
           "label": "Recommendation Quote"
         },
         {
           "type": "text",
           "id": "product_label",
-          "default": "Creatine Gummies",
-          "label": "Product Sub-label Tag"
+          "default": "Magnesium Gummies",
+          "label": "Product Sub-label Text"
         },
         {
           "type": "text",
           "id": "name",
-          "default": "Dr Peter McQuillan",
+          "default": "Dr Rej Khafaf",
           "label": "Expert Name"
         },
         {
           "type": "text",
           "id": "expert_title",
-          "default": "Registered Doctor",
+          "default": "MFDS RCPS",
           "label": "Expert Credentials / Title"
         },
         {
           "type": "text",
           "id": "expert_location",
-          "default": "London, UK",
-          "label": "Reviewer Location"
+          "label": "Reviewer Location (Optional)"
         },
         {
           "type": "checkbox",
@@ -350,6 +347,7 @@
       "blocks": [
         { "type": "review" },
         { "type": "review" },
+
         { "type": "review" },
         { "type": "review" }
       ]
