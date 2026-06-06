@@ -287,3 +287,120 @@
     text-align: left !important;
 }
 }
+---
+
+### Part 2: Theme Dynamic Setting Schema Block
+
+Paste this code block **directly below the end of Part 1** within your section editor window to load setting customizer inputs cleanly.
+
+```liquid
+{% schema %}
+{
+  "name": "Expert & Customer Reviews",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Recommended by Health Experts"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading Text",
+      "default": "Novomins gummies aren't just delicious, they're formulated on serious science..."
+    },
+    {
+      "type": "range",
+      "id": "review_word_spacing",
+      "min": -10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Word Spacing Gap Distance",
+      "default": 0,
+      "info": "Drag left to bring whole words closer together, or drag right to spread them out."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review_card",
+      "name": "Review Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Reviewer Image"
+        },
+        {
+          "type": "textarea",
+          "id": "quote_text",
+          "label": "Review Quote",
+          "default": "They worked!! After taking Biotin gummies everyday for 2 months I could not actually believe the results! After taking out my braids I noticed how thicker and longer my hair was. The gummies were also easy to take and tasted really good."
+        },
+        {
+          "type": "text",
+          "id": "product_tag",
+          "label": "Product Tag Label",
+          "default": "Creatine Gummies"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author Name",
+          "default": "Zara Asare Evans"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_verified",
+          "label": "Show Verified Checkmark Badge",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "author_title",
+          "label": "Author Subtitle / Job Title",
+          "default": "Registered Nurse"
+        },
+        {
+          "type": "text",
+          "id": "author_location",
+          "label": "Author Location (Optional)",
+          "default": "London, UK"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Expert & Customer Reviews",
+      "blocks": [
+        { "type": "review_card" },
+        { "type": "review_card" },
+        { "type": "review_card" },
+        { "type": "review_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
