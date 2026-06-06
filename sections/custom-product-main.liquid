@@ -33,7 +33,7 @@
   /* ---------- RIGHT: Info ---------- */
   .cpm__info { max-width: 100%; color: #222; }
   .cpm__info a { text-decoration: none; }
-  .cpm__reviews { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 12px; text-decoration: none; cursor: pointer; background: none; border: none; padding: 0; }
+  .cpm__reviews { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 12px; text-decoration: none; cursor: pointer; }
   .cpm__reviews:hover .cpm__reviews-count { text-decoration: underline; }
 
   /* ---- Reviews Modal ---- */
@@ -45,7 +45,7 @@
   .cpm__modal-rating-row { display: flex; align-items: center; gap: 8px; }
   .cpm__modal-rating-num { font-size: 28px; font-weight: 800; color: #111; line-height: 1; }
   .cpm__modal-rating-based { font-size: 13px; color: #666; margin-top: 2px; }
-  .cpm__modal-write { background: #111; color: #fff; border: none; border-radius: 999px; padding: 12px 22px; font-size: 15px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; text-decoration: none; display: inline-flex; align-items: center; }
+  .cpm__modal-write { background: #111; color: #fff; border: none; border-radius: 999px; padding: 12px 22px; font-size: 15px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
   .cpm__modal-write:hover { opacity: 0.85; }
   .cpm__modal-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: #f0f0f0; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #444; line-height: 1; }
   .cpm__modal-close:hover { background: #e0e0e0; }
@@ -66,6 +66,7 @@
   .cpm__modal-location { font-size: 13px; color: #888; }
   .cpm__modal-verified { display: flex; align-items: center; gap: 5px; font-size: 13px; color: #444; margin: 6px 0; }
   .cpm__modal-verified svg { flex-shrink: 0; }
+  .cpm__modal-recommend { display: flex; align-items: center; gap: 5px; font-size: 13px; color: #333; }
   .cpm__review-stars { display: flex; gap: 2px; margin-bottom: 6px; }
   .cpm__review-title { font-weight: 700; font-size: 15px; color: #111; margin-bottom: 4px; }
   .cpm__review-body { font-size: 14px; color: #444; line-height: 1.5; margin-bottom: 10px; }
@@ -490,14 +491,38 @@
       {%- if has_reviews -%}
         {%- for block in section.blocks -%}
           {%- if block.type == 'review' -%}
-            {%- assign rev_rating = block.settings.rating | times: 1 -%}
+            {%- assign rev_rating_f = block.settings.rating | times: 1.0 -%}
+            {%- assign rev_floor = rev_rating_f | floor -%}
+            {%- assign rev_ceil = rev_rating_f | ceil -%}
+            {%- assign rev_half = false -%}
+            {%- if rev_ceil != rev_floor -%}{%- assign rev_half = true -%}{%- endif -%}
             <div class="cpm__modal-review" {{ block.shopify_attributes }}>
-              <div class="cpm__modal-avatar">{{ block.settings.reviewer_name | upcase | slice: 0 }}</div>
+              <div>
+                <div class="cpm__modal-avatar">{{ block.settings.reviewer_name | upcase | slice: 0 }}</div>
+                {%- if block.settings.verified -%}
+                  <div class="cpm__modal-verified" style="margin-top:8px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#1c7c45"/><polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Verified Customer
+                  </div>
+                {%- endif -%}
+                <div class="cpm__modal-reviewer">{{ block.settings.reviewer_name }}</div>
+                {%- if block.settings.reviewer_location != blank -%}
+                  <div class="cpm__modal-location">{{ block.settings.reviewer_location }}</div>
+                {%- endif -%}
+                {%- if block.settings.recommend -%}
+                  <div class="cpm__modal-recommend" style="margin-top:8px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#111" stroke="#111" stroke-width="0.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    I recommend this product
+                  </div>
+                {%- endif -%}
+              </div>
               <div>
                 <div class="cpm__review-stars">
                   {%- for j in (1..5) -%}
-                    {%- if j <= rev_rating -%}
+                    {%- if j <= rev_floor -%}
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    {%- elsif j == rev_ceil and rev_half -%}
+                      <svg width="16" height="16" viewBox="0 0 24 24"><defs><linearGradient id="rvhalf{{ forloop.index }}-{{ block.id | replace: '_',''}}"><stop offset="55%" stop-color="#111"/><stop offset="55%" stop-color="#fff"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#rvhalf{{ forloop.index }}-{{ block.id | replace: '_',''}})" stroke="#111" stroke-width="1.2"/></svg>
                     {%- else -%}
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#ccc" stroke-width="1.5"/></svg>
                     {%- endif -%}
@@ -507,16 +532,6 @@
                   <div class="cpm__review-title">{{ block.settings.review_title }}</div>
                 {%- endif -%}
                 <div class="cpm__review-body">{{ block.settings.review_text }}</div>
-                {%- if block.settings.verified -%}
-                  <div class="cpm__modal-verified">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#1c7c45"/><polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    Verified Customer
-                  </div>
-                {%- endif -%}
-                <div class="cpm__modal-reviewer">{{ block.settings.reviewer_name }}</div>
-                {%- if block.settings.reviewer_location != blank -%}
-                  <div class="cpm__modal-location">{{ block.settings.reviewer_location }}</div>
-                {%- endif -%}
                 <div class="cpm__review-meta">
                   <div class="cpm__review-actions">
                     <span style="font-size:12px;color:#999;">Was this review helpful?</span>
@@ -765,10 +780,17 @@
       "type": "review",
       "name": "Review",
       "settings": [
-        { "type": "range", "id": "rating", "label": "Star rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "select", "id": "rating", "label": "Star rating", "default": "5", "options": [
+          {"value":"1","label":"1 star"},{"value":"1.5","label":"1.5 stars"},
+          {"value":"2","label":"2 stars"},{"value":"2.5","label":"2.5 stars"},
+          {"value":"3","label":"3 stars"},{"value":"3.5","label":"3.5 stars"},
+          {"value":"4","label":"4 stars"},{"value":"4.5","label":"4.5 stars"},
+          {"value":"5","label":"5 stars"}
+        ]},
         { "type": "text", "id": "reviewer_name", "label": "Reviewer name", "default": "Anonymous" },
         { "type": "text", "id": "reviewer_location", "label": "Location (e.g. London, GB)" },
         { "type": "checkbox", "id": "verified", "label": "Verified Customer", "default": true },
+        { "type": "checkbox", "id": "recommend", "label": "I recommend this product", "default": true },
         { "type": "text", "id": "review_title", "label": "Review title" },
         { "type": "textarea", "id": "review_text", "label": "Review text", "default": "Great product!" },
         { "type": "text", "id": "review_date", "label": "Date (e.g. 3 days ago)" }
