@@ -1,7 +1,7 @@
 {% comment %}
-  Expert & Customer Reviews - Horizontally Aligned Mobile Framework
+  Expert & Customer Reviews - Mobile Portrait Scaler
   - Part 1 of 2: Structure markup and styling rules.
-  - Fixes mobile viewport behavior to match the left reference layout.
+  - Line-count threshold fully monitored.
 {% endcomment %}
 
 <div class="reviews-section-wrapper color-{{ section.settings.color_scheme }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
@@ -275,9 +275,8 @@
     line-height: 1.2 !important;
   }
 
-  /* MOBILE ALIGNMENT OVERRIDES: Matches the left reference layout exactly */
+  /* MOBILE-ONLY TARGET MODIFICATIONS */
   @media screen and (max-width: 749px) {
-    /* Changes grid engine to a horizontal swiper layout instead of stacked cards */
     .reviews-flexible-grid {
       display: flex !important;
       flex-direction: row !important;
@@ -285,33 +284,34 @@
       scroll-snap-type: x mandatory !important;
       gap: 16px !important;
       padding-bottom: 12px !important;
-      scrollbar-width: none !important; /* Hides horizontal system scrollbars */
+      scrollbar-width: none !important;
     }
     .reviews-flexible-grid::-webkit-scrollbar {
       display: none !important;
     }
-    /* Controls card dimensions to loop parallel next to each other */
     .review-card-item {
-      flex: 0 0 82% !important; /* Shows 1 complete card plus a hint of the next layout */
+      flex: 0 0 82% !important; 
       scroll-snap-align: start !important;
     }
-    /* Reduces the mobile portrait block size to prevent content truncation */
+    /* Increased image vertical scaling by 10% (from 200px to 220px) while maintaining layout card width bounds */
     .review-image-container {
-      height: 200px !important; /* Shrunk visually for clean balancing */
+      height: 220px !important; 
       margin-bottom: 8px !important; 
     }
     .review-text-container {
       padding: 20px !important;
     }
+    /* Increased Review text by 2px (from 17.5px to 19.5px) */
     .review-quote-text {
       text-align: left !important;
-      font-size: 17.5px !important; /* Compact scale for mobile portrait reading */
+      font-size: 19.5px !important; 
     }
     .reviews-main-heading {
       font-size: 30px !important;
     }
+    /* Increased Subheading text by 2px (from 16px to 18px) */
     .reviews-subheading {
-      font-size: 16px !important;
+      font-size: 18px !important; 
     }
   }
 </style>
