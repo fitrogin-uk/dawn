@@ -7,7 +7,7 @@
   }
 
   .expert-section-wrapper {
-    max-width: 1520px; /* Expanded section canvas width */
+    max-width: 1560px; 
     margin: 0 auto;
     padding: 0 3rem;
   }
@@ -43,7 +43,7 @@
   .expert-grid-layout {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 30px; /* Enhanced horizontal card distance spacing */
+    gap: 30px; 
     list-style: none;
     padding: 0;
     margin: 0;
@@ -55,16 +55,16 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Vertical gap spacing between image box and text card box */
+    gap: 20px; 
     border: none;
   }
 
-  /* Top Image Container Layout */
+  /* Top Image Container Layout - Configured for horizontal expansion */
   .expert-card__image-wrapper {
     position: relative;
     background-color: #dfdfdf;
     width: 100%;
-    border-radius: 20px; /* Soft corner radii matching image */
+    border-radius: 20px; 
     overflow: hidden;
   }
 
@@ -72,16 +72,16 @@
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 1.15 / 1; /* Balanced wide landscape framing footprint */
+    aspect-ratio: 1.45 / 1; /* Updated to expand horizontally and decrease vertical height */
     object-fit: cover;
   }
 
   /* The Text Container Card Block */
   .expert-card__info {
-    background: #ffffff; /* White background layout card container matching reference */
-    border: 1px solid #eaeaea; /* Light border outlining text module element */
-    border-radius: 20px; /* Rounded corners matching outer frame */
-    padding: 3rem 2.5rem; /* Spacious internal padding */
+    background: #ffffff; 
+    border: 1px solid #eaeaea; 
+    border-radius: 20px; 
+    padding: 3rem 2.5rem; 
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -90,7 +90,7 @@
 
   /* Main Testimonial Typography Styles */
   .expert-card__quote {
-    font-size: 1.7rem; /* Enlarged text view size */
+    font-size: 1.7rem; 
     line-height: 1.6;
     color: #2c2c2c;
     margin: 0 0 1.5rem 0;
@@ -124,7 +124,7 @@
   }
 
   .expert-card__name {
-    font-size: 1.9rem; /* Bigger name text */
+    font-size: 1.9rem; 
     font-weight: 600;
     color: #121212;
     margin: 0;
@@ -135,13 +135,13 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: #1da1f2; /* Twitter/X signature verified blue hex color identifier */
+    color: #1da1f2; 
     font-size: 1.3rem;
     font-weight: 500;
   }
 
   .expert-card__verified-badge svg {
-    width: 18px; /* Perfectly dimensioned icon scaling */
+    width: 18px; 
     height: 18px;
     fill: currentColor;
     flex-shrink: 0;
@@ -161,6 +161,9 @@
     .expert-grid-layout {
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
+    }
+    .expert-card__image {
+      aspect-ratio: 1.35 / 1;
     }
   }
 
@@ -187,6 +190,9 @@
       width: 85% !important;
       flex-shrink: 0;
       scroll-snap-align: start;
+    }
+    .expert-card__image {
+      aspect-ratio: 1.35 / 1;
     }
   }
 {%- endstyle -%}
@@ -237,7 +243,6 @@
                     <h3 class="expert-card__name">{{ block.settings.name }}</h3>
                     {%- if block.settings.show_verified -%}
                       <span class="expert-card__verified-badge">
-                        <!-- Precise Twitter/X Vector Asset Path Configuration -->
                         <svg viewBox="0 0 24 24" aria-hidden="true">
                           <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.17-2.9-.81-3.88s-2.49-1.27-3.88-.81C14.67 2.66 13.43 1.75 12 1.75s-2.67.91-3.37 2.22c-1.39-.46-2.9-.17-3.88.81s-1.27 2.49-.81 3.88C2.66 9.33 1.75 10.57 1.75 12s.91 2.67 2.22 3.37c-.46 1.39-.17 2.9.81 3.88s2.49 1.27 3.88.81c.7 1.31 1.94 2.22 3.37 2.22s2.67-.91 3.37-2.22c1.39.46 2.9.17 3.88-.81s1.27-2.49.81-3.88c1.31-.7 2.22-1.94 2.22-3.37zM9.93 16.12l-3.17-3.17 1.41-1.41 1.76 1.76 4.79-4.79 1.41 1.41-6.2 6.2z"/>
                         </svg>
@@ -277,7 +282,7 @@
       "type": "inline_richtext",
       "id": "title",
       "default": "Recommended by <em>Health</em> Experts",
-      "label": "Heading (Use <em>Text</em> for italics)"
+      "label": "Heading"
     },
     {
       "type": "inline_richtext",
@@ -347,7 +352,6 @@
       "blocks": [
         { "type": "review" },
         { "type": "review" },
-
         { "type": "review" },
         { "type": "review" }
       ]
