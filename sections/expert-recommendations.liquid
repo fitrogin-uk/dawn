@@ -1,7 +1,7 @@
 {% comment %}
-  Expert & Customer Reviews - Tight Dynamic Line-Height Edition
+  Expert & Customer Reviews - Horizontally Aligned Mobile Framework
   - Part 1 of 2: Structure markup and styling rules.
-  - Line-to-line interspace reduced by 15% across headings and blocks.
+  - Fixes mobile viewport behavior to match the left reference layout.
 {% endcomment %}
 
 <div class="reviews-section-wrapper color-{{ section.settings.color_scheme }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
@@ -114,11 +114,11 @@
     font-weight: 700 !important;
     color: #1c1e24 !important;
     margin: 0 0 10px 0 !important;
-    line-height: 1.1 !important; /* Reduced 15% */
+    line-height: 1.1 !important;
   }
   .reviews-subheading {
     font-size: 20px !important; 
-    line-height: 1.35 !important; /* Reduced 15% from 1.6 to tighten Subheading text lines */
+    line-height: 1.35 !important; 
     color: #555864 !important;
     margin: 0 !important;
     max-width: none !important; 
@@ -191,7 +191,7 @@
   }
   .review-quote-text {
     font-size: 20.5px !important; 
-    line-height: 1.15 !important; /* Reduced 15% from 1.35 to tighten Review copy line space */
+    line-height: 1.15 !important; 
     font-weight: 400 !important;
     color: #2a2d38 !important;
     margin: 0 !important;
@@ -274,20 +274,44 @@
     letter-spacing: 0.02em !important;
     line-height: 1.2 !important;
   }
+
+  /* MOBILE ALIGNMENT OVERRIDES: Matches the left reference layout exactly */
   @media screen and (max-width: 749px) {
+    /* Changes grid engine to a horizontal swiper layout instead of stacked cards */
     .reviews-flexible-grid {
-      grid-template-columns: 1fr !important;
-      gap: 24px !important;
+      display: flex !important;
+      flex-direction: row !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory !important;
+      gap: 16px !important;
+      padding-bottom: 12px !important;
+      scrollbar-width: none !important; /* Hides horizontal system scrollbars */
     }
+    .reviews-flexible-grid::-webkit-scrollbar {
+      display: none !important;
+    }
+    /* Controls card dimensions to loop parallel next to each other */
+    .review-card-item {
+      flex: 0 0 82% !important; /* Shows 1 complete card plus a hint of the next layout */
+      scroll-snap-align: start !important;
+    }
+    /* Reduces the mobile portrait block size to prevent content truncation */
     .review-image-container {
-      height: 288px !important;
-      margin-bottom: 10px !important; 
+      height: 200px !important; /* Shrunk visually for clean balancing */
+      margin-bottom: 8px !important; 
     }
     .review-text-container {
-      padding: 24px !important;
+      padding: 20px !important;
     }
     .review-quote-text {
       text-align: left !important;
+      font-size: 17.5px !important; /* Compact scale for mobile portrait reading */
+    }
+    .reviews-main-heading {
+      font-size: 30px !important;
+    }
+    .reviews-subheading {
+      font-size: 16px !important;
     }
   }
 </style>
