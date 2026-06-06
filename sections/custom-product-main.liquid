@@ -33,7 +33,7 @@
   /* ---------- RIGHT: Info ---------- */
   .cpm__info { max-width: 100%; color: #222; }
   .cpm__info a { text-decoration: none; }
-  .cpm__reviews { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 12px; text-decoration: none; cursor: pointer; background: none; border: none; padding: 0; }
+  .cpm__reviews { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 12px; text-decoration: none; cursor: pointer; }
   .cpm__reviews:hover .cpm__reviews-count { text-decoration: underline; }
 
   /* ---- Reviews Modal ---- */
@@ -41,8 +41,8 @@
   .cpm__modal-overlay.is-open { display: flex; }
   .cpm__modal-wrap { position: relative; width: 100%; max-width: 640px; }
   .cpm__modal { background: #fff; border-radius: 16px; width: 100%; max-height: 88vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.22); }
-  .cpm__modal-close { position: absolute; top: -16px; right: -16px; width: 36px; height: 36px; border-radius: 50%; background: #fff; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.18); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #222; line-height: 1; z-index: 10; }
-  .cpm__modal-close:hover { background: #f0f0f0; }
+  .cpm__modal-close { position: absolute; top: -16px; right: -16px; width: 36px; height: 36px; border-radius: 50%; background: #000; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.35); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #fff; line-height: 1; z-index: 10; }
+  .cpm__modal-close:hover { background: #222; }
   .cpm__modal-head { display: flex; align-items: center; justify-content: space-between; padding: 24px 24px 16px; border-bottom: 1px solid #eee; gap: 12px; }
   .cpm__modal-rating { display: flex; flex-direction: column; gap: 2px; }
   .cpm__modal-rating-row { display: flex; align-items: center; gap: 8px; }
@@ -53,7 +53,7 @@
   .cpm__modal-photos { display: flex; gap: 8px; padding: 14px 24px; overflow-x: auto; border-bottom: 1px solid #eee; }
   .cpm__modal-photos::-webkit-scrollbar { height: 4px; }
   .cpm__modal-photos::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
-  .cpm__modal-photo { flex: 0 0 88px; height: 88px; border-radius: 8px; overflow: hidden; background: #f0f0f0; cursor: pointer; position: relative; }
+  .cpm__modal-photo { flex: 0 0 106px; height: 106px; border-radius: 8px; overflow: hidden; background: #f0f0f0; cursor: pointer; position: relative; }
   .cpm__modal-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.2s; }
   .cpm__modal-photo:hover img { opacity: 0.85; }
 
@@ -65,7 +65,7 @@
   .cpm__lb-photo img { width: 100%; height: 100%; object-fit: cover; display: block; max-height: 88vh; }
   .cpm__lb-side { flex: 1; display: flex; flex-direction: column; padding: 20px 24px 24px; overflow-y: auto; min-width: 0; }
   .cpm__lb-controls { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
-  .cpm__lb-prev, .cpm__lb-next { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #333; flex-shrink: 0; }
+  .cpm__lb-prev, .cpm__lb-next { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #333; flex-shrink: 0; }
   .cpm__lb-prev:hover, .cpm__lb-next:hover { background: #f5f5f5; }
   .cpm__lb-close { margin-left: auto; width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #333; }
   .cpm__lb-close:hover { background: #f5f5f5; }
@@ -75,7 +75,7 @@
   .cpm__lb-product-name { font-size: 14px; font-weight: 600; color: #111; text-align: center; }
   .cpm__lb-buy { background: #111; color: #fff; border: none; border-radius: 999px; padding: 9px 22px; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 4px; }
   .cpm__lb-buy:hover { opacity: 0.85; }
-
+  .cpm__lb-reviewer { font-size: 13px; color: #555; text-align: center; margin-top: 4px; }
   .cpm__modal-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; border-bottom: 2px solid #eee; gap: 12px; }
   .cpm__modal-sort { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: #111; cursor: pointer; background: none; border: none; }
   .cpm__modal-search { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #555; background: none; border: none; cursor: pointer; }
@@ -94,10 +94,31 @@
   .cpm__review-stars { display: flex; gap: 2px; margin-bottom: 6px; }
   .cpm__review-title { font-weight: 700; font-size: 15px; color: #111; margin-bottom: 4px; }
   .cpm__review-body { font-size: 14px; color: #444; line-height: 1.5; margin-bottom: 10px; }
-  .cpm__review-meta { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #999; flex-wrap: wrap; gap: 4px; }
-  .cpm__review-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .cpm__review-meta { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #999; }
+  .cpm__review-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
   .cpm__review-actions a { color: #555; text-decoration: none; font-size: 12px; }
   .cpm__review-actions a:hover { text-decoration: underline; }
+  .cpm__helpful-btn { background: none; border: none; color: #555; font-size: 12px; cursor: pointer; padding: 0; text-decoration: underline; }
+  .cpm__helpful-btn:hover { color: #111; }
+  .cpm__helpful-msg { display: none; font-size: 12px; color: #111; font-weight: 600; }
+  .cpm__helpful-msg.is-shown { display: inline-flex; align-items: center; gap: 4px; }
+  /* Write review form */
+  .cpm__write-form { display: none; padding: 20px 24px; border-bottom: 1px solid #eee; }
+  .cpm__write-form.is-open { display: block; }
+  .cpm__write-form-label { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 8px; display: block; }
+  .cpm__write-stars { display: flex; gap: 6px; margin-bottom: 16px; cursor: pointer; }
+  .cpm__write-stars svg { transition: transform 0.1s; }
+  .cpm__write-stars svg:hover { transform: scale(1.15); }
+  .cpm__write-form textarea, .cpm__write-form input[type=text], .cpm__write-form input[type=email] { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #111; box-sizing: border-box; font-family: inherit; resize: vertical; }
+  .cpm__write-form textarea:focus, .cpm__write-form input:focus { outline: none; border-color: #111; }
+  .cpm__write-form textarea { min-height: 100px; margin-bottom: 14px; }
+  .cpm__write-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .cpm__write-form-row input { margin-bottom: 0; }
+  .cpm__write-form-actions { display: flex; justify-content: flex-end; gap: 10px; }
+  .cpm__write-cancel { background: none; border: 1px solid #ddd; border-radius: 999px; padding: 10px 22px; font-size: 14px; font-weight: 600; cursor: pointer; color: #333; }
+  .cpm__write-cancel:hover { background: #f5f5f5; }
+  .cpm__write-submit { background: #111; color: #fff; border: none; border-radius: 999px; padding: 10px 22px; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .cpm__write-submit:hover { opacity: 0.85; }
   .cpm__stars { display: inline-flex; align-items: center; gap: 1px; }
   .cpm__stars svg { display: block; }
   .cpm__reviews-count { font-size: 11px; color: #111; font-weight: 500; line-height: 1; position: relative; top: -3px; }
@@ -206,9 +227,7 @@
     .cpm__acc details { border-bottom: none; }
     .cpm__vc-item { flex: 0 0 calc(44% - 6px); height: 280px; }
     .cpm__vc-title { font-size: 18px; }
-    .cpm__lb-inner { flex-direction: column; }
-    .cpm__lb-photo { flex: 0 0 auto; max-height: 50vw; }
-    .cpm__modal-review { grid-template-columns: 140px 1fr; gap: 12px; }
+    .cpm__write-form-row { grid-template-columns: 1fr; }
   }
 </style>
 
@@ -456,132 +475,165 @@
 {%- assign has_reviews = false -%}
 {%- assign has_review_photos = false -%}
 {%- for block in section.blocks -%}
-  {%- if block.type == 'review' -%}{%- assign has_reviews = true -%}{%- endif -%}
+  {%- if block.type == 'review' -%}{%- assign has_reviews = true -%}{%- if block.settings.photo != blank -%}{%- assign has_review_photos = true -%}{%- endif -%}{%- endif -%}
   {%- if block.type == 'review_photo' -%}{%- assign has_review_photos = true -%}{%- endif -%}
 {%- endfor -%}
 
 <div class="cpm__modal-overlay" id="cpmReviewsModal" role="dialog" aria-modal="true" aria-label="Reviews">
   <div class="cpm__modal-wrap">
     <button class="cpm__modal-close" data-cpm-close-reviews aria-label="Close">&#x2715;</button>
-    <div class="cpm__modal">
+  <div class="cpm__modal">
 
-      <div class="cpm__modal-head">
-        <div class="cpm__modal-rating">
-          <div class="cpm__modal-rating-row">
-            <span class="cpm__modal-rating-num">{{ section.settings.review_rating }}</span>
-            <span class="cpm__stars">
-              {%- assign rating = section.settings.review_rating | times: 1.0 -%}
-              {%- assign r_floor = rating | floor -%}
-              {%- assign r_ceil = rating | ceil -%}
-              {%- assign r_half = false -%}
-              {%- if r_ceil != r_floor -%}{%- assign r_half = true -%}{%- endif -%}
-              {%- for i in (1..5) -%}
-                {%- if i <= r_floor -%}
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#111" stroke-width="0.8" stroke-linejoin="miter"/></svg>
-                {%- elsif i == r_ceil and r_half -%}
-                  <svg width="20" height="20" viewBox="0 0 24 24"><defs><linearGradient id="cpmhalf2"><stop offset="65%" stop-color="#111"/><stop offset="65%" stop-color="#fff"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#cpmhalf2)" stroke="#111" stroke-width="1.5" stroke-linejoin="miter"/></svg>
-                {%- else -%}
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#111" stroke-width="1.5" stroke-linejoin="miter"/></svg>
-                {%- endif -%}
-              {%- endfor -%}
-            </span>
-          </div>
-          <div class="cpm__modal-rating-based">Based on {{ section.settings.review_count }} reviews</div>
+    <div class="cpm__modal-head">
+      <div class="cpm__modal-rating">
+        <div class="cpm__modal-rating-row">
+          <span class="cpm__modal-rating-num">{{ section.settings.review_rating }}</span>
+          <span class="cpm__stars">
+            {%- assign rating = section.settings.review_rating | times: 1.0 -%}
+            {%- assign r_floor = rating | floor -%}
+            {%- assign r_ceil = rating | ceil -%}
+            {%- assign r_half = false -%}
+            {%- if r_ceil != r_floor -%}{%- assign r_half = true -%}{%- endif -%}
+            {%- for i in (1..5) -%}
+              {%- if i <= r_floor -%}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#111" stroke-width="0.8" stroke-linejoin="miter"/></svg>
+              {%- elsif i == r_ceil and r_half -%}
+                <svg width="20" height="20" viewBox="0 0 24 24"><defs><linearGradient id="cpmhalf2"><stop offset="65%" stop-color="#111"/><stop offset="65%" stop-color="#fff"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#cpmhalf2)" stroke="#111" stroke-width="1.5" stroke-linejoin="miter"/></svg>
+              {%- else -%}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#111" stroke-width="1.5" stroke-linejoin="miter"/></svg>
+              {%- endif -%}
+            {%- endfor -%}
+          </span>
         </div>
-        {%- if section.settings.write_review_url != blank -%}
-          <a href="{{ section.settings.write_review_url }}" class="cpm__modal-write" target="_blank">Write Review</a>
-        {%- else -%}
-          <button class="cpm__modal-write" type="button">Write Review</button>
-        {%- endif -%}
+        <div class="cpm__modal-rating-based">Based on {{ section.settings.review_count }} reviews</div>
       </div>
+      <button class="cpm__modal-write" type="button" data-cpm-open-write-review>Write Review</button>
+    </div>
 
-      {%- if has_review_photos -%}
-        <div class="cpm__modal-photos">
-          {%- assign rp_idx = 0 -%}
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'review_photo' and block.settings.photo != blank -%}
-              <div class="cpm__modal-photo" data-cpm-photo="{{ rp_idx }}" data-cpm-photo-src="{{ block.settings.photo | image_url: width: 1200 }}" {{ block.shopify_attributes }}>
-                {{ block.settings.photo | image_url: width: 200 | image_tag: loading: 'lazy', alt: 'Review photo' }}
-              </div>
-              {%- assign rp_idx = rp_idx | plus: 1 -%}
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
-
-      <div class="cpm__modal-toolbar">
-        <div style="display:flex;gap:16px;align-items:center;">
-          <button class="cpm__modal-sort" type="button">Sort <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left:2px"><path d="M1 1l4 4 4-4" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <button class="cpm__modal-search" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> Search</button>
-        </div>
-        <span class="cpm__modal-tab">Product Reviews</span>
+    <div class="cpm__write-form" id="cpmWriteForm">
+      <label class="cpm__write-form-label">What would you rate this product? <span style="color:#e53;">(required)</span></label>
+      <div class="cpm__write-stars" id="cpmWriteStars">
+        {%- for i in (1..5) -%}
+          <svg width="28" height="28" viewBox="0 0 24 24" data-cpm-wstar="{{ i }}" fill="#e0e0e0" stroke="#ccc" stroke-width="0.8"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        {%- endfor -%}
       </div>
-
-      <div class="cpm__modal-reviews">
-        {%- if has_reviews -%}
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'review' -%}
-              {%- assign rev_rating_f = block.settings.rating | times: 1.0 -%}
-              {%- assign rev_floor = rev_rating_f | floor -%}
-              {%- assign rev_ceil = rev_rating_f | ceil -%}
-              {%- assign rev_half = false -%}
-              {%- if rev_ceil != rev_floor -%}{%- assign rev_half = true -%}{%- endif -%}
-              <div class="cpm__modal-review" {{ block.shopify_attributes }}>
-                <div class="cpm__modal-left">
-                  <div class="cpm__modal-avatar">{{ block.settings.reviewer_name | upcase | slice: 0 }}</div>
-                  {%- if block.settings.verified -%}
-                    <div class="cpm__modal-verified">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1d9bf0"/><polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      Verified Customer
-                    </div>
-                  {%- endif -%}
-                  <div class="cpm__modal-reviewer">{{ block.settings.reviewer_name }}</div>
-                  {%- if block.settings.reviewer_location != blank -%}
-                    <div class="cpm__modal-location">{{ block.settings.reviewer_location }}</div>
-                  {%- endif -%}
-                  {%- if block.settings.recommend -%}
-                    <div class="cpm__modal-recommend">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="#111" stroke="#111" stroke-width="0.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                      I recommend this product
-                    </div>
-                  {%- endif -%}
-                </div>
-                <div>
-                  <div class="cpm__review-stars">
-                    {%- for j in (1..5) -%}
-                      {%- if j <= rev_floor -%}
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      {%- elsif j == rev_ceil and rev_half -%}
-                        <svg width="16" height="16" viewBox="0 0 24 24"><defs><linearGradient id="rvhalf{{ forloop.index }}-{{ block.id | replace: '_',''}}"><stop offset="55%" stop-color="#111"/><stop offset="55%" stop-color="#fff"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#rvhalf{{ forloop.index }}-{{ block.id | replace: '_',''}})" stroke="#111" stroke-width="1.2"/></svg>
-                      {%- else -%}
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#ccc" stroke-width="1.5"/></svg>
-                      {%- endif -%}
-                    {%- endfor -%}
-                  </div>
-                  {%- if block.settings.review_title != blank -%}
-                    <div class="cpm__review-title">{{ block.settings.review_title }}</div>
-                  {%- endif -%}
-                  <div class="cpm__review-body">{{ block.settings.review_text }}</div>
-                  <div class="cpm__review-meta">
-                    <div class="cpm__review-actions">
-                      <span style="font-size:12px;color:#999;">Was this review helpful?</span>
-                      <a href="#">Yes</a>
-                      <a href="#">Report</a>
-                      <a href="#">Share</a>
-                    </div>
-                    {%- if block.settings.review_date != blank -%}
-                      <span>{{ block.settings.review_date }}</span>
-                    {%- endif -%}
-                  </div>
-                </div>
-              </div>
-            {%- endif -%}
-          {%- endfor -%}
-        {%- else -%}
-          <p style="padding:32px 0;text-align:center;color:#999;font-size:15px;">No reviews yet. Add review blocks in the theme editor.</p>
-        {%- endif -%}
+      <label class="cpm__write-form-label">Tell us your feedback about the product <span style="color:#e53;">(required)</span></label>
+      <textarea id="cpmWriteText" placeholder="Share your experience..."></textarea>
+      <div class="cpm__write-form-row">
+        <div>
+          <label class="cpm__write-form-label" style="margin-bottom:6px;">Your name <span style="color:#e53;">(required)</span></label>
+          <input type="text" id="cpmWriteName" placeholder="Your name">
+        </div>
+        <div>
+          <label class="cpm__write-form-label" style="margin-bottom:6px;">Your email address <span style="color:#e53;">(required)</span></label>
+          <input type="email" id="cpmWriteEmail" placeholder="your@email.com">
+        </div>
+      </div>
+      <div class="cpm__write-form-actions">
+        <button class="cpm__write-cancel" type="button" data-cpm-close-write-review>Cancel</button>
+        <button class="cpm__write-submit" type="button">Submit</button>
       </div>
     </div>
+
+    {%- if has_review_photos -%}
+      <div class="cpm__modal-photos">
+        {%- assign rp_idx = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'review_photo' and block.settings.photo != blank -%}
+            <div class="cpm__modal-photo" data-cpm-photo="{{ rp_idx }}" data-cpm-photo-src="{{ block.settings.photo | image_url: width: 1200 }}" data-cpm-photo-reviewer="" data-cpm-photo-date="" {{ block.shopify_attributes }}>
+              {{ block.settings.photo | image_url: width: 200 | image_tag: loading: 'lazy', alt: 'Review photo' }}
+            </div>
+            {%- assign rp_idx = rp_idx | plus: 1 -%}
+          {%- elsif block.type == 'review' and block.settings.photo != blank -%}
+            <div class="cpm__modal-photo" data-cpm-photo="{{ rp_idx }}" data-cpm-photo-src="{{ block.settings.photo | image_url: width: 1200 }}" data-cpm-photo-reviewer="{{ block.settings.reviewer_name }}" data-cpm-photo-date="{{ block.settings.review_date }}" {{ block.shopify_attributes }}>
+              {{ block.settings.photo | image_url: width: 200 | image_tag: loading: 'lazy', alt: 'Review photo' }}
+            </div>
+            {%- assign rp_idx = rp_idx | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="cpm__modal-toolbar">
+      <div style="display:flex;gap:16px;align-items:center;">
+        <button class="cpm__modal-sort" type="button">Sort <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left:2px"><path d="M1 1l4 4 4-4" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="cpm__modal-search" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> Search</button>
+      </div>
+      <span class="cpm__modal-tab">Product Reviews</span>
+    </div>
+
+    <div class="cpm__modal-reviews">
+      {%- if has_reviews -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'review' -%}
+            {%- assign rev_rating = block.settings.rating | times: 1 -%}
+            {%- assign rev_rating_f = block.settings.rating | times: 1.0 -%}
+            {%- assign rev_floor = rev_rating_f | floor -%}
+            {%- assign rev_ceil = rev_rating_f | ceil -%}
+            {%- assign rev_half = false -%}
+            {%- if rev_ceil != rev_floor -%}{%- assign rev_half = true -%}{%- endif -%}
+            <div class="cpm__modal-review" {{ block.shopify_attributes }}>
+              <div class="cpm__modal-left">
+                <div class="cpm__modal-avatar">{{ block.settings.reviewer_name | upcase | slice: 0 }}</div>
+                {%- if block.settings.verified -%}
+                  <div class="cpm__modal-verified">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1a9e47"/><polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Verified Customer
+                  </div>
+                {%- endif -%}
+                <div class="cpm__modal-reviewer">{{ block.settings.reviewer_name }}</div>
+                {%- if block.settings.reviewer_location != blank -%}
+                  <div class="cpm__modal-location">{{ block.settings.reviewer_location }}</div>
+                {%- endif -%}
+                {%- if block.settings.recommend -%}
+                  <div class="cpm__modal-recommend">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#111" stroke="#111" stroke-width="0.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    I recommend this product
+                  </div>
+                {%- endif -%}
+              </div>
+              <div>
+                <div class="cpm__review-stars">
+                  {%- for j in (1..5) -%}
+                    {%- if j <= rev_floor -%}
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    {%- elsif j == rev_ceil and rev_half -%}
+                      <svg width="16" height="16" viewBox="0 0 24 24"><defs><linearGradient id="rvhalf{{ forloop.index }}-{{ block.id | replace: '_',''}}" ><stop offset="55%" stop-color="#111"/><stop offset="55%" stop-color="#fff"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#rvhalf{{ forloop.index }}-{{ block.id | replace: '_',''}})" stroke="#111" stroke-width="1.2"/></svg>
+                    {%- else -%}
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#ccc" stroke-width="1.5"/></svg>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+                {%- if block.settings.review_title != blank -%}
+                  <div class="cpm__review-title">{{ block.settings.review_title }}</div>
+                {%- endif -%}
+                <div class="cpm__review-body">{{ block.settings.review_text }}</div>
+                <div class="cpm__review-meta">
+                  <div class="cpm__review-actions">
+                    <span class="cpm__helpful-msg" data-cpm-helpful-msg>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1a9e47" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      You've upvoted this review as helpful.
+                    </span>
+                    <span class="cpm__helpful-wrap" data-cpm-helpful-wrap>
+                      <span style="font-size:12px;color:#999;">Was this review helpful?</span>
+                      <button class="cpm__helpful-btn" data-cpm-helpful-yes type="button">Yes</button>
+                    </span>
+                    <a href="#">Report</a>
+                    <a href="#">Share</a>
+                  </div>
+                  {%- if block.settings.review_date != blank -%}
+                    <span>{{ block.settings.review_date }}</span>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        <p style="padding:32px 0;text-align:center;color:#999;font-size:15px;">No reviews yet. Add review blocks in the theme editor.</p>
+      {%- endif -%}
+    </div>
+  </div>
   </div>
 </div>
 
@@ -621,6 +673,7 @@
         </div>
         <div class="cpm__lb-product-name">{{ product.title }}</div>
         <a href="{{ product.url }}" class="cpm__lb-buy">Buy Now</a>
+        <div class="cpm__lb-reviewer" id="cpmLbReviewer"></div>
       </div>
     </div>
   </div>
@@ -655,7 +708,6 @@
     var revOverlay = document.getElementById('cpmReviewsModal');
     var revOpen = document.querySelector('[data-cpm-open-reviews]');
     var revClose = document.querySelector('[data-cpm-close-reviews]');
-    var cpmLbOverlay = document.getElementById('cpmPhotoLb');
     if (revOverlay && revOpen) {
       revOpen.addEventListener('click', function(){ revOverlay.classList.add('is-open'); document.body.style.overflow = 'hidden'; });
       if (revClose) revClose.addEventListener('click', function(){ revOverlay.classList.remove('is-open'); document.body.style.overflow = ''; });
@@ -664,25 +716,76 @@
     }
 
     // Photo lightbox
+    var cpmLbOverlay = document.getElementById('cpmPhotoLb');
     var cpmLbImg = document.getElementById('cpmLbImg');
     var cpmLbPrev = document.getElementById('cpmLbPrev');
     var cpmLbNext = document.getElementById('cpmLbNext');
     var cpmLbClose = document.getElementById('cpmLbClose');
+    var cpmLbReviewer = document.getElementById('cpmLbReviewer');
     var lbPhotos = [];
     var lbCur = 0;
     document.querySelectorAll('[data-cpm-photo]').forEach(function(el){
-      lbPhotos.push(el.getAttribute('data-cpm-photo-src'));
+      lbPhotos.push({ src: el.getAttribute('data-cpm-photo-src'), reviewer: el.getAttribute('data-cpm-photo-reviewer') || '', date: el.getAttribute('data-cpm-photo-date') || '' });
       el.addEventListener('click', function(){
         lbCur = parseInt(el.getAttribute('data-cpm-photo'));
-        cpmLbImg.src = lbPhotos[lbCur];
-        if(cpmLbOverlay) cpmLbOverlay.classList.add('is-open');
+        lbShow(lbCur);
+        cpmLbOverlay.classList.add('is-open');
       });
     });
-    function lbShow(i){ lbCur = (i + lbPhotos.length) % lbPhotos.length; cpmLbImg.src = lbPhotos[lbCur]; }
+    function lbShow(i){
+      lbCur = (i + lbPhotos.length) % lbPhotos.length;
+      cpmLbImg.src = lbPhotos[lbCur].src;
+      if (cpmLbReviewer) {
+        var r = lbPhotos[lbCur].reviewer, d = lbPhotos[lbCur].date;
+        cpmLbReviewer.textContent = (r && d) ? r + ' · ' + d : (r || d || '');
+      }
+    }
     if (cpmLbPrev) cpmLbPrev.addEventListener('click', function(){ lbShow(lbCur - 1); });
     if (cpmLbNext) cpmLbNext.addEventListener('click', function(){ lbShow(lbCur + 1); });
-    if (cpmLbClose) cpmLbClose.addEventListener('click', function(){ if(cpmLbOverlay) cpmLbOverlay.classList.remove('is-open'); });
+    if (cpmLbClose) cpmLbClose.addEventListener('click', function(){ cpmLbOverlay.classList.remove('is-open'); });
     if (cpmLbOverlay) cpmLbOverlay.addEventListener('click', function(e){ if (e.target === cpmLbOverlay) cpmLbOverlay.classList.remove('is-open'); });
+
+    // Helpful upvote toggle
+    document.querySelectorAll('[data-cpm-helpful-yes]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var wrap = btn.closest('.cpm__review-actions');
+        var msg = wrap.querySelector('[data-cpm-helpful-msg]');
+        var hw = wrap.querySelector('[data-cpm-helpful-wrap]');
+        if (msg) msg.classList.add('is-shown');
+        if (hw) hw.style.display = 'none';
+      });
+    });
+
+    // Write review form toggle
+    var writeForm = document.getElementById('cpmWriteForm');
+    var openWriteBtn = document.querySelector('[data-cpm-open-write-review]');
+    var closeWriteBtn = document.querySelector('[data-cpm-close-write-review]');
+    if (openWriteBtn && writeForm) {
+      openWriteBtn.addEventListener('click', function(){
+        writeForm.classList.add('is-open');
+        writeForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    }
+    if (closeWriteBtn && writeForm) {
+      closeWriteBtn.addEventListener('click', function(){ writeForm.classList.remove('is-open'); });
+    }
+
+    // Write review star picker
+    var wStars = document.querySelectorAll('[data-cpm-wstar]');
+    var wRating = 0;
+    wStars.forEach(function(s){
+      s.addEventListener('mouseover', function(){
+        var v = parseInt(s.getAttribute('data-cpm-wstar'));
+        wStars.forEach(function(x){ x.setAttribute('fill', parseInt(x.getAttribute('data-cpm-wstar')) <= v ? '#111' : '#e0e0e0'); x.setAttribute('stroke', parseInt(x.getAttribute('data-cpm-wstar')) <= v ? '#111' : '#ccc'); });
+      });
+      s.addEventListener('mouseout', function(){
+        wStars.forEach(function(x){ x.setAttribute('fill', parseInt(x.getAttribute('data-cpm-wstar')) <= wRating ? '#111' : '#e0e0e0'); x.setAttribute('stroke', parseInt(x.getAttribute('data-cpm-wstar')) <= wRating ? '#111' : '#ccc'); });
+      });
+      s.addEventListener('click', function(){
+        wRating = parseInt(s.getAttribute('data-cpm-wstar'));
+        wStars.forEach(function(x){ x.setAttribute('fill', parseInt(x.getAttribute('data-cpm-wstar')) <= wRating ? '#111' : '#e0e0e0'); x.setAttribute('stroke', parseInt(x.getAttribute('data-cpm-wstar')) <= wRating ? '#111' : '#ccc'); });
+      });
+    });
 
     // Plan selector
     var plans = document.querySelectorAll('[data-cpm-plan]');
@@ -887,7 +990,8 @@
         { "type": "checkbox", "id": "recommend", "label": "I recommend this product", "default": true },
         { "type": "text", "id": "review_title", "label": "Review title" },
         { "type": "textarea", "id": "review_text", "label": "Review text", "default": "Great product!" },
-        { "type": "text", "id": "review_date", "label": "Date (e.g. 3 days ago)" }
+        { "type": "text", "id": "review_date", "label": "Date (e.g. 3 days ago)" },
+        { "type": "image_picker", "id": "photo", "label": "Review photo (optional)" }
       ]
     }
   ],
