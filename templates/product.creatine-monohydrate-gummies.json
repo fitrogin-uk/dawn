@@ -11,26 +11,68 @@
   "sections": {
     "creatine_hero": {
       "type": "creatine-hero",
-      "settings": {}
+      "settings": {
+        "product": "creatine-gummies",
+        "hero_subtitle": "Achieve Peak Performance",
+        "hero_description": "5g of lab-verified creatine monohydrate per serving — one of the most researched supplements in sport. No powder, no mixing. Three gummies a day to fuel your training, whenever and wherever.",
+        "why_choose": "Whether you train daily or a few times a week, creatine is one of the most studied supplements in sport. A convenient, no-fuss daily habit to support your sessions."
+      }
     },
     "creatine_press": {
       "type": "creatine-press",
-      "settings": { "label": "As seen in" }
+      "settings": {
+        "label": "As seen in"
+      }
     },
     "creatine_benefits": {
       "type": "creatine-benefits",
-      "settings": {},
       "blocks": {
-        "benefit_1": { "type": "benefit", "settings": { "icon": "💪", "title": "5g Creatine Per Serving", "description": "Full clinically-studied dose every time" } },
-        "benefit_2": { "type": "benefit", "settings": { "icon": "🔬", "title": "Eurofins Lab Tested", "description": "Third-party verified purity & potency" } },
-        "benefit_3": { "type": "benefit", "settings": { "icon": "🔥", "title": "L-Carnitine Complex", "description": "Supports energy metabolism & fat burning" } },
-        "benefit_4": { "type": "benefit", "settings": { "icon": "✅", "title": "Full Amount Inside", "description": "Label accuracy guaranteed" } }
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "💪",
+            "title": "5g Creatine Per Serving",
+            "description": "Full clinically-studied dose every time"
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "🔬",
+            "title": "Eurofins Lab Tested",
+            "description": "Third-party verified purity & potency"
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "🔥",
+            "title": "L-Carnitine Complex",
+            "description": "Supports energy metabolism & fat burning"
+          }
+        },
+        "benefit_4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "✅",
+            "title": "Full Amount Inside",
+            "description": "Label accuracy guaranteed"
+          }
+        }
       },
-      "block_order": ["benefit_1", "benefit_2", "benefit_3", "benefit_4"]
+      "block_order": [
+        "benefit_1",
+        "benefit_2",
+        "benefit_3",
+        "benefit_4"
+      ],
+      "settings": {}
     },
     "creatine_features": {
       "type": "creatine-features",
-      "settings": { "brand_line": "Delicious Gummy Vitamins" }
+      "settings": {
+        "brand_line": "Delicious Gummy Vitamins"
+      }
     },
     "creatine_howto": {
       "type": "creatine-howto",
@@ -47,12 +89,8 @@
     "creatine_stats": {
       "type": "creatine-stats",
       "settings": {
-        "eyebrow": "Customer Results",
-        "headline": "Real people. Real results.",
-        "body": "Based on a survey of verified Fitrogin customers after 30 days of daily use.",
-        "stat1": "Consider our gummies more effective than powder and capsules",
-        "stat2": "Prefer gummies to capsules and powders",
-        "stat3": "Would recommend Fitrogin Creatine to friends and family"
+        "title": "The Results Speak for Themselves",
+        "subtitle": "Based on customer feedback and clinical research"
       }
     },
     "creatine_clinical": {
@@ -96,13 +134,16 @@
     },
     "creatine_faq": {
       "type": "creatine-faq",
-      "settings": { "title": "Frequently Asked Questions" }
+      "settings": {
+        "title": "Frequently Asked Questions"
+      }
     },
     "creatine_whatsapp": {
       "type": "creatine-whatsapp",
       "settings": {
         "title": "Join Our Community",
         "subtitle": "Be the first to know about new products, exclusive offers, and get direct access to our nutrition team. Over 2,000 members already inside.",
+        "whatsapp_url": "",
         "cta_text": "Join WhatsApp Group"
       }
     }
