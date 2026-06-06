@@ -42,10 +42,22 @@
     "custom_product_main_Uy7VKC": {
       "type": "custom-product-main",
       "blocks": {
-        "review_8pbpQz": {
+        "review_CfXcn3": {
           "type": "review",
           "settings": {
             "rating": 5,
+            "reviewer_name": "Anonymous",
+            "reviewer_location": "",
+            "verified": true,
+            "review_title": "",
+            "review_text": "Great product!",
+            "review_date": ""
+          }
+        },
+        "review_8pbpQz": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
             "reviewer_name": "Anonymous 2",
             "reviewer_location": "MANCHESTER",
             "verified": true,
@@ -166,6 +178,7 @@
         }
       },
       "block_order": [
+        "review_CfXcn3",
         "review_8pbpQz",
         "review_PRMPyF",
         "video_BGWhR7",
@@ -238,7 +251,7 @@
           "settings": {
             "image": "shopify://shop_images/JUN.jpg",
             "quote_text": "They worked!! After taking Biotin gummies everyday for 2 months I could not actually believe the results! After taking out my braids I noticed how thicker and longer my hair was. The gummies were also easy to take and tasted really good.Biotin Gummies",
-            "product_tag": "Biotin Gummies",
+            "product_tag": "Creatinennnnn Gummies",
             "author_name": "Zara Asare Evans",
             "show_verified": true,
             "author_title": "Registered Nurse",
