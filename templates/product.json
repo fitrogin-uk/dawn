@@ -42,6 +42,12 @@
     "custom_product_main_Uy7VKC": {
       "type": "custom-product-main",
       "blocks": {
+        "review_photo_LXkqgm": {
+          "type": "review_photo",
+          "settings": {
+            "photo": "shopify://shop_images/image.png"
+          }
+        },
         "review_CfXcn3": {
           "type": "review",
           "settings": {
@@ -181,6 +187,7 @@
         }
       },
       "block_order": [
+        "review_photo_LXkqgm",
         "review_CfXcn3",
         "review_8pbpQz",
         "review_PRMPyF",
