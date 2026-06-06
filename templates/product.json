@@ -42,19 +42,6 @@
     "custom_product_main_Uy7VKC": {
       "type": "custom-product-main",
       "blocks": {
-        "review_CfXcn3": {
-          "type": "review",
-          "settings": {
-            "rating": "5",
-            "reviewer_name": "Anonymous",
-            "reviewer_location": "",
-            "verified": true,
-            "recommend": true,
-            "review_title": "",
-            "review_text": "Great product!",
-            "review_date": ""
-          }
-        },
         "review_8pbpQz": {
           "type": "review",
           "settings": {
@@ -63,8 +50,8 @@
             "reviewer_location": "MANCHESTER",
             "verified": true,
             "recommend": true,
-            "review_title": "ERWRWER",
-            "review_text": "Great product!REWREW",
+            "review_title": "Creatine Gummies",
+            "review_text": "Compared to all other gummies I have tried - these are the 'strongest' but also by far the 'chalkiest'.\n\nI guess not tasting like candy means it is working!",
             "review_date": "4 DAYS AGO"
           }
         },
@@ -181,7 +168,6 @@
         }
       },
       "block_order": [
-        "review_CfXcn3",
         "review_8pbpQz",
         "review_PRMPyF",
         "video_BGWhR7",
