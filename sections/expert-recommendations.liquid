@@ -1,5 +1,5 @@
 {% comment %}
-  Expert & Customer Reviews - Target Match Edition
+  Expert & Customer Reviews - Up-scaled Layout Edition
   - Part 1 of 2: Structure markup and styling rules.
 {% endcomment %}
 
@@ -19,7 +19,7 @@
       {%- for block in section.blocks -%}
         <div class="review-card-item" {{ block.shopify_attributes }}>
           
-          <!-- Top Section: Clean Portrait Canvas Box -->
+          <!-- Top Section: 15% Larger Portrait Canvas Box -->
           <div class="review-image-container">
             {%- if block.settings.image != blank -%}
               {{ block.settings.image | image_url: width: 600 | image_tag:
@@ -38,7 +38,7 @@
             {%- endif -%}
           </div>
 
-          <!-- Bottom Section: Separate White Contained Text Box -->
+          <!-- Bottom Section: 15% Larger Contained Text Box -->
           <div class="review-text-container">
             
             <div class="review-quote-content">
@@ -93,7 +93,7 @@
   .reviews-section-wrapper {
     width: 100% !important;
     box-sizing: border-box !important;
-    background-color: #fcfcfc !important; /* Soft backdrop layout contrast */
+    background-color: #fcfcfc !important; 
     padding-left: 1.5rem !important;
     padding-right: 1.5rem !important;
     display: block !important;
@@ -101,7 +101,7 @@
   }
 
   .reviews-section-wrapper .page-width {
-    max-width: 1340px !important; 
+    max-width: 1440px !important; /* Increased width bounds for 15% container expand */
     width: 100% !important;
     padding: 0 !important;
     margin: 0 auto !important;
@@ -109,11 +109,11 @@
 
   .section-heading-container {
     text-align: left;
-    margin-bottom: 32px;
+    margin-bottom: 36px;
   }
 
   .reviews-main-heading {
-    font-size: 28px !important;
+    font-size: 34px !important; /* Increased 6px large */
     font-weight: 700 !important;
     color: #1c1e24 !important;
     margin: 0 0 10px 0 !important;
@@ -121,22 +121,21 @@
   }
 
   .reviews-subheading {
-    font-size: 14px !important;
+    font-size: 20px !important; /* Increased 6px large */
     line-height: 1.6 !important;
     color: #555864 !important;
     margin: 0 !important;
-    max-width: 900px;
+    max-width: 1000px;
   }
 
   .reviews-flexible-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
-    gap: 24px !important; 
+    grid-template-columns: repeat(auto-fit, minmax(298px, 1fr)) !important; /* Increased min-width 15% */
+    gap: 28px !important; /* Scaled gaps */
     align-items: start !important;
     width: 100% !important;
   }
 
-  /* Core Card Layout Configuration */
   .review-card-item {
     background: transparent !important;
     border: none !important;
@@ -148,15 +147,15 @@
     height: 100% !important;
   }
 
-  /* Portrait Canvas Area Configuration */
+  /* Portrait Canvas Area - Scaled up 15% */
   .review-image-container {
     position: relative !important;
     width: 100% !important;
-    height: 270px !important; 
+    height: 310px !important; /* Increased 15% visually from 270px */
     background-color: #e5e5e7 !important;
-    border-radius: 20px !important; /* Matching target curvature style */
+    border-radius: 20px !important; 
     overflow: hidden !important;
-    margin-bottom: 16px !important; /* Distinct gap separating image and container */
+    margin-bottom: 18px !important; 
   }
 
   .review-card-img {
@@ -170,23 +169,22 @@
     width: 100% !important;
     height: 100% !important;
     background-color: #e5e5e7 !important;
-    display: flex !important;
-    align-items: center !important;
+    display: flex !items-center;
     justify-content: center !important;
   }
 
   .placeholder-icon {
-    width: 44px !important;
-    height: 44px !important;
+    width: 50px !important;
+    height: 50px !important;
     color: #b4b6bc !important;
   }
 
-  /* White Contained Text Block Layer */
+  /* Text Block Container - Scaled up 15% with +6px Typography */
   .review-text-container {
-    background: #ffffff !important; /* Explicit white box container profile */
+    background: #ffffff !important; 
     border: 1px solid #f0f1f4 !important;
-    border-radius: 20px !important; /* Curves mirroring portrait layer */
-    padding: 24px !important; 
+    border-radius: 20px !important; 
+    padding: 28px !important; /* 15% larger inner spacing profile */
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
@@ -195,19 +193,19 @@
   }
 
   .review-quote-content {
-    margin-bottom: 24px !important;
+    margin-bottom: 28px !important;
   }
 
   .review-quote-text {
-    font-size: 14.5px !important;
+    font-size: 20.5px !important; /* Increased 6px large from 14.5px */
     line-height: 1.55 !important;
     font-weight: 400 !important;
     color: #2a2d38 !important;
-    margin: 0 0 12px 0 !important;
+    margin: 0 0 14px 0 !important;
   }
 
   .review-product-tag {
-    font-size: 11.5px !important;
+    font-size: 17.5px !important; /* Increased 6px large from 11.5px */
     font-weight: 500 !important;
     color: #9ca3af !important;
     margin: 0 !important;
@@ -217,19 +215,19 @@
   .review-author-meta {
     display: flex !important;
     flex-direction: column !important;
-    gap: 2px !important;
+    gap: 3px !important;
     border-top: 1px solid #f1f2f4 !important;
-    padding-top: 16px !important;
+    padding-top: 18px !important;
   }
 
   .review-author-header {
     display: flex !important;
     align-items: center !important;
-    gap: 6px !important;
+    gap: 8px !important;
   }
 
   .review-author-name {
-    font-size: 15.5px !important;
+    font-size: 21.5px !important; /* Increased 6px large from 15.5px */
     font-weight: 600 !important;
     color: #1c1e24 !important;
     margin: 0 !important;
@@ -239,8 +237,8 @@
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 14px !important;
-    height: 14px !important;
+    width: 18px !important;
+    height: 18px !important;
     color: #1d9bf0 !important;
     flex-shrink: 0 !important;
   }
@@ -252,14 +250,14 @@
   }
 
   .review-author-title {
-    font-size: 12.5px !important;
+    font-size: 18.5px !important; /* Increased 6px large from 12.5px */
     font-weight: 500 !important;
     color: #555864 !important;
     margin: 0 !important;
   }
 
   .review-author-location {
-    font-size: 11px !important;
+    font-size: 17px !important; /* Increased 6px large from 11px */
     color: #9ca3af !important;
     margin: 0 !important;
     text-transform: uppercase !important;
@@ -269,13 +267,13 @@
   @media screen and (max-width: 749px) {
     .reviews-flexible-grid {
       grid-template-columns: 1fr !important;
-      gap: 20px !important;
+      gap: 24px !important;
     }
     .review-image-container {
-      height: 250px !important;
+      height: 288px !important;
     }
     .review-text-container {
-      padding: 20px !important;
+      padding: 24px !important;
     }
   }
 </style>
