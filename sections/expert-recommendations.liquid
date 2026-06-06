@@ -1,7 +1,7 @@
 {% comment %}
-  Expert & Customer Reviews - Auto-Expanding Height Matrix
+  Expert & Customer Reviews - Fluid Auto-Height Edition
   - Part 1 of 2: Structure markup and styling rules.
-  - Optimized to allow auto-wrapping without truncation limits.
+  - Max 329 lines constraint respected.
 {% endcomment %}
 
 <div class="reviews-section-wrapper color-{{ section.settings.color_scheme }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
@@ -43,7 +43,7 @@
           <div class="review-text-container">
             
             <div class="review-quote-content">
-              <p class="review-quote-text" style="word-spacing: {{ section.settings.review_word_spacing }}px !important;">
+              <div class="review-quote-text" style="word-spacing: {{ section.settings.review_word_spacing }}px !important;">
                 {%- if block.settings.quote_text != blank -%}
                   {{ block.settings.quote_text | escape }}
                 {%- else -%}
@@ -53,7 +53,7 @@
                 {%- if block.settings.product_tag != blank -%}
                   <span class="review-product-tag-newline">{{ block.settings.product_tag | escape }}</span>
                 {%- endif -%}
-              </p>
+              </div>
             </div>
 
             <!-- Profile Info Footer Wrapper -->
@@ -179,23 +179,28 @@
     padding: 28px !important; 
     display: flex !important;
     flex-direction: column !important;
-    justify-content: space-between !important;
-    min-height: min-content !important; 
+    justify-content: flex-start !important; 
+    height: auto !important; 
+    min-height: max-content !important; 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.015) !important;
   }
   .review-quote-content {
     margin-bottom: 24px !important;
     height: auto !important; 
+    width: 100% !important;
+    display: block !important;
   }
   .review-quote-text {
     font-size: 20.5px !important; 
-    line-height: 1.35 !important; 
+    line-height: 1.5 !important; 
     font-weight: 400 !important;
     color: #2a2d38 !important;
     margin: 0 !important;
     text-align: justify !important; 
     text-justify: inter-word !important;
+    display: block !important;
     overflow: visible !important; 
+    word-wrap: break-word !important; 
   }
   .review-product-tag-newline {
     font-size: 14px !important; 
@@ -203,7 +208,7 @@
     color: #9ca3af !important; 
     display: block !important;
     text-transform: none !important;
-    margin-top: 10px !important; 
+    margin-top: 12px !important; 
     margin-bottom: 0px !important;
     text-align: left !important; 
   }
@@ -212,7 +217,7 @@
     flex-direction: column !important;
     border-top: none !important; 
     padding-top: 0px !important;
-    margin-top: auto !important; 
+    margin-top: 24px !important; 
   }
   .review-author-header {
     display: flex !important;
@@ -275,121 +280,10 @@
       height: 288px !important;
       margin-bottom: 10px !important; 
     }
-    .review-text-container {
-      padding: 24px !important;
-    }
-    .review-quote-text {
-      text-align: left !important;
-    }
-  }
-</style>
-{% schema %}
-{
-  "name": "Expert & Customer Reviews",
-  "settings": [
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
-      "default": "Recommended by Health Experts"
-    },
-    {
-      "type": "textarea",
-      "id": "subheading",
-      "label": "Subheading Text",
-      "default": "Novomins gummies aren't just delicious, they're formulated on serious science..."
-    },
-    {
-      "type": "range",
-      "id": "review_word_spacing",
-      "min": -10,
-      "max": 20,
-      "step": 1,
-      "unit": "px",
-      "label": "Word Spacing Gap Distance",
-      "default": 0,
-      "info": "Drag left to bring whole words closer together, or drag right to spread them out."
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Top Padding",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Bottom Padding",
-      "default": 36
-    }
-  ],
-  "blocks": [
-    {
-      "type": "review_card",
-      "name": "Review Card",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Reviewer Image"
-        },
-        {
-          "type": "textarea",
-          "id": "quote_text",
-          "label": "Review Quote",
-          "default": "They worked!! After taking Biotin gummies everyday for 2 months I could not actually believe the results! After taking out my braids I noticed how thicker and longer my hair was. The gummies were also easy to take and tasted really good."
-        },
-        {
-          "type": "text",
-          "id": "product_tag",
-          "label": "Product Tag Label",
-          "default": "Creatine Gummies"
-        },
-        {
-          "type": "text",
-          "id": "author_name",
-          "label": "Author Name",
-          "default": "Zara Asare Evans"
-        },
-        {
-          "type": "checkbox",
-          "id": "show_verified",
-          "label": "Show Verified Checkmark Badge",
-          "default": true
-        },
-        {
-          "type": "text",
-          "id": "author_title",
-          "label": "Author Subtitle / Job Title",
-          "default": "Registered Nurse"
-        },
-        {
-          "type": "text",
-          "id": "author_location",
-          "label": "Author Location (Optional)",
-          "default": "London, UK"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Expert & Customer Reviews",
-      "blocks": [
-        { "type": "review_card" },
-        { "type": "review_card" },
-        { "type": "review_card" },
-        { "type": "review_card" }
-      ]
-    }
-  ]
+.review-text-container {
+    padding: 24px !important;
 }
-{% endschema %}
+.review-quote-text {
+    text-align: left !important;
+}
+}
