@@ -19,7 +19,7 @@
       {%- for block in section.blocks -%}
         <div class="review-card-item" {{ block.shopify_attributes }}>
           
-          <!-- Top Section: 15% Larger Portrait Canvas Box -->
+          <!-- Top Section: Portrait Canvas Box -->
           <div class="review-image-container">
             {%- if block.settings.image != blank -%}
               {{ block.settings.image | image_url: width: 600 | image_tag:
@@ -38,7 +38,7 @@
             {%- endif -%}
           </div>
 
-          <!-- Bottom Section: 15% Larger Contained Text Box -->
+          <!-- Bottom Section: Contained Text Box -->
           <div class="review-text-container">
             
             <div class="review-quote-content">
@@ -101,7 +101,7 @@
   }
 
   .reviews-section-wrapper .page-width {
-    max-width: 1440px !important; /* Increased width bounds for 15% container expand */
+    max-width: 1440px !important; 
     width: 100% !important;
     padding: 0 !important;
     margin: 0 auto !important;
@@ -112,8 +112,9 @@
     margin-bottom: 36px;
   }
 
+  /* Increased by 4px from 34px to 38px */
   .reviews-main-heading {
-    font-size: 34px !important; /* Increased 6px large */
+    font-size: 38px !important; 
     font-weight: 700 !important;
     color: #1c1e24 !important;
     margin: 0 0 10px 0 !important;
@@ -121,7 +122,7 @@
   }
 
   .reviews-subheading {
-    font-size: 20px !important; /* Increased 6px large */
+    font-size: 20px !important; 
     line-height: 1.6 !important;
     color: #555864 !important;
     margin: 0 !important;
@@ -130,8 +131,8 @@
 
   .reviews-flexible-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(298px, 1fr)) !important; /* Increased min-width 15% */
-    gap: 28px !important; /* Scaled gaps */
+    grid-template-columns: repeat(auto-fit, minmax(298px, 1fr)) !important; 
+    gap: 28px !important; 
     align-items: start !important;
     width: 100% !important;
   }
@@ -147,11 +148,10 @@
     height: 100% !important;
   }
 
-  /* Portrait Canvas Area - Scaled up 15% */
   .review-image-container {
     position: relative !important;
     width: 100% !important;
-    height: 310px !important; /* Increased 15% visually from 270px */
+    height: 310px !important; 
     background-color: #e5e5e7 !important;
     border-radius: 20px !important; 
     overflow: hidden !important;
@@ -169,7 +169,8 @@
     width: 100% !important;
     height: 100% !important;
     background-color: #e5e5e7 !important;
-    display: flex !items-center;
+    display: flex !important;
+    align-items: center;
     justify-content: center !important;
   }
 
@@ -179,12 +180,11 @@
     color: #b4b6bc !important;
   }
 
-  /* Text Block Container - Scaled up 15% with +6px Typography */
   .review-text-container {
     background: #ffffff !important; 
     border: 1px solid #f0f1f4 !important;
     border-radius: 20px !important; 
-    padding: 28px !important; /* 15% larger inner spacing profile */
+    padding: 28px !important; 
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
@@ -197,7 +197,7 @@
   }
 
   .review-quote-text {
-    font-size: 20.5px !important; /* Increased 6px large from 14.5px */
+    font-size: 20.5px !important; 
     line-height: 1.55 !important;
     font-weight: 400 !important;
     color: #2a2d38 !important;
@@ -205,7 +205,7 @@
   }
 
   .review-product-tag {
-    font-size: 17.5px !important; /* Increased 6px large from 11.5px */
+    font-size: 17.5px !important; 
     font-weight: 500 !important;
     color: #9ca3af !important;
     margin: 0 !important;
@@ -227,7 +227,7 @@
   }
 
   .review-author-name {
-    font-size: 21.5px !important; /* Increased 6px large from 15.5px */
+    font-size: 21.5px !important; 
     font-weight: 600 !important;
     color: #1c1e24 !important;
     margin: 0 !important;
@@ -250,14 +250,14 @@
   }
 
   .review-author-title {
-    font-size: 18.5px !important; /* Increased 6px large from 12.5px */
+    font-size: 18.5px !important; 
     font-weight: 500 !important;
     color: #555864 !important;
     margin: 0 !important;
   }
 
   .review-author-location {
-    font-size: 17px !important; /* Increased 6px large from 11px */
+    font-size: 17px !important; 
     color: #9ca3af !important;
     margin: 0 !important;
     text-transform: uppercase !important;
@@ -274,6 +274,9 @@
     }
     .review-text-container {
       padding: 24px !important;
+    }
+    .reviews-main-heading {
+      font-size: 32px !important; /* Adjusted slightly down on mobile */
     }
   }
 </style>
