@@ -383,6 +383,14 @@
     "intagram_feed_9kbziT": {
       "type": "intagram-feed",
       "blocks": {
+        "post_qfjrNW": {
+          "type": "post",
+          "settings": {
+            "image": "shopify://shop_images/JUN.jpg",
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        },
         "post_BVG6YG": {
           "type": "post",
           "settings": {
@@ -469,6 +477,7 @@
         }
       },
       "block_order": [
+        "post_qfjrNW",
         "post_BVG6YG",
         "post_cY6KwM",
         "post_6ihNrB",
@@ -495,6 +504,7 @@
         "section_padding_top": 48,
         "section_padding_bottom": 48,
         "bg_color": "#ffffff",
+        "divider_color": "#111111",
         "title_color": "#111111",
         "button_bg": "#111111",
         "button_text_color": "#ffffff",
