@@ -94,7 +94,7 @@
   }
 
   .ig-feed-{{ section.id }} .ig-feed__title {
-    font-size: clamp(18px, 2.5vw, 26px);
+    font-size: clamp(24px, 3vw, 38px);
     font-weight: 700;
     margin: 0;
     color: {{ section.settings.title_color | default: '#111111' }};
@@ -133,8 +133,8 @@
 
   /* ── Grid ────────────────────────────────────────────── */
   .ig-feed__grid {
-    max-width: var(--page-width, 1280px);
-    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
     padding: 0 max(20px, 5vw);
     display: grid;
     grid-template-columns: repeat({{ section.settings.columns_desktop | default: 6 }}, 1fr);
