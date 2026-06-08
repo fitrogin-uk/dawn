@@ -166,7 +166,9 @@
 }
 {% endschema %}
 <style>
-  /* Outer area wrapper set to transparent */
+  /* 
+    1. Outer area wrapper set to transparent.
+  */
   footer.site-footer,
   .site-footer {
     background: transparent !important;
@@ -178,16 +180,14 @@
   }
 
   /* 
-    Main footer layout block.
-    Forces an explicit 1% margin on the right side while 
-    using calc to dynamically match your preferred left positioning.
+    2. Main footer layout block.
+    Set to 96% width to leave exactly 2% margin on the left and 2% margin on the right.
   */
   .footer-container {
     background-color: #f7f7f7 !important;
-    margin-left: auto !important;                /* Auto-calculates position based on remaining space */
-    margin-right: 1% !important;                 /* Locks down exactly 1% margin on the right side */
-    width: 97.9% !important;                     /* Blends the horizontal row sizes together seamlessly */
-    max-width: 1780px !important;        
+    width: 96% !important;               /* Leaves a 4% total gap (2% left + 2% right) */
+    max-width: 1600px !important;        
+    margin: 0 auto !important;
     padding: 50px 40px 30px 40px !important;
     border-radius: 24px 24px 0 0 !important;
     display: flex !important;
@@ -197,12 +197,14 @@
     box-sizing: border-box !important;
   }
 
-  /* Bottom copyright bar matches the layout perfectly */
+  /* 
+    3. Bottom copyright bar.
+    Matches the 96% width layout.
+  */
   .footer-bottom {
-    margin-left: auto !important;               
-    margin-right: 1% !important;               
-    width: 97.9% !important;               
-    max-width: 1780px !important;
+    width: 96% !important;               
+    max-width: 1600px !important;
+    margin: 0 auto !important;
     background-color: #f7f7f7 !important;
     padding: 0 40px 40px 40px !important;
     border-radius: 0px !important;
@@ -260,19 +262,23 @@
 
   /* Responsive styling rules */
   @media (max-width: 1150px) {
-    .footer-container, .footer-bottom {
+    .footer-container {
       flex-wrap: wrap !important;
-      margin-right: 0 !important;
-      width: 100% !important;
+      width: 96% !important;
+    }
+    .footer-bottom {
+      width: 96% !important;
     }
   }
 
   @media (max-width: 768px) {
     .footer-container {
       flex-direction: column !important;
+      width: 100% !important;
       padding: 30px 20px !important;
     }
     .footer-bottom {
+      width: 100% !important;
       padding: 0 20px 30px 20px !important;
     }
     .footer-bottom-container {
@@ -280,9 +286,6 @@
       gap: 15px !important;
       text-align: center !important;
     }
-  }
-</style>
-
   }
 </style>
 
