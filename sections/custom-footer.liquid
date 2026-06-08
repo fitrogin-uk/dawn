@@ -1,19 +1,20 @@
 {% comment %}
   Shopify Custom Footer Template - Structural Part
-  Inspired by Novomins Nutrition Footer Layout
   Save this content as 'sections/custom-footer.liquid'
 {% endcomment %}
 
 <footer class="site-footer">
   <div class="footer-container">
     
-    <!-- Column 1: Brand, Contact & Newsletter -->
+    <!-- Column 1: Brand Logo, Contact & Newsletter -->
     <div class="footer-column brand-column">
-      {% if section.settings.logo != blank %}
-        <img src="{{ section.settings.logo | image_url: width: 200 }}" alt="{{ shop.name }}" class="footer-logo">
-      {% else %}
-        <h2 class="footer-brand-name">{{ shop.name }}</h2>
-      {% endif %}
+      <div class="footer-logo-wrapper">
+        {% if section.settings.logo != blank %}
+          <img src="{{ section.settings.logo | image_url: width: 250 }}" alt="{{ shop.name }}" class="footer-logo">
+        {% else %}
+          <h2 class="footer-brand-name">{{ shop.name }}</h2>
+        {% endif %}
+      </div>
       
       {% if section.settings.phone_number != blank %}
         <p class="footer-phone">Call us on: <a href="tel:{{ section.settings.phone_number }}">{{ section.settings.phone_number }}</a></p>
@@ -59,7 +60,7 @@
       {% endif %}
     {% endfor %}
 
-    <!-- Column 5: Social Media Links (Native Brand SVGs) -->
+    <!-- Column 5: Social Media Links -->
     <div class="footer-column social-column">
       <h3 class="footer-heading">Follow Us</h3>
       <div class="social-icons">
@@ -179,16 +180,15 @@
 
   /* 
     Main footer layout block.
-    Forces both margins to be completely equal at exactly 2vw (2% of viewport width).
-    The width is calculated to occupy exactly 96vw of the remaining screen space (100 - 2 - 2).
+    Configured with exactly 3vw left margin, 3vw right margin, and 94vw width.
   */
   .footer-container {
     background-color: #f7f7f7 !important;
-    margin-left: 3vw !important;                /* Absolute 2% screen margin on left */
-    margin-right: 3vw !important;               /* Absolute 2% screen margin on right */
-    width: 94vw !important;                     /* Total container width matches 96% */
-    max-width: 100% !important;                  /* Unlocks restrictions to prevent scaling errors */
-    padding: 50px 40px 30px 40px !important;
+    margin-left: 3vw !important;                /* Left side margin set to 3% */
+    margin-right: 3vw !important;               /* Right side margin set to 3% */
+    width: 94vw !important;                     /* Main panel content box width set to 94% */
+    max-width: 100% !important;                  
+    padding: 50px 40px 10px 40px !important; 
     border-radius: 24px 24px 0 0 !important;
     display: flex !important;
     flex-wrap: nowrap !important;
@@ -197,11 +197,28 @@
     box-sizing: border-box !important;
   }
 
-  /* Bottom copyright bar matches the 2% viewport layout parameters */
+  /* Logo positioning constraints */
+  .footer-logo-wrapper {
+    margin-bottom: 15px !important;
+    display: block !important;
+  }
+  
+  .footer-logo {
+    max-width: 180px !important; 
+    height: auto !important;
+    display: block !important;
+  }
+
+  .footer-brand-name {
+    margin: 0 0 15px 0 !important;
+    font-size: 22px !important;
+  }
+
+  /* Bottom copyright bar layout dimensions */
   .footer-bottom {
-    margin-left: 2vw !important;               
-    margin-right: 2vw !important;               
-    width: 96vw !important;               
+    margin-left: 3vw !important;                /* Matches 3% left side margin */
+    margin-right: 3vw !important;               /* Matches 3% right side margin */
+    width: 94vw !important;                     /* Matches 94% width specification */
     max-width: 100% !important;
     background-color: #f7f7f7 !important;
     padding: 0 40px 40px 40px !important;
@@ -209,12 +226,13 @@
     box-sizing: border-box !important;
   }
 
+  /* Thin horizontal line removed */
   .footer-bottom-container {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    border-top: 1px solid #e5e5e5 !important;
-    padding-top: 20px !important;
+    border-top: none !important; 
+    padding-top: 10px !important;
     width: 100% !important;
   }
 
@@ -229,7 +247,42 @@
     min-width: 240px !important;
   }
 
-  /* Input form visual settings */
+  .footer-heading {
+    font-size: 16px !important;
+    text-transform: uppercase !important;
+    margin-bottom: 15px !important;
+    font-weight: bold !important;
+  }
+
+  .footer-menu-links {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .footer-menu-links li {
+    margin-bottom: 10px !important;
+  }
+
+  .footer-menu-links a {
+    text-decoration: none !important;
+    color: #333 !important;
+  }
+
+  /* Social link alignment styles */
+  .social-icons {
+    display: flex !important;
+    gap: 15px !important;
+  }
+
+  .social-icons a {
+    color: #333 !important;
+    display: inline-block !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  /* Input form fields custom properties */
   .input-group {
     display: flex !important;
     margin-bottom: 10px !important;
@@ -258,7 +311,11 @@
     justify-content: center !important;
   }
 
-  /* Responsive styling rules */
+  .btn-submit svg {
+    display: block !important;
+  }
+
+  /* Responsive breakpoints configurations */
   @media (max-width: 1150px) {
     .footer-container, .footer-bottom {
       flex-wrap: wrap !important;
