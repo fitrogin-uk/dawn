@@ -467,13 +467,6 @@
             "post_url": "",
             "alt_text": "Instagram post"
           }
-        },
-        "post_FxU9hg": {
-          "type": "post",
-          "settings": {
-            "post_url": "",
-            "alt_text": "Instagram post"
-          }
         }
       },
       "block_order": [
@@ -488,8 +481,7 @@
         "post_xJRBfB",
         "post_rn6LM7",
         "post_9DycAM",
-        "post_9kA6ht",
-        "post_FxU9hg"
+        "post_9kA6ht"
       ],
       "name": "Instagram Feed",
       "settings": {
