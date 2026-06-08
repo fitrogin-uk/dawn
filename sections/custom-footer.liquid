@@ -179,13 +179,14 @@
 
   /* 
     Main footer layout block.
-    Uses margin-left to keep the left side fine, 
-    and width to make the right side margin exactly 1%.
+    Forces an explicit 1% margin on the right side while 
+    using calc to dynamically match your preferred left positioning.
   */
   .footer-container {
     background-color: #f7f7f7 !important;
-    margin-left: 1.1% !important;              /* Keeps your left side exactly where it is */
-    width: calc(100% - 2.1%) !important;       /* Left 1.1% + Right 1% = 2.1% total margin space */
+    margin-left: auto !important;                /* Auto-calculates position based on remaining space */
+    margin-right: 1% !important;                 /* Locks down exactly 1% margin on the right side */
+    width: 97.9% !important;                     /* Blends the horizontal row sizes together seamlessly */
     max-width: 1780px !important;        
     padding: 50px 40px 30px 40px !important;
     border-radius: 24px 24px 0 0 !important;
@@ -198,8 +199,9 @@
 
   /* Bottom copyright bar matches the layout perfectly */
   .footer-bottom {
-    margin-left: 1.1% !important;               
-    width: calc(100% - 2.1%) !important;               
+    margin-left: auto !important;               
+    margin-right: 1% !important;               
+    width: 97.9% !important;               
     max-width: 1780px !important;
     background-color: #f7f7f7 !important;
     padding: 0 40px 40px 40px !important;
@@ -260,7 +262,7 @@
   @media (max-width: 1150px) {
     .footer-container, .footer-bottom {
       flex-wrap: wrap !important;
-      margin-left: 0 !important;
+      margin-right: 0 !important;
       width: 100% !important;
     }
   }
