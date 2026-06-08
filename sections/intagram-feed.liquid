@@ -201,24 +201,34 @@
     }
   }
   @media (max-width: 640px) {
+    /* Header: stack vertically, no divider */
     .ig-feed-{{ section.id }} .ig-feed__header {
       display: flex !important;
       flex-direction: column;
       align-items: flex-start;
-      gap: 16px;
-      padding-bottom: 20px;
+      gap: 14px;
+      padding: 0 16px 20px;
+    }
+    .ig-feed-{{ section.id }} .ig-feed__title {
+      font-size: 28px;
     }
     .ig-feed-{{ section.id }} .ig-feed__divider {
       display: none !important;
     }
     .ig-feed-{{ section.id }} .ig-feed__follow-btn {
       align-self: center;
+      width: 100%;
+      justify-content: center;
     }
+    /* Grid: edge to edge, no padding, no gap, 2 columns */
     .ig-feed__grid {
+      padding: 0;
+      gap: 2px;
       grid-template-columns: repeat({{ section.settings.columns_mobile | default: 2 }}, 1fr);
-      gap: 4px;
     }
-    .ig-feed__item { border-radius: 8px; }
+    .ig-feed__item {
+      border-radius: 0;
+    }
   }
 </style>
 
