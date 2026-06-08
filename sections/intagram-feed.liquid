@@ -27,8 +27,9 @@
 
   <div class="ig-feed__grid">
     {%- for block in section.blocks -%}
-      {%- if block.settings.image != blank -%}
-        <div class="ig-feed__item" {{ block.shopify_attributes }}>
+      <div class="ig-feed__item{% if block.settings.image == blank %} ig-feed__item--placeholder{% endif %}" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+
           {%- if block.settings.post_url != blank -%}
             <a href="{{ block.settings.post_url }}" target="_blank" rel="noopener" class="ig-feed__link" aria-label="View on Instagram">
           {%- endif -%}
@@ -55,8 +56,19 @@
           {%- if block.settings.post_url != blank -%}
             </a>
           {%- endif -%}
-        </div>
-      {%- endif -%}
+
+        {%- else -%}
+
+          <div class="ig-feed__placeholder" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5" width="32" height="32">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1.2" fill="#ccc" stroke="none"/>
+            </svg>
+          </div>
+
+        {%- endif -%}
+      </div>
     {%- endfor -%}
   </div>
 </section>
@@ -136,6 +148,18 @@
     border-radius: {{ section.settings.border_radius | default: 12 }}px;
     aspect-ratio: 1 / 1;
     background: #f0f0f0;
+  }
+
+  .ig-feed__item--placeholder {
+    background: #ebebeb;
+  }
+
+  .ig-feed__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .ig-feed__link {
