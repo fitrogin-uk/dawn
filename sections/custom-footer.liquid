@@ -1,13 +1,11 @@
 {% comment %}
   Custom Footer — FuelX
-  Fixes: real flag images, dropdown opens UP with search at bottom,
-         left-aligned grid, 20% less vertical height
 {% endcomment %}
 
 <footer class="cf-footer" role="contentinfo">
   <div class="cf-footer__inner">
 
-    <!-- Col 1: Brand -->
+    <!-- Brand: far LEFT -->
     <div class="cf-footer__brand">
       <a href="{{ routes.root_url }}" class="cf-footer__logo-link" aria-label="{{ shop.name }}">
         {%- if section.settings.logo != blank -%}
@@ -16,15 +14,12 @@
           <span class="cf-footer__logo-text">{{ shop.name }}</span>
         {%- endif -%}
       </a>
-
       {%- if section.settings.phone != blank -%}
         <p class="cf-footer__phone">
           <strong>{{ section.settings.phone_label | default: 'Call us on:' }}</strong>
           <a href="tel:{{ section.settings.phone | remove: ' ' }}">{{ section.settings.phone }}</a>
         </p>
       {%- endif -%}
-
-      <!-- Email -->
       <form method="post" action="/contact#cf-email-form" id="cf-email-form" class="cf-footer__form" accept-charset="UTF-8" novalidate>
         <input type="hidden" name="form_type" value="customer">
         <input type="hidden" name="utf8" value="✓">
@@ -34,8 +29,6 @@
           <button type="submit" class="cf-footer__submit-btn" aria-label="Subscribe by email">{% render 'cf-footer-send-icon' %}</button>
         </div>
       </form>
-
-      <!-- Phone with country dial -->
       <form method="post" action="/contact#cf-phone-form" id="cf-phone-form" class="cf-footer__form" accept-charset="UTF-8" novalidate>
         <input type="hidden" name="form_type" value="customer">
         <input type="hidden" name="utf8" value="✓">
@@ -44,62 +37,54 @@
           <button type="button" class="cf-dial__trigger" id="cf-dial-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="cf-dial-panel" aria-label="Select country code">
             <img id="cf-dial-flag-img" src="https://flagcdn.com/20x15/gb.png" width="20" height="15" alt="GB" class="cf-dial__flag-img">
             <span class="cf-dial__code" id="cf-dial-code">+44</span>
-            <svg class="cf-dial__chevron" viewBox="0 0 10 6" fill="none" width="10" height="6" aria-hidden="true">
-              <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <svg class="cf-dial__chevron" viewBox="0 0 10 6" fill="none" width="10" height="6" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
           <span class="cf-dial__sep" aria-hidden="true"></span>
           <input type="tel" name="contact[phone]" id="cf-phone" class="cf-footer__input cf-footer__input--phone" placeholder="{{ section.settings.phone_placeholder | default: 'Phone Number' }}" autocomplete="tel" aria-label="Phone number">
           <button type="submit" class="cf-footer__submit-btn" aria-label="Subscribe by phone">{% render 'cf-footer-send-icon' %}</button>
         </div>
-        <!-- Dropdown opens UPWARD, search at bottom -->
         <div class="cf-dial__panel" id="cf-dial-panel" role="listbox" aria-label="Country codes" hidden>
           <ul class="cf-dial__list" id="cf-dial-list"></ul>
           <div class="cf-dial__search-wrap">
-            <svg viewBox="0 0 18 18" fill="none" width="15" height="15" aria-hidden="true">
-              <circle cx="7.5" cy="7.5" r="5.5" stroke="#aaa" stroke-width="1.6"/>
-              <path d="M11.5 11.5L16 16" stroke="#aaa" stroke-width="1.6" stroke-linecap="round"/>
-            </svg>
+            <svg viewBox="0 0 18 18" fill="none" width="15" height="15" aria-hidden="true"><circle cx="7.5" cy="7.5" r="5.5" stroke="#aaa" stroke-width="1.6"/><path d="M11.5 11.5L16 16" stroke="#aaa" stroke-width="1.6" stroke-linecap="round"/></svg>
             <input type="text" class="cf-dial__search" id="cf-dial-search" placeholder="Search countries" aria-label="Search country" autocomplete="off">
           </div>
         </div>
       </form>
     </div>
 
-    <!-- Col 2: Company -->
+    <!-- Middle 3 columns: equally spaced -->
     <div class="cf-footer__col">
       <h3 class="cf-footer__heading">{{ section.settings.col2_heading | default: 'Company' }}</h3>
       <ul class="cf-footer__links" role="list">
-        {%- for i in (1..6) -%}{%- assign lk = 'col2_link' | append: i | append: '_label' -%}{%- assign uk = 'col2_link' | append: i | append: '_url' -%}{%- if section.settings[lk] != blank -%}<li><a href="{{ section.settings[uk] | default: '#' }}">{{ section.settings[lk] }}</a></li>{%- endif -%}{%- endfor -%}
+        {%- for i in (1..6) -%}{%- assign lk='col2_link'|append:i|append:'_label' -%}{%- assign uk='col2_link'|append:i|append:'_url' -%}{%- if section.settings[lk]!=blank -%}<li><a href="{{ section.settings[uk]|default:'#' }}">{{ section.settings[lk] }}</a></li>{%- endif -%}{%- endfor -%}
       </ul>
     </div>
 
-    <!-- Col 3: Account -->
     <div class="cf-footer__col">
       <h3 class="cf-footer__heading">{{ section.settings.col3_heading | default: 'Account' }}</h3>
       <ul class="cf-footer__links" role="list">
-        {%- for i in (1..6) -%}{%- assign lk = 'col3_link' | append: i | append: '_label' -%}{%- assign uk = 'col3_link' | append: i | append: '_url' -%}{%- if section.settings[lk] != blank -%}<li><a href="{{ section.settings[uk] | default: '#' }}">{{ section.settings[lk] }}</a></li>{%- endif -%}{%- endfor -%}
+        {%- for i in (1..6) -%}{%- assign lk='col3_link'|append:i|append:'_label' -%}{%- assign uk='col3_link'|append:i|append:'_url' -%}{%- if section.settings[lk]!=blank -%}<li><a href="{{ section.settings[uk]|default:'#' }}">{{ section.settings[lk] }}</a></li>{%- endif -%}{%- endfor -%}
       </ul>
     </div>
 
-    <!-- Col 4: Legal -->
     <div class="cf-footer__col">
       <h3 class="cf-footer__heading">{{ section.settings.col4_heading | default: 'Legal' }}</h3>
       <ul class="cf-footer__links" role="list">
-        {%- for i in (1..6) -%}{%- assign lk = 'col4_link' | append: i | append: '_label' -%}{%- assign uk = 'col4_link' | append: i | append: '_url' -%}{%- if section.settings[lk] != blank -%}<li><a href="{{ section.settings[uk] | default: '#' }}">{{ section.settings[lk] }}</a></li>{%- endif -%}{%- endfor -%}
+        {%- for i in (1..6) -%}{%- assign lk='col4_link'|append:i|append:'_label' -%}{%- assign uk='col4_link'|append:i|append:'_url' -%}{%- if section.settings[lk]!=blank -%}<li><a href="{{ section.settings[uk]|default:'#' }}">{{ section.settings[lk] }}</a></li>{%- endif -%}{%- endfor -%}
       </ul>
     </div>
 
-    <!-- Col 5: Social -->
+    <!-- Social: far RIGHT -->
     <div class="cf-footer__col cf-footer__col--social">
       <h3 class="cf-footer__heading">{{ section.settings.social_heading | default: 'Follow Us' }}</h3>
       <div class="cf-footer__social-grid">
-        {%- if section.settings.social_facebook != blank -%}<a href="{{ section.settings.social_facebook }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>{%- endif -%}
-        {%- if section.settings.social_twitter != blank -%}<a href="{{ section.settings.social_twitter }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>{%- endif -%}
-        {%- if section.settings.social_instagram != blank -%}<a href="{{ section.settings.social_instagram }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>{%- endif -%}
-        {%- if section.settings.social_linkedin != blank -%}<a href="{{ section.settings.social_linkedin }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>{%- endif -%}
-        {%- if section.settings.social_tiktok != blank -%}<a href="{{ section.settings.social_tiktok }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34l-.01-8.27a8.17 8.17 0 0 0 4.78 1.52V5.11a4.85 4.85 0 0 1-1-.42z"/></svg></a>{%- endif -%}
-        {%- if section.settings.social_whatsapp != blank -%}<a href="{{ section.settings.social_whatsapp }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></a>{%- endif -%}
+        {%- if section.settings.social_facebook!=blank -%}<a href="{{ section.settings.social_facebook }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>{%- endif -%}
+        {%- if section.settings.social_twitter!=blank -%}<a href="{{ section.settings.social_twitter }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>{%- endif -%}
+        {%- if section.settings.social_instagram!=blank -%}<a href="{{ section.settings.social_instagram }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>{%- endif -%}
+        {%- if section.settings.social_linkedin!=blank -%}<a href="{{ section.settings.social_linkedin }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>{%- endif -%}
+        {%- if section.settings.social_tiktok!=blank -%}<a href="{{ section.settings.social_tiktok }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34l-.01-8.27a8.17 8.17 0 0 0 4.78 1.52V5.11a4.85 4.85 0 0 1-1-.42z"/></svg></a>{%- endif -%}
+        {%- if section.settings.social_whatsapp!=blank -%}<a href="{{ section.settings.social_whatsapp }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></a>{%- endif -%}
       </div>
     </div>
 
@@ -112,31 +97,50 @@
 </footer>
 
 <style>
-  /* ---- Shell ---- */
   .cf-footer {
     background-color: {{ section.settings.bg_color | default: '#f5f5f7' }};
     color: {{ section.settings.text_color | default: '#333333' }};
     font-family: inherit;
-    text-align: left !important;
+    text-align: left;
     border-radius: 24px 24px 0 0;
     overflow: visible;
-    /* 20% less vertical: was 64px, now ~51px */
-    padding: 51px 80px 0 !important;
-    box-sizing: border-box;
+    padding-top: 51px;
   }
 
-  /* ---- Inner grid: 5 equal columns, left-aligned ---- */
+  /* ---- Main grid ----
+     Brand (auto-width, left) | 3 equal middle cols | Social (auto-width, right)
+     space-between spreads them across the full padded width                      */
   .cf-footer__inner {
-    max-width: 1280px;
-    margin: 0 auto;
-    /* 20% less vertical bottom padding: was 56px, now 45px */
-    padding: 0 0 45px;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    /* 20% less gap: was 48px, now 38px */
-    gap: 38px;
+    padding-left: 80px !important;
+    padding-right: 80px !important;
+    padding-bottom: 45px !important;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
     align-items: start;
-    justify-items: start;
+    gap: 40px;
+  }
+
+  /* Brand column: fixed max-width, left edge */
+  .cf-footer__brand {
+    flex: 0 0 auto;
+    width: 220px;
+    min-width: 180px;
+    text-align: left;
+  }
+
+  /* 3 middle columns: share remaining space equally */
+  .cf-footer__col {
+    flex: 1 1 0;
+    text-align: left;
+    min-width: 0;
+  }
+
+  /* Social column: fixed width, right edge */
+  .cf-footer__col--social {
+    flex: 0 0 auto;
+    width: 160px;
+    text-align: left;
   }
 
   /* ---- Logo ---- */
@@ -144,49 +148,32 @@
   .cf-footer__logo-img  { max-width: 200px; height: auto; display: block; }
   .cf-footer__logo-text { font-size: 24px; font-weight: 800; color: {{ section.settings.text_color | default: '#333333' }}; text-decoration: none; }
 
-  /* ---- Phone line ---- */
   .cf-footer__phone { font-size: 15px; margin: 0 0 16px; color: {{ section.settings.text_color | default: '#333333' }}; }
   .cf-footer__phone a { color: inherit; text-decoration: none; }
   .cf-footer__phone a:hover { text-decoration: underline; }
 
-  /* ---- Input rows ---- */
+  /* ---- Forms ---- */
   .cf-footer__form { margin-bottom: 10px; position: relative; width: 100%; }
   .cf-footer__input-row {
-    display: flex;
-    align-items: center;
-    background: #fff;
-    border: 1.5px solid #ddd;
-    border-radius: 50px;
-    height: 44px;
-    padding-left: 16px;
-    overflow: hidden;
-    width: 100%;
-    box-sizing: border-box;
+    display: flex; align-items: center;
+    background: #fff; border: 1.5px solid #ddd;
+    border-radius: 50px; height: 44px;
+    padding-left: 16px; overflow: hidden;
+    width: 100%; box-sizing: border-box;
   }
   .cf-footer__input-row--phone { padding-left: 0; overflow: visible; }
-  .cf-footer__input {
-    flex: 1; border: none; outline: none;
-    background: transparent; font-size: 14px;
-    color: #333; min-width: 0; padding: 0 6px;
-  }
+  .cf-footer__input { flex: 1; border: none; outline: none; background: transparent; font-size: 14px; color: #333; min-width: 0; padding: 0 6px; }
   .cf-footer__submit-btn {
     background: {{ section.settings.accent_color | default: '#e8175d' }};
     border: none; border-radius: 50%;
-    width: 36px; height: 36px; flex-shrink: 0;
-    margin: 4px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; flex-shrink: 0; margin: 4px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
     color: #fff; transition: background 0.2s, transform 0.15s;
   }
   .cf-footer__submit-btn:hover { background: {{ section.settings.accent_hover | default: '#c0134d' }}; transform: scale(1.08); }
 
-  /* ---- Country dial trigger ---- */
-  .cf-dial__trigger {
-    display: flex; align-items: center; gap: 5px;
-    background: none; border: none; cursor: pointer;
-    padding: 0 10px 0 12px; height: 100%;
-    border-radius: 50px 0 0 50px;
-    transition: background 0.15s; flex-shrink: 0;
-  }
+  /* ---- Country dial ---- */
+  .cf-dial__trigger { display: flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 0 10px 0 12px; height: 100%; border-radius: 50px 0 0 50px; transition: background 0.15s; flex-shrink: 0; }
   .cf-dial__trigger:hover { background: rgba(0,0,0,0.05); }
   .cf-dial__flag-img { border-radius: 2px; display: block; flex-shrink: 0; }
   .cf-dial__code    { font-size: 13px; font-weight: 600; color: #333; white-space: nowrap; }
@@ -194,91 +181,46 @@
   .cf-dial__trigger[aria-expanded="true"] .cf-dial__chevron { transform: rotate(180deg); }
   .cf-dial__sep { width: 1px; height: 22px; background: #ddd; flex-shrink: 0; margin-right: 6px; }
 
-  /* ---- Dropdown panel — opens UPWARD, search at BOTTOM ---- */
+  /* opens UPWARD */
   .cf-dial__panel {
-    position: absolute;
-    bottom: calc(100% + 8px);   /* opens UP */
-    top: auto;
-    left: 0;
-    width: 100%;
-    min-width: 260px;
-    background: #fff;
-    border: 1.5px solid #e0e0e0;
-    border-radius: 16px;
-    box-shadow: 0 -8px 40px rgba(0,0,0,0.13);
-    z-index: 9999;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    position: absolute; bottom: calc(100% + 8px); top: auto;
+    left: 0; width: 100%; min-width: 260px;
+    background: #fff; border: 1.5px solid #e0e0e0;
+    border-radius: 16px; box-shadow: 0 -8px 40px rgba(0,0,0,0.13);
+    z-index: 9999; overflow: hidden;
+    display: flex; flex-direction: column;
   }
   .cf-dial__panel[hidden] { display: none; }
-
-  .cf-dial__list {
-    list-style: none; margin: 0; padding: 6px 0;
-    max-height: 220px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #ddd transparent;
-    order: 1;
-  }
-  .cf-dial__list li {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 14px; cursor: pointer; font-size: 14px;
-    transition: background 0.1s;
-  }
+  .cf-dial__list { list-style: none; margin: 0; padding: 6px 0; max-height: 220px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #ddd transparent; order: 1; }
+  .cf-dial__list li { display: flex; align-items: center; gap: 10px; padding: 8px 14px; cursor: pointer; font-size: 14px; transition: background 0.1s; }
   .cf-dial__list li:hover, .cf-dial__list li.is-active { background: #f5f5f7; }
   .cf-dial__list li.is-active { font-weight: 600; }
-  .cf-dial__list li[hidden]   { display: none; }
+  .cf-dial__list li[hidden] { display: none; }
   .cf-dial__item-flag { flex-shrink: 0; border-radius: 2px; }
   .cf-dial__item-name { flex: 1; color: #333; }
   .cf-dial__item-code { color: #999; font-size: 12px; white-space: nowrap; }
-
-  /* Search bar at BOTTOM */
-  .cf-dial__search-wrap {
-    display: flex; align-items: center; gap: 8px;
-    padding: 10px 12px;
-    border-top: 1px solid #f0f0f0;
-    order: 2;
-  }
-  .cf-dial__search {
-    flex: 1; border: none; outline: none;
-    font-size: 14px; color: #333; background: transparent;
-  }
+  /* search at BOTTOM */
+  .cf-dial__search-wrap { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-top: 1px solid #f0f0f0; order: 2; }
+  .cf-dial__search { flex: 1; border: none; outline: none; font-size: 14px; color: #333; background: transparent; }
   .cf-dial__search::placeholder { color: #aaa; }
 
-  /* ---- Nav columns ---- */
-  .cf-footer__col { text-align: left; width: 100%; }
-  .cf-footer__heading {
-    font-size: 20px; font-weight: 700;
-    /* 20% less margin: was 20px, now 16px */
-    margin: 0 0 16px;
-    color: {{ section.settings.text_color | default: '#333333' }};
-  }
+  /* ---- Nav headings & links ---- */
+  .cf-footer__heading { font-size: 20px; font-weight: 700; margin: 0 0 16px; color: {{ section.settings.text_color | default: '#333333' }}; }
   .cf-footer__links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-  .cf-footer__links a {
-    font-size: 20px;
-    color: {{ section.settings.link_color | default: '#666666' }};
-    text-decoration: none; transition: color 0.2s;
-  }
+  .cf-footer__links a { font-size: 20px; color: {{ section.settings.link_color | default: '#666666' }}; text-decoration: none; transition: color 0.2s; }
   .cf-footer__links a:hover { color: {{ section.settings.accent_color | default: '#e8175d' }}; }
 
-  /* ---- Social ---- */
+  /* ---- Social icons ---- */
   .cf-footer__social-grid { display: grid; grid-template-columns: repeat(3, 42px); gap: 10px; }
-  .cf-footer__social-link {
-    display: flex; align-items: center; justify-content: center;
-    width: 42px; height: 42px; border-radius: 50%;
-    background: #111; color: #fff;
-    text-decoration: none; transition: background 0.2s, transform 0.2s;
-  }
+  .cf-footer__social-link { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: #111; color: #fff; text-decoration: none; transition: background 0.2s, transform 0.2s; }
   .cf-footer__social-link:hover { background: {{ section.settings.accent_color | default: '#e8175d' }}; transform: scale(1.1); }
 
   /* ---- Bottom bar ---- */
   .cf-footer__bottom {
     border-top: 1px solid #e0e0e0;
-    max-width: 1280px;
-    margin: 0 auto;
-    /* 20% less padding: was 20px, now 16px */
-    padding: 16px 0;
+    padding-left: 80px !important; padding-right: 80px !important;
+    padding-top: 16px !important; padding-bottom: 16px !important;
+    box-sizing: border-box;
     display: flex; align-items: center; justify-content: space-between;
     flex-wrap: wrap; gap: 10px;
   }
@@ -288,129 +230,72 @@
 
   /* ---- Responsive ---- */
   @media (max-width: 1100px) {
-    .cf-footer { padding: 40px 40px 0 !important; }
-    .cf-footer__inner { grid-template-columns: repeat(3, 1fr); }
-    .cf-footer__brand { grid-column: 1 / -1; }
+    .cf-footer__inner  { padding-left: 40px !important; padding-right: 40px !important; flex-wrap: wrap; gap: 32px; }
+    .cf-footer__bottom { padding-left: 40px !important; padding-right: 40px !important; }
+    .cf-footer__brand  { width: 100%; }
+    .cf-footer__col, .cf-footer__col--social { flex: 1 1 140px; }
   }
   @media (max-width: 640px) {
-    .cf-footer { border-radius: 16px 16px 0 0; padding: 32px 20px 0 !important; }
-    .cf-footer__inner { grid-template-columns: 1fr 1fr; gap: 24px; }
-    .cf-footer__brand       { grid-column: 1 / -1; }
-    .cf-footer__col--social { grid-column: 1 / -1; }
+    .cf-footer { border-radius: 16px 16px 0 0; }
+    .cf-footer__inner  { padding-left: 20px !important; padding-right: 20px !important; gap: 24px; }
+    .cf-footer__bottom { padding-left: 20px !important; padding-right: 20px !important; flex-direction: column; align-items: flex-start; }
+    .cf-footer__col    { flex: 1 1 calc(50% - 12px); }
+    .cf-footer__col--social { width: 100%; }
     .cf-footer__social-grid { grid-template-columns: repeat(6, 42px); }
-    .cf-footer__bottom      { flex-direction: column; align-items: flex-start; }
   }
 </style>
 
 <script>
-(function () {
-  /* ISO code + name + dial code — flags loaded from flagcdn.com */
-  var COUNTRIES = [
-    { iso: 'gb', name: 'United Kingdom', code: '+44'  },
-    { iso: 'us', name: 'United States',  code: '+1'   },
-    { iso: 'ca', name: 'Canada',          code: '+1'   },
-    { iso: 'au', name: 'Australia',       code: '+61'  },
-    { iso: 'ie', name: 'Ireland',         code: '+353' },
-    { iso: 'de', name: 'Germany',         code: '+49'  },
-    { iso: 'fr', name: 'France',          code: '+33'  },
-    { iso: 'es', name: 'Spain',           code: '+34'  },
-    { iso: 'it', name: 'Italy',           code: '+39'  },
-    { iso: 'nl', name: 'Netherlands',     code: '+31'  },
-    { iso: 'be', name: 'Belgium',         code: '+32'  },
-    { iso: 'se', name: 'Sweden',          code: '+46'  },
-    { iso: 'no', name: 'Norway',          code: '+47'  },
-    { iso: 'dk', name: 'Denmark',         code: '+45'  },
-    { iso: 'fi', name: 'Finland',         code: '+358' },
-    { iso: 'ch', name: 'Switzerland',     code: '+41'  },
-    { iso: 'at', name: 'Austria',         code: '+43'  },
-    { iso: 'pt', name: 'Portugal',        code: '+351' },
-    { iso: 'pl', name: 'Poland',          code: '+48'  },
-    { iso: 'gr', name: 'Greece',          code: '+30'  },
-    { iso: 'za', name: 'South Africa',    code: '+27'  },
-    { iso: 'in', name: 'India',           code: '+91'  },
-    { iso: 'pk', name: 'Pakistan',        code: '+92'  },
-    { iso: 'bd', name: 'Bangladesh',      code: '+880' },
-    { iso: 'sg', name: 'Singapore',       code: '+65'  },
-    { iso: 'my', name: 'Malaysia',        code: '+60'  },
-    { iso: 'nz', name: 'New Zealand',     code: '+64'  },
-    { iso: 'jp', name: 'Japan',           code: '+81'  },
-    { iso: 'kr', name: 'South Korea',     code: '+82'  },
-    { iso: 'cn', name: 'China',           code: '+86'  },
-    { iso: 'br', name: 'Brazil',          code: '+55'  },
-    { iso: 'mx', name: 'Mexico',          code: '+52'  },
-    { iso: 'ae', name: 'UAE',             code: '+971' },
-    { iso: 'sa', name: 'Saudi Arabia',    code: '+966' },
-    { iso: 'qa', name: 'Qatar',           code: '+974' },
-    { iso: 'ng', name: 'Nigeria',         code: '+234' },
-    { iso: 'ke', name: 'Kenya',           code: '+254' },
-    { iso: 'ru', name: 'Russia',          code: '+7'   },
-    { iso: 'tr', name: 'Turkey',          code: '+90'  }
+(function(){
+  var COUNTRIES=[
+    {iso:'gb',name:'United Kingdom',code:'+44'},{iso:'us',name:'United States',code:'+1'},
+    {iso:'ca',name:'Canada',code:'+1'},{iso:'au',name:'Australia',code:'+61'},
+    {iso:'ie',name:'Ireland',code:'+353'},{iso:'de',name:'Germany',code:'+49'},
+    {iso:'fr',name:'France',code:'+33'},{iso:'es',name:'Spain',code:'+34'},
+    {iso:'it',name:'Italy',code:'+39'},{iso:'nl',name:'Netherlands',code:'+31'},
+    {iso:'be',name:'Belgium',code:'+32'},{iso:'se',name:'Sweden',code:'+46'},
+    {iso:'no',name:'Norway',code:'+47'},{iso:'dk',name:'Denmark',code:'+45'},
+    {iso:'fi',name:'Finland',code:'+358'},{iso:'ch',name:'Switzerland',code:'+41'},
+    {iso:'at',name:'Austria',code:'+43'},{iso:'pt',name:'Portugal',code:'+351'},
+    {iso:'pl',name:'Poland',code:'+48'},{iso:'gr',name:'Greece',code:'+30'},
+    {iso:'za',name:'South Africa',code:'+27'},{iso:'in',name:'India',code:'+91'},
+    {iso:'pk',name:'Pakistan',code:'+92'},{iso:'bd',name:'Bangladesh',code:'+880'},
+    {iso:'sg',name:'Singapore',code:'+65'},{iso:'my',name:'Malaysia',code:'+60'},
+    {iso:'nz',name:'New Zealand',code:'+64'},{iso:'jp',name:'Japan',code:'+81'},
+    {iso:'kr',name:'South Korea',code:'+82'},{iso:'cn',name:'China',code:'+86'},
+    {iso:'br',name:'Brazil',code:'+55'},{iso:'mx',name:'Mexico',code:'+52'},
+    {iso:'ae',name:'UAE',code:'+971'},{iso:'sa',name:'Saudi Arabia',code:'+966'},
+    {iso:'qa',name:'Qatar',code:'+974'},{iso:'ng',name:'Nigeria',code:'+234'},
+    {iso:'ke',name:'Kenya',code:'+254'},{iso:'ru',name:'Russia',code:'+7'},
+    {iso:'tr',name:'Turkey',code:'+90'}
   ];
-
-  function flagUrl(iso) {
-    return 'https://flagcdn.com/20x15/' + iso + '.png';
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    var trigger  = document.getElementById('cf-dial-trigger');
-    var panel    = document.getElementById('cf-dial-panel');
-    var flagImg  = document.getElementById('cf-dial-flag-img');
-    var codeEl   = document.getElementById('cf-dial-code');
-    var hidden   = document.getElementById('cf-dial-hidden');
-    var listEl   = document.getElementById('cf-dial-list');
-    var searchEl = document.getElementById('cf-dial-search');
-    if (!trigger || !panel) return;
-
-    COUNTRIES.forEach(function (c, i) {
-      var li = document.createElement('li');
-      li.setAttribute('role', 'option');
-      var img = '<img src="' + flagUrl(c.iso) + '" width="20" height="15" alt="' + c.iso.toUpperCase() + '" class="cf-dial__item-flag">';
-      li.innerHTML = img +
-        '<span class="cf-dial__item-name">' + c.name + '</span>' +
-        '<span class="cf-dial__item-code">' + c.code + '</span>';
-      if (i === 0) li.classList.add('is-active');
-      li.addEventListener('mousedown', function (e) {
-        e.preventDefault();
-        flagImg.src = flagUrl(c.iso);
-        flagImg.alt = c.iso.toUpperCase();
-        codeEl.textContent = c.code;
-        hidden.value = c.code;
-        listEl.querySelectorAll('li').forEach(function (el, j) { el.classList.toggle('is-active', j === i); });
+  function flagUrl(iso){return 'https://flagcdn.com/20x15/'+iso+'.png';}
+  document.addEventListener('DOMContentLoaded',function(){
+    var trigger=document.getElementById('cf-dial-trigger'),panel=document.getElementById('cf-dial-panel'),
+        flagImg=document.getElementById('cf-dial-flag-img'),codeEl=document.getElementById('cf-dial-code'),
+        hidden=document.getElementById('cf-dial-hidden'),listEl=document.getElementById('cf-dial-list'),
+        searchEl=document.getElementById('cf-dial-search');
+    if(!trigger||!panel)return;
+    COUNTRIES.forEach(function(c,i){
+      var li=document.createElement('li');li.setAttribute('role','option');
+      li.innerHTML='<img src="'+flagUrl(c.iso)+'" width="20" height="15" alt="'+c.iso.toUpperCase()+'" class="cf-dial__item-flag">'+
+        '<span class="cf-dial__item-name">'+c.name+'</span><span class="cf-dial__item-code">'+c.code+'</span>';
+      if(i===0)li.classList.add('is-active');
+      li.addEventListener('mousedown',function(e){
+        e.preventDefault();flagImg.src=flagUrl(c.iso);flagImg.alt=c.iso.toUpperCase();
+        codeEl.textContent=c.code;hidden.value=c.code;
+        listEl.querySelectorAll('li').forEach(function(el,j){el.classList.toggle('is-active',j===i);});
         close();
-      });
-      listEl.appendChild(li);
+      });listEl.appendChild(li);
     });
-
-    function open() {
-      panel.hidden = false;
-      trigger.setAttribute('aria-expanded', 'true');
-      searchEl.value = '';
-      filter('');
-      /* scroll list to top so selected item is visible */
-      listEl.scrollTop = 0;
-      setTimeout(function () { searchEl.focus(); }, 30);
-    }
-    function close() {
-      panel.hidden = true;
-      trigger.setAttribute('aria-expanded', 'false');
-    }
-    function filter(q) {
-      var lq = q.toLowerCase();
-      listEl.querySelectorAll('li').forEach(function (li, i) {
-        li.hidden = !(COUNTRIES[i].name.toLowerCase().includes(lq) || COUNTRIES[i].code.includes(lq));
-      });
-    }
-
-    trigger.addEventListener('click', function () { panel.hidden ? open() : close(); });
-    trigger.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
-      if (e.key === 'Escape') close();
-    });
-    searchEl.addEventListener('input', function () { filter(searchEl.value); });
-    searchEl.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-    document.addEventListener('click', function (e) {
-      if (!trigger.closest('.cf-footer__form').contains(e.target)) close();
-    });
+    function open(){panel.hidden=false;trigger.setAttribute('aria-expanded','true');searchEl.value='';filter('');listEl.scrollTop=0;setTimeout(function(){searchEl.focus();},30);}
+    function close(){panel.hidden=true;trigger.setAttribute('aria-expanded','false');}
+    function filter(q){var lq=q.toLowerCase();listEl.querySelectorAll('li').forEach(function(li,i){li.hidden=!(COUNTRIES[i].name.toLowerCase().includes(lq)||COUNTRIES[i].code.includes(lq));});}
+    trigger.addEventListener('click',function(){panel.hidden?open():close();});
+    trigger.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}if(e.key==='Escape')close();});
+    searchEl.addEventListener('input',function(){filter(searchEl.value);});
+    searchEl.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+    document.addEventListener('click',function(e){if(!trigger.closest('.cf-footer__form').contains(e.target))close();});
   });
 })();
 </script>
@@ -419,51 +304,51 @@
 {
   "name": "Custom Footer",
   "settings": [
-    { "type": "header", "content": "Brand" },
-    { "type": "image_picker", "id": "logo",             "label": "Logo image" },
-    { "type": "text", "id": "phone",            "label": "Phone number",       "default": "01863723207" },
-    { "type": "text", "id": "phone_label",      "label": "Phone label",        "default": "Call us on:" },
-    { "type": "text", "id": "email_placeholder","label": "Email placeholder", "default": "Enter your email" },
-    { "type": "text", "id": "phone_placeholder","label": "Phone placeholder", "default": "Phone Number" },
-    { "type": "header", "content": "Column 2 — Company" },
-    { "type": "text", "id": "col2_heading",    "label": "Heading", "default": "Company" },
-    { "type": "text", "id": "col2_link1_label","label": "Link 1 label", "default": "Health Blog" }, { "type": "url", "id": "col2_link1_url", "label": "Link 1 URL" },
-    { "type": "text", "id": "col2_link2_label","label": "Link 2 label", "default": "Take Our Quiz" }, { "type": "url", "id": "col2_link2_url", "label": "Link 2 URL" },
-    { "type": "text", "id": "col2_link3_label","label": "Link 3 label", "default": "Shop Now" }, { "type": "url", "id": "col2_link3_url", "label": "Link 3 URL" },
-    { "type": "text", "id": "col2_link4_label","label": "Link 4 label", "default": "Contact Us" }, { "type": "url", "id": "col2_link4_url", "label": "Link 4 URL" },
-    { "type": "text", "id": "col2_link5_label","label": "Link 5 label", "default": "Who We Are" }, { "type": "url", "id": "col2_link5_url", "label": "Link 5 URL" },
-    { "type": "text", "id": "col2_link6_label","label": "Link 6 label" }, { "type": "url", "id": "col2_link6_url", "label": "Link 6 URL" },
-    { "type": "header", "content": "Column 3 — Account" },
-    { "type": "text", "id": "col3_heading",    "label": "Heading", "default": "Account" },
-    { "type": "text", "id": "col3_link1_label","label": "Link 1 label", "default": "Rewards" }, { "type": "url", "id": "col3_link1_url", "label": "Link 1 URL" },
-    { "type": "text", "id": "col3_link2_label","label": "Link 2 label", "default": "Subscriptions" }, { "type": "url", "id": "col3_link2_url", "label": "Link 2 URL" },
-    { "type": "text", "id": "col3_link3_label","label": "Link 3 label", "default": "Login" }, { "type": "url", "id": "col3_link3_url", "label": "Link 3 URL" },
-    { "type": "text", "id": "col3_link4_label","label": "Link 4 label", "default": "Creator Programme" }, { "type": "url", "id": "col3_link4_url", "label": "Link 4 URL" },
-    { "type": "text", "id": "col3_link5_label","label": "Link 5 label", "default": "Manage Order" }, { "type": "url", "id": "col3_link5_url", "label": "Link 5 URL" },
-    { "type": "text", "id": "col3_link6_label","label": "Link 6 label" }, { "type": "url", "id": "col3_link6_url", "label": "Link 6 URL" },
-    { "type": "header", "content": "Column 4 — Legal" },
-    { "type": "text", "id": "col4_heading",    "label": "Heading", "default": "Legal" },
-    { "type": "text", "id": "col4_link1_label","label": "Link 1 label", "default": "Terms of Service" }, { "type": "url", "id": "col4_link1_url", "label": "Link 1 URL" },
-    { "type": "text", "id": "col4_link2_label","label": "Link 2 label", "default": "Privacy Policy" }, { "type": "url", "id": "col4_link2_url", "label": "Link 2 URL" },
-    { "type": "text", "id": "col4_link3_label","label": "Link 3 label", "default": "Shipping Policy" }, { "type": "url", "id": "col4_link3_url", "label": "Link 3 URL" },
-    { "type": "text", "id": "col4_link4_label","label": "Link 4 label", "default": "Refund Policy" }, { "type": "url", "id": "col4_link4_url", "label": "Link 4 URL" },
-    { "type": "text", "id": "col4_link5_label","label": "Link 5 label" }, { "type": "url", "id": "col4_link5_url", "label": "Link 5 URL" },
-    { "type": "text", "id": "col4_link6_label","label": "Link 6 label" }, { "type": "url", "id": "col4_link6_url", "label": "Link 6 URL" },
-    { "type": "header", "content": "Social media" },
-    { "type": "text", "id": "social_heading",  "label": "Heading", "default": "Follow Us" },
-    { "type": "url", "id": "social_facebook",  "label": "Facebook URL" },
-    { "type": "url", "id": "social_twitter",   "label": "X / Twitter URL" },
-    { "type": "url", "id": "social_instagram", "label": "Instagram URL" },
-    { "type": "url", "id": "social_linkedin",  "label": "LinkedIn URL" },
-    { "type": "url", "id": "social_tiktok",    "label": "TikTok URL" },
-    { "type": "url", "id": "social_whatsapp",  "label": "WhatsApp URL" },
-    { "type": "header", "content": "Colours" },
-    { "type": "color", "id": "bg_color",     "label": "Background",             "default": "#f5f5f7" },
-    { "type": "color", "id": "text_color",   "label": "Text colour",            "default": "#333333" },
-    { "type": "color", "id": "link_color",   "label": "Link colour",            "default": "#666666" },
-    { "type": "color", "id": "accent_color", "label": "Accent / button colour", "default": "#e8175d" },
-    { "type": "color", "id": "accent_hover", "label": "Accent hover colour",    "default": "#c0134d" }
+    {"type":"header","content":"Brand"},
+    {"type":"image_picker","id":"logo","label":"Logo image"},
+    {"type":"text","id":"phone","label":"Phone number","default":"01863723207"},
+    {"type":"text","id":"phone_label","label":"Phone label","default":"Call us on:"},
+    {"type":"text","id":"email_placeholder","label":"Email placeholder","default":"Enter your email"},
+    {"type":"text","id":"phone_placeholder","label":"Phone placeholder","default":"Phone Number"},
+    {"type":"header","content":"Column 2 — Company"},
+    {"type":"text","id":"col2_heading","label":"Heading","default":"Company"},
+    {"type":"text","id":"col2_link1_label","label":"Link 1","default":"Health Blog"},{"type":"url","id":"col2_link1_url","label":"Link 1 URL"},
+    {"type":"text","id":"col2_link2_label","label":"Link 2","default":"Take Our Quiz"},{"type":"url","id":"col2_link2_url","label":"Link 2 URL"},
+    {"type":"text","id":"col2_link3_label","label":"Link 3","default":"Shop Now"},{"type":"url","id":"col2_link3_url","label":"Link 3 URL"},
+    {"type":"text","id":"col2_link4_label","label":"Link 4","default":"Contact Us"},{"type":"url","id":"col2_link4_url","label":"Link 4 URL"},
+    {"type":"text","id":"col2_link5_label","label":"Link 5","default":"Who We Are"},{"type":"url","id":"col2_link5_url","label":"Link 5 URL"},
+    {"type":"text","id":"col2_link6_label","label":"Link 6"},{"type":"url","id":"col2_link6_url","label":"Link 6 URL"},
+    {"type":"header","content":"Column 3 — Account"},
+    {"type":"text","id":"col3_heading","label":"Heading","default":"Account"},
+    {"type":"text","id":"col3_link1_label","label":"Link 1","default":"Rewards"},{"type":"url","id":"col3_link1_url","label":"Link 1 URL"},
+    {"type":"text","id":"col3_link2_label","label":"Link 2","default":"Subscriptions"},{"type":"url","id":"col3_link2_url","label":"Link 2 URL"},
+    {"type":"text","id":"col3_link3_label","label":"Link 3","default":"Login"},{"type":"url","id":"col3_link3_url","label":"Link 3 URL"},
+    {"type":"text","id":"col3_link4_label","label":"Link 4","default":"Creator Programme"},{"type":"url","id":"col3_link4_url","label":"Link 4 URL"},
+    {"type":"text","id":"col3_link5_label","label":"Link 5","default":"Manage Order"},{"type":"url","id":"col3_link5_url","label":"Link 5 URL"},
+    {"type":"text","id":"col3_link6_label","label":"Link 6"},{"type":"url","id":"col3_link6_url","label":"Link 6 URL"},
+    {"type":"header","content":"Column 4 — Legal"},
+    {"type":"text","id":"col4_heading","label":"Heading","default":"Legal"},
+    {"type":"text","id":"col4_link1_label","label":"Link 1","default":"Terms of Service"},{"type":"url","id":"col4_link1_url","label":"Link 1 URL"},
+    {"type":"text","id":"col4_link2_label","label":"Link 2","default":"Privacy Policy"},{"type":"url","id":"col4_link2_url","label":"Link 2 URL"},
+    {"type":"text","id":"col4_link3_label","label":"Link 3","default":"Shipping Policy"},{"type":"url","id":"col4_link3_url","label":"Link 3 URL"},
+    {"type":"text","id":"col4_link4_label","label":"Link 4","default":"Refund Policy"},{"type":"url","id":"col4_link4_url","label":"Link 4 URL"},
+    {"type":"text","id":"col4_link5_label","label":"Link 5"},{"type":"url","id":"col4_link5_url","label":"Link 5 URL"},
+    {"type":"text","id":"col4_link6_label","label":"Link 6"},{"type":"url","id":"col4_link6_url","label":"Link 6 URL"},
+    {"type":"header","content":"Social media"},
+    {"type":"text","id":"social_heading","label":"Heading","default":"Follow Us"},
+    {"type":"url","id":"social_facebook","label":"Facebook URL"},
+    {"type":"url","id":"social_twitter","label":"X / Twitter URL"},
+    {"type":"url","id":"social_instagram","label":"Instagram URL"},
+    {"type":"url","id":"social_linkedin","label":"LinkedIn URL"},
+    {"type":"url","id":"social_tiktok","label":"TikTok URL"},
+    {"type":"url","id":"social_whatsapp","label":"WhatsApp URL"},
+    {"type":"header","content":"Colours"},
+    {"type":"color","id":"bg_color","label":"Background","default":"#f5f5f7"},
+    {"type":"color","id":"text_color","label":"Text colour","default":"#333333"},
+    {"type":"color","id":"link_color","label":"Link colour","default":"#666666"},
+    {"type":"color","id":"accent_color","label":"Accent / button colour","default":"#e8175d"},
+    {"type":"color","id":"accent_hover","label":"Accent hover colour","default":"#c0134d"}
   ],
-  "presets": [{ "name": "Custom Footer" }]
+  "presets":[{"name":"Custom Footer"}]
 }
 {% endschema %}
