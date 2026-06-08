@@ -1,8 +1,8 @@
 {% comment %}Custom Footer — FuelX — card-style with side gaps{% endcomment %}
 
-{%- assign pad = section.settings.side_gap | default: '60' -%}
+{%- assign pad = section.settings.side_gap | default: 60 -%}
 
-<div class="cf-footer-wrap">
+<div class="cf-footer-wrap" style="padding-left:{{ pad }}px !important;padding-right:{{ pad }}px !important;box-sizing:border-box !important;display:block !important;">
 <footer class="cf-footer" role="contentinfo">
 
   <div class="cf-footer__inner">
@@ -96,14 +96,16 @@
 </div>
 
 <style>
-  /* Outer wrapper creates the LEFT and RIGHT gap — nothing can override a wrapper's width */
+  /* Outer wrapper — inline style (above) handles the gap with !important.
+     CSS here is a fallback and for media queries. */
   .cf-footer-wrap {
-    padding-left: {{ section.settings.side_gap | default: 60 }}px;
-    padding-right: {{ section.settings.side_gap | default: 60 }}px;
-    box-sizing: border-box;
+    padding-left: {{ pad }}px !important;
+    padding-right: {{ pad }}px !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    width: 100% !important;
   }
 
-  /* Footer card fills the wrapper */
   .cf-footer {
     background-color: {{ section.settings.bg_color | default: '#f5f5f7' }};
     color: {{ section.settings.text_color | default: '#333333' }};
@@ -114,18 +116,16 @@
     padding-top: 51px;
   }
 
-  /* Inner layout */
   .cf-footer__inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: 40px;
     padding: 0 40px 45px;
     box-sizing: border-box;
   }
-  .cf-footer__brand       { flex: 0 0 auto; width: 220px; min-width: 180px; }
-  .cf-footer__col         { flex: 1 1 0; min-width: 0; }
-  .cf-footer__col--social { flex: 0 0 auto; width: 160px; }
+  .cf-footer__brand,
+  .cf-footer__col,
+  .cf-footer__col--social { min-width: 0; width: auto; }
 
   .cf-footer__logo-link { display: inline-block; margin-bottom: 14px; }
   .cf-footer__logo-img  { max-width: 200px; height: auto; display: block; }
@@ -177,13 +177,13 @@
   .cf-footer__payment-icon { height: 26px; width: auto; border-radius: 4px; }
 
   @media (max-width: 900px) {
-    .cf-footer-wrap { padding-left: 20px; padding-right: 20px; }
+    .cf-footer-wrap { padding-left: 20px !important; padding-right: 20px !important; }
     .cf-footer__inner { flex-wrap: wrap; }
     .cf-footer__brand { width: 100%; }
     .cf-footer__col, .cf-footer__col--social { flex: 1 1 140px; width: auto; }
   }
   @media (max-width: 640px) {
-    .cf-footer-wrap { padding-left: 12px; padding-right: 12px; }
+    .cf-footer-wrap { padding-left: 12px !important; padding-right: 12px !important; }
     .cf-footer { border-radius: 16px 16px 0 0; }
     .cf-footer__inner { padding: 0 20px 36px; }
     .cf-footer__col { flex: 1 1 calc(50% - 20px); }
