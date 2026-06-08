@@ -1,8 +1,11 @@
-{% comment %}Custom Footer — FuelX{% endcomment %}
+{% comment %}Custom Footer — FuelX — card-style with side gaps{% endcomment %}
 
+{%- assign pad = section.settings.side_gap | default: '60' -%}
+
+<div class="cf-footer-wrap">
 <footer class="cf-footer" role="contentinfo">
 
-  <div class="cf-footer__inner" style="margin-left:80px;margin-right:80px;padding-bottom:45px;">
+  <div class="cf-footer__inner">
 
     <div class="cf-footer__brand">
       <a href="{{ routes.root_url }}" class="cf-footer__logo-link" aria-label="{{ shop.name }}">
@@ -84,14 +87,23 @@
 
   </div>
 
-  <div class="cf-footer__bottom" style="margin-left:80px;margin-right:80px;padding-top:16px;padding-bottom:16px;">
+  <div class="cf-footer__bottom">
     <p class="cf-footer__copyright">&copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</p>
     <div class="cf-footer__payments">{{ shop.enabled_payment_types | payment_type_svg_tag: class: 'cf-footer__payment-icon' }}</div>
   </div>
 
 </footer>
+</div>
 
 <style>
+  /* Outer wrapper creates the LEFT and RIGHT gap — nothing can override a wrapper's width */
+  .cf-footer-wrap {
+    padding-left: {{ section.settings.side_gap | default: 60 }}px;
+    padding-right: {{ section.settings.side_gap | default: 60 }}px;
+    box-sizing: border-box;
+  }
+
+  /* Footer card fills the wrapper */
   .cf-footer {
     background-color: {{ section.settings.bg_color | default: '#f5f5f7' }};
     color: {{ section.settings.text_color | default: '#333333' }};
@@ -101,11 +113,15 @@
     overflow: visible;
     padding-top: 51px;
   }
+
+  /* Inner layout */
   .cf-footer__inner {
     display: flex;
     justify-content: space-between;
     align-items: start;
     gap: 40px;
+    padding: 0 40px 45px;
+    box-sizing: border-box;
   }
   .cf-footer__brand       { flex: 0 0 auto; width: 220px; min-width: 180px; }
   .cf-footer__col         { flex: 1 1 0; min-width: 0; }
@@ -128,7 +144,7 @@
   .cf-dial__trigger { display: flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 0 10px 0 12px; height: 100%; border-radius: 50px 0 0 50px; transition: background 0.15s; flex-shrink: 0; }
   .cf-dial__trigger:hover { background: rgba(0,0,0,0.05); }
   .cf-dial__flag-img { border-radius: 2px; display: block; flex-shrink: 0; }
-  .cf-dial__code    { font-size: 13px; font-weight: 600; color: #333; white-space: nowrap; }
+  .cf-dial__code { font-size: 13px; font-weight: 600; color: #333; white-space: nowrap; }
   .cf-dial__chevron { color: #999; transition: transform 0.2s; flex-shrink: 0; }
   .cf-dial__trigger[aria-expanded="true"] .cf-dial__chevron { transform: rotate(180deg); }
   .cf-dial__sep { width: 1px; height: 22px; background: #ddd; flex-shrink: 0; margin-right: 6px; }
@@ -155,22 +171,25 @@
   .cf-footer__social-link { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: #111; color: #fff; text-decoration: none; transition: background 0.2s, transform 0.2s; }
   .cf-footer__social-link:hover { background: {{ section.settings.accent_color | default: '#e8175d' }}; transform: scale(1.1); }
 
-  .cf-footer__bottom { border-top: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .cf-footer__bottom { border-top: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 16px 40px; }
   .cf-footer__copyright { font-size: 13px; color: #888; margin: 0; }
   .cf-footer__payments  { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
   .cf-footer__payment-icon { height: 26px; width: auto; border-radius: 4px; }
 
   @media (max-width: 900px) {
-    .cf-footer__inner  { flex-wrap: wrap; }
-    .cf-footer__brand  { width: 100%; }
+    .cf-footer-wrap { padding-left: 20px; padding-right: 20px; }
+    .cf-footer__inner { flex-wrap: wrap; }
+    .cf-footer__brand { width: 100%; }
     .cf-footer__col, .cf-footer__col--social { flex: 1 1 140px; width: auto; }
   }
   @media (max-width: 640px) {
+    .cf-footer-wrap { padding-left: 12px; padding-right: 12px; }
     .cf-footer { border-radius: 16px 16px 0 0; }
-    .cf-footer__col    { flex: 1 1 calc(50% - 20px); }
+    .cf-footer__inner { padding: 0 20px 36px; }
+    .cf-footer__col { flex: 1 1 calc(50% - 20px); }
     .cf-footer__col--social { width: 100%; }
     .cf-footer__social-grid { grid-template-columns: repeat(6, 42px); }
-    .cf-footer__bottom { flex-direction: column; align-items: flex-start; }
+    .cf-footer__bottom { flex-direction: column; align-items: flex-start; padding: 16px 20px; }
   }
 </style>
 
@@ -204,6 +223,7 @@
     {"type":"text","id":"phone_label","label":"Phone label","default":"Call us on:"},
     {"type":"text","id":"email_placeholder","label":"Email placeholder","default":"Enter your email"},
     {"type":"text","id":"phone_placeholder","label":"Phone placeholder","default":"Phone Number"},
+    {"type":"range","id":"side_gap","label":"Side gap (px)","min":0,"max":120,"step":4,"default":60},
     {"type":"header","content":"Column 2 — Company"},
     {"type":"text","id":"col2_heading","label":"Heading","default":"Company"},
     {"type":"text","id":"col2_link1_label","label":"Link 1","default":"Health Blog"},{"type":"url","id":"col2_link1_url","label":"Link 1 URL"},
