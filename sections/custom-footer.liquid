@@ -167,52 +167,49 @@
 {% endschema %}
 <style>
   /* 
-    1. This targets the footer outer area. 
-    We turn it background-transparent to let the white side margins show through!
+    1. Outer area wrapper set to transparent.
+    Removed padding from the bottom so the box touches the bottom of the page.
   */
   footer.site-footer,
   .site-footer {
     background: transparent !important;
     background-color: transparent !important;
-    padding: 40px 0 !important;
+    padding-top: 40px !important;
+    padding-bottom: 0px !important; /* Removed bottom gap entirely */
     width: 100% !important;
     box-sizing: border-box !important;
   }
 
   /* 
-    2. This forms the gray/off-white background box.
-    Shrinking the width from standard 94% down to 84% doubles your side margins!
+    2. Main footer layout block.
+    Increased width to 92% to reduce the left and right margins.
   */
   .footer-container {
-    background-color: #f7f7f7 !important; /* The background color of your box */
-    width: 84% !important;               /* Controls the size of the left/right margins */
-    max-width: 1300px !important;
-    margin: 0 auto !important;           /* Centers the box perfectly */
-    padding: 60px 40px 40px 40px !important;
-    border-radius: 24px !important;      /* Creates smooth, modern rounded corners */
+    background-color: #f7f7f7 !important;
+    width: 92% !important;               /* Reduced side margins (making the box wider) */
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding: 50px 40px 30px 40px !important;
+    border-radius: 24px 24px 0 0 !important; /* Only rounds the top corners */
     display: flex !important;
-    flex-wrap: nowrap !important;        /* Keeps all 5 columns strictly on one row */
+    flex-wrap: nowrap !important;
     justify-content: space-between !important;
     gap: 20px !important;
     box-sizing: border-box !important;
   }
 
   /* 
-    3. Merges the bottom bar into the exact same rounded box layout 
+    3. Bottom copyright bar.
+    Maintains matching width and removes rounded corners at the very bottom.
   */
   .footer-bottom {
-    width: 84% !important;
-    max-width: 1300px !important;
+    width: 92% !important;               /* Matches the top box width perfectly */
+    max-width: 1400px !important;
     margin: 0 auto !important;
     background-color: #f7f7f7 !important;
     padding: 0 40px 40px 40px !important;
-    border-radius: 0 0 24px 24px !important; /* Bottom corners match top box */
+    border-radius: 0px !important;       /* Flattened bottom edges completely */
     box-sizing: border-box !important;
-  }
-
-  /* Smoothly merges the two panels together visually */
-  .footer-container {
-    border-radius: 24px 24px 0 0 !important;
   }
 
   .footer-bottom-container {
@@ -224,7 +221,7 @@
     width: 100% !important;
   }
 
-  /* Grid structure rules to ensure nothing drops down */
+  /* Standard grid widths for columns */
   .footer-column {
     flex: 1 1 18% !important;
     min-width: 140px !important;
@@ -235,7 +232,7 @@
     min-width: 240px !important;
   }
 
-  /* Newsletter elements */
+  /* Input form visual settings */
   .input-group {
     display: flex !important;
     margin-bottom: 10px !important;
@@ -264,25 +261,25 @@
     justify-content: center !important;
   }
 
-  /* Mobile responsiveness fallback layouts */
+  /* Responsive styling rules */
   @media (max-width: 1150px) {
     .footer-container {
       flex-wrap: wrap !important;
-      width: 92% !important;
+      width: 94% !important;
     }
     .footer-bottom {
-      width: 92% !important;
+      width: 94% !important;
     }
   }
 
   @media (max-width: 768px) {
     .footer-container {
       flex-direction: column !important;
-      width: 95% !important;
+      width: 100% !important; /* Full width on tiny mobile screens */
       padding: 30px 20px !important;
     }
     .footer-bottom {
-      width: 95% !important;
+      width: 100% !important;
       padding: 0 20px 30px 20px !important;
     }
     .footer-bottom-container {
