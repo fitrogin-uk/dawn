@@ -179,16 +179,14 @@
 
   /* 
     Main footer layout block.
-    We started with 1% margin on each side (total 2% margin, 98% width).
-    Reducing the right margin by 10% means changing it from 1% to 0.9%.
-    Total margin space is now: 1% (left) + 0.9% (right) = 1.9%.
-    Therefore, the new box width is exactly 98.1%.
+    Sets both the left and right margins to exactly 1%.
+    This makes the main layout block take up exactly 98% of the width.
   */
   .footer-container {
     background-color: #f7f7f7 !important;
-    margin-left: 1% !important;                 /* Left margin stays exactly at 1% */
-    margin-right: 0.9% !important;              /* Right margin reduced by 10% (now 0.9%) */
-    width: 98.1% !important;                    /* Width adjusted to fill the extra space */
+    margin-left: 1% !important;                 /* Explicitly sets left margin to 1% */
+    margin-right: 1% !important;                /* Explicitly sets right margin to 1% */
+    width: 98% !important;                      /* Container width fills the 98% center space */
     max-width: 1800px !important;        
     padding: 50px 40px 30px 40px !important;
     border-radius: 24px 24px 0 0 !important;
@@ -199,11 +197,11 @@
     box-sizing: border-box !important;
   }
 
-  /* Bottom copyright bar matches the layout parameters */
+  /* Bottom copyright bar matches the 1% layout grid perfectly */
   .footer-bottom {
     margin-left: 1% !important;               
-    margin-right: 0.9% !important;               
-    width: 98.1% !important;               
+    margin-right: 1% !important;               
+    width: 98% !important;               
     max-width: 1800px !important;
     background-color: #f7f7f7 !important;
     padding: 0 40px 40px 40px !important;
