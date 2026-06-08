@@ -1,323 +1,1135 @@
-{% comment %}
-  Shopify Custom Footer Template - Structural Part
-  Save this content as 'sections/custom-footer.liquid'
-{% endcomment %}
+{%- comment -%}
+  Custom Product Main Section — Novomins style
+  Image gallery (left) + product info / buy box / accordions (right)
+{%- endcomment -%}
 
-<footer class="site-footer">
-  <div class="footer-container">
-    
-    <!-- Column 1: Brand Logo & Phone Number -->
-    <div class="footer-column brand-column">
-      <div class="footer-logo-wrapper">
-        {% if section.settings.logo != blank %}
-          <img src="{{ section.settings.logo | image_url: width: 250 }}" alt="{{ shop.name }}" class="footer-logo">
-        {% else %}
-          <h2 class="footer-brand-name">{{ shop.name }}</h2>
-        {% endif %}
+<style>
+  .cpm { --cpm-accent: {{ section.settings.accent_color }}; --cpm-green: #1c7c45; }
+  .cpm__breadcrumb { max-width: 100%; padding: 12px 55px 0; font-size: 13px; color: #777; }
+  .cpm__breadcrumb a { color: #777; text-decoration: none; }
+  .cpm__breadcrumb a:hover { text-decoration: underline; }
+  .cpm__crumb-sep { margin: 0 6px; color: #aaa; }
+  .cpm__crumb-current { color: #777; }
+  .cpm__wrap { display: grid; grid-template-columns: 55fr 45fr; gap: 32px; max-width: 100%; margin: 0 auto; padding: 16px 55px 24px; }
+
+  /* ---------- LEFT: Gallery ---------- */
+  .cpm__gallery { position: relative; }
+  @media (min-width: 990px) {
+    .cpm__gallery { position: relative; align-self: start; will-change: transform; grid-column: 1; }
+    .cpm__info { grid-column: 2; }
+  }
+  .cpm__main-img { position: relative; border-radius: 16px; overflow: hidden; background: #f6f6f6; display: flex; align-items: center; justify-content: center; }
+  .cpm__slides-track { display: flex; transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94); will-change: transform; }
+  .cpm__slide { flex: 0 0 100%; min-width: 0; }
+  .cpm__slide img { width: 100%; height: auto; max-height: min(700px, calc(100vh - 120px)); object-fit: contain; display: block; }
+  .cpm__nav { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 1px solid #e3e3e3; box-shadow: 0 2px 6px rgba(0,0,0,0.10); cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; color: #111; font-size: 18px; line-height: 1; }
+  .cpm__nav:hover { background: #f5f5f5; }
+  .cpm__nav--prev { left: 10px; } .cpm__nav--next { right: 10px; }
+  .cpm__thumbs { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .cpm__thumb { width: 115px; height: 115px; border-radius: 10px; overflow: hidden; border: 2px solid transparent; cursor: pointer; background: #f6f6f6; padding: 0; }
+  .cpm__thumb.is-active { border-color: var(--cpm-accent); }
+  .cpm__thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ---------- RIGHT: Info ---------- */
+  .cpm__info { max-width: 100%; color: #222; }
+  .cpm__info a { text-decoration: none; }
+  .cpm__reviews { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 12px; text-decoration: none; cursor: pointer; }
+  .cpm__reviews:hover .cpm__reviews-count { text-decoration: underline; }
+
+  /* ---- Reviews Modal ---- */
+  .cpm__modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 9000; align-items: center; justify-content: center; padding: 32px 16px 16px; }
+  .cpm__modal-overlay.is-open { display: flex; }
+  .cpm__modal-wrap { position: relative; width: 100%; max-width: 640px; }
+  .cpm__modal { background: #fff; border-radius: 16px; width: 100%; max-height: 88vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.22); }
+  .cpm__modal-close { position: absolute; top: -16px; right: -16px; width: 36px; height: 36px; border-radius: 50%; background: #000; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.35); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #fff; line-height: 1; z-index: 10; }
+  .cpm__modal-close:hover { background: #222; }
+  .cpm__modal-head { display: flex; align-items: center; justify-content: space-between; padding: 24px 24px 16px; border-bottom: 1px solid #eee; gap: 12px; }
+  .cpm__modal-rating { display: flex; flex-direction: column; gap: 2px; }
+  .cpm__modal-rating-row { display: flex; align-items: center; gap: 8px; }
+  .cpm__modal-rating-num { font-size: 28px; font-weight: 800; color: #111; line-height: 1; }
+  .cpm__modal-rating-based { font-size: 13px; color: #666; margin-top: 2px; }
+  .cpm__modal-write { background: #111; color: #fff; border: none; border-radius: 999px; padding: 12px 22px; font-size: 15px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+  .cpm__modal-write:hover { opacity: 0.85; }
+  .cpm__modal-photos { display: flex; gap: 8px; padding: 14px 24px; overflow-x: auto; border-bottom: 1px solid #eee; }
+  .cpm__modal-photos::-webkit-scrollbar { height: 4px; }
+  .cpm__modal-photos::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+  .cpm__modal-photo { flex: 0 0 106px; height: 106px; border-radius: 8px; overflow: hidden; background: #f0f0f0; cursor: pointer; position: relative; }
+  .cpm__modal-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.2s; }
+  .cpm__modal-photo:hover img { opacity: 0.85; }
+
+  /* ---- Photo lightbox ---- */
+  .cpm__lb { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 9100; align-items: center; justify-content: center; padding: 20px; }
+  .cpm__lb.is-open { display: flex; }
+  .cpm__lb-inner { display: flex; background: #fff; border-radius: 16px; overflow: hidden; width: 100%; max-width: 860px; max-height: 88vh; }
+  .cpm__lb-photo { flex: 0 0 50%; background: #111; display: flex; align-items: center; justify-content: center; }
+  .cpm__lb-photo img { width: 100%; height: 100%; object-fit: cover; display: block; max-height: 88vh; }
+  .cpm__lb-side { flex: 1; display: flex; flex-direction: column; padding: 20px 24px 24px; overflow-y: auto; min-width: 0; }
+  .cpm__lb-controls { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+  .cpm__lb-prev, .cpm__lb-next { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #333; flex-shrink: 0; }
+  .cpm__lb-prev:hover, .cpm__lb-next:hover { background: #f5f5f5; }
+  .cpm__lb-close { margin-left: auto; width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #333; }
+  .cpm__lb-close:hover { background: #f5f5f5; }
+  .cpm__lb-product { border: 1px solid #eee; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 16px; }
+  .cpm__lb-product img { width: 80px; height: 80px; object-fit: contain; border-radius: 8px; }
+  .cpm__lb-product-stars { display: flex; gap: 2px; }
+  .cpm__lb-product-name { font-size: 14px; font-weight: 600; color: #111; text-align: center; }
+  .cpm__lb-buy { background: #111; color: #fff; border: none; border-radius: 999px; padding: 9px 22px; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 4px; }
+  .cpm__lb-buy:hover { opacity: 0.85; }
+  .cpm__modal-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; border-bottom: 2px solid #eee; gap: 12px; }
+  .cpm__modal-sort { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: #111; cursor: pointer; background: none; border: none; }
+  .cpm__modal-search { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #555; background: none; border: none; cursor: pointer; }
+  .cpm__modal-tab { font-size: 14px; font-weight: 700; color: #111; border-bottom: 2px solid #111; padding-bottom: 12px; margin-bottom: -14px; }
+  .cpm__modal-reviews { padding: 0 24px 24px; }
+  .cpm__modal-review { display: grid; grid-template-columns: 160px 1fr; gap: 16px; padding: 20px 0; border-bottom: 1px solid #f0f0f0; align-items: start; }
+  .cpm__modal-review:last-child { border-bottom: none; }
+  .cpm__modal-left { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .cpm__modal-avatar { width: 44px; height: 44px; border-radius: 50%; background: #e8e8e8; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700; color: #666; flex-shrink: 0; margin-bottom: 4px; }
+  .cpm__modal-reviewer { font-weight: 700; font-size: 14px; color: #111; word-break: break-word; }
+  .cpm__modal-location { font-size: 12px; color: #888; }
+  .cpm__modal-verified { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #444; }
+  .cpm__modal-verified svg { flex-shrink: 0; }
+  .cpm__modal-recommend { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #333; margin-top: 4px; white-space: nowrap; }
+  .cpm__modal-recommend svg { flex-shrink: 0; }
+  .cpm__review-stars { display: flex; gap: 2px; margin-bottom: 6px; }
+  .cpm__review-title { font-weight: 700; font-size: 15px; color: #111; margin-bottom: 4px; }
+  .cpm__review-body { font-size: 14px; color: #444; line-height: 1.5; margin-bottom: 10px; }
+  .cpm__review-meta { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #999; }
+  .cpm__review-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .cpm__review-actions a { color: #555; text-decoration: none; font-size: 12px; }
+  .cpm__review-actions a:hover { text-decoration: underline; }
+  .cpm__helpful-btn { background: none; border: none; color: #555; font-size: 12px; cursor: pointer; padding: 0; text-decoration: underline; }
+  .cpm__helpful-btn:hover { color: #111; }
+  .cpm__helpful-msg { display: none; font-size: 12px; color: #111; font-weight: 600; }
+  .cpm__helpful-msg.is-shown { display: inline-flex; align-items: center; gap: 4px; }
+  /* Write review form */
+  .cpm__write-form { display: none; padding: 20px 24px; border-bottom: 1px solid #eee; }
+  .cpm__write-form.is-open { display: block; }
+  .cpm__write-form-label { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 8px; display: block; }
+  .cpm__write-stars { display: flex; gap: 6px; margin-bottom: 16px; cursor: pointer; }
+  .cpm__write-stars svg { transition: transform 0.1s; }
+  .cpm__write-stars svg:hover { transform: scale(1.15); }
+  .cpm__write-form textarea, .cpm__write-form input[type=text], .cpm__write-form input[type=email] { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #111; box-sizing: border-box; font-family: inherit; resize: vertical; }
+  .cpm__write-form textarea:focus, .cpm__write-form input:focus { outline: none; border-color: #111; }
+  .cpm__write-form textarea { min-height: 100px; margin-bottom: 14px; }
+  .cpm__write-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .cpm__write-form-row input { margin-bottom: 0; }
+  .cpm__write-form-actions { display: flex; justify-content: flex-end; gap: 10px; }
+  .cpm__write-cancel { background: none; border: 1px solid #ddd; border-radius: 999px; padding: 10px 22px; font-size: 14px; font-weight: 600; cursor: pointer; color: #333; }
+  .cpm__write-cancel:hover { background: #f5f5f5; }
+  .cpm__write-submit { background: #111; color: #fff; border: none; border-radius: 999px; padding: 10px 22px; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .cpm__write-submit:hover { opacity: 0.85; }
+  .cpm__write-order-row { margin-bottom: 16px; }
+  .cpm__write-order-row input { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #111; box-sizing: border-box; font-family: inherit; }
+  .cpm__write-order-row input:focus { outline: none; border-color: #111; }
+  .cpm__write-thanks { display: none; padding: 32px 24px; text-align: center; }
+  .cpm__write-thanks.is-shown { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .cpm__write-thanks-icon { width: 64px; height: 64px; }
+  .cpm__write-thanks h3 { font-size: 18px; font-weight: 700; color: #111; margin: 0; }
+  .cpm__write-thanks p { font-size: 14px; color: #555; margin: 0; }
+  /* Lightbox reviewer info */
+  .cpm__lb-reviewer { font-size: 13px; color: #555; text-align: center; margin-top: 4px; }
+  .cpm__lb-review-info { border-bottom: 1px solid #eee; padding-bottom: 16px; margin-bottom: 16px; }
+  .cpm__lb-review-name { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 6px; }
+  .cpm__lb-review-stars { display: flex; gap: 2px; margin-bottom: 8px; }
+  .cpm__lb-review-title { font-size: 14px; font-weight: 700; color: #111; margin-bottom: 6px; }
+  .cpm__lb-review-text { font-size: 14px; color: #444; line-height: 1.55; margin-bottom: 8px; }
+  .cpm__lb-review-date { font-size: 12px; color: #999; margin-bottom: 12px; }
+  .cpm__lb-share { display: flex; gap: 10px; align-items: center; }
+  .cpm__lb-share-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; color: #555; flex-shrink: 0; }
+  .cpm__lb-share-btn:hover { background: #f5f5f5; }
+  .cpm__stars { display: inline-flex; align-items: center; gap: 1px; }
+  .cpm__stars svg { display: block; }
+  .cpm__reviews-count { font-size: 11px; color: #111; font-weight: 500; line-height: 1; position: relative; top: -3px; }
+  .cpm__title { font-size: 50px; font-weight: 700; color: #111; margin: 0 0 6px; letter-spacing: -0.3px; line-height: 1.05; }
+  .cpm__subtitle { font-size: 23px; font-weight: 700; color: #111; margin: 0 0 16px; }
+
+  .cpm__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .cpm__tag { border: 1px solid #d8d8d8; background: #fff !important; border-radius: 6px; padding: 8px 14px; font-size: 15px; font-weight: 400; color: #444 !important; white-space: nowrap; }
+
+  .cpm__badge { display: inline-flex; align-items: center; gap: 7px; background: #d7ebdd !important; color: #1c4a30 !important; border: 1px solid #c2ddca; border-radius: 999px; padding: 0 10px 0 3px; font-size: 12px; font-weight: 600; text-decoration: none; margin-bottom: 18px; }
+  .cpm__badge-check { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background: var(--cpm-green) !important; border-radius: 50%; flex: 0 0 18px; }
+  .cpm__badge-label { display: flex; flex-direction: column; line-height: 1.15; text-align: left; }
+  .cpm__badge-label > span { color: #1c4a30 !important; font-weight: 700; }
+  .cpm__badge-label small { font-size: 9px; font-weight: 600; color: #6f8a77 !important; letter-spacing: 0.06em; }
+  .cpm__badge-arrow { display: inline-flex; align-items: center; color: #1c4a30 !important; line-height: 1; }
+  .cpm__badge-arrow svg { display: block; }
+
+  .cpm__desc { font-size: 16px; line-height: 1.55; color: #333 !important; margin: 0 0 20px; }
+
+  .cpm__benefits { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; margin-bottom: 24px; }
+  .cpm__benefit { display: flex; align-items: center; gap: 7px; font-size: 16px; font-weight: 600; color: #777 !important; }
+  .cpm__benefit-check { flex: 0 0 20px; width: 20px; height: 20px; background: #111 !important; border: none; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+
+  /* Buy box */
+  .cpm__buybox { border: 1px solid #e3e3e3; border-radius: 16px; overflow: hidden; margin-bottom: 16px; }
+  .cpm__plan { border-bottom: 1px solid #eee; }
+  .cpm__plan:last-child { border-bottom: none; }
+  .cpm__plan-head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; }
+  .cpm__buybox { border: 1px solid #e3e3e3; border-radius: 16px; overflow: visible; }
+  .cpm__plan { position: relative; border: 1px solid transparent; border-bottom: 1px solid #eee; }
+  .cpm__plan.is-active { background: #fff; border: 1px solid var(--cpm-pink, #f4c2d2); border-radius: 14px; }
+  .cpm__radio { flex: 0 0 20px; width: 20px; height: 20px; border-radius: 50%; border: 2px solid #ccc; position: relative; }
+  .cpm__plan.is-active .cpm__radio { border-color: #111; }
+  .cpm__plan.is-active .cpm__radio::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: #111; }
+  .cpm__plan-name { font-weight: 700; font-size: 16px; color: #111; }
+  .cpm__plan-sub { font-size: 13px; color: #666; }
+  .cpm__plan-price { margin-left: auto; text-align: right; display: flex; flex-direction: column; align-items: flex-end; }
+  .cpm__plan-price .price-row { display: flex; align-items: baseline; gap: 6px; }
+  .cpm__plan-price .now { font-weight: 800; font-size: 18px; color: #111; }
+  .cpm__plan-price .was { font-size: 13px; color: #999; text-decoration: line-through; }
+  .cpm__plan-price .perday { font-size: 12px; color: #999; }
+  .cpm__sale-pill { display: inline-block; background: #111; color: #fff; font-size: 13px; font-weight: 700; padding: 3px 8px; border-radius: 6px; margin-right: 6px; vertical-align: middle; }
+  .cpm__plan-perks { padding: 0 16px 16px 48px; }
+  .cpm__plan-perk { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #444; margin-bottom: 4px; }
+
+  /* Trust / shipping / payment */
+  .cpm__shipline { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; color: #777; margin: 14px 0; }
+  .cpm__pay { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 14px; }
+  .cpm__pay img, .cpm__pay svg { height: 24px; width: auto; border-radius: 4px; }
+  .cpm__rewards { display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #e3e3e3; border-radius: 10px; padding: 12px; font-size: 14px; color: #333; margin-bottom: 24px; }
+  .cpm__rewards svg { flex: 0 0 18px; }
+
+  /* Accordions */
+  .cpm__acc { border-top: none; }
+  .cpm__acc details { border-bottom: none; }
+  .cpm__acc summary { display: flex; align-items: center; justify-content: space-between; padding: 12px 4px; cursor: pointer; font-weight: 600; font-size: 22px; color: #111; list-style: none; }
+  .cpm__acc summary::-webkit-details-marker { display: none; }
+  .cpm__acc summary::after { content: ''; width: 14px; height: 14px; border-right: 2px solid #888; border-bottom: 2px solid #888; transform: rotate(45deg); transition: transform 0.2s; margin-right: 6px; }
+  .cpm__acc details[open] summary::after { transform: rotate(-135deg); }
+  .cpm__acc-body { padding: 0 4px 18px; font-size: 15px; line-height: 1.6; color: #444; }
+
+  /* Video carousel (right column) */
+  .cpm__vc-title { text-align: center; font-size: 22px; font-weight: 700; color: #111; margin: 28px 0 16px; }
+  .cpm__vc { overflow: hidden; position: relative; margin: 40px 0 8px; }
+  .cpm__vc-track { display: flex; gap: 10px; transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
+  .cpm__vc-item { flex: 0 0 calc(22% - 6px); position: relative; border-radius: 10px; overflow: hidden; cursor: pointer; background: #111; height: 240px; }
+  .cpm__vc-item video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cpm__vc-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); transition: opacity 0.3s; }
+  .cpm__vc-item.is-playing .cpm__vc-play { opacity: 0; pointer-events: none; }
+  .cpm__vc-play-btn { width: 40px; height: 40px; background: rgba(255,255,255,0.85); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .cpm__vc-play-btn svg { margin-left: 2px; }
+  .cpm__vc-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: #fff; width: 0%; border-radius: 0 2px 2px 0; }
+
+  .cpm__atc { position: relative; width: 100%; background: var(--cpm-accent); color: #fff; border: none; border-radius: 999px; padding: 14px 18px; font-size: 17px; font-weight: 700; cursor: pointer; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; }
+  .cpm__atc:hover { opacity: 0.92; }
+  .cpm__atc-cart { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
+  .cpm__atc-cart svg { color: #111; }
+
+  /* ===== Hard overrides to beat Dawn colour scheme ===== */
+  .cpm .cpm__desc, .cpm .cpm__desc * { color: #333 !important; }
+  .cpm .cpm__reviews-count { color: #111 !important; }
+  .cpm .cpm__benefit, .cpm .cpm__benefit span { color: #777 !important; }
+  .cpm .cpm__title, .cpm .cpm__subtitle { color: #111 !important; }
+  .cpm .cpm__tag { color: #777 !important; background: #fff !important; font-weight: 700 !important; font-size: 18px !important; border-radius: 8px !important; border: 1.5px solid #bbb !important; padding: 3px 12px !important; }
+  .cpm a.cpm__badge { color: #1c4a30 !important; background: #d7ebdd !important; }
+  .cpm a.cpm__badge .cpm__badge-label > span { color: #1c4a30 !important; background: transparent !important; }
+  .cpm a.cpm__badge .cpm__badge-label small { color: #8a9a90 !important; background: transparent !important; }
+  .cpm a.cpm__badge .cpm__badge-arrow { color: #1c4a30 !important; }
+  .cpm a.cpm__badge .cpm__badge-check { background: #1c7c45 !important; }
+  .cpm .cpm__benefit-check { background: #111 !important; }
+
+  @media (max-width: 989px) {
+    .cpm__wrap { grid-template-columns: 1fr; gap: 28px; padding: 16px; }
+    .cpm__title { font-size: 29px; }
+    .cpm__subtitle { font-size: 17px; }
+    .cpm__tags { gap: 6px; }
+    .cpm .cpm__tag { font-size: 13px !important; padding: 2px 7px !important; }
+    .cpm__benefits { grid-template-columns: 1fr 1fr; gap: 5px 12px; }
+    .cpm__desc { font-size: 18px; }
+    .cpm__benefit { font-size: 15px; gap: 5px; line-height: 1.15; align-items: flex-start; }
+    .cpm__benefit .cpm__benefit-check { margin-top: 1px; }
+    .cpm__main-img { min-height: 0; height: auto; }
+    .cpm__main-img img { width: 100%; height: auto; max-height: 80vw; }
+    .cpm__acc summary { font-size: 17px; padding: 14px 4px; }
+    .cpm__acc { border-top: none; }
+    .cpm__acc details { border-bottom: none; }
+    .cpm__vc-item { flex: 0 0 calc(44% - 6px); height: 280px; }
+    .cpm__vc-title { font-size: 18px; }
+  }
+</style>
+
+<div class="cpm">
+  <nav class="cpm__breadcrumb" aria-label="breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a>
+    <span class="cpm__crumb-sep">›</span>
+    {%- if collection.url != blank -%}
+      <a href="{{ collection.url }}">{{ collection.title }}</a>
+    {%- else -%}
+      <a href="{{ routes.all_products_collection_url }}">All products</a>
+    {%- endif -%}
+    <span class="cpm__crumb-sep">›</span>
+    <span class="cpm__crumb-current">{{ product.title }}</span>
+  </nav>
+  <div class="cpm__wrap">
+
+    {%- comment -%} ============ LEFT: GALLERY ============ {%- endcomment -%}
+    <div class="cpm__gallery">
+      <div class="cpm__main-img" id="cpmMain">
+        {%- if product.media.size > 0 -%}
+          <div class="cpm__slides-track" id="cpmSlidesTrack">
+            {%- for media in product.media -%}
+              <div class="cpm__slide" data-cpm-slide="{{ forloop.index0 }}">
+                {{ media | image_url: width: 900 | image_tag: loading: 'lazy', alt: product.title }}
+              </div>
+            {%- endfor -%}
+          </div>
+          {%- if product.media.size > 1 -%}
+            <button class="cpm__nav cpm__nav--prev" data-cpm-prev aria-label="Previous"><svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M8 2L2 8l6 6" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="cpm__nav cpm__nav--next" data-cpm-next aria-label="Next"><svg width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M2 2l6 6-6 6" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          {%- endif -%}
+        {%- else -%}
+          <div class="cpm__slides-track"><div class="cpm__slide">{{ 'product-1' | placeholder_svg_tag }}</div></div>
+        {%- endif -%}
       </div>
-      
-      {% if section.settings.phone_number != blank %}
-        <p class="footer-phone">Call us on: <a href="tel:{{ section.settings.phone_number }}">{{ section.settings.phone_number }}</a></p>
-      {% endif %}
-    </div>
 
-    <!-- Column 2: Hardcoded Company Menu -->
-    <div class="footer-column menu-column">
-      <h3 class="footer-heading">Company</h3>
-      <ul class="footer-menu-links">
-        <li><a href="/blogs/news">Blogs</a></li>
-        <li><a href="/pages/contact">Contact Us</a></li>
-        <li><a href="/pages/about-us">Who We Are</a></li>
-      </ul>
-    </div>
-
-    <!-- Column 3: Hardcoded Account Menu -->
-    <div class="footer-column menu-column">
-      <h3 class="footer-heading">Account</h3>
-      <ul class="footer-menu-links">
-        <li><a href="/account/login">Login</a></li>
-        <li><a href="/account/register">Register</a></li>
-        <li><a href="/account">My Orders</a></li>
-      </ul>
-    </div>
-
-    <!-- Column 4: Hardcoded Legal Menu -->
-    <div class="footer-column menu-column">
-      <h3 class="footer-heading">Legal</h3>
-      <ul class="footer-menu-links">
-        <li><a href="/policies/terms-of-service">Terms of Service</a></li>
-        <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
-        <li><a href="/policies/shipping-policy">Shipping Policy</a></li>
-        <li><a href="/policies/refund-policy">Refund Policy</a></li>
-      </ul>
-    </div>
-
-    <!-- Column 5: Hardcoded Follow Us Social Column (Circular Solid Icons Layout) -->
-    <div class="footer-column social-column">
-      <h3 class="footer-heading">Follow Us</h3>
-      <div class="social-icons">
-        <!-- Solid Facebook Circle Icon -->
-        <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook" class="social-circle-btn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12a12 12 0 10-13.875 11.854v-8.385H7.078V12h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874V12h3.328l-.532 3.469h-2.796v8.385A12.001 12.001 0 0024 12z"/></svg>
-        </a>
-        
-        <!-- Solid Instagram Circle Icon -->
-        <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" class="social-circle-btn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.921 15.65c0 1.25-.213 1.954-1.127 2.868-.913.914-1.617 1.127-2.868 1.127H10.07c-1.251 0-1.955-.213-2.868-1.127-.914-.914-1.127-1.617-1.127-2.868V10.07c0-1.251.213-1.955 1.127-2.868.913-.914 1.617-1.127 2.868-1.127h3.856c1.251 0 1.955.213 2.868 1.127.914.913 1.127 1.617 1.127 2.868v5.58zm-5.921-8.118a4.468 4.468 0 100 8.936 4.468 4.468 0 000-8.936zm0 7.35a2.883 2.883 0 110-5.766 2.883 2.883 0 010 5.766zm4.561-6.83a1.045 1.045 0 100 2.091 1.045 1.045 0 000-2.091z"/></svg>
-        </a>
-
-        <!-- Solid WhatsApp Circle Icon -->
-        <a href="https://wa.me" target="_blank" rel="noopener" aria-label="WhatsApp" class="social-circle-btn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12a11.933 11.933 0 001.815 6.353L.027 24l5.807-1.523A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm5.637 15.65c-.244.685-1.42 1.252-1.955 1.336-.484.077-.96.06-1.536-.123-.346-.11-1.393-.541-2.935-1.228-2.632-1.085-4.331-3.76-4.463-3.935-.13-.175-1.066-1.417-1.066-2.703 0-1.286.673-1.919.912-2.164.24-.245.52-.307.693-.307.174 0 .347.001.498.008.156.007.364-.06.57.45.21.524.723 1.761.786 1.893.064.131.107.284.02.46-.088.174-.132.283-.263.435-.13.152-.275.339-.393.454-.132.128-.27.268-.117.53.153.262.68 1.118 1.458 1.81.998.889 1.838 1.164 2.099 1.295.262.131.415.11.568-.065.153-.175.655-.762.83-1.024.175-.262.35-.218.59-.131.24.087 1.529.72 1.79 1.85.262 1.13.262 2.113-.044 2.798z"/></svg>
-        </a>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Bottom Bar: Copyright & Settings -->
-  <div class="footer-bottom">
-    <div class="footer-bottom-container">
-      <div class="copyright">
-        &copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}. All rights reserved.
-      </div>
-      
-      {% if section.settings.show_payment_icons %}
-        <div class="payment-icons">
-          {% for type in shop.enabled_payment_types %}
-            {{ type | payment_type_svg_tag: class: 'payment-icon' }}
-          {% endfor %}
+      {%- if product.media.size > 1 -%}
+        <div class="cpm__thumbs" id="cpmThumbs">
+          {%- for media in product.media -%}
+            <button class="cpm__thumb{% if forloop.first %} is-active{% endif %}" data-cpm-thumb="{{ forloop.index0 }}">
+              {{ media | image_url: width: 150 | image_tag: loading: 'lazy', alt: product.title }}
+            </button>
+          {%- endfor -%}
         </div>
-      {% endif %}
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ============ RIGHT: INFO ============ {%- endcomment -%}
+    <div class="cpm__info">
+
+      {%- comment -%} Reviews {%- endcomment -%}
+      {%- assign rating = section.settings.review_rating | times: 1.0 -%}
+      {%- assign r_floor = rating | floor -%}
+      {%- assign r_ceil = rating | ceil -%}
+      {%- assign r_half = false -%}
+      {%- if r_ceil != r_floor -%}{%- assign r_half = true -%}{%- endif -%}
+      <button class="cpm__reviews" data-cpm-open-reviews type="button">
+        <span class="cpm__stars">
+          {%- for i in (1..5) -%}
+            {%- if i <= r_floor -%}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#111" stroke-width="0.8" stroke-linejoin="miter"/></svg>
+            {%- elsif i == r_ceil and r_half -%}
+              <svg width="22" height="22" viewBox="0 0 24 24"><defs><linearGradient id="cpmhalf"><stop offset="65%" stop-color="#111"/><stop offset="65%" stop-color="#fff"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#cpmhalf)" stroke="#111" stroke-width="1.5" stroke-linejoin="miter"/></svg>
+            {%- else -%}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#111" stroke-width="1.5" stroke-linejoin="miter"/></svg>
+            {%- endif -%}
+          {%- endfor -%}
+        </span>
+        <span class="cpm__reviews-count">({{ section.settings.review_count }} Reviews)</span>
+      </button>
+
+      {%- comment -%} Title + subtitle {%- endcomment -%}
+      <h1 class="cpm__title">{{ product.title }}</h1>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="cpm__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+
+      {%- comment -%} Tags {%- endcomment -%}
+      {%- if section.settings.tags != blank -%}
+        <div class="cpm__tags">
+          {%- assign tag_items = section.settings.tags | split: ',' -%}
+          {%- for t in tag_items -%}
+            <span class="cpm__tag">{{ t | strip }}</span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Green badge {%- endcomment -%}
+      {%- if section.settings.badge_text != blank -%}
+        <a href="{{ section.settings.badge_link | default: '#' }}" class="cpm__badge">
+          <span class="cpm__badge-check">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+          <span class="cpm__badge-label">
+            <span>{{ section.settings.badge_text }}</span>
+            {%- if section.settings.badge_subtext != blank -%}<small>{{ section.settings.badge_subtext }}&reg;</small>{%- endif -%}
+          </span>
+          <span class="cpm__badge-arrow"><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#1c4a30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 1 6 6 1 11"/></svg></span>
+        </a>
+      {%- endif -%}
+
+      {%- comment -%} Description {%- endcomment -%}
+      {%- if section.settings.description != blank -%}
+        <p class="cpm__desc">{{ section.settings.description }}</p>
+      {%- endif -%}
+
+      {%- comment -%} Benefits grid {%- endcomment -%}
+      {%- if section.settings.benefits != blank -%}
+        <div class="cpm__benefits">
+          {%- assign benefit_items = section.settings.benefits | newline_to_br | split: '<br />' -%}
+          {%- for b in benefit_items -%}
+            {%- assign bt = b | strip -%}
+            {%- if bt != blank -%}
+              <div class="cpm__benefit">
+                <span class="cpm__benefit-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span>{{ bt }}</span>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} ============ BUY FORM ============ {%- endcomment -%}
+      {%- form 'product', product, id: 'cpmForm' -%}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+        <div class="cpm__buybox">
+          {%- comment -%} Subscribe plan (if available) {%- endcomment -%}
+          {%- assign current_variant = product.selected_or_first_available_variant -%}
+          {%- if current_variant.selling_plan_allocations.size > 0 -%}
+            {%- assign plan_alloc = current_variant.selling_plan_allocations.first -%}
+            <div class="cpm__plan is-active" data-cpm-plan="subscribe">
+              <label class="cpm__plan-head">
+                <input type="radio" name="selling_plan" value="{{ plan_alloc.selling_plan.id }}" style="display:none;" checked>
+                <span class="cpm__radio"></span>
+                <span>
+                  <span class="cpm__plan-name">Subscribe &amp; Save</span><br>
+                  <span class="cpm__plan-sub">{{ plan_alloc.selling_plan.name }}</span>
+                </span>
+                <span class="cpm__plan-price">
+                  <span class="now">{{ plan_alloc.price | money }}</span><br>
+                  {%- if plan_alloc.compare_at_price > plan_alloc.price -%}<span class="was">{{ plan_alloc.compare_at_price | money }}</span>{%- endif -%}
+                </span>
+              </label>
+              <div class="cpm__plan-perks">
+                <div class="cpm__plan-perk">✓ Lowest price</div>
+                <div class="cpm__plan-perk">✓ Cancel anytime</div>
+                <div class="cpm__plan-perk">✓ Earn points &amp; rewards</div>
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- comment -%} One-time purchase {%- endcomment -%}
+          <div class="cpm__plan{% unless current_variant.selling_plan_allocations.size > 0 %} is-active{% endunless %}" data-cpm-plan="onetime">
+            <label class="cpm__plan-head">
+              <input type="radio" name="selling_plan" value="" style="display:none;"{% unless current_variant.selling_plan_allocations.size > 0 %} checked{% endunless %}>
+              <span class="cpm__radio"></span>
+              <span>
+                <span class="cpm__plan-name">Buy Once</span>
+              </span>
+              <span class="cpm__plan-price">
+                <span class="price-row">
+                  {%- if current_variant.compare_at_price > current_variant.price -%}
+                    {%- assign saved = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round -%}
+                    <span class="cpm__sale-pill">Sale {{ saved }}% Off</span>
+                  {%- endif -%}
+                  <span class="now">{{ current_variant.price | money }}</span>
+                  {%- if current_variant.compare_at_price > current_variant.price -%}<span class="was">{{ current_variant.compare_at_price | money }}</span>{%- endif -%}
+                </span>
+                {%- if section.settings.per_day_text != blank -%}<span class="perday">{{ section.settings.per_day_text }}</span>{%- endif -%}
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" name="add" class="cpm__atc">
+          <span>Add to cart</span>
+          <span class="cpm__atc-cart">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </span>
+        </button>
+      {%- endform -%}
+
+      {%- comment -%} Free shipping line {%- endcomment -%}
+      {%- if section.settings.ship_text != blank -%}
+        <div class="cpm__shipline">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <span>{{ section.settings.ship_text }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Payment icons {%- endcomment -%}
+      <div class="cpm__pay">
+        {%- for type in shop.enabled_payment_types -%}
+          {{ type | payment_type_svg_tag: class: 'cpm__pay-icon' }}
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%} Rewards bar {%- endcomment -%}
+      {%- if section.settings.rewards_text != blank -%}
+        <div class="cpm__rewards">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>
+          <span>{{ section.settings.rewards_text }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} ============ ACCORDIONS ============ {%- endcomment -%}
+      <div class="cpm__acc">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'accordion' -%}
+            <details {{ block.shopify_attributes }}{% if block.settings.open %} open{% endif %}>
+              <summary>{{ block.settings.heading }}</summary>
+              <div class="cpm__acc-body">{{ block.settings.content }}</div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%} ============ VIDEO CAROUSEL (right column) ============ {%- endcomment -%}
+      {%- assign has_video = false -%}
+      {%- for block in section.blocks -%}{%- if block.type == 'video' -%}{%- assign has_video = true -%}{%- endif -%}{%- endfor -%}
+      {%- if has_video -%}
+        <div class="cpm__vc" id="cpmVC-{{ section.id }}">
+          <div class="cpm__vc-track" id="cpmVCT-{{ section.id }}">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'video' and block.settings.video_url != blank -%}
+                <div class="cpm__vc-item" data-cpm-vc-item {{ block.shopify_attributes }}>
+                  <video src="{{ block.settings.video_url }}" playsinline muted loop preload="metadata"
+                    poster="{% if block.settings.poster != blank %}{{ block.settings.poster | image_url: width: 400 }}{% endif %}"></video>
+                  <div class="cpm__vc-play"><div class="cpm__vc-play-btn"><svg width="14" height="16" viewBox="0 0 16 18" fill="#111"><path d="M1 1l14 8-14 8V1z"/></svg></div></div>
+                  <div class="cpm__vc-progress" data-cpm-vc-progress></div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
     </div>
   </div>
-</footer>
+</div>
+
+{%- comment -%} ============ REVIEWS MODAL ============ {%- endcomment -%}
+{%- assign has_reviews = false -%}
+{%- assign has_review_photos = false -%}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'review' -%}{%- assign has_reviews = true -%}{%- if block.settings.photo != blank -%}{%- assign has_review_photos = true -%}{%- endif -%}{%- endif -%}
+  {%- if block.type == 'review_photo' -%}{%- assign has_review_photos = true -%}{%- endif -%}
+{%- endfor -%}
+
+<div class="cpm__modal-overlay" id="cpmReviewsModal" role="dialog" aria-modal="true" aria-label="Reviews">
+  <div class="cpm__modal-wrap">
+    <button class="cpm__modal-close" data-cpm-close-reviews aria-label="Close">&#x2715;</button>
+  <div class="cpm__modal">
+
+    <div class="cpm__modal-head">
+      <div class="cpm__modal-rating">
+        <div class="cpm__modal-rating-row">
+          <span class="cpm__modal-rating-num">{{ section.settings.review_rating }}</span>
+          <span class="cpm__stars">
+            {%- assign rating = section.settings.review_rating | times: 1.0 -%}
+            {%- assign r_floor = rating | floor -%}
+            {%- assign r_ceil = rating | ceil -%}
+            {%- assign r_half = false -%}
+            {%- if r_ceil != r_floor -%}{%- assign r_half = true -%}{%- endif -%}
+            {%- for i in (1..5) -%}
+              {%- if i <= r_floor -%}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#111" stroke-width="0.8" stroke-linejoin="miter"/></svg>
+              {%- elsif i == r_ceil and r_half -%}
+                <svg width="20" height="20" viewBox="0 0 24 24"><defs><linearGradient id="cpmhalf2"><stop offset="65%" stop-color="#111"/><stop offset="65%" stop-color="#fff"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#cpmhalf2)" stroke="#111" stroke-width="1.5" stroke-linejoin="miter"/></svg>
+              {%- else -%}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#111" stroke-width="1.5" stroke-linejoin="miter"/></svg>
+              {%- endif -%}
+            {%- endfor -%}
+          </span>
+        </div>
+        <div class="cpm__modal-rating-based">Based on {{ section.settings.review_count }} reviews</div>
+      </div>
+      <button class="cpm__modal-write" type="button" data-cpm-open-write-review>Write Review</button>
+    </div>
+
+    <div class="cpm__write-form" id="cpmWriteForm">
+      <label class="cpm__write-form-label">What would you rate this product? <span style="color:#e53;">(required)</span></label>
+      <div class="cpm__write-stars" id="cpmWriteStars">
+        {%- for i in (1..5) -%}
+          <svg width="28" height="28" viewBox="0 0 24 24" data-cpm-wstar="{{ i }}" fill="#e0e0e0" stroke="#ccc" stroke-width="0.8"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        {%- endfor -%}
+      </div>
+      <label class="cpm__write-form-label">Tell us your feedback about the product <span style="color:#e53;">(required)</span></label>
+      <textarea id="cpmWriteText" placeholder="Share your experience..."></textarea>
+      <div class="cpm__write-form-row">
+        <div>
+          <label class="cpm__write-form-label" style="margin-bottom:6px;">Your name <span style="color:#e53;">(required)</span></label>
+          <input type="text" id="cpmWriteName" placeholder="Your name">
+        </div>
+        <div>
+          <label class="cpm__write-form-label" style="margin-bottom:6px;">Your email address <span style="color:#e53;">(required)</span></label>
+          <input type="email" id="cpmWriteEmail" placeholder="your@email.com">
+        </div>
+      </div>
+      <div class="cpm__write-order-row">
+        <label class="cpm__write-form-label" style="margin-bottom:6px;">Order number <span style="color:#e53;">(required)</span></label>
+        <input type="text" id="cpmWriteOrder" placeholder="e.g. #1234">
+      </div>
+      <div class="cpm__write-form-actions">
+        <button class="cpm__write-cancel" type="button" data-cpm-close-write-review>Cancel</button>
+        <button class="cpm__write-submit" type="button" id="cpmWriteSubmit">Submit</button>
+      </div>
+    </div>
+
+    <div class="cpm__write-thanks" id="cpmWriteThanks">
+      <svg class="cpm__write-thanks-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="38" stroke="#e0e0e0" stroke-width="2"/>
+        <path d="M40 14 L43.5 29.5 L58 26 L49.5 38.5 L62 47 L47 48.5 L46 64 L40 51 L34 64 L33 48.5 L18 47 L30.5 38.5 L22 26 L36.5 29.5 Z" stroke="#111" stroke-width="2" stroke-linejoin="round" fill="none"/>
+        <circle cx="55" cy="55" r="13" fill="#1a9e47"/>
+        <polyline points="49 55 53 59 61 51" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h3>Thank you for your review!</h3>
+      <p>Your review has been submitted. We appreciate your feedback.</p>
+    </div>
+
+    {%- if has_review_photos -%}
+      <div class="cpm__modal-photos">
+        {%- assign rp_idx = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'review_photo' and block.settings.photo != blank -%}
+            <div class="cpm__modal-photo" data-cpm-photo="{{ rp_idx }}" data-cpm-photo-src="{{ block.settings.photo | image_url: width: 1200 }}" data-cpm-photo-reviewer="" data-cpm-photo-date="" data-cpm-photo-rating="" data-cpm-photo-title="" data-cpm-photo-text="" {{ block.shopify_attributes }}>
+              {{ block.settings.photo | image_url: width: 200 | image_tag: loading: 'lazy', alt: 'Review photo' }}
+            </div>
+            {%- assign rp_idx = rp_idx | plus: 1 -%}
+          {%- elsif block.type == 'review' and block.settings.photo != blank -%}
+            <div class="cpm__modal-photo" data-cpm-photo="{{ rp_idx }}" data-cpm-photo-src="{{ block.settings.photo | image_url: width: 1200 }}" data-cpm-photo-reviewer="{{ block.settings.reviewer_name }}" data-cpm-photo-date="{{ block.settings.review_date }}" data-cpm-photo-rating="{{ block.settings.rating }}" data-cpm-photo-title="{{ block.settings.review_title }}" data-cpm-photo-text="{{ block.settings.review_text }}" {{ block.shopify_attributes }}>
+              {{ block.settings.photo | image_url: width: 200 | image_tag: loading: 'lazy', alt: 'Review photo' }}
+            </div>
+            {%- assign rp_idx = rp_idx | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="cpm__modal-toolbar">
+      <div style="display:flex;gap:16px;align-items:center;">
+        <button class="cpm__modal-sort" type="button">Sort <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left:2px"><path d="M1 1l4 4 4-4" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="cpm__modal-search" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> Search</button>
+      </div>
+      <span class="cpm__modal-tab">Product Reviews</span>
+    </div>
+
+    <div class="cpm__modal-reviews">
+      {%- if has_reviews -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'review' -%}
+            {%- assign rev_rating = block.settings.rating | times: 1 -%}
+            {%- assign rev_rating_f = block.settings.rating | times: 1.0 -%}
+            {%- assign rev_floor = rev_rating_f | floor -%}
+            {%- assign rev_ceil = rev_rating_f | ceil -%}
+            {%- assign rev_half = false -%}
+            {%- if rev_ceil != rev_floor -%}{%- assign rev_half = true -%}{%- endif -%}
+            <div class="cpm__modal-review" {{ block.shopify_attributes }}>
+              <div class="cpm__modal-left">
+                <div class="cpm__modal-avatar">{{ block.settings.reviewer_name | upcase | slice: 0 }}</div>
+                {%- if block.settings.verified -%}
+                  <div class="cpm__modal-verified">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1a9e47"/><polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Verified Customer
+                  </div>
+                {%- endif -%}
+                <div class="cpm__modal-reviewer">{{ block.settings.reviewer_name }}</div>
+                {%- if block.settings.reviewer_location != blank -%}
+                  <div class="cpm__modal-location">{{ block.settings.reviewer_location }}</div>
+                {%- endif -%}
+                {%- if block.settings.recommend -%}
+                  <div class="cpm__modal-recommend">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#111" stroke="#111" stroke-width="0.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    I recommend this product
+                  </div>
+                {%- endif -%}
+              </div>
+              <div>
+                <div class="cpm__review-stars">
+                  {%- for j in (1..5) -%}
+                    {%- if j <= rev_floor -%}
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    {%- elsif j == rev_ceil and rev_half -%}
+                      <svg width="16" height="16" viewBox="0 0 24 24"><defs><linearGradient id="rvhalf{{ forloop.index }}-{{ block.id | replace: '_',''}}" ><stop offset="55%" stop-color="#111"/><stop offset="55%" stop-color="#fff"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#rvhalf{{ forloop.index }}-{{ block.id | replace: '_',''}})" stroke="#111" stroke-width="1.2"/></svg>
+                    {%- else -%}
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#ccc" stroke-width="1.5"/></svg>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+                {%- if block.settings.review_title != blank -%}
+                  <div class="cpm__review-title">{{ block.settings.review_title }}</div>
+                {%- endif -%}
+                <div class="cpm__review-body">{{ block.settings.review_text }}</div>
+                <div class="cpm__review-meta">
+                  <div class="cpm__review-actions">
+                    <span class="cpm__helpful-msg" data-cpm-helpful-msg>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1a9e47" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      You've upvoted this review as helpful.
+                    </span>
+                    <span class="cpm__helpful-wrap" data-cpm-helpful-wrap>
+                      <span style="font-size:12px;color:#999;">Was this review helpful?</span>
+                      <button class="cpm__helpful-btn" data-cpm-helpful-yes type="button">Yes</button>
+                    </span>
+                    <a href="#">Report</a>
+                    <a href="#">Share</a>
+                  </div>
+                  {%- if block.settings.review_date != blank -%}
+                    <span>{{ block.settings.review_date }}</span>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        <p style="padding:32px 0;text-align:center;color:#999;font-size:15px;">No reviews yet. Add review blocks in the theme editor.</p>
+      {%- endif -%}
+    </div>
+  </div>
+  </div>
+</div>
+
+{%- comment -%} ============ PHOTO LIGHTBOX ============ {%- endcomment -%}
+<div class="cpm__lb" id="cpmPhotoLb" role="dialog" aria-modal="true" aria-label="Review photo">
+  <div class="cpm__lb-inner">
+    <div class="cpm__lb-photo">
+      <img src="" alt="Review photo" id="cpmLbImg">
+    </div>
+    <div class="cpm__lb-side">
+      <div class="cpm__lb-controls">
+        <button class="cpm__lb-prev" id="cpmLbPrev" aria-label="Previous">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M7 1L1 7l6 6" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="cpm__lb-next" id="cpmLbNext" aria-label="Next">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="cpm__lb-close" id="cpmLbClose" aria-label="Close">&#x2715;</button>
+      </div>
+      <div class="cpm__lb-review-info" id="cpmLbReviewInfo">
+        <div class="cpm__lb-review-name" id="cpmLbRevName"></div>
+        <div class="cpm__lb-review-stars" id="cpmLbRevStars"></div>
+        <div class="cpm__lb-review-title" id="cpmLbRevTitle"></div>
+        <div class="cpm__lb-review-text" id="cpmLbRevText"></div>
+        <div class="cpm__lb-review-date" id="cpmLbRevDate"></div>
+        <div class="cpm__lb-share">
+          <span style="font-size:12px;color:#999;">Share:</span>
+          <a class="cpm__lb-share-btn" id="cpmLbShareTw" href="#" target="_blank" rel="noopener" aria-label="Share on Twitter">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.736l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a class="cpm__lb-share-btn" id="cpmLbShareFb" href="#" target="_blank" rel="noopener" aria-label="Share on Facebook">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a class="cpm__lb-share-btn" id="cpmLbShareMail" href="#" aria-label="Share via email">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="cpm__lb-product">
+        {%- if product.featured_image -%}
+          <img src="{{ product.featured_image | image_url: width: 150 }}" alt="{{ product.title }}">
+        {%- endif -%}
+        <div class="cpm__lb-product-stars">
+          {%- assign lb_r = section.settings.review_rating | times: 1.0 -%}
+          {%- assign lb_rf = lb_r | floor -%}
+          {%- assign lb_rc = lb_r | ceil -%}
+          {%- for i in (1..5) -%}
+            {%- if i <= lb_rf -%}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            {%- elsif i == lb_rc and lb_rc != lb_rf -%}
+              <svg width="14" height="14" viewBox="0 0 24 24"><defs><linearGradient id="lbhalf"><stop offset="60%" stop-color="#111"/><stop offset="60%" stop-color="#fff"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#lbhalf)" stroke="#111" stroke-width="1.2"/></svg>
+            {%- else -%}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#ccc" stroke-width="1.5"/></svg>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="cpm__lb-product-name">{{ product.title }}</div>
+        <a href="{{ product.url }}" class="cpm__lb-buy">Buy Now</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    // Gallery — sliding track transition
+    var main   = document.getElementById('cpmMain');
+    var track  = document.getElementById('cpmSlidesTrack');
+    var thumbs = document.getElementById('cpmThumbs');
+    if (main && track) {
+      var slides    = main.querySelectorAll('[data-cpm-slide]');
+      var thumbBtns = thumbs ? thumbs.querySelectorAll('[data-cpm-thumb]') : [];
+      var cur = 0;
+      function show(i){
+        if (i < 0) i = slides.length - 1;
+        if (i >= slides.length) i = 0;
+        if (thumbBtns[cur]) thumbBtns[cur].classList.remove('is-active');
+        cur = i;
+        track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+        if (thumbBtns[cur]) thumbBtns[cur].classList.add('is-active');
+      }
+      thumbBtns.forEach(function(b){ b.addEventListener('click', function(){ show(parseInt(b.dataset.cpmThumb)); }); });
+      var prev = main.querySelector('[data-cpm-prev]');
+      var next = main.querySelector('[data-cpm-next]');
+      if (prev) prev.addEventListener('click', function(){ show(cur - 1); });
+      if (next) next.addEventListener('click', function(){ show(cur + 1); });
+    }
+
+    // Reviews modal
+    var revOverlay = document.getElementById('cpmReviewsModal');
+    var revOpen = document.querySelector('[data-cpm-open-reviews]');
+    var revClose = document.querySelector('[data-cpm-close-reviews]');
+    if (revOverlay && revOpen) {
+      revOpen.addEventListener('click', function(){ revOverlay.classList.add('is-open'); document.body.style.overflow = 'hidden'; });
+      if (revClose) revClose.addEventListener('click', function(){ revOverlay.classList.remove('is-open'); document.body.style.overflow = ''; });
+      revOverlay.addEventListener('click', function(e){ if (e.target === revOverlay){ revOverlay.classList.remove('is-open'); document.body.style.overflow = ''; } });
+      document.addEventListener('keydown', function(e){ if (e.key === 'Escape'){ revOverlay.classList.remove('is-open'); cpmLbOverlay.classList.remove('is-open'); document.body.style.overflow = ''; } });
+    }
+
+    // Photo lightbox
+    var cpmLbOverlay = document.getElementById('cpmPhotoLb');
+    var cpmLbImg = document.getElementById('cpmLbImg');
+    var cpmLbPrev = document.getElementById('cpmLbPrev');
+    var cpmLbNext = document.getElementById('cpmLbNext');
+    var cpmLbClose = document.getElementById('cpmLbClose');
+    var lbPhotos = [];
+    var lbCur = 0;
+    document.querySelectorAll('[data-cpm-photo]').forEach(function(el){
+      lbPhotos.push({
+        src: el.getAttribute('data-cpm-photo-src'),
+        reviewer: el.getAttribute('data-cpm-photo-reviewer') || '',
+        date: el.getAttribute('data-cpm-photo-date') || '',
+        rating: parseFloat(el.getAttribute('data-cpm-photo-rating')) || 0,
+        title: el.getAttribute('data-cpm-photo-title') || '',
+        text: el.getAttribute('data-cpm-photo-text') || ''
+      });
+      el.addEventListener('click', function(){
+        lbCur = parseInt(el.getAttribute('data-cpm-photo'));
+        lbShow(lbCur);
+        cpmLbOverlay.classList.add('is-open');
+      });
+    });
+    function lbStarHTML(rating){
+      var html = '';
+      for (var i = 1; i <= 5; i++){
+        if (i <= Math.floor(rating)){
+          html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
+        } else if (i === Math.ceil(rating) && Math.ceil(rating) !== Math.floor(rating)){
+          html += '<svg width="14" height="14" viewBox="0 0 24 24"><defs><linearGradient id="lbsh'+i+'"><stop offset="55%" stop-color="#111"/><stop offset="55%" stop-color="#fff"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#lbsh'+i+')" stroke="#111" stroke-width="1.2"/></svg>';
+        } else {
+          html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="#ccc" stroke-width="1.5"/></svg>';
+        }
+      }
+      return html;
+    }
+    function lbShow(i){
+      lbCur = (i + lbPhotos.length) % lbPhotos.length;
+      cpmLbImg.src = lbPhotos[lbCur].src;
+      var p = lbPhotos[lbCur];
+      var nameEl = document.getElementById('cpmLbRevName');
+      var starsEl = document.getElementById('cpmLbRevStars');
+      var titleEl = document.getElementById('cpmLbRevTitle');
+      var textEl = document.getElementById('cpmLbRevText');
+      var dateEl = document.getElementById('cpmLbRevDate');
+      var shareTw = document.getElementById('cpmLbShareTw');
+      var shareFb = document.getElementById('cpmLbShareFb');
+      var shareMail = document.getElementById('cpmLbShareMail');
+      if (nameEl) nameEl.textContent = p.reviewer || '';
+      if (starsEl) starsEl.innerHTML = p.rating ? lbStarHTML(p.rating) : '';
+      if (titleEl) { titleEl.textContent = p.title || ''; titleEl.style.display = p.title ? '' : 'none'; }
+      if (textEl) textEl.textContent = p.text || '';
+      if (dateEl) dateEl.textContent = p.date || '';
+      var shareText = encodeURIComponent((p.reviewer || 'A customer') + ' said: ' + (p.text || ''));
+      var pageUrl = encodeURIComponent(window.location.href);
+      if (shareTw) shareTw.href = 'https://twitter.com/intent/tweet?text=' + shareText + '&url=' + pageUrl;
+      if (shareFb) shareFb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + pageUrl;
+      if (shareMail) shareMail.href = 'mailto:?subject=Check%20out%20this%20review&body=' + shareText + '%0A' + pageUrl;
+      var infoEl = document.getElementById('cpmLbReviewInfo');
+      if (infoEl) infoEl.style.display = (p.reviewer || p.text) ? '' : 'none';
+    }
+    if (cpmLbPrev) cpmLbPrev.addEventListener('click', function(){ lbShow(lbCur - 1); });
+    if (cpmLbNext) cpmLbNext.addEventListener('click', function(){ lbShow(lbCur + 1); });
+    if (cpmLbClose) cpmLbClose.addEventListener('click', function(){ cpmLbOverlay.classList.remove('is-open'); });
+    if (cpmLbOverlay) cpmLbOverlay.addEventListener('click', function(e){ if (e.target === cpmLbOverlay) cpmLbOverlay.classList.remove('is-open'); });
+
+    // Helpful upvote toggle
+    document.querySelectorAll('[data-cpm-helpful-yes]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var wrap = btn.closest('.cpm__review-actions');
+        var msg = wrap.querySelector('[data-cpm-helpful-msg]');
+        var hw = wrap.querySelector('[data-cpm-helpful-wrap]');
+        if (msg) msg.classList.add('is-shown');
+        if (hw) hw.style.display = 'none';
+      });
+    });
+
+    // Write review form toggle
+    var writeForm = document.getElementById('cpmWriteForm');
+    var writeThanks = document.getElementById('cpmWriteThanks');
+    var openWriteBtn = document.querySelector('[data-cpm-open-write-review]');
+    var closeWriteBtn = document.querySelector('[data-cpm-close-write-review]');
+    if (openWriteBtn && writeForm) {
+      openWriteBtn.addEventListener('click', function(){
+        if (writeThanks) writeThanks.classList.remove('is-shown');
+        writeForm.classList.add('is-open');
+        writeForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    }
+    if (closeWriteBtn && writeForm) {
+      closeWriteBtn.addEventListener('click', function(){ writeForm.classList.remove('is-open'); });
+    }
+    var submitBtn = document.getElementById('cpmWriteSubmit');
+    if (submitBtn && writeForm && writeThanks) {
+      submitBtn.addEventListener('click', function(){
+        var rating = wRating;
+        var text = document.getElementById('cpmWriteText') ? document.getElementById('cpmWriteText').value.trim() : '';
+        var name = document.getElementById('cpmWriteName') ? document.getElementById('cpmWriteName').value.trim() : '';
+        var email = document.getElementById('cpmWriteEmail') ? document.getElementById('cpmWriteEmail').value.trim() : '';
+        var order = document.getElementById('cpmWriteOrder') ? document.getElementById('cpmWriteOrder').value.trim() : '';
+        if (!rating){ alert('Please select a star rating.'); return; }
+        if (!text){ alert('Please enter your feedback.'); return; }
+        if (!name){ alert('Please enter your name.'); return; }
+        if (!email){ alert('Please enter your email address.'); return; }
+        if (!order){ alert('Please enter your order number.'); return; }
+        writeForm.classList.remove('is-open');
+        writeThanks.classList.add('is-shown');
+        writeThanks.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    }
+
+    // Write review star picker
+    var wStars = document.querySelectorAll('[data-cpm-wstar]');
+    var wRating = 0;
+    wStars.forEach(function(s){
+      s.addEventListener('mouseover', function(){
+        var v = parseInt(s.getAttribute('data-cpm-wstar'));
+        wStars.forEach(function(x){ x.setAttribute('fill', parseInt(x.getAttribute('data-cpm-wstar')) <= v ? '#111' : '#e0e0e0'); x.setAttribute('stroke', parseInt(x.getAttribute('data-cpm-wstar')) <= v ? '#111' : '#ccc'); });
+      });
+      s.addEventListener('mouseout', function(){
+        wStars.forEach(function(x){ x.setAttribute('fill', parseInt(x.getAttribute('data-cpm-wstar')) <= wRating ? '#111' : '#e0e0e0'); x.setAttribute('stroke', parseInt(x.getAttribute('data-cpm-wstar')) <= wRating ? '#111' : '#ccc'); });
+      });
+      s.addEventListener('click', function(){
+        wRating = parseInt(s.getAttribute('data-cpm-wstar'));
+        wStars.forEach(function(x){ x.setAttribute('fill', parseInt(x.getAttribute('data-cpm-wstar')) <= wRating ? '#111' : '#e0e0e0'); x.setAttribute('stroke', parseInt(x.getAttribute('data-cpm-wstar')) <= wRating ? '#111' : '#ccc'); });
+      });
+    });
+
+    // Plan selector
+    var plans = document.querySelectorAll('[data-cpm-plan]');
+    plans.forEach(function(p){
+      p.querySelector('.cpm__plan-head').addEventListener('click', function(){
+        plans.forEach(function(x){ x.classList.remove('is-active'); });
+        p.classList.add('is-active');
+        var radio = p.querySelector('input[type=radio]');
+        if (radio) radio.checked = true;
+      });
+    });
+
+    // Video carousel autoplay (3s each, slides to next batch)
+    var vc = document.getElementById('cpmVC-{{ section.id }}');
+    var vct = document.getElementById('cpmVCT-{{ section.id }}');
+    if (vc && vct) {
+      var vItems = Array.prototype.slice.call(vct.querySelectorAll('[data-cpm-vc-item]'));
+      if (vItems.length) {
+        var vCur = 0, vTimer = null, V_DUR = 3000, vPageStart = 0;
+        function vVisible(){ return window.innerWidth <= 989 ? 2 : 4; }
+        function vStopAll(){
+          clearTimeout(vTimer);
+          vItems.forEach(function(it){
+            var vid = it.querySelector('video');
+            if (vid){ vid.pause(); vid.currentTime = 0; }
+            it.classList.remove('is-playing');
+            var pr = it.querySelector('[data-cpm-vc-progress]');
+            if (pr){ pr.style.transition='none'; pr.style.width='0%'; }
+          });
+        }
+        function vSlide(start){
+          vPageStart = start;
+          var w = vItems[0].offsetWidth + 10;
+          vct.style.transform = 'translateX(-' + (start * w) + 'px)';
+        }
+        function vPlay(idx){
+          vStopAll();
+          vCur = idx;
+          var vp = vVisible();
+          if (vCur < vPageStart || vCur >= vPageStart + vp){
+            var np = Math.floor(vCur / vp) * vp;
+            if (np + vp > vItems.length) np = Math.max(0, vItems.length - vp);
+            vSlide(np);
+          }
+          var it = vItems[vCur];
+          var vid = it.querySelector('video');
+          var pr = it.querySelector('[data-cpm-vc-progress]');
+          if (vid){ vid.currentTime = 0; vid.play().catch(function(){}); it.classList.add('is-playing'); }
+          if (pr){ pr.style.transition='none'; pr.style.width='0%'; pr.offsetWidth; pr.style.transition='width '+V_DUR+'ms linear'; pr.style.width='100%'; }
+          vTimer = setTimeout(function(){ var n = vCur + 1; if (n >= vItems.length) n = 0; vPlay(n); }, V_DUR);
+        }
+        vItems.forEach(function(it, i){ it.addEventListener('click', function(){ vPlay(i); }); });
+        setTimeout(function(){ vPlay(0); }, 500);
+      }
+    }
+
+    // Sticky gallery pin — desktop only (>= 990px).
+    // The gallery pins at its exact initial viewport position the moment
+    // scrolling begins: breadcrumb scrolls away, text scrolls up, image stays.
+    var galEl = document.querySelector('.cpm .cpm__gallery');
+    var wrapEl = document.querySelector('.cpm .cpm__wrap');
+    if (galEl && wrapEl) {
+      var pinTicking = false;
+      var colLeft = 0, colWidth = 0, galPinTop = 0, state = '';
+
+      function isDesktop(){ return window.innerWidth >= 990; }
+
+      wrapEl.style.position = 'relative';
+
+      function resetGallery(){
+        galEl.style.position = '';
+        galEl.style.top = '';
+        galEl.style.left = '';
+        galEl.style.width = '';
+        wrapEl.style.gridTemplateColumns = '';
+        state = '';
+      }
+
+      function capture(){
+        resetGallery();
+        var gr = galEl.getBoundingClientRect();
+        colLeft  = gr.left;
+        colWidth = gr.width;
+        // Record the gallery's natural distance from the viewport top.
+        // This becomes both the pin threshold and the fixed top offset so
+        // the image appears to freeze in place the instant scrolling starts.
+        galPinTop = gr.top;
+      }
+
+      function pinGallery(){
+        pinTicking = false;
+
+        if (!isDesktop()) {
+          if (state !== '') resetGallery();
+          return;
+        }
+
+        var wrapRect = wrapEl.getBoundingClientRect();
+        var galH    = galEl.offsetHeight;
+
+        if (window.pageYOffset <= 0) {
+          // Back at the very top — restore natural flow
+          if (state !== 'static') { resetGallery(); state = 'static'; }
+        } else if (wrapRect.bottom - galH <= galPinTop) {
+          // Section bottom is close — park gallery at bottom of section
+          if (state !== 'bottom') {
+            wrapEl.style.gridTemplateColumns = colWidth + 'px 1fr';
+            galEl.style.position = 'absolute';
+            galEl.style.top  = (wrapEl.offsetHeight - galH) + 'px';
+            galEl.style.left = '0';
+            galEl.style.width = colWidth + 'px';
+            state = 'bottom';
+          }
+        } else {
+          // Pin at the gallery's original viewport position so it never moves.
+          // Lock gridTemplateColumns so the empty col-1 cell doesn't collapse
+          // and push .cpm__info into column 1 underneath the fixed image.
+          if (state !== 'fixed') {
+            wrapEl.style.gridTemplateColumns = colWidth + 'px 1fr';
+            galEl.style.position = 'fixed';
+            galEl.style.top   = galPinTop + 'px';
+            galEl.style.left  = colLeft + 'px';
+            galEl.style.width = colWidth + 'px';
+            state = 'fixed';
+          }
+        }
+      }
+
+      window.addEventListener('scroll', function(){
+        if (!pinTicking) { pinTicking = true; window.requestAnimationFrame(pinGallery); }
+      }, { passive: true });
+
+      window.addEventListener('resize', function(){
+        if (!isDesktop()) { resetGallery(); return; }
+        capture();
+        pinGallery();
+      });
+
+      if (isDesktop()) { capture(); }
+      pinGallery();
+    }
+  })();
+</script>
 
 {% schema %}
 {
-  "name": "Custom Modern Footer",
+  "name": "Custom Product Main",
+  "tag": "section",
+  "class": "section-custom-product-main",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo Image"
-    },
-    {
-      "type": "text",
-      "id": "phone_number",
-      "label": "Phone Number",
-      "default": "01863723207"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "Show Payment Icons",
-      "default": true
-    }
+    { "type": "header", "content": "Style" },
+    { "type": "color", "id": "accent_color", "label": "Accent / button color", "default": "#111111" },
+    { "type": "header", "content": "Reviews" },
+    { "type": "text", "id": "review_rating", "label": "Star rating (e.g. 4.5)", "default": "4.5" },
+    { "type": "text", "id": "review_count", "label": "Review count", "default": "105" },
+    { "type": "url", "id": "write_review_url", "label": "Write a Review button URL" },
+    { "type": "header", "content": "Info" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Achieve Peak Performance" },
+    { "type": "text", "id": "tags", "label": "Tags (comma separated)", "default": "90 Gummies, 1 Month Supply, Strawberry Flavour, Vegan, From £0.62 per day" },
+    { "type": "textarea", "id": "description", "label": "Short description", "default": "Fuel your physical performance; with 5000mg of lab-verified, sugar-free creatine in each serving, formulated to meet the demands of high-intensity exercise. No mixing required, just take 3 gummies daily." },
+    { "type": "textarea", "id": "benefits", "label": "Benefits (one per line)", "default": "Lab Verified by Eurofins\n5000mg Creatine\nSugar-Free\nIncrease Physical Performance\nSupports High-Intensity Exercise\nPower Up" },
+    { "type": "header", "content": "Green Badge" },
+    { "type": "text", "id": "badge_text", "label": "Badge text", "default": "Sustainability Claims" },
+    { "type": "text", "id": "badge_subtext", "label": "Badge subtext", "default": "PROVENANCE" },
+    { "type": "url", "id": "badge_link", "label": "Badge link" },
+    { "type": "header", "content": "Buy Box / Trust" },
+    { "type": "text", "id": "per_day_text", "label": "Per-day price text (Buy Once)", "default": "£0.75 per day" },
+    { "type": "text", "id": "ship_text", "label": "Free shipping line", "default": "Spend £30 to unlock free shipping" },
+    { "type": "text", "id": "rewards_text", "label": "Rewards bar text", "default": "Earn Reward Points with each purchase" },
+    { "type": "header", "content": "Video Carousel" },
+    { "type": "text", "id": "video_title", "label": "Video section title", "default": "See What People Are Saying" }
   ],
   "blocks": [
     {
-      "type": "link_list",
-      "name": "Menu Column",
-      "limit": 3,
+      "type": "accordion",
+      "name": "Accordion row",
       "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Column Heading",
-          "default": "Quick Links"
-        },
-        {
-          "type": "link_list",
-          "id": "menu",
-          "label": "Select Menu"
-        }
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Key Benefits" },
+        { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Add your content here.</p>" },
+        { "type": "checkbox", "id": "open", "label": "Open by default", "default": false }
+      ]
+    },
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        { "type": "text", "id": "video_url", "label": "Video URL (MP4)" },
+        { "type": "image_picker", "id": "poster", "label": "Poster / thumbnail image" }
+      ]
+    },
+    {
+      "type": "review_photo",
+      "name": "Review Photo",
+      "settings": [
+        { "type": "image_picker", "id": "photo", "label": "Review photo" }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "select", "id": "rating", "label": "Star rating", "default": "5", "options": [
+          {"value":"1","label":"1 star"},{"value":"1.5","label":"1.5 stars"},
+          {"value":"2","label":"2 stars"},{"value":"2.5","label":"2.5 stars"},
+          {"value":"3","label":"3 stars"},{"value":"3.5","label":"3.5 stars"},
+          {"value":"4","label":"4 stars"},{"value":"4.5","label":"4.5 stars"},
+          {"value":"5","label":"5 stars"}
+        ]},
+        { "type": "text", "id": "reviewer_name", "label": "Reviewer name", "default": "Anonymous" },
+        { "type": "text", "id": "reviewer_location", "label": "Location (e.g. London, GB)" },
+        { "type": "checkbox", "id": "verified", "label": "Verified Customer", "default": true },
+        { "type": "checkbox", "id": "recommend", "label": "I recommend this product", "default": true },
+        { "type": "text", "id": "review_title", "label": "Review title" },
+        { "type": "textarea", "id": "review_text", "label": "Review text", "default": "Great product!" },
+        { "type": "text", "id": "review_date", "label": "Date (e.g. 3 days ago)" },
+        { "type": "image_picker", "id": "photo", "label": "Review photo (optional)" }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Custom Modern Footer",
+      "name": "Custom Product Main",
       "blocks": [
-        { "type": "link_list", "settings": { "heading": "Company" } },
-        { "type": "link_list", "settings": { "heading": "Account" } },
-        { "type": "link_list", "settings": { "heading": "Legal" } }
+        { "type": "accordion", "settings": { "heading": "Key Benefits" } },
+        { "type": "accordion", "settings": { "heading": "How To Take" } },
+        { "type": "accordion", "settings": { "heading": "Nutritional Information & Ingredients" } },
+        { "type": "accordion", "settings": { "heading": "Delivery & Returns" } },
+        { "type": "accordion", "settings": { "heading": "Scientific Evidence" } },
+        { "type": "accordion", "settings": { "heading": "Claims" } },
+        { "type": "accordion", "settings": { "heading": "Sustainability" } },
+        { "type": "video", "settings": { "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" } },
+        { "type": "video", "settings": { "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" } },
+        { "type": "video", "settings": { "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" } },
+        { "type": "video", "settings": { "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" } },
+        { "type": "video", "settings": { "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" } },
+        { "type": "video", "settings": { "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" } }
       ]
     }
   ]
 }
 {% endschema %}
-<style>
-  /* Outer background settings */
-  footer.site-footer,
-  .site-footer {
-    background: transparent !important;
-    background-color: transparent !important;
-    padding-top: 40px !important;
-    padding-bottom: 0px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Main Layout Box Container with 3% Margins */
-  .footer-container {
-    background-color: #f7f7f7 !important;
-    margin-left: 3vw !important;                
-    margin-right: 3vw !important;               
-    width: 94vw !important;                     
-    max-width: 100% !important;                  
-    padding: 60px 40px 10px 40px !important; 
-    border-radius: 24px 24px 0 0 !important;
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    justify-content: space-between !important;
-    align-items: flex-start !important;        
-    gap: 20px !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Logo adjustment configurations alignment */
-  .footer-logo-wrapper {
-    margin-top: -16px !important;             
-    margin-bottom: 20px !important;
-    display: block !important;
-    line-height: 1 !important;                 
-  }
-  
-  .footer-logo {
-    max-width: 135px !important;              
-    height: auto !important;
-    display: block !important;
-  }
-
-  .footer-brand-name {
-    margin: 0 0 20px 0 !important;
-    font-size: 22px !important;
-    line-height: 1 !important;
-  }
-
-  .footer-phone {
-    font-size: 14px !important;
-    margin-bottom: 15px !important;
-  }
-
-  /* Bottom copyright panel dimensions */
-  .footer-bottom {
-    margin-left: 3vw !important;                
-    margin-right: 3vw !important;               
-    width: 94vw !important;                     
-    max-width: 100% !important;
-    background-color: #f7f7f7 !important;
-    padding: 0 40px 40px 40px !important;
-    border-radius: 0px !important;
-    box-sizing: border-box !important;
-  }
-
-  .footer-bottom-container {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    border-top: none !important; 
-    padding-top: 10px !important;
-    width: 100% !important;
-  }
-
-  /* Sizing rules for columns */
-  .footer-column {
-    flex: 1 !important;
-    min-width: 120px !important;
-  }
-
-  .brand-column {
-    flex: 0 0 25% !important;
-    min-width: 240px !important;
-  }
-
-  /* Bold Header Fonts styling */
-  .footer-heading {
-    font-size: 17px !important;                
-    text-transform: uppercase !important;
-    margin: 0 0 20px 0 !important;             
-    font-weight: 800 !important;               
-    letter-spacing: 1.2px !important;
-    line-height: 1 !important;
-    color: #000 !important;
-  }
-
-  .footer-menu-links {
-    list-style: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  .footer-menu-links li {
-    margin-bottom: 12px !important;
-  }
-
-  .footer-menu-links a {
-    text-decoration: none !important;
-    color: #555 !important;
-    font-size: 14px !important;
-  }
-
-  .footer-menu-links a:hover {
-    color: #000 !important;
-  }
-
-  /* High-visibility Solid Round Social Buttons */
-  .social-icons {
-    display: flex !important;
-    gap: 12px !important;
-    margin-top: 15px !important;
-  }
-
-  .social-circle-btn {
-    color: #1a1a1a !important;                 /* Solid background color from shared images */
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 36px !important;                    /* Balanced size footprint */
-    height: 36px !important;
-    border-radius: 50% !important;             /* Creates perfect circular boundary */
-    transition: transform 0.2s ease, opacity 0.2s ease !important;
-    cursor: pointer !important;
-  }
-
-  .social-circle-btn:hover {
-    transform: scale(1.08) !important;
-    opacity: 0.9 !important;
-  }
-
-  /* Keeps the interior custom graphics centered cleanly */
-  .social-circle-btn svg {
-    width: 100% !important;
-    height: 100% !important;
-    display: block !important;
-  }
-
-  /* Responsive breakpoints properties matrix */
-  @media (max-width: 1150px) {
-    .footer-container, .footer-bottom {
-      flex-wrap: wrap !important;
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-      width: 100% !important;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .footer-container {
-      flex-direction: column !important;
-      padding: 30px 20px !important;
-      gap: 30px !important;
-    }
-    .footer-bottom {
-      padding: 0 20px 30px 20px !important;
-    }
-    .footer-bottom-container {
-      flex-direction: column !important;
-      gap: 15px !important;
-      text-align: center !important;
-    }
-  }
-</style>
