@@ -165,44 +165,66 @@
   ]
 }
 {% endschema %}
-
 <style>
-  /* Forces the main container to apply huge side padding */
+  /* 
+    1. This targets the footer outer area. 
+    We turn it background-transparent to let the white side margins show through!
+  */
+  footer.site-footer,
   .site-footer {
-    background-color: #f7f7f7 !important;
-    padding-left: 10% !important;   /* Uses percentage so it looks perfect on all desktop screens */
-    padding-right: 10% !important;  /* Creates massive white space on left & right */
-    padding-top: 60px !important;
-    padding-bottom: 60px !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    padding: 40px 0 !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
 
-  /* Forces your 5 columns to lock onto a single line without wrapping */
-  .footer-container, 
-  .footer-bottom-container {
-    max-width: 100% !important; 
-    margin: 0 auto !important;
+  /* 
+    2. This forms the gray/off-white background box.
+    Shrinking the width from standard 94% down to 84% doubles your side margins!
+  */
+  .footer-container {
+    background-color: #f7f7f7 !important; /* The background color of your box */
+    width: 84% !important;               /* Controls the size of the left/right margins */
+    max-width: 1300px !important;
+    margin: 0 auto !important;           /* Centers the box perfectly */
+    padding: 60px 40px 40px 40px !important;
+    border-radius: 24px !important;      /* Creates smooth, modern rounded corners */
     display: flex !important;
-    flex-wrap: nowrap !important; 
+    flex-wrap: nowrap !important;        /* Keeps all 5 columns strictly on one row */
     justify-content: space-between !important;
-    gap: 30px !important;
+    gap: 20px !important;
+    box-sizing: border-box !important;
   }
 
-  /* Bottom bar styling */
+  /* 
+    3. Merges the bottom bar into the exact same rounded box layout 
+  */
   .footer-bottom {
-    margin-top: 40px !important;
+    width: 84% !important;
+    max-width: 1300px !important;
+    margin: 0 auto !important;
+    background-color: #f7f7f7 !important;
+    padding: 0 40px 40px 40px !important;
+    border-radius: 0 0 24px 24px !important; /* Bottom corners match top box */
+    box-sizing: border-box !important;
+  }
+
+  /* Smoothly merges the two panels together visually */
+  .footer-container {
+    border-radius: 24px 24px 0 0 !important;
+  }
+
+  .footer-bottom-container {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    border-top: 1px solid #e5e5e5 !important;
     padding-top: 20px !important;
-    border-top: 1px solid #e0e0e0 !important;
     width: 100% !important;
   }
 
-  .footer-bottom-container {
-    justify-content: space-between !important;
-    align-items: center !important;
-  }
-
-  /* Grid sizing settings to fit all 5 items */
+  /* Grid structure rules to ensure nothing drops down */
   .footer-column {
     flex: 1 1 18% !important;
     min-width: 140px !important;
@@ -213,7 +235,7 @@
     min-width: 240px !important;
   }
 
-  /* Input fields */
+  /* Newsletter elements */
   .input-group {
     display: flex !important;
     margin-bottom: 10px !important;
@@ -222,11 +244,12 @@
 
   .input-group input {
     flex: 1 !important;
-    padding: 10px !important;
+    padding: 10px 15px !important;
     border: 1px solid #e0e0e0 !important;
     border-radius: 20px 0 0 20px !important;
     outline: none !important;
     font-size: 14px !important;
+    background-color: #fff !important;
   }
 
   .btn-submit {
@@ -241,24 +264,26 @@
     justify-content: center !important;
   }
 
-  /* Responsive breakpoints so it doesn't break on mobile screens */
-  @media (max-width: 1100px) {
-    .site-footer {
-      padding-left: 4% !important;
-      padding-right: 4% !important;
-    }
+  /* Mobile responsiveness fallback layouts */
+  @media (max-width: 1150px) {
     .footer-container {
       flex-wrap: wrap !important;
+      width: 92% !important;
+    }
+    .footer-bottom {
+      width: 92% !important;
     }
   }
 
   @media (max-width: 768px) {
-    .site-footer {
-      padding-left: 20px !important;
-      padding-right: 20px !important;
-    }
     .footer-container {
       flex-direction: column !important;
+      width: 95% !important;
+      padding: 30px 20px !important;
+    }
+    .footer-bottom {
+      width: 95% !important;
+      padding: 0 20px 30px 20px !important;
     }
     .footer-bottom-container {
       flex-direction: column !important;
@@ -267,4 +292,3 @@
     }
   }
 </style>
-
