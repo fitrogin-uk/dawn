@@ -3,6 +3,7 @@
 <section class="ig-feed-{{ section.id }} ig-feed">
   <div class="ig-feed__header">
     <h2 class="ig-feed__title">{{ section.settings.title | default: 'Instagram @novomins' }}</h2>
+    <div class="ig-feed__divider" aria-hidden="true"></div>
     {%- if section.settings.instagram_url != blank -%}
       <a
         href="{{ section.settings.instagram_url }}"
@@ -70,12 +71,10 @@
   .ig-feed__header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     max-width: var(--page-width, 1280px);
     margin: 0 auto;
     padding: 0 max(20px, 5vw) 24px;
-    flex-wrap: wrap;
-    gap: 12px;
+    gap: 0;
   }
 
   .ig-feed__title {
@@ -84,6 +83,14 @@
     margin: 0;
     color: {{ section.settings.title_color | default: '#111111' }};
     letter-spacing: -0.02em;
+    flex-shrink: 0;
+  }
+
+  .ig-feed__divider {
+    flex: 1;
+    height: 1px;
+    background: {{ section.settings.divider_color | default: '#dddddd' }};
+    margin: 0 24px;
   }
 
   .ig-feed__follow-btn {
@@ -275,6 +282,12 @@
       "id": "bg_color",
       "label": "Section background",
       "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider line colour",
+      "default": "#dddddd"
     },
     {
       "type": "color",
