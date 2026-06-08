@@ -167,29 +167,27 @@
 {% endschema %}
 
 <style>
-  /* Main footer container styling */
+  /* Main footer styling */
   .site-footer {
-    background-color: #f7f7f7; /* Fixed the broken hex code */
-    padding: 60px 20px;
+    background-color: #f7f7f7;
+    /* 120px padding on left/right forces massive white space on the sides */
+    padding: 60px 120px; 
     width: 100%;
     box-sizing: border-box;
   }
 
-  /* 
-    This is the wrapper that controls the white space.
-    Lowering max-width from 1400px to 1050px doubles the side margins.
-  */
+  /* Keeps the grid wide enough so columns don't drop to the next line */
   .footer-container, 
   .footer-bottom-container {
-    max-width: 1050px; 
-    margin: 0 auto;      /* Centers the container, creating equal left/right space */
+    max-width: 1400px; 
+    margin: 0 auto;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* Forces columns to stay in one single row */
     justify-content: space-between;
-    gap: 30px;
+    gap: 20px;
   }
 
-  /* Bottom bar spacing adjustments */
+  /* Bottom bar alignment */
   .footer-bottom {
     margin-top: 40px;
     padding-top: 20px;
@@ -202,21 +200,22 @@
     align-items: center;
   }
 
-  /* Quick Column Widths for a 5-Column Grid */
+  /* Precise column distribution to prevent layout breaking */
   .footer-column {
-    flex: 1 1 18%;
-    min-width: 200px;
+    flex: 1;
+    min-width: 150px;
   }
 
   .brand-column {
-    flex: 1 1 25%;
+    flex: 1.5; /* Gives slightly more room to newsletter inputs */
+    min-width: 250px;
   }
 
-  /* Input group styles seen in your image */
+  /* Input fields styling */
   .input-group {
     display: flex;
     margin-bottom: 10px;
-    max-width: 250px;
+    max-width: 240px;
   }
 
   .input-group input {
@@ -225,10 +224,11 @@
     border: 1px solid #e0e0e0;
     border-radius: 20px 0 0 20px;
     outline: none;
+    font-size: 14px;
   }
 
   .btn-submit {
-    background-color: #e91e63; /* Pink button color from image */
+    background-color: #e91e63;
     color: #fff;
     border: none;
     padding: 0 15px;
@@ -239,8 +239,20 @@
     justify-content: center;
   }
 
-  /* Responsive fixes for tablet/mobile */
+  /* Tablet and Mobile Optimization */
+  @media (max-width: 1024px) {
+    .site-footer {
+      padding: 40px 40px; /* Reduces side spacing on smaller screens so text fits */
+    }
+    .footer-container {
+      flex-wrap: wrap; /* Allows wrapping on small tablet profiles */
+    }
+  }
+
   @media (max-width: 768px) {
+    .site-footer {
+      padding: 40px 20px;
+    }
     .footer-container {
       flex-direction: column;
     }
