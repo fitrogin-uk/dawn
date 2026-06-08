@@ -379,6 +379,127 @@
         "padding_top": 35,
         "padding_bottom": 40
       }
+    },
+    "intagram_feed_9kbziT": {
+      "type": "intagram-feed",
+      "blocks": {
+        "post_BVG6YG": {
+          "type": "post",
+          "settings": {
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        },
+        "post_cY6KwM": {
+          "type": "post",
+          "settings": {
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        },
+        "post_6ihNrB": {
+          "type": "post",
+          "settings": {
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        },
+        "post_GrtgpM": {
+          "type": "post",
+          "settings": {
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        },
+        "post_aDCjTK": {
+          "type": "post",
+          "settings": {
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        },
+        "post_dnb8yD": {
+          "type": "post",
+          "settings": {
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        },
+        "post_FtFmMt": {
+          "type": "post",
+          "settings": {
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        },
+        "post_xJRBfB": {
+          "type": "post",
+          "settings": {
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        },
+        "post_rn6LM7": {
+          "type": "post",
+          "settings": {
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        },
+        "post_9DycAM": {
+          "type": "post",
+          "settings": {
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        },
+        "post_9kA6ht": {
+          "type": "post",
+          "settings": {
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        },
+        "post_FxU9hg": {
+          "type": "post",
+          "settings": {
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        }
+      },
+      "block_order": [
+        "post_BVG6YG",
+        "post_cY6KwM",
+        "post_6ihNrB",
+        "post_GrtgpM",
+        "post_aDCjTK",
+        "post_dnb8yD",
+        "post_FtFmMt",
+        "post_xJRBfB",
+        "post_rn6LM7",
+        "post_9DycAM",
+        "post_9kA6ht",
+        "post_FxU9hg"
+      ],
+      "name": "Instagram Feed",
+      "settings": {
+        "title": "Instagram @FUELX",
+        "instagram_url": "https://INSTAGRAM.COM",
+        "button_label": "Follow Us",
+        "columns_desktop": 6,
+        "columns_tablet": 4,
+        "columns_mobile": 3,
+        "gap": 8,
+        "border_radius": 12,
+        "section_padding_top": 48,
+        "section_padding_bottom": 48,
+        "bg_color": "#ffffff",
+        "title_color": "#111111",
+        "button_bg": "#111111",
+        "button_text_color": "#ffffff",
+        "button_hover_bg": "#333333"
+      }
     }
   },
   "order": [
@@ -387,6 +508,7 @@
     "related-products",
     "marquee_banner_WcmFgf",
     "expert_recommendations_k37i8d",
-    "delicious_gummy_v_6_XXXqAJ"
+    "delicious_gummy_v_6_XXXqAJ",
+    "intagram_feed_9kbziT"
   ]
 }
