@@ -11,24 +11,24 @@
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
-    "custom_footer_bfCeMH": {
+    "custom_footer_rVNaeD": {
       "type": "custom-footer",
       "blocks": {
-        "link_list_ypWkBp": {
+        "link_list_DftUkz": {
           "type": "link_list",
           "settings": {
             "heading": "Company",
             "menu": ""
           }
         },
-        "link_list_TaFziQ": {
+        "link_list_rMtxUq": {
           "type": "link_list",
           "settings": {
             "heading": "Account",
             "menu": ""
           }
         },
-        "link_list_gMhqY8": {
+        "link_list_7bmT6H": {
           "type": "link_list",
           "settings": {
             "heading": "Legal",
@@ -37,12 +37,13 @@
         }
       },
       "block_order": [
-        "link_list_ypWkBp",
-        "link_list_TaFziQ",
-        "link_list_gMhqY8"
+        "link_list_DftUkz",
+        "link_list_rMtxUq",
+        "link_list_7bmT6H"
       ],
       "name": "Custom Modern Footer",
       "settings": {
+        "logo": "shopify://shop_images/logo_without_background.png",
         "phone_number": "01863723207",
         "show_payment_icons": true
       }
@@ -95,7 +96,7 @@
     }
   },
   "order": [
-    "custom_footer_bfCeMH",
+    "custom_footer_rVNaeD",
     "footer"
   ]
 }
