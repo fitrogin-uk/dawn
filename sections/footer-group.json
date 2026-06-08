@@ -13,39 +13,64 @@
   "sections": {
     "custom_footer_rVNaeD": {
       "type": "custom-footer",
-      "blocks": {
-        "link_list_DftUkz": {
-          "type": "link_list",
-          "settings": {
-            "heading": "Company",
-            "menu": ""
-          }
-        },
-        "link_list_rMtxUq": {
-          "type": "link_list",
-          "settings": {
-            "heading": "Account",
-            "menu": ""
-          }
-        },
-        "link_list_7bmT6H": {
-          "type": "link_list",
-          "settings": {
-            "heading": "Legal",
-            "menu": ""
-          }
-        }
-      },
-      "block_order": [
-        "link_list_DftUkz",
-        "link_list_rMtxUq",
-        "link_list_7bmT6H"
-      ],
       "name": "Custom Modern Footer",
       "settings": {
         "logo": "shopify://shop_images/logo_without_background.png",
-        "phone_number": "01863723207",
-        "show_payment_icons": true
+        "phone": "01863723207",
+        "phone_label": "Call us on:",
+        "email_placeholder": "Enter your email",
+        "phone_placeholder": "Phone Number",
+        "col2_heading": "Company",
+        "col2_link1_label": "Health Blog",
+        "col2_link1_url": "",
+        "col2_link2_label": "Take Our Quiz",
+        "col2_link2_url": "",
+        "col2_link3_label": "Shop Now",
+        "col2_link3_url": "",
+        "col2_link4_label": "Contact Us",
+        "col2_link4_url": "",
+        "col2_link5_label": "Who We Are",
+        "col2_link5_url": "shopify://products/creatine-gummies",
+        "col2_link6_label": "",
+        "col2_link6_url": "",
+        "col3_heading": "Account",
+        "col3_link1_label": "Rewards",
+        "col3_link1_url": "",
+        "col3_link2_label": "Subscriptions",
+        "col3_link2_url": "",
+        "col3_link3_label": "Login",
+        "col3_link3_url": "",
+        "col3_link4_label": "Creator Programme",
+        "col3_link4_url": "",
+        "col3_link5_label": "Manage Order",
+        "col3_link5_url": "",
+        "col3_link6_label": "",
+        "col3_link6_url": "",
+        "col4_heading": "Legal",
+        "col4_link1_label": "Terms of Service",
+        "col4_link1_url": "",
+        "col4_link2_label": "Privacy Policy",
+        "col4_link2_url": "",
+        "col4_link3_label": "Shipping Policy",
+        "col4_link3_url": "",
+        "col4_link4_label": "Refund Policy",
+        "col4_link4_url": "",
+        "col4_link5_label": "",
+        "col4_link5_url": "",
+        "col4_link6_label": "",
+        "col4_link6_url": "",
+        "social_heading": "Follow Us",
+        "social_facebook": "https://www.facebook.com/profile.php?id=61564822321761&locale=en_GB",
+        "social_twitter": "",
+        "social_instagram": "https://www.instagram.com/",
+        "social_linkedin": "",
+        "social_tiktok": "",
+        "social_whatsapp": "https://api.whatsapp.com/send/?phone=4915750884217&text&type=phone_number&app_absent=0",
+        "bg_color": "#f5f5f7",
+        "text_color": "#333333",
+        "link_color": "#666666",
+        "accent_color": "#e8175d",
+        "accent_hover": "#c0134d"
       }
     },
     "footer": {
