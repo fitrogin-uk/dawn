@@ -168,29 +168,28 @@
 <style>
   /* 
     1. Outer area wrapper set to transparent.
-    Removed padding from the bottom so the box touches the bottom of the page.
   */
   footer.site-footer,
   .site-footer {
     background: transparent !important;
     background-color: transparent !important;
     padding-top: 40px !important;
-    padding-bottom: 0px !important; /* Removed bottom gap entirely */
+    padding-bottom: 0px !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
 
   /* 
     2. Main footer layout block.
-    Increased width to 92% to reduce the left and right margins.
+    Increased width to 96% to make the left and right margins even smaller.
   */
   .footer-container {
     background-color: #f7f7f7 !important;
-    width: 92% !important;               /* Reduced side margins (making the box wider) */
-    max-width: 1400px !important;
+    width: 96% !important;               /* Reduced side margins further (making the box wider) */
+    max-width: 1500px !important;
     margin: 0 auto !important;
     padding: 50px 40px 30px 40px !important;
-    border-radius: 24px 24px 0 0 !important; /* Only rounds the top corners */
+    border-radius: 24px 24px 0 0 !important;
     display: flex !important;
     flex-wrap: nowrap !important;
     justify-content: space-between !important;
@@ -200,15 +199,15 @@
 
   /* 
     3. Bottom copyright bar.
-    Maintains matching width and removes rounded corners at the very bottom.
+    Maintains matching width to sit flush with the top box.
   */
   .footer-bottom {
-    width: 92% !important;               /* Matches the top box width perfectly */
-    max-width: 1400px !important;
+    width: 96% !important;               /* Matches the top box width perfectly */
+    max-width: 1500px !important;
     margin: 0 auto !important;
     background-color: #f7f7f7 !important;
     padding: 0 40px 40px 40px !important;
-    border-radius: 0px !important;       /* Flattened bottom edges completely */
+    border-radius: 0px !important;
     box-sizing: border-box !important;
   }
 
@@ -265,17 +264,17 @@
   @media (max-width: 1150px) {
     .footer-container {
       flex-wrap: wrap !important;
-      width: 94% !important;
+      width: 96% !important;
     }
     .footer-bottom {
-      width: 94% !important;
+      width: 96% !important;
     }
   }
 
   @media (max-width: 768px) {
     .footer-container {
       flex-direction: column !important;
-      width: 100% !important; /* Full width on tiny mobile screens */
+      width: 100% !important;
       padding: 30px 20px !important;
     }
     .footer-bottom {
@@ -289,3 +288,4 @@
     }
   }
 </style>
+
