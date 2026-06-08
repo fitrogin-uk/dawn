@@ -53,7 +53,7 @@
   </div>
 
   <div class="cf-footer__bottom">
-    <p class="cf-footer__copyright">&copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</p>
+    <p class="cf-footer__copyright">&copy; {{ 'now' | date: '%Y' }}, FuelX</p>
     <div class="cf-footer__payments">{{ shop.enabled_payment_types | payment_type_svg_tag: class: 'cf-footer__payment-icon' }}</div>
   </div>
 
@@ -109,7 +109,7 @@
   .cf-footer__links a { font-size: 20px; color: {{ section.settings.link_color | default: '#666666' }}; text-decoration: none; transition: color 0.2s; }
   .cf-footer__links a:hover { color: {{ section.settings.accent_color | default: '#e8175d' }}; }
 
-  .cf-footer__social-grid { display: grid; grid-template-columns: repeat(3, 42px); gap: 10px; }
+  .cf-footer__social-grid { display: flex; flex-wrap: wrap; gap: 10px; }
   .cf-footer__social-link { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: #111; color: #fff; text-decoration: none; transition: background 0.2s, transform 0.2s; }
   .cf-footer__social-link:hover { background: {{ section.settings.accent_color | default: '#e8175d' }}; transform: scale(1.1); }
 
@@ -192,7 +192,7 @@
       font-size: 18px;
     }
     .cf-footer__col--social .cf-footer__heading::after { display: none; }
-    .cf-footer__social-grid { grid-template-columns: repeat(6, 42px); justify-content: center; }
+    .cf-footer__social-grid { justify-content: center; }
 
     /* Bottom bar */
     .cf-footer__bottom {
