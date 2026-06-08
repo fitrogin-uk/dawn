@@ -118,7 +118,7 @@
 
   .cf-footer__inner {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 40px;
     padding: 0 40px 45px 100px;
     box-sizing: border-box;
@@ -131,7 +131,7 @@
   .cf-footer__col--2 { margin-left: {{ section.settings.col2_offset | default: 0 }}px; }
   .cf-footer__col--3 { margin-left: {{ section.settings.col3_offset | default: 0 }}px; }
   .cf-footer__col--4 { margin-left: {{ section.settings.col4_offset | default: 0 }}px; }
-  .cf-footer__col--social { margin-left: {{ section.settings.col5_offset | default: 0 }}px; }
+  .cf-footer__col--social { justify-self: end; margin-right: {{ section.settings.col5_offset | default: 0 }}px; }
 
   .cf-footer__logo-link { display: inline-block; margin-bottom: 14px; max-width: 100%; }
   .cf-footer__logo-img  { max-width: 100%; width: auto; height: auto; display: block; }
@@ -232,7 +232,7 @@
     {"type":"range","id":"col2_offset","label":"Company column offset (px)","min":-100,"max":100,"step":2,"default":0},
     {"type":"range","id":"col3_offset","label":"Account column offset (px)","min":-100,"max":100,"step":2,"default":0},
     {"type":"range","id":"col4_offset","label":"Legal column offset (px)","min":-100,"max":100,"step":2,"default":0},
-    {"type":"range","id":"col5_offset","label":"Follow Us column offset (px)","min":-100,"max":100,"step":2,"default":0},
+    {"type":"range","id":"col5_offset","label":"Follow Us — right edge gap (px)","min":0,"max":200,"step":2,"default":0},
     {"type":"header","content":"Column 2 — Company"},
     {"type":"text","id":"col2_heading","label":"Heading","default":"Company"},
     {"type":"text","id":"col2_link1_label","label":"Link 1","default":"Health Blog"},{"type":"url","id":"col2_link1_url","label":"Link 1 URL"},
