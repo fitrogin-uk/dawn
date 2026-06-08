@@ -15,16 +15,7 @@
           <span class="cf-footer__logo-text">{{ shop.name }}</span>
         {%- endif -%}
       </a>
-      <address class="cf-footer__address">
-        <span class="cf-footer__address-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-        </span>
-        <span class="cf-footer__address-lines">
-          <span>Parker Lane</span>
-          <span>Burnley</span>
-          <span>BB11 UBU</span>
-        </span>
-      </address>
+      <address class="cf-footer__address">Parker Lane, Burnley, BB11 2BU, UK</address>
     </div>
 
     <div class="cf-footer__col cf-footer__col--2">
@@ -109,9 +100,7 @@
   .cf-footer__logo-link { display: inline-block; margin-bottom: 14px; max-width: 100%; }
   .cf-footer__logo-img  { max-width: 100%; width: auto; height: auto; display: block; }
   .cf-footer__logo-text { font-size: 24px; font-weight: 800; color: {{ section.settings.text_color | default: '#333333' }}; text-decoration: none; }
-  .cf-footer__address { font-style: normal; display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; }
-  .cf-footer__address-icon { margin-top: 2px; color: {{ section.settings.accent_color | default: '#e8175d' }}; flex-shrink: 0; }
-  .cf-footer__address-lines { display: flex; flex-direction: column; gap: 2px; font-size: 14px; line-height: 1.6; color: {{ section.settings.text_color | default: '#333333' }}; opacity: 0.75; }
+  .cf-footer__address { font-style: normal; margin-top: 14px; font-size: 14px; line-height: 1.6; color: {{ section.settings.text_color | default: '#333333' }}; opacity: 0.75; }
 
   .cf-footer__heading { font-size: 20px; font-weight: 700; margin: 0 0 16px; color: {{ section.settings.text_color | default: '#333333' }}; }
   .cf-footer__links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
@@ -122,10 +111,13 @@
   .cf-footer__social-link { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: #111; color: #fff; text-decoration: none; transition: background 0.2s, transform 0.2s; }
   .cf-footer__social-link:hover { background: {{ section.settings.accent_color | default: '#e8175d' }}; transform: scale(1.1); }
 
-  .cf-footer__bottom { border-top: none; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 16px 40px; }
-  .cf-footer__copyright { font-size: 13px; color: #888; margin: 0; }
-  .cf-footer__payments  { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
-  .cf-footer__payment-icon { height: 26px; width: auto; border-radius: 4px; }
+  .cf-footer__bottom { border-top: none; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 16px 40px 24px; }
+  .cf-footer__copyright { font-size: 13px; color: #888; margin: 0; white-space: nowrap; }
+  .cf-footer__payments  { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .cf-footer__payment-icon { height: 28px; width: auto; border-radius: 4px; display: inline-block; }
+
+  /* Hide the theme's built-in footer that shows as a black box below */
+  footer:not(.cf-footer) { display: none !important; }
 
   @media (max-width: 900px) {
     .cf-footer-wrap { padding-left: 20px !important; padding-right: 20px !important; }
