@@ -1,7 +1,6 @@
 {% comment %}
-  Custom Footer Section — Novomins-inspired layout
-  Columns: Logo/Contact/Newsletter | Company | Account | Legal | Follow Us
-  Bottom bar: Copyright | Payment icons
+  Custom Footer Section — FuelX
+  Updates: rounded top corners, page-matched margins, bigger fonts, country-dial dropdown
 {% endcomment %}
 
 <footer class="cf-footer" role="contentinfo">
@@ -12,9 +11,9 @@
       <a href="{{ routes.root_url }}" class="cf-footer__logo-link" aria-label="{{ shop.name }}">
         {%- if section.settings.logo != blank -%}
           <img
-            src="{{ section.settings.logo | image_url: width: 180 }}"
+            src="{{ section.settings.logo | image_url: width: 200 }}"
             alt="{{ shop.name }}"
-            width="180"
+            width="200"
             height="auto"
             loading="lazy"
             class="cf-footer__logo-img"
@@ -32,14 +31,7 @@
       {%- endif -%}
 
       <!-- Email signup -->
-      <form
-        method="post"
-        action="/contact#cf-email-form"
-        id="cf-email-form"
-        class="cf-footer__form"
-        accept-charset="UTF-8"
-        novalidate
-      >
+      <form method="post" action="/contact#cf-email-form" id="cf-email-form" class="cf-footer__form" accept-charset="UTF-8" novalidate>
         <input type="hidden" name="form_type" value="customer">
         <input type="hidden" name="utf8" value="✓">
         <input type="hidden" name="contact[tags]" value="newsletter">
@@ -51,7 +43,7 @@
             class="cf-footer__input"
             placeholder="{{ section.settings.email_placeholder | default: 'Enter your email' }}"
             autocomplete="email"
-            aria-label="{{ section.settings.email_placeholder | default: 'Enter your email' }}"
+            aria-label="Email address"
           >
           <button type="submit" class="cf-footer__submit-btn" aria-label="Subscribe by email">
             {% render 'cf-footer-send-icon' %}
@@ -59,30 +51,43 @@
         </div>
       </form>
 
-      <!-- Phone signup -->
-      <form
-        method="post"
-        action="/contact#cf-phone-form"
-        id="cf-phone-form"
-        class="cf-footer__form"
-        accept-charset="UTF-8"
-        novalidate
-      >
+      <!-- Phone signup with country-dial dropdown -->
+      <form method="post" action="/contact#cf-phone-form" id="cf-phone-form" class="cf-footer__form" accept-charset="UTF-8" novalidate>
         <input type="hidden" name="form_type" value="customer">
         <input type="hidden" name="utf8" value="✓">
-        <div class="cf-footer__input-row">
-          <div class="cf-footer__phone-input-wrap">
-            <span class="cf-footer__flag" aria-hidden="true">🇬🇧</span>
-            <input
-              type="tel"
-              name="contact[phone]"
-              id="cf-phone"
-              class="cf-footer__input cf-footer__input--phone"
-              placeholder="{{ section.settings.phone_placeholder | default: 'Phone Number' }}"
-              autocomplete="tel"
-              aria-label="{{ section.settings.phone_placeholder | default: 'Phone Number' }}"
-            >
+        <input type="hidden" name="contact[dial_code]" id="cf-dial-hidden" value="+44">
+        <div class="cf-footer__input-row cf-footer__input-row--phone">
+
+          <!-- Country picker trigger -->
+          <div class="cf-dial" id="cf-dial" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-label="Select country code" tabindex="0">
+            <span class="cf-dial__flag" id="cf-dial-flag" aria-hidden="true">🇬🇧</span>
+            <span class="cf-dial__code" id="cf-dial-code">+44</span>
+            <svg class="cf-dial__chevron" viewBox="0 0 10 6" fill="none" width="10" height="6" aria-hidden="true">
+              <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
+            <!-- Dropdown -->
+            <div class="cf-dial__dropdown" id="cf-dial-dropdown" role="listbox" aria-label="Country codes">
+              <div class="cf-dial__search-wrap">
+                <input type="text" class="cf-dial__search" placeholder="Search country…" aria-label="Search country" autocomplete="off">
+              </div>
+              <ul class="cf-dial__list" id="cf-dial-list">
+                <!-- populated by JS -->
+              </ul>
+            </div>
           </div>
+
+          <div class="cf-dial__divider" aria-hidden="true"></div>
+
+          <input
+            type="tel"
+            name="contact[phone]"
+            id="cf-phone"
+            class="cf-footer__input cf-footer__input--phone"
+            placeholder="{{ section.settings.phone_placeholder | default: 'Phone Number' }}"
+            autocomplete="tel"
+            aria-label="Phone number"
+          >
           <button type="submit" class="cf-footer__submit-btn" aria-label="Subscribe by phone">
             {% render 'cf-footer-send-icon' %}
           </button>
@@ -90,7 +95,7 @@
       </form>
     </div>
 
-    <!-- Col 2: Company links -->
+    <!-- Col 2: Company -->
     <div class="cf-footer__col">
       <h3 class="cf-footer__heading">{{ section.settings.col2_heading | default: 'Company' }}</h3>
       <ul class="cf-footer__links" role="list">
@@ -104,7 +109,7 @@
       </ul>
     </div>
 
-    <!-- Col 3: Account links -->
+    <!-- Col 3: Account -->
     <div class="cf-footer__col">
       <h3 class="cf-footer__heading">{{ section.settings.col3_heading | default: 'Account' }}</h3>
       <ul class="cf-footer__links" role="list">
@@ -118,7 +123,7 @@
       </ul>
     </div>
 
-    <!-- Col 4: Legal links -->
+    <!-- Col 4: Legal -->
     <div class="cf-footer__col">
       <h3 class="cf-footer__heading">{{ section.settings.col4_heading | default: 'Legal' }}</h3>
       <ul class="cf-footer__links" role="list">
@@ -169,55 +174,59 @@
       </div>
     </div>
 
-  </div><!-- /.cf-footer__inner -->
+  </div>
 
   <!-- Bottom bar -->
   <div class="cf-footer__bottom">
-    <p class="cf-footer__copyright">
-      &copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}
-    </p>
+    <p class="cf-footer__copyright">&copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</p>
     <div class="cf-footer__payments">
       {{ shop.enabled_payment_types | payment_type_svg_tag: class: 'cf-footer__payment-icon' }}
     </div>
   </div>
-
 </footer>
 
 <style>
+  /* ─── Outer shell ─────────────────────────────────────── */
   .cf-footer {
     background-color: {{ section.settings.bg_color | default: '#f5f5f7' }};
     color: {{ section.settings.text_color | default: '#333333' }};
     font-family: inherit;
-    padding: 60px 0 0;
+    /* rounded top corners */
+    border-radius: 24px 24px 0 0;
+    overflow: hidden;
+    /* margin matches theme page margins (same side gap as header) */
+    margin-left: var(--page-width-margin, 0px);
+    margin-right: var(--page-width-margin, 0px);
+    padding-top: 60px;
   }
 
+  /* ─── Inner grid ──────────────────────────────────────── */
   .cf-footer__inner {
-    max-width: 1280px;
+    /* use CSS var from theme if present, fall back to 5vw which matches most Dawn-based themes */
+    max-width: var(--page-width, 1280px);
     margin: 0 auto;
-    padding: 0 24px 40px;
+    padding: 0 max(24px, 5vw) 48px;
     display: grid;
     grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
     gap: 40px;
     align-items: start;
   }
 
-  /* Logo */
-  .cf-footer__logo-link { display: inline-block; margin-bottom: 14px; }
-  .cf-footer__logo-img  { max-width: 180px; height: auto; display: block; }
-  .cf-footer__logo-text {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
+  /* ─── Logo ────────────────────────────────────────────── */
+  .cf-footer__logo-link  { display: inline-block; margin-bottom: 16px; }
+  .cf-footer__logo-img   { max-width: 200px; height: auto; display: block; }
+  .cf-footer__logo-text  {
+    font-size: 24px; font-weight: 800; letter-spacing: -0.5px;
     color: {{ section.settings.text_color | default: '#333333' }};
     text-decoration: none;
   }
 
-  /* Phone */
-  .cf-footer__phone { font-size: 13px; margin: 0 0 16px; color: {{ section.settings.text_color | default: '#333333' }}; }
+  /* ─── Phone line ──────────────────────────────────────── */
+  .cf-footer__phone { font-size: 15px; margin: 0 0 18px; color: {{ section.settings.text_color | default: '#333333' }}; }
   .cf-footer__phone a { color: inherit; text-decoration: none; }
   .cf-footer__phone a:hover { text-decoration: underline; }
 
-  /* Forms */
+  /* ─── Input rows ──────────────────────────────────────── */
   .cf-footer__form { margin-bottom: 12px; }
   .cf-footer__input-row {
     display: flex;
@@ -225,190 +234,323 @@
     background: #fff;
     border: 1.5px solid #ddd;
     border-radius: 50px;
-    overflow: hidden;
-    height: 44px;
-    padding-left: 14px;
+    overflow: visible;
+    height: 48px;
+    padding-left: 16px;
+    position: relative;
   }
+  .cf-footer__input-row--phone { padding-left: 0; overflow: visible; }
+
   .cf-footer__input {
     flex: 1;
     border: none;
     outline: none;
     background: transparent;
-    font-size: 13px;
+    font-size: 15px;
     color: #333;
     min-width: 0;
+    padding: 0 4px;
   }
-  .cf-footer__phone-input-wrap {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    gap: 6px;
-    min-width: 0;
-  }
-  .cf-footer__flag { font-size: 16px; flex-shrink: 0; }
-  .cf-footer__input--phone { flex: 1; }
+
   .cf-footer__submit-btn {
     background: {{ section.settings.accent_color | default: '#e8175d' }};
     border: none;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 38px; height: 38px;
     flex-shrink: 0;
-    margin: 4px;
+    margin: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.15s ease;
   }
-  .cf-footer__submit-btn:hover {
-    background: {{ section.settings.accent_hover | default: '#c0134d' }};
-  }
+  .cf-footer__submit-btn:hover { background: {{ section.settings.accent_hover | default: '#c0134d' }}; transform: scale(1.08); }
   .cf-footer__submit-btn svg { pointer-events: none; }
 
-  /* Nav columns */
-  .cf-footer__heading {
+  /* ─── Country dial picker ─────────────────────────────── */
+  .cf-dial {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 10px 0 14px;
+    height: 100%;
+    cursor: pointer;
+    user-select: none;
+    flex-shrink: 0;
+    border-radius: 50px 0 0 50px;
+    transition: background 0.15s;
+  }
+  .cf-dial:hover, .cf-dial:focus { background: rgba(0,0,0,0.04); outline: none; }
+  .cf-dial__flag  { font-size: 18px; line-height: 1; }
+  .cf-dial__code  { font-size: 14px; font-weight: 600; color: #333; white-space: nowrap; }
+  .cf-dial__chevron { color: #888; transition: transform 0.2s; flex-shrink: 0; }
+  .cf-dial[aria-expanded="true"] .cf-dial__chevron { transform: rotate(180deg); }
+
+  .cf-dial__divider {
+    width: 1px; height: 24px;
+    background: #ddd;
+    flex-shrink: 0;
+    margin-right: 8px;
+  }
+
+  /* Dropdown panel */
+  .cf-dial__dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 280px;
+    background: #fff;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    z-index: 9999;
+    overflow: hidden;
+  }
+  .cf-dial[aria-expanded="true"] .cf-dial__dropdown { display: block; }
+
+  .cf-dial__search-wrap { padding: 10px 10px 6px; }
+  .cf-dial__search {
+    width: 100%;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 7px 10px;
     font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+  }
+  .cf-dial__search:focus { border-color: {{ section.settings.accent_color | default: '#e8175d' }}; }
+
+  .cf-dial__list {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0 8px;
+    max-height: 220px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ddd transparent;
+  }
+  .cf-dial__list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.12s;
+  }
+  .cf-dial__list li:hover, .cf-dial__list li.is-active { background: #f5f5f7; }
+  .cf-dial__list li.is-active { font-weight: 600; }
+  .cf-dial__item-flag  { font-size: 18px; flex-shrink: 0; }
+  .cf-dial__item-name  { flex: 1; color: #333; }
+  .cf-dial__item-code  { color: #888; font-size: 13px; white-space: nowrap; }
+  .cf-dial__list li[hidden] { display: none; }
+
+  /* ─── Nav columns ─────────────────────────────────────── */
+  .cf-footer__heading {
+    font-size: 15px;
     font-weight: 700;
-    margin: 0 0 16px;
+    margin: 0 0 18px;
     color: {{ section.settings.text_color | default: '#333333' }};
     letter-spacing: 0.02em;
   }
   .cf-footer__links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 12px;
   }
   .cf-footer__links a {
-    font-size: 13px;
+    font-size: 15px;
     color: {{ section.settings.link_color | default: '#666666' }};
     text-decoration: none;
     transition: color 0.2s ease;
   }
   .cf-footer__links a:hover { color: {{ section.settings.accent_color | default: '#e8175d' }}; }
 
-  /* Social */
+  /* ─── Social icons ────────────────────────────────────── */
   .cf-footer__social-grid {
     display: grid;
-    grid-template-columns: repeat(3, 40px);
+    grid-template-columns: repeat(3, 42px);
     gap: 10px;
   }
   .cf-footer__social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    width: 42px; height: 42px;
     border-radius: 50%;
-    background: #111;
-    color: #fff;
+    background: #111; color: #fff;
     text-decoration: none;
     transition: background 0.2s ease, transform 0.2s ease;
   }
   .cf-footer__social-link:hover {
     background: {{ section.settings.accent_color | default: '#e8175d' }};
-    transform: scale(1.08);
+    transform: scale(1.1);
   }
 
-  /* Bottom bar */
+  /* ─── Bottom bar ──────────────────────────────────────── */
   .cf-footer__bottom {
     border-top: 1px solid #e0e0e0;
-    max-width: 1280px;
+    max-width: var(--page-width, 1280px);
     margin: 0 auto;
-    padding: 18px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
+    padding: 18px max(24px, 5vw);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
   }
-  .cf-footer__copyright {
-    font-size: 12px;
-    color: #888;
-    margin: 0;
-  }
-  .cf-footer__payments {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    align-items: center;
-  }
-  .cf-footer__payment-icon {
-    height: 26px;
-    width: auto;
-    border-radius: 4px;
-  }
+  .cf-footer__copyright { font-size: 13px; color: #888; margin: 0; }
+  .cf-footer__payments  { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .cf-footer__payment-icon { height: 26px; width: auto; border-radius: 4px; }
 
-  /* Responsive */
+  /* ─── Responsive ──────────────────────────────────────── */
   @media (max-width: 1024px) {
-    .cf-footer__inner {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
+    .cf-footer__inner { grid-template-columns: 1fr 1fr 1fr; }
     .cf-footer__brand { grid-column: 1 / -1; }
   }
   @media (max-width: 640px) {
-    .cf-footer__inner {
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-    }
+    .cf-footer { border-radius: 16px 16px 0 0; }
+    .cf-footer__inner { grid-template-columns: 1fr 1fr; gap: 28px; }
     .cf-footer__brand { grid-column: 1 / -1; }
     .cf-footer__col--social { grid-column: 1 / -1; }
-    .cf-footer__social-grid { grid-template-columns: repeat(6, 40px); }
+    .cf-footer__social-grid { grid-template-columns: repeat(6, 42px); }
     .cf-footer__bottom { flex-direction: column; align-items: flex-start; }
+    .cf-dial__dropdown { width: 240px; }
   }
 </style>
+
+<script>
+(function () {
+  var countries = [
+    { flag: '🇬🇧', name: 'United Kingdom', code: '+44' },
+    { flag: '🇺🇸', name: 'United States',  code: '+1'  },
+    { flag: '🇨🇦', name: 'Canada',          code: '+1'  },
+    { flag: '🇦🇺', name: 'Australia',       code: '+61' },
+    { flag: '🇮🇪', name: 'Ireland',         code: '+353'},
+    { flag: '🇩🇪', name: 'Germany',         code: '+49' },
+    { flag: '🇫🇷', name: 'France',          code: '+33' },
+    { flag: '🇪🇸', name: 'Spain',           code: '+34' },
+    { flag: '🇮🇹', name: 'Italy',           code: '+39' },
+    { flag: '🇳🇱', name: 'Netherlands',     code: '+31' },
+    { flag: '🇧🇪', name: 'Belgium',         code: '+32' },
+    { flag: '🇸🇪', name: 'Sweden',          code: '+46' },
+    { flag: '🇳🇴', name: 'Norway',          code: '+47' },
+    { flag: '🇩🇰', name: 'Denmark',         code: '+45' },
+    { flag: '🇫🇮', name: 'Finland',         code: '+358'},
+    { flag: '🇨🇭', name: 'Switzerland',     code: '+41' },
+    { flag: '🇦🇹', name: 'Austria',         code: '+43' },
+    { flag: '🇵🇹', name: 'Portugal',        code: '+351'},
+    { flag: '🇵🇱', name: 'Poland',          code: '+48' },
+    { flag: '🇬🇷', name: 'Greece',          code: '+30' },
+    { flag: '🇿🇦', name: 'South Africa',    code: '+27' },
+    { flag: '🇮🇳', name: 'India',           code: '+91' },
+    { flag: '🇵🇰', name: 'Pakistan',        code: '+92' },
+    { flag: '🇧🇩', name: 'Bangladesh',      code: '+880'},
+    { flag: '🇸🇬', name: 'Singapore',       code: '+65' },
+    { flag: '🇲🇾', name: 'Malaysia',        code: '+60' },
+    { flag: '🇳🇿', name: 'New Zealand',     code: '+64' },
+    { flag: '🇯🇵', name: 'Japan',           code: '+81' },
+    { flag: '🇰🇷', name: 'South Korea',     code: '+82' },
+    { flag: '🇨🇳', name: 'China',           code: '+86' },
+    { flag: '🇧🇷', name: 'Brazil',          code: '+55' },
+    { flag: '🇲🇽', name: 'Mexico',          code: '+52' },
+    { flag: '🇦🇪', name: 'UAE',             code: '+971'},
+    { flag: '🇸🇦', name: 'Saudi Arabia',    code: '+966'},
+    { flag: '🇶🇦', name: 'Qatar',           code: '+974'},
+    { flag: '🇳🇬', name: 'Nigeria',         code: '+234'},
+    { flag: '🇰🇪', name: 'Kenya',           code: '+254'},
+    { flag: '🇷🇺', name: 'Russia',          code: '+7'  },
+    { flag: '🇹🇷', name: 'Turkey',          code: '+90' },
+  ];
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var dial      = document.getElementById('cf-dial');
+    if (!dial) return;
+
+    var flagEl    = document.getElementById('cf-dial-flag');
+    var codeEl    = document.getElementById('cf-dial-code');
+    var hidden    = document.getElementById('cf-dial-hidden');
+    var list      = document.getElementById('cf-dial-list');
+    var searchEl  = dial.querySelector('.cf-dial__search');
+    var activeIdx = 0;
+
+    /* Build list */
+    countries.forEach(function (c, i) {
+      var li = document.createElement('li');
+      li.setAttribute('role', 'option');
+      li.dataset.idx = i;
+      li.innerHTML =
+        '<span class="cf-dial__item-flag">' + c.flag + '</span>' +
+        '<span class="cf-dial__item-name">' + c.name + '</span>' +
+        '<span class="cf-dial__item-code">' + c.code + '</span>';
+      if (i === 0) li.classList.add('is-active');
+      li.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        select(i);
+        close();
+      });
+      list.appendChild(li);
+    });
+
+    function select(i) {
+      activeIdx = i;
+      var c = countries[i];
+      flagEl.textContent  = c.flag;
+      codeEl.textContent  = c.code;
+      hidden.value        = c.code;
+      list.querySelectorAll('li').forEach(function (el, j) {
+        el.classList.toggle('is-active', j === i);
+      });
+    }
+
+    function open() {
+      dial.setAttribute('aria-expanded', 'true');
+      searchEl.value = '';
+      filter('');
+      setTimeout(function () { searchEl.focus(); }, 50);
+    }
+    function close() {
+      dial.setAttribute('aria-expanded', 'false');
+    }
+
+    function filter(q) {
+      var lq = q.toLowerCase();
+      list.querySelectorAll('li').forEach(function (li, i) {
+        var match = countries[i].name.toLowerCase().includes(lq) ||
+                    countries[i].code.includes(lq);
+        li.hidden = !match;
+      });
+    }
+
+    dial.addEventListener('click', function (e) {
+      if (e.target.closest('.cf-dial__dropdown')) return;
+      dial.getAttribute('aria-expanded') === 'true' ? close() : open();
+    });
+    dial.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+      if (e.key === 'Escape') close();
+    });
+    searchEl.addEventListener('input', function () { filter(searchEl.value); });
+    searchEl.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+    document.addEventListener('click', function (e) {
+      if (!dial.contains(e.target)) close();
+    });
+  });
+})();
+</script>
 
 {% schema %}
 {
   "name": "Custom Footer",
   "settings": [
-    {
-      "type": "header",
-      "content": "Brand"
-    },
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo image"
-    },
-    {
-      "type": "text",
-      "id": "phone",
-      "label": "Phone number",
-      "default": "01863723207"
-    },
-    {
-      "type": "text",
-      "id": "phone_label",
-      "label": "Phone label",
-      "default": "Call us on:"
-    },
-    {
-      "type": "text",
-      "id": "email_placeholder",
-      "label": "Email placeholder",
-      "default": "Enter your email"
-    },
-    {
-      "type": "text",
-      "id": "phone_placeholder",
-      "label": "Phone placeholder",
-      "default": "Phone Number"
-    },
-    {
-      "type": "header",
-      "content": "Column 2 — Company"
-    },
-    {
-      "type": "text",
-      "id": "col2_heading",
-      "label": "Heading",
-      "default": "Company"
-    },
+    { "type": "header", "content": "Brand" },
+    { "type": "image_picker", "id": "logo", "label": "Logo image" },
+    { "type": "text",  "id": "phone",            "label": "Phone number",      "default": "01863723207" },
+    { "type": "text",  "id": "phone_label",       "label": "Phone label",       "default": "Call us on:" },
+    { "type": "text",  "id": "email_placeholder", "label": "Email placeholder", "default": "Enter your email" },
+    { "type": "text",  "id": "phone_placeholder", "label": "Phone placeholder", "default": "Phone Number" },
+
+    { "type": "header", "content": "Column 2 — Company" },
+    { "type": "text", "id": "col2_heading", "label": "Heading", "default": "Company" },
     { "type": "text", "id": "col2_link1_label", "label": "Link 1 label", "default": "Health Blog" },
     { "type": "url",  "id": "col2_link1_url",   "label": "Link 1 URL" },
     { "type": "text", "id": "col2_link2_label", "label": "Link 2 label", "default": "Take Our Quiz" },
@@ -421,16 +563,9 @@
     { "type": "url",  "id": "col2_link5_url",   "label": "Link 5 URL" },
     { "type": "text", "id": "col2_link6_label", "label": "Link 6 label" },
     { "type": "url",  "id": "col2_link6_url",   "label": "Link 6 URL" },
-    {
-      "type": "header",
-      "content": "Column 3 — Account"
-    },
-    {
-      "type": "text",
-      "id": "col3_heading",
-      "label": "Heading",
-      "default": "Account"
-    },
+
+    { "type": "header", "content": "Column 3 — Account" },
+    { "type": "text", "id": "col3_heading", "label": "Heading", "default": "Account" },
     { "type": "text", "id": "col3_link1_label", "label": "Link 1 label", "default": "Rewards" },
     { "type": "url",  "id": "col3_link1_url",   "label": "Link 1 URL" },
     { "type": "text", "id": "col3_link2_label", "label": "Link 2 label", "default": "Subscriptions" },
@@ -443,16 +578,9 @@
     { "type": "url",  "id": "col3_link5_url",   "label": "Link 5 URL" },
     { "type": "text", "id": "col3_link6_label", "label": "Link 6 label" },
     { "type": "url",  "id": "col3_link6_url",   "label": "Link 6 URL" },
-    {
-      "type": "header",
-      "content": "Column 4 — Legal"
-    },
-    {
-      "type": "text",
-      "id": "col4_heading",
-      "label": "Heading",
-      "default": "Legal"
-    },
+
+    { "type": "header", "content": "Column 4 — Legal" },
+    { "type": "text", "id": "col4_heading", "label": "Heading", "default": "Legal" },
     { "type": "text", "id": "col4_link1_label", "label": "Link 1 label", "default": "Terms of Service" },
     { "type": "url",  "id": "col4_link1_url",   "label": "Link 1 URL" },
     { "type": "text", "id": "col4_link2_label", "label": "Link 2 label", "default": "Privacy Policy" },
@@ -465,61 +593,23 @@
     { "type": "url",  "id": "col4_link5_url",   "label": "Link 5 URL" },
     { "type": "text", "id": "col4_link6_label", "label": "Link 6 label" },
     { "type": "url",  "id": "col4_link6_url",   "label": "Link 6 URL" },
-    {
-      "type": "header",
-      "content": "Social media"
-    },
-    {
-      "type": "text",
-      "id": "social_heading",
-      "label": "Heading",
-      "default": "Follow Us"
-    },
+
+    { "type": "header", "content": "Social media" },
+    { "type": "text", "id": "social_heading", "label": "Heading", "default": "Follow Us" },
     { "type": "url", "id": "social_facebook",  "label": "Facebook URL" },
     { "type": "url", "id": "social_twitter",   "label": "X / Twitter URL" },
     { "type": "url", "id": "social_instagram", "label": "Instagram URL" },
     { "type": "url", "id": "social_linkedin",  "label": "LinkedIn URL" },
     { "type": "url", "id": "social_tiktok",    "label": "TikTok URL" },
     { "type": "url", "id": "social_whatsapp",  "label": "WhatsApp URL" },
-    {
-      "type": "header",
-      "content": "Colours"
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background",
-      "default": "#f5f5f7"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text colour",
-      "default": "#333333"
-    },
-    {
-      "type": "color",
-      "id": "link_color",
-      "label": "Link colour",
-      "default": "#666666"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent / button colour",
-      "default": "#e8175d"
-    },
-    {
-      "type": "color",
-      "id": "accent_hover",
-      "label": "Accent hover colour",
-      "default": "#c0134d"
-    }
+
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "bg_color",      "label": "Background",            "default": "#f5f5f7" },
+    { "type": "color", "id": "text_color",    "label": "Text colour",           "default": "#333333" },
+    { "type": "color", "id": "link_color",    "label": "Link colour",           "default": "#666666" },
+    { "type": "color", "id": "accent_color",  "label": "Accent / button colour","default": "#e8175d" },
+    { "type": "color", "id": "accent_hover",  "label": "Accent hover colour",   "default": "#c0134d" }
   ],
-  "presets": [
-    {
-      "name": "Custom Footer"
-    }
-  ]
+  "presets": [{ "name": "Custom Footer" }]
 }
 {% endschema %}
