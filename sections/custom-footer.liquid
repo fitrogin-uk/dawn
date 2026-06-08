@@ -1,5 +1,5 @@
 {% comment %}
-  Shopify Custom Footer Template - Structural Part with Theme Controls
+  Shopify Custom Footer Template - Structural Part
   Save this content as 'sections/custom-footer.liquid'
 {% endcomment %}
 
@@ -10,7 +10,7 @@
     <div class="footer-column brand-column" style="--brand-width: {{ section.settings.brand_column_width }}%;">
       <div class="footer-logo-wrapper">
         {% if section.settings.logo != blank %}
-          <img src="{{ section.settings.logo | image_url: width: 250 }}" alt="{{ shop.name }}" class="footer-logo" style="max-width: {{ section.settings.logo_max_width }}px;">
+          <img src="{{ section.settings.logo | image_url: width: 200 }}" alt="{{ shop.name }}" class="footer-logo" style="max-width: {{ section.settings.logo_max_width }}px;">
         {% else %}
           <h2 class="footer-brand-name">{{ shop.name }}</h2>
         {% endif %}
@@ -46,21 +46,38 @@
       </div>
     </div>
 
-    <!-- Dynamic Menu Columns 2, 3, 4 -->
-    {% for block in section.blocks %}
-      {% if block.type == 'link_list' %}
-        <div class="footer-column menu-column" {{ block.shopify_attributes }}>
-          <h3 class="footer-heading">{{ block.settings.heading | escape }}</h3>
-          <ul class="footer-menu-links">
-            {% for link in block.settings.menu.links %}
-              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
-    {% endfor %}
+    <!-- Column 2: Company Menu Column -->
+    <div class="footer-column menu-column">
+      <h3 class="footer-heading">Company</h3>
+      <ul class="footer-menu-links">
+        <li><a href="/blogs/news">Blogs</a></li>
+        <li><a href="/pages/contact">Contact Us</a></li>
+        <li><a href="/pages/about-us">Who We Are</a></li>
+      </ul>
+    </div>
 
-    <!-- Column 5: Social Media Links -->
+    <!-- Column 3: Account Menu Column -->
+    <div class="footer-column menu-column">
+      <h3 class="footer-heading">Account</h3>
+      <ul class="footer-menu-links">
+        <li><a href="/account/login">Login</a></li>
+        <li><a href="/account/register">Register</a></li>
+        <li><a href="/account">My Orders</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 4: Legal Menu Column -->
+    <div class="footer-column menu-column">
+      <h3 class="footer-heading">Legal</h3>
+      <ul class="footer-menu-links">
+        <li><a href="/policies/terms-of-service">Terms of Service</a></li>
+        <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
+        <li><a href="/policies/shipping-policy">Shipping Policy</a></li>
+        <li><a href="/policies/refund-policy">Refund Policy</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 5: Follow Us Social Column -->
     <div class="footer-column social-column">
       <h3 class="footer-heading">Follow Us</h3>
       <div class="social-icons">
@@ -69,16 +86,15 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 12.991 22 12z"/></svg>
           </a>
         {% endif %}
-        {% if settings.social_twitter_link != blank %}
-          <a href="{{ settings.social_twitter_link }}" target="_blank" aria-label="X (Twitter)">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
-        {% endif %}
         {% if settings.social_instagram_link != blank %}
           <a href="{{ settings.social_instagram_link }}" target="_blank" aria-label="Instagram">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.072-4.948-.2-4.358-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
           </a>
         {% endif %}
+        <!-- Added WhatsApp Custom Link Target -->
+        <a href="https://wa.me" target="_blank" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.717-1.456L0 24zm6.59-3.513c1.6.95 3.578 1.477 5.621 1.478 5.542 0 10.051-4.503 10.055-10.042.002-2.684-1.04-5.207-2.935-7.105C17.48 2.92 14.962 1.874 12.28.1874c-5.545 0-10.054 4.503-10.058 10.043-.001 2.094.549 4.14 1.595 5.945l-1.05 3.835 3.926-1.03c1.766.963 3.763 1.47 5.754 1.47zm11.378-7.7c-.312-.156-1.85-.912-2.135-1.017-.286-.104-.495-.156-.703.156-.208.312-.807 1.017-.989 1.225-.182.208-.364.234-.676.078-.312-.156-1.318-.486-2.51-1.549-.928-.827-1.554-1.849-1.737-2.162-.182-.312-.02-.48.137-.635.141-.14.312-.364.468-.546.156-.182.208-.312.312-.52.104-.208.052-.39-.026-.546-.078-.156-.703-1.693-.963-2.317-.253-.61-.51-.527-.703-.537-.182-.01-.39-.012-.598-.012-.208 0-.546.078-.832.39-.286.312-1.092 1.067-1.092 2.603 0 1.536 1.117 3.02 1.273 3.229.156.208 2.197 3.355 5.323 4.704.744.321 1.323.512 1.774.656.748.237 1.43.204 1.969.124.6-.09 1.85-.756 2.109-1.484.259-.729.259-1.354.182-1.484-.077-.13-.286-.208-.597-.364z"/></svg>
+        </a>
       </div>
     </div>
 
@@ -119,7 +135,7 @@
       "step": 5,
       "unit": "px",
       "label": "Logo Max Width",
-      "default": 180
+      "default": 130
     },
     {
       "type": "range",
@@ -143,41 +159,13 @@
       "label": "Show Payment Icons",
       "default": true
     }
-  ],
-  "blocks": [
-    {
-      "type": "link_list",
-      "name": "Menu Column",
-      "limit": 3,
-      "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Column Heading",
-          "default": "Quick Links"
-        },
-        {
-          "type": "link_list",
-          "id": "menu",
-          "label": "Select Menu"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Custom Modern Footer",
-      "blocks": [
-        { "type": "link_list", "settings": { "heading": "Company" } },
-        { "type": "link_list", "settings": { "heading": "Account" } },
-        { "type": "link_list", "settings": { "heading": "Legal" } }
-      ]
-    }
   ]
 }
 {% endschema %}
+
+
 <style>
-  /* Outer background settings */
+  /* Outer background configurations */
   footer.site-footer,
   .site-footer {
     background: transparent !important;
@@ -188,10 +176,7 @@
     box-sizing: border-box !important;
   }
 
-  /* 
-    Main Layout Box.
-    align-items: flex-start ensures top headers and logo line up perfectly.
-  */
+  /* Main Footer Panel Container */
   .footer-container {
     background-color: #f7f7f7 !important;
     margin-left: 3vw !important;                
@@ -203,23 +188,21 @@
     display: flex !important;
     flex-wrap: nowrap !important;
     justify-content: space-between !important;
-    align-items: flex-start !important;        /* Flattens top alignments */
+    align-items: flex-start !important;        
     gap: 20px !important;
     box-sizing: border-box !important;
   }
 
-  /* 
-    Logo structure constraints 
-    Nudges the logo up slightly to pull out empty spacer gaps and match text baselines.
-  */
+  /* Logo adjustment configurations */
   .footer-logo-wrapper {
-    margin-top: -12px !important;              /* Perfectly matches the baseline of the text headers */
+    margin-top: -16px !important;             /* Elevated positioning pulls top edge flush */
     margin-bottom: 20px !important;
     display: block !important;
     line-height: 1 !important;                 
   }
   
   .footer-logo {
+    max-width: 135px !important;              /* Scaled down footprint matches menu items */
     height: auto !important;
     display: block !important;
   }
@@ -235,7 +218,7 @@
     margin-bottom: 15px !important;
   }
 
-  /* Bottom copyright container */
+  /* Bottom copyright panel */
   .footer-bottom {
     margin-left: 3vw !important;                
     margin-right: 3vw !important;               
@@ -256,25 +239,26 @@
     width: 100% !important;
   }
 
-  /* Flexible column sizing matrix rules */
+  /* Flexible column sizing rules */
   .footer-column {
     flex: 1 !important;
     min-width: 120px !important;
   }
 
-  /* Width controlled fluidly by theme customizer settings */
   .brand-column {
     flex: 0 0 var(--brand-width, 25%) !important;
     min-width: 240px !important;
   }
 
+  /* Enlarged Header Fonts */
   .footer-heading {
-    font-size: 14px !important;
+    font-size: 17px !important;                /* Increased font sizing */
     text-transform: uppercase !important;
-    margin: 0 0 20px 0 !important;             /* Aligns margin heights with the logo */
-    font-weight: bold !important;
-    letter-spacing: 1px !important;
+    margin: 0 0 20px 0 !important;             
+    font-weight: 800 !important;               /* More distinct bold weight */
+    letter-spacing: 1.2px !important;
     line-height: 1 !important;
+    color: #000 !important;
   }
 
   .footer-menu-links {
@@ -293,6 +277,11 @@
     font-size: 14px !important;
   }
 
+  .footer-menu-links a:hover {
+    color: #000 !important;
+  }
+
+  /* Branded Social Icons Setup */
   .social-icons {
     display: flex !important;
     gap: 15px !important;
@@ -300,13 +289,18 @@
   }
 
   .social-icons a {
-    color: #333 !important;
+    color: #000 !important;
     display: inline-block !important;
-    width: 18px !important;
-    height: 18px !important;
+    width: 22px !important;                    /* Balanced size for clear tracking */
+    height: 22px !important;
+    transition: transform 0.2s ease !important;
   }
 
-  /* Newsletter configuration shapes */
+  .social-icons a:hover {
+    transform: scale(1.1) !important;
+  }
+
+  /* Newsletter elements styling layout */
   .input-group {
     display: flex !important;
     margin-bottom: 10px !important;
@@ -335,11 +329,7 @@
     justify-content: center !important;
   }
 
-  .btn-submit svg {
-    display: block !important;
-  }
-
-  /* Responsive cheesecake configurations */
+  /* Responsive breakpoints properties matrix */
   @media (max-width: 1150px) {
     .footer-container, .footer-bottom {
       flex-wrap: wrap !important;
@@ -365,4 +355,3 @@
     }
   }
 </style>
-
