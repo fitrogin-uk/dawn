@@ -54,19 +54,19 @@
       </form>
     </div>
 
-    <div class="cf-footer__col">
+    <div class="cf-footer__col cf-footer__col--2">
       <h3 class="cf-footer__heading">{{ section.settings.col2_heading | default: 'Company' }}</h3>
       <ul class="cf-footer__links" role="list">
         {%- for i in (1..6) -%}{%- assign lk='col2_link'|append:i|append:'_label' -%}{%- assign uk='col2_link'|append:i|append:'_url' -%}{%- if section.settings[lk]!=blank -%}<li><a href="{{ section.settings[uk]|default:'#' }}">{{ section.settings[lk] }}</a></li>{%- endif -%}{%- endfor -%}
       </ul>
     </div>
-    <div class="cf-footer__col">
+    <div class="cf-footer__col cf-footer__col--3">
       <h3 class="cf-footer__heading">{{ section.settings.col3_heading | default: 'Account' }}</h3>
       <ul class="cf-footer__links" role="list">
         {%- for i in (1..6) -%}{%- assign lk='col3_link'|append:i|append:'_label' -%}{%- assign uk='col3_link'|append:i|append:'_url' -%}{%- if section.settings[lk]!=blank -%}<li><a href="{{ section.settings[uk]|default:'#' }}">{{ section.settings[lk] }}</a></li>{%- endif -%}{%- endfor -%}
       </ul>
     </div>
-    <div class="cf-footer__col">
+    <div class="cf-footer__col cf-footer__col--4">
       <h3 class="cf-footer__heading">{{ section.settings.col4_heading | default: 'Legal' }}</h3>
       <ul class="cf-footer__links" role="list">
         {%- for i in (1..6) -%}{%- assign lk='col4_link'|append:i|append:'_label' -%}{%- assign uk='col4_link'|append:i|append:'_url' -%}{%- if section.settings[lk]!=blank -%}<li><a href="{{ section.settings[uk]|default:'#' }}">{{ section.settings[lk] }}</a></li>{%- endif -%}{%- endfor -%}
@@ -120,7 +120,7 @@
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
     gap: 40px;
-    padding: 0 100px 45px 100px;
+    padding: 0 40px 45px 100px;
     box-sizing: border-box;
     align-items: start;
   }
@@ -128,6 +128,9 @@
   .cf-footer__col,
   .cf-footer__col--social { min-width: 0; width: auto; }
   .cf-footer__brand { padding-right: 10px; }
+  .cf-footer__col--2 { padding-left: {{ section.settings.col2_offset | default: 0 }}px; }
+  .cf-footer__col--3 { padding-left: {{ section.settings.col3_offset | default: 0 }}px; }
+  .cf-footer__col--4 { padding-left: {{ section.settings.col4_offset | default: 0 }}px; }
 
   .cf-footer__logo-link { display: inline-block; margin-bottom: 14px; max-width: 100%; }
   .cf-footer__logo-img  { max-width: 100%; width: auto; height: auto; display: block; }
@@ -225,6 +228,9 @@
     {"type":"text","id":"email_placeholder","label":"Email placeholder","default":"Enter your email"},
     {"type":"text","id":"phone_placeholder","label":"Phone placeholder","default":"Phone Number"},
     {"type":"range","id":"side_gap","label":"Side gap (px)","min":0,"max":120,"step":4,"default":60},
+    {"type":"range","id":"col2_offset","label":"Company column offset (px)","min":0,"max":100,"step":2,"default":0},
+    {"type":"range","id":"col3_offset","label":"Account column offset (px)","min":0,"max":100,"step":2,"default":0},
+    {"type":"range","id":"col4_offset","label":"Legal column offset (px)","min":0,"max":100,"step":2,"default":0},
     {"type":"header","content":"Column 2 — Company"},
     {"type":"text","id":"col2_heading","label":"Heading","default":"Company"},
     {"type":"text","id":"col2_link1_label","label":"Link 1","default":"Health Blog"},{"type":"url","id":"col2_link1_url","label":"Link 1 URL"},
