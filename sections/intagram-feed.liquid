@@ -72,33 +72,34 @@
 
   /* ── Header ─────────────────────────────────────────── */
   .ig-feed-{{ section.id }} .ig-feed__header {
-    display: flex !important;
+    display: grid !important;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
+    gap: 0;
     width: 100% !important;
     box-sizing: border-box;
     padding: 0 max(20px, 5vw) 24px;
-    gap: 0;
   }
 
-  .ig-feed__title {
+  .ig-feed-{{ section.id }} .ig-feed__title {
     font-size: clamp(18px, 2.5vw, 26px);
     font-weight: 700;
     margin: 0;
     color: {{ section.settings.title_color | default: '#111111' }};
     letter-spacing: -0.02em;
-    flex-shrink: 0;
+    white-space: nowrap;
   }
 
-  .ig-feed__divider {
-    flex: 1;
+  .ig-feed-{{ section.id }} .ig-feed__divider {
+    display: block !important;
     height: 2px;
     background-color: {{ section.settings.divider_color | default: '#111111' }};
     margin: 0 28px;
-    display: block;
-    min-width: 40px;
+    min-width: 0;
+    width: auto;
   }
 
-  .ig-feed__follow-btn {
+  .ig-feed-{{ section.id }} .ig-feed__follow-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -111,13 +112,12 @@
     text-decoration: none;
     white-space: nowrap;
     transition: background 0.2s ease, transform 0.15s ease;
+    justify-self: end;
   }
-  .ig-feed__follow-btn:hover {
+  .ig-feed-{{ section.id }} .ig-feed__follow-btn:hover {
     background: {{ section.settings.button_hover_bg | default: '#333333' }};
     transform: scale(1.03);
   }
-  .ig-feed__follow-icon { flex-shrink: 0; }
-  .ig-feed__arrow       { flex-shrink: 0; }
 
   /* ── Grid ────────────────────────────────────────────── */
   .ig-feed__grid {
