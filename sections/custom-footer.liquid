@@ -15,43 +15,16 @@
           <span class="cf-footer__logo-text">{{ shop.name }}</span>
         {%- endif -%}
       </a>
-      {%- if section.settings.phone != blank -%}
-        <p class="cf-footer__phone">
-          <strong>{{ section.settings.phone_label | default: 'Call us on:' }}</strong>
-          <a href="tel:{{ section.settings.phone | remove: ' ' }}">{{ section.settings.phone }}</a>
-        </p>
-      {%- endif -%}
-      <form method="post" action="/contact#cf-email-form" id="cf-email-form" class="cf-footer__form" accept-charset="UTF-8" novalidate>
-        <input type="hidden" name="form_type" value="customer">
-        <input type="hidden" name="utf8" value="✓">
-        <input type="hidden" name="contact[tags]" value="newsletter">
-        <div class="cf-footer__input-row">
-          <input type="email" name="contact[email]" id="cf-email" class="cf-footer__input" placeholder="{{ section.settings.email_placeholder | default: 'Enter your email' }}" autocomplete="email" aria-label="Email address">
-          <button type="submit" class="cf-footer__submit-btn" aria-label="Subscribe by email">{% render 'cf-footer-send-icon' %}</button>
-        </div>
-      </form>
-      <form method="post" action="/contact#cf-phone-form" id="cf-phone-form" class="cf-footer__form" accept-charset="UTF-8" novalidate>
-        <input type="hidden" name="form_type" value="customer">
-        <input type="hidden" name="utf8" value="✓">
-        <input type="hidden" name="contact[dial_code]" id="cf-dial-hidden" value="+44">
-        <div class="cf-footer__input-row cf-footer__input-row--phone">
-          <button type="button" class="cf-dial__trigger" id="cf-dial-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="cf-dial-panel" aria-label="Select country code">
-            <img id="cf-dial-flag-img" src="https://flagcdn.com/20x15/gb.png" width="20" height="15" alt="GB" class="cf-dial__flag-img">
-            <span class="cf-dial__code" id="cf-dial-code">+44</span>
-            <svg class="cf-dial__chevron" viewBox="0 0 10 6" fill="none" width="10" height="6" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <span class="cf-dial__sep" aria-hidden="true"></span>
-          <input type="tel" name="contact[phone]" id="cf-phone" class="cf-footer__input cf-footer__input--phone" placeholder="{{ section.settings.phone_placeholder | default: 'Phone Number' }}" autocomplete="tel" aria-label="Phone number">
-          <button type="submit" class="cf-footer__submit-btn" aria-label="Subscribe by phone">{% render 'cf-footer-send-icon' %}</button>
-        </div>
-        <div class="cf-dial__panel" id="cf-dial-panel" role="listbox" aria-label="Country codes" hidden>
-          <ul class="cf-dial__list" id="cf-dial-list"></ul>
-          <div class="cf-dial__search-wrap">
-            <svg viewBox="0 0 18 18" fill="none" width="15" height="15" aria-hidden="true"><circle cx="7.5" cy="7.5" r="5.5" stroke="#aaa" stroke-width="1.6"/><path d="M11.5 11.5L16 16" stroke="#aaa" stroke-width="1.6" stroke-linecap="round"/></svg>
-            <input type="text" class="cf-dial__search" id="cf-dial-search" placeholder="Search countries" aria-label="Search country" autocomplete="off">
-          </div>
-        </div>
-      </form>
+      <address class="cf-footer__address">
+        <span class="cf-footer__address-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </span>
+        <span class="cf-footer__address-lines">
+          <span>Parker Lane</span>
+          <span>Burnley</span>
+          <span>BB11 UBU</span>
+        </span>
+      </address>
     </div>
 
     <div class="cf-footer__col cf-footer__col--2">
@@ -136,37 +109,9 @@
   .cf-footer__logo-link { display: inline-block; margin-bottom: 14px; max-width: 100%; }
   .cf-footer__logo-img  { max-width: 100%; width: auto; height: auto; display: block; }
   .cf-footer__logo-text { font-size: 24px; font-weight: 800; color: {{ section.settings.text_color | default: '#333333' }}; text-decoration: none; }
-  .cf-footer__phone { font-size: 15px; margin: 0 0 16px; color: {{ section.settings.text_color | default: '#333333' }}; }
-  .cf-footer__phone a { color: inherit; text-decoration: none; }
-  .cf-footer__phone a:hover { text-decoration: underline; }
-
-  .cf-footer__form { margin-bottom: 10px; position: relative; width: 100%; }
-  .cf-footer__input-row { display: flex; align-items: center; background: #fff; border: 1.5px solid #ddd; border-radius: 50px; height: 44px; padding-left: 16px; overflow: hidden; width: 100%; box-sizing: border-box; }
-  .cf-footer__input-row--phone { padding-left: 0; overflow: visible; }
-  .cf-footer__input { flex: 1; border: none; outline: none; background: transparent; font-size: 14px; color: #333; min-width: 0; padding: 0 6px; }
-  .cf-footer__submit-btn { background: {{ section.settings.accent_color | default: '#e8175d' }}; border: none; border-radius: 50%; width: 36px; height: 36px; flex-shrink: 0; margin: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; transition: background 0.2s, transform 0.15s; }
-  .cf-footer__submit-btn:hover { background: {{ section.settings.accent_hover | default: '#c0134d' }}; transform: scale(1.08); }
-
-  .cf-dial__trigger { display: flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 0 10px 0 12px; height: 100%; border-radius: 50px 0 0 50px; transition: background 0.15s; flex-shrink: 0; }
-  .cf-dial__trigger:hover { background: rgba(0,0,0,0.05); }
-  .cf-dial__flag-img { border-radius: 2px; display: block; flex-shrink: 0; }
-  .cf-dial__code { font-size: 13px; font-weight: 600; color: #333; white-space: nowrap; }
-  .cf-dial__chevron { color: #999; transition: transform 0.2s; flex-shrink: 0; }
-  .cf-dial__trigger[aria-expanded="true"] .cf-dial__chevron { transform: rotate(180deg); }
-  .cf-dial__sep { width: 1px; height: 22px; background: #ddd; flex-shrink: 0; margin-right: 6px; }
-  .cf-dial__panel { position: absolute; bottom: calc(100% + 8px); top: auto; left: 0; width: 100%; min-width: 260px; background: #fff; border: 1.5px solid #e0e0e0; border-radius: 16px; box-shadow: 0 -8px 40px rgba(0,0,0,0.13); z-index: 9999; overflow: hidden; display: flex; flex-direction: column; }
-  .cf-dial__panel[hidden] { display: none; }
-  .cf-dial__list { list-style: none; margin: 0; padding: 6px 0; max-height: 220px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #ddd transparent; order: 1; }
-  .cf-dial__list li { display: flex; align-items: center; gap: 10px; padding: 8px 14px; cursor: pointer; font-size: 14px; transition: background 0.1s; }
-  .cf-dial__list li:hover, .cf-dial__list li.is-active { background: #f5f5f7; }
-  .cf-dial__list li.is-active { font-weight: 600; }
-  .cf-dial__list li[hidden] { display: none; }
-  .cf-dial__item-flag { flex-shrink: 0; border-radius: 2px; }
-  .cf-dial__item-name { flex: 1; color: #333; }
-  .cf-dial__item-code { color: #999; font-size: 12px; white-space: nowrap; }
-  .cf-dial__search-wrap { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-top: 1px solid #f0f0f0; order: 2; }
-  .cf-dial__search { flex: 1; border: none; outline: none; font-size: 14px; color: #333; background: transparent; }
-  .cf-dial__search::placeholder { color: #aaa; }
+  .cf-footer__address { font-style: normal; display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; }
+  .cf-footer__address-icon { margin-top: 2px; color: {{ section.settings.accent_color | default: '#e8175d' }}; flex-shrink: 0; }
+  .cf-footer__address-lines { display: flex; flex-direction: column; gap: 2px; font-size: 14px; line-height: 1.6; color: {{ section.settings.text_color | default: '#333333' }}; opacity: 0.75; }
 
   .cf-footer__heading { font-size: 20px; font-weight: 700; margin: 0 0 16px; color: {{ section.settings.text_color | default: '#333333' }}; }
   .cf-footer__links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
@@ -198,25 +143,6 @@
   }
 </style>
 
-<script>
-(function(){
-  var C=[{iso:'gb',name:'United Kingdom',code:'+44'},{iso:'us',name:'United States',code:'+1'},{iso:'ca',name:'Canada',code:'+1'},{iso:'au',name:'Australia',code:'+61'},{iso:'ie',name:'Ireland',code:'+353'},{iso:'de',name:'Germany',code:'+49'},{iso:'fr',name:'France',code:'+33'},{iso:'es',name:'Spain',code:'+34'},{iso:'it',name:'Italy',code:'+39'},{iso:'nl',name:'Netherlands',code:'+31'},{iso:'be',name:'Belgium',code:'+32'},{iso:'se',name:'Sweden',code:'+46'},{iso:'no',name:'Norway',code:'+47'},{iso:'dk',name:'Denmark',code:'+45'},{iso:'fi',name:'Finland',code:'+358'},{iso:'ch',name:'Switzerland',code:'+41'},{iso:'at',name:'Austria',code:'+43'},{iso:'pt',name:'Portugal',code:'+351'},{iso:'pl',name:'Poland',code:'+48'},{iso:'gr',name:'Greece',code:'+30'},{iso:'za',name:'South Africa',code:'+27'},{iso:'in',name:'India',code:'+91'},{iso:'pk',name:'Pakistan',code:'+92'},{iso:'bd',name:'Bangladesh',code:'+880'},{iso:'sg',name:'Singapore',code:'+65'},{iso:'my',name:'Malaysia',code:'+60'},{iso:'nz',name:'New Zealand',code:'+64'},{iso:'jp',name:'Japan',code:'+81'},{iso:'kr',name:'South Korea',code:'+82'},{iso:'cn',name:'China',code:'+86'},{iso:'br',name:'Brazil',code:'+55'},{iso:'mx',name:'Mexico',code:'+52'},{iso:'ae',name:'UAE',code:'+971'},{iso:'sa',name:'Saudi Arabia',code:'+966'},{iso:'qa',name:'Qatar',code:'+974'},{iso:'ng',name:'Nigeria',code:'+234'},{iso:'ke',name:'Kenya',code:'+254'},{iso:'ru',name:'Russia',code:'+7'},{iso:'tr',name:'Turkey',code:'+90'}];
-  function f(i){return 'https://flagcdn.com/20x15/'+i+'.png';}
-  document.addEventListener('DOMContentLoaded',function(){
-    var tr=document.getElementById('cf-dial-trigger'),pn=document.getElementById('cf-dial-panel'),fi=document.getElementById('cf-dial-flag-img'),co=document.getElementById('cf-dial-code'),hi=document.getElementById('cf-dial-hidden'),li=document.getElementById('cf-dial-list'),se=document.getElementById('cf-dial-search');
-    if(!tr||!pn)return;
-    C.forEach(function(c,i){var el=document.createElement('li');el.setAttribute('role','option');el.innerHTML='<img src="'+f(c.iso)+'" width="20" height="15" alt="'+c.iso.toUpperCase()+'" class="cf-dial__item-flag"><span class="cf-dial__item-name">'+c.name+'</span><span class="cf-dial__item-code">'+c.code+'</span>';if(i===0)el.classList.add('is-active');el.addEventListener('mousedown',function(e){e.preventDefault();fi.src=f(c.iso);fi.alt=c.iso.toUpperCase();co.textContent=c.code;hi.value=c.code;li.querySelectorAll('li').forEach(function(x,j){x.classList.toggle('is-active',j===i);});close();});li.appendChild(el);});
-    function open(){pn.hidden=false;tr.setAttribute('aria-expanded','true');se.value='';flt('');li.scrollTop=0;setTimeout(function(){se.focus();},30);}
-    function close(){pn.hidden=true;tr.setAttribute('aria-expanded','false');}
-    function flt(q){var lq=q.toLowerCase();li.querySelectorAll('li').forEach(function(x,i){x.hidden=!(C[i].name.toLowerCase().includes(lq)||C[i].code.includes(lq));});}
-    tr.addEventListener('click',function(){pn.hidden?open():close();});
-    tr.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}if(e.key==='Escape')close();});
-    se.addEventListener('input',function(){flt(se.value);});
-    se.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
-    document.addEventListener('click',function(e){if(!tr.closest('.cf-footer__form').contains(e.target))close();});
-  });
-})();
-</script>
 
 {% schema %}
 {
@@ -224,10 +150,6 @@
   "settings": [
     {"type":"header","content":"Brand"},
     {"type":"image_picker","id":"logo","label":"Logo image"},
-    {"type":"text","id":"phone","label":"Phone number","default":"01863723207"},
-    {"type":"text","id":"phone_label","label":"Phone label","default":"Call us on:"},
-    {"type":"text","id":"email_placeholder","label":"Email placeholder","default":"Enter your email"},
-    {"type":"text","id":"phone_placeholder","label":"Phone placeholder","default":"Phone Number"},
     {"type":"range","id":"side_gap","label":"Side gap (px)","min":0,"max":120,"step":4,"default":60},
     {"type":"range","id":"col2_offset","label":"Company column offset (px)","min":-100,"max":100,"step":2,"default":0},
     {"type":"range","id":"col3_offset","label":"Account column offset (px)","min":-100,"max":100,"step":2,"default":0},
