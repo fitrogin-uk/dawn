@@ -208,11 +208,15 @@
     box-sizing: border-box !important;
   }
 
-  /* Logo structure constraints */
+  /* 
+    Logo structure constraints 
+    Nudges the logo up slightly to pull out empty spacer gaps and match text baselines.
+  */
   .footer-logo-wrapper {
+    margin-top: -12px !important;              /* Perfectly matches the baseline of the text headers */
     margin-bottom: 20px !important;
     display: block !important;
-    line-height: 1 !important;                 /* Removes hidden baseline gaps */
+    line-height: 1 !important;                 
   }
   
   .footer-logo {
@@ -331,7 +335,11 @@
     justify-content: center !important;
   }
 
-  /* Tablet and mobile layout corrections */
+  .btn-submit svg {
+    display: block !important;
+  }
+
+  /* Responsive cheesecake configurations */
   @media (max-width: 1150px) {
     .footer-container, .footer-bottom {
       flex-wrap: wrap !important;
@@ -357,3 +365,4 @@
     }
   }
 </style>
+
