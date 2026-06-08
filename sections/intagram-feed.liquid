@@ -1,7 +1,6 @@
 {%- comment -%} Instagram Feed — manual image grid with optional link overlay {%- endcomment -%}
 
 <section class="ig-feed-{{ section.id }} ig-feed">
-  <div class="ig-feed__wrap">
   <div class="ig-feed__header">
     <h2 class="ig-feed__title">{{ section.settings.title | default: 'Instagram @novomins' }}</h2>
     <div class="ig-feed__divider" aria-hidden="true"></div>
@@ -26,7 +25,6 @@
     {%- endif -%}
   </div>
 
-  </div><!-- /.ig-feed__wrap -->
   <div class="ig-feed__grid">
     {%- for block in section.blocks -%}
       {%- if block.settings.image != blank -%}
@@ -65,26 +63,20 @@
 
 <style>
   .ig-feed-{{ section.id }} {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
     background: {{ section.settings.bg_color | default: '#ffffff' }};
     padding: {{ section.settings.section_padding_top | default: 48 }}px 0 {{ section.settings.section_padding_bottom | default: 48 }}px;
   }
 
-  /* ── Wrapper (same constraints as the grid) ─────────── */
-  .ig-feed-{{ section.id }} .ig-feed__wrap {
-    max-width: var(--page-width, 1280px);
-    margin: 0 auto;
-    padding: 0 max(20px, 5vw);
-    box-sizing: border-box;
-    width: 100%;
-  }
-
   /* ── Header ─────────────────────────────────────────── */
-  .ig-feed__header {
-    display: flex;
+  .ig-feed-{{ section.id }} .ig-feed__header {
+    display: flex !important;
     align-items: center;
-    width: 100%;
+    width: 100% !important;
     box-sizing: border-box;
-    padding: 0 0 24px;
+    padding: 0 max(20px, 5vw) 24px;
     gap: 0;
   }
 
