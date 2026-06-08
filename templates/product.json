@@ -383,10 +383,17 @@
     "intagram_feed_9kbziT": {
       "type": "intagram-feed",
       "blocks": {
-        "post_qfjrNW": {
+        "post_H3wNx6": {
           "type": "post",
           "settings": {
             "image": "shopify://shop_images/JUN.jpg",
+            "post_url": "",
+            "alt_text": "Instagram post"
+          }
+        },
+        "post_NNPLB3": {
+          "type": "post",
+          "settings": {
             "post_url": "",
             "alt_text": "Instagram post"
           }
@@ -399,13 +406,6 @@
           }
         },
         "post_cY6KwM": {
-          "type": "post",
-          "settings": {
-            "post_url": "",
-            "alt_text": "Instagram post"
-          }
-        },
-        "post_6ihNrB": {
           "type": "post",
           "settings": {
             "post_url": "",
@@ -470,10 +470,10 @@
         }
       },
       "block_order": [
-        "post_qfjrNW",
+        "post_H3wNx6",
+        "post_NNPLB3",
         "post_BVG6YG",
         "post_cY6KwM",
-        "post_6ihNrB",
         "post_GrtgpM",
         "post_aDCjTK",
         "post_dnb8yD",
@@ -491,7 +491,7 @@
         "columns_desktop": 6,
         "columns_tablet": 4,
         "columns_mobile": 3,
-        "gap": 8,
+        "gap": 2,
         "border_radius": 12,
         "section_padding_top": 48,
         "section_padding_bottom": 48,
