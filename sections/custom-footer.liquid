@@ -166,9 +166,7 @@
 }
 {% endschema %}
 <style>
-  /* 
-    1. Outer area wrapper set to transparent.
-  */
+  /* Outer area wrapper set to transparent */
   footer.site-footer,
   .site-footer {
     background: transparent !important;
@@ -180,14 +178,15 @@
   }
 
   /* 
-    2. Main footer layout block.
-    Set to 97.8% width to leave exactly 1.1% margin on the left and 1.1% margin on the right.
+    Main footer layout block.
+    Uses margin-left to keep the left side fine, 
+    and width to make the right side margin exactly 1%.
   */
   .footer-container {
     background-color: #f7f7f7 !important;
-    width: 97.8% !important;             /* Leaves a 2.2% total gap (1.1% left + 1.1% right) */
+    margin-left: 1.1% !important;              /* Keeps your left side exactly where it is */
+    width: calc(100% - 2.1%) !important;       /* Left 1.1% + Right 1% = 2.1% total margin space */
     max-width: 1780px !important;        
-    margin: 0 auto !important;
     padding: 50px 40px 30px 40px !important;
     border-radius: 24px 24px 0 0 !important;
     display: flex !important;
@@ -197,14 +196,11 @@
     box-sizing: border-box !important;
   }
 
-  /* 
-    3. Bottom copyright bar.
-    Matches the 97.8% width layout.
-  */
+  /* Bottom copyright bar matches the layout perfectly */
   .footer-bottom {
-    width: 97.8% !important;               
+    margin-left: 1.1% !important;               
+    width: calc(100% - 2.1%) !important;               
     max-width: 1780px !important;
-    margin: 0 auto !important;
     background-color: #f7f7f7 !important;
     padding: 0 40px 40px 40px !important;
     border-radius: 0px !important;
@@ -262,23 +258,19 @@
 
   /* Responsive styling rules */
   @media (max-width: 1150px) {
-    .footer-container {
+    .footer-container, .footer-bottom {
       flex-wrap: wrap !important;
-      width: 97.8% !important;
-    }
-    .footer-bottom {
-      width: 97.8% !important;
+      margin-left: 0 !important;
+      width: 100% !important;
     }
   }
 
   @media (max-width: 768px) {
     .footer-container {
       flex-direction: column !important;
-      width: 100% !important;
       padding: 30px 20px !important;
     }
     .footer-bottom {
-      width: 100% !important;
       padding: 0 20px 30px 20px !important;
     }
     .footer-bottom-container {
