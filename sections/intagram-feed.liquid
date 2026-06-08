@@ -201,8 +201,21 @@
     }
   }
   @media (max-width: 640px) {
+    .ig-feed-{{ section.id }} .ig-feed__header {
+      display: flex !important;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      padding-bottom: 20px;
+    }
+    .ig-feed-{{ section.id }} .ig-feed__divider {
+      display: none !important;
+    }
+    .ig-feed-{{ section.id }} .ig-feed__follow-btn {
+      align-self: center;
+    }
     .ig-feed__grid {
-      grid-template-columns: repeat({{ section.settings.columns_mobile | default: 3 }}, 1fr);
+      grid-template-columns: repeat({{ section.settings.columns_mobile | default: 2 }}, 1fr);
       gap: 4px;
     }
     .ig-feed__item { border-radius: 8px; }
@@ -261,10 +274,10 @@
       "type": "range",
       "id": "columns_mobile",
       "label": "Columns — mobile",
-      "min": 2,
+      "min": 1,
       "max": 4,
       "step": 1,
-      "default": 3
+      "default": 2
     },
     {
       "type": "range",
