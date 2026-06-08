@@ -179,15 +179,15 @@
 
   /* 
     Main footer layout block.
-    Sets both the left and right margins to exactly 1%.
-    This makes the main layout block take up exactly 98% of the width.
+    Forces both margins to be completely equal at exactly 1vw (1% of viewport width).
+    The width is calculated to occupy exactly 98% of the remaining screen space.
   */
   .footer-container {
     background-color: #f7f7f7 !important;
-    margin-left: 1% !important;                 /* Explicitly sets left margin to 1% */
-    margin-right: 1% !important;                /* Explicitly sets right margin to 1% */
-    width: 98% !important;                      /* Container width fills the 98% center space */
-    max-width: 1800px !important;        
+    margin-left: 1vw !important;                 /* Absolute 1% screen margin on left */
+    margin-right: 1vw !important;                /* Absolute 1% screen margin on right */
+    width: 98vw !important;                      /* Total container width matches 98% */
+    max-width: 100% !important;                  /* Unlocks restrictions to prevent scaling errors */
     padding: 50px 40px 30px 40px !important;
     border-radius: 24px 24px 0 0 !important;
     display: flex !important;
@@ -197,12 +197,12 @@
     box-sizing: border-box !important;
   }
 
-  /* Bottom copyright bar matches the 1% layout grid perfectly */
+  /* Bottom copyright bar matches the 1% viewport matrix layout parameters */
   .footer-bottom {
-    margin-left: 1% !important;               
-    margin-right: 1% !important;               
-    width: 98% !important;               
-    max-width: 1800px !important;
+    margin-left: 1vw !important;               
+    margin-right: 1vw !important;               
+    width: 98vw !important;               
+    max-width: 100% !important;
     background-color: #f7f7f7 !important;
     padding: 0 40px 40px 40px !important;
     border-radius: 0px !important;
