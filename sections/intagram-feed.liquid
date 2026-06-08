@@ -138,7 +138,7 @@
     padding: 0 max(20px, 5vw);
     display: grid;
     grid-template-columns: repeat({{ section.settings.columns_desktop | default: 6 }}, 1fr);
-    gap: {{ section.settings.gap | default: 8 }}px;
+    gap: {{ section.settings.gap | default: 4 }}px;
   }
 
   /* ── Individual tile ─────────────────────────────────── */
@@ -273,7 +273,7 @@
       "min": 0,
       "max": 24,
       "step": 2,
-      "default": 8
+      "default": 4
     },
     {
       "type": "range",
