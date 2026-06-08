@@ -167,207 +167,87 @@
 {% endschema %}
 
 <style>
+  /* Main footer container styling */
   .site-footer {
-    background-color: #f7f7f7;
-    color: #333333;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    
-    /* Standard Internal Breathing Room */
-    padding: 50px 40px 30px 40px; 
-    
-    /* Balanced Outer Margins - Fixes the massive whitespace gaps */
-    margin: 40px 20px 20px 20px;   
-    border-radius: 20px;          /* Clean structural card radius curve */
-    
-    font-size: 14px;
-    overflow: hidden;
+    background-color: #f7f7f7; /* Fixed the broken hex code */
+    padding: 60px 20px;
+    width: 100%;
+    box-sizing: border-box;
   }
-  .footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 2.2fr repeat(3, 1fr) 1.2fr;
+
+  /* 
+    This is the wrapper that controls the white space.
+    Lowering max-width from 1400px to 1050px doubles the side margins.
+  */
+  .footer-container, 
+  .footer-bottom-container {
+    max-width: 1050px; 
+    margin: 0 auto;      /* Centers the container, creating equal left/right space */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     gap: 30px;
   }
-  .footer-column {
-    display: flex;
-    flex-direction: column;
-  }
-  .footer-logo {
-    max-width: 140px;
-    margin-bottom: 15px;
-  }
-  .footer-brand-name {
-    font-size: 22px;
-    font-weight: 700;
-    margin: 0 0 12px 0;
-    letter-spacing: -0.5px;
-    color: #111111;
-  }
-  .footer-phone {
-    margin: 0 0 20px 0;
-    color: #555555;
-    font-size: 13px;
-  }
-  .footer-phone a {
-    color: inherit;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .footer-newsletter {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-width: 260px;
-  }
-  .input-group {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-  .input-group input {
-    width: 100%;
-    padding: 11px 45px 11px 16px;
-    border: 1px solid #e2e2e2;
-    border-radius: 25px;
-    font-size: 13px;
-    outline: none;
-    background: #ffffff;
-    color: #333333;
-  }
-  .input-group input::placeholder {
-    color: #a0a0a0;
-  }
-  .btn-submit {
-    position: absolute;
-    right: 5px;
-    background: #e91e63;
-    color: #ffffff;
-    border: none;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  .btn-submit:hover {
-    background: #d81b60;
-  }
-  .footer-heading {
-    font-size: 15px;
-    font-weight: 600;
-    margin: 0 0 18px 0;
-    color: #111111;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .footer-menu-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .footer-menu-links a {
-    color: #666666;
-    text-decoration: none;
-    transition: color 0.2s ease;
-    font-size: 13.5px;
-  }
-  .footer-menu-links a:hover {
-    color: #000000;
-  }
 
-  /* Inline SVG Icon Wrapper Adjustments */
-  .social-icons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .social-icons a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: #111111;
-    color: #ffffff;
-    transition: transform 0.2s ease, background 0.2s ease;
-  }
-  .social-icons a:hover {
-    transform: scale(1.05);
-    background: #e91e63;
-  }
-  .social-icons svg {
-    width: 16px;
-    height: 16px;
-  }
-
+  /* Bottom bar spacing adjustments */
   .footer-bottom {
     margin-top: 40px;
-    border-top: 1px solid #e8e8e8;
     padding-top: 20px;
-  }
-  .footer-bottom-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  .copyright {
-    color: #888888;
-    font-size: 12px;
-  }
-  .payment-icons {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .payment-icon {
-    width: 34px;
-    height: auto;
+    border-top: 1px solid #e0e0e0;
+    width: 100%;
   }
 
-  /* Responsive Adjustments */
-  @media (max-width: 991px) {
-    .site-footer {
-      padding: 40px 30px 20px 30px;
-      margin: 30px 15px 15px 15px;
-      border-radius: 16px;
-    }
-    .footer-container {
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-    }
-    .brand-column {
-      grid-column: span 2;
-      margin-bottom: 10px;
-    }
+  .footer-bottom-container {
+    justify-content: space-between;
+    align-items: center;
   }
-  @media (max-width: 480px) {
-    .site-footer {
-      padding: 35px 20px 20px 20px;
-      margin: 20px 10px 10px 10px;
-    }
+
+  /* Quick Column Widths for a 5-Column Grid */
+  .footer-column {
+    flex: 1 1 18%;
+    min-width: 200px;
+  }
+
+  .brand-column {
+    flex: 1 1 25%;
+  }
+
+  /* Input group styles seen in your image */
+  .input-group {
+    display: flex;
+    margin-bottom: 10px;
+    max-width: 250px;
+  }
+
+  .input-group input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+  }
+
+  .btn-submit {
+    background-color: #e91e63; /* Pink button color from image */
+    color: #fff;
+    border: none;
+    padding: 0 15px;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Responsive fixes for tablet/mobile */
+  @media (max-width: 768px) {
     .footer-container {
-      grid-template-columns: 1fr;
-      gap: 25px;
-    }
-    .brand-column {
-      grid-column: span 1;
+      flex-direction: column;
     }
     .footer-bottom-container {
       flex-direction: column;
-      align-items: flex-start;
       gap: 15px;
+      text-align: center;
     }
   }
 </style>
