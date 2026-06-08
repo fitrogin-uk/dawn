@@ -122,7 +122,7 @@
   footer:not(.cf-footer) { display: none !important; }
 
   @media (max-width: 768px) {
-    .cf-footer-wrap { padding-left: 0 !important; padding-right: 0 !important; }
+    .cf-footer-wrap { padding-left: 0 !important; padding-right: 0 !important; margin-left: -16px !important; margin-right: -16px !important; }
     .cf-footer { border-radius: 16px 16px 0 0; padding-top: 32px; }
     .cf-footer__inner {
       display: flex;
@@ -133,7 +133,7 @@
     /* Brand block */
     .cf-footer__brand {
       text-align: center;
-      padding: 0 24px 24px;
+      padding: 0 6px 24px;
       border-bottom: 1px solid #e0e0e0;
       margin-left: 0; margin-right: 0;
     }
@@ -149,7 +149,7 @@
       justify-content: space-between;
       align-items: center;
       font-size: 16px;
-      padding: 16px 24px;
+      padding: 16px 6px;
       margin: 0;
       border-bottom: 1px solid #e0e0e0;
       cursor: pointer;
@@ -170,7 +170,7 @@
       display: none;
       flex-direction: column;
       gap: 0;
-      padding: 8px 24px 16px;
+      padding: 8px 6px 16px;
       border-bottom: 1px solid #e0e0e0;
     }
     .cf-footer__links.is-open { display: flex; }
@@ -181,7 +181,7 @@
       justify-self: unset;
       margin-right: 0 !important;
       text-align: center;
-      padding: 24px;
+      padding: 24px 6px;
       border-bottom: 1px solid #e0e0e0;
     }
     .cf-footer__col--social .cf-footer__heading {
@@ -199,7 +199,7 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 20px 24px 28px;
+      padding: 20px 6px 28px;
       gap: 14px;
     }
     .cf-footer__payments { justify-content: center; }
