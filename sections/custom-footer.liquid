@@ -181,12 +181,12 @@
 
   /* 
     2. Main footer layout block.
-    Increased width to 96% to make the left and right margins even smaller.
+    Increased width to 98% to make the side margins extremely tiny.
   */
   .footer-container {
     background-color: #f7f7f7 !important;
-    width: 96% !important;               /* Reduced side margins further (making the box wider) */
-    max-width: 1500px !important;
+    width: 98% !important;               /* Margins are now reduced to the absolute minimum */
+    max-width: 1800px !important;        /* Expanded to fit almost any ultra-wide desktop screen */
     margin: 0 auto !important;
     padding: 50px 40px 30px 40px !important;
     border-radius: 24px 24px 0 0 !important;
@@ -199,11 +199,11 @@
 
   /* 
     3. Bottom copyright bar.
-    Maintains matching width to sit flush with the top box.
+    Matches the 98% width perfectly.
   */
   .footer-bottom {
-    width: 96% !important;               /* Matches the top box width perfectly */
-    max-width: 1500px !important;
+    width: 98% !important;               
+    max-width: 1800px !important;
     margin: 0 auto !important;
     background-color: #f7f7f7 !important;
     padding: 0 40px 40px 40px !important;
@@ -264,10 +264,10 @@
   @media (max-width: 1150px) {
     .footer-container {
       flex-wrap: wrap !important;
-      width: 96% !important;
+      width: 98% !important;
     }
     .footer-bottom {
-      width: 96% !important;
+      width: 98% !important;
     }
   }
 
