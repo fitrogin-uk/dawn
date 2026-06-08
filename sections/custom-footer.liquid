@@ -118,7 +118,7 @@
 
   .cf-footer__inner {
     display: grid;
-    grid-template-columns: 220px 1fr 1fr 1fr 140px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 40px;
     padding: 0 40px 45px;
     box-sizing: border-box;
@@ -128,8 +128,8 @@
   .cf-footer__col,
   .cf-footer__col--social { min-width: 0; width: auto; }
 
-  .cf-footer__logo-link { display: inline-block; margin-bottom: 14px; }
-  .cf-footer__logo-img  { max-width: 200px; height: auto; display: block; }
+  .cf-footer__logo-link { display: inline-block; margin-bottom: 14px; max-width: 100%; }
+  .cf-footer__logo-img  { max-width: 100%; width: auto; height: auto; display: block; }
   .cf-footer__logo-text { font-size: 24px; font-weight: 800; color: {{ section.settings.text_color | default: '#333333' }}; text-decoration: none; }
   .cf-footer__phone { font-size: 15px; margin: 0 0 16px; color: {{ section.settings.text_color | default: '#333333' }}; }
   .cf-footer__phone a { color: inherit; text-decoration: none; }
