@@ -121,22 +121,110 @@
   /* Hide the theme's built-in footer that shows as a black box below */
   footer:not(.cf-footer) { display: none !important; }
 
-  @media (max-width: 900px) {
-    .cf-footer-wrap { padding-left: 20px !important; padding-right: 20px !important; }
-    .cf-footer__inner { grid-template-columns: 1fr 1fr; }
-    .cf-footer__brand { grid-column: 1 / -1; }
-  }
-  @media (max-width: 640px) {
-    .cf-footer-wrap { padding-left: 12px !important; padding-right: 12px !important; }
-    .cf-footer { border-radius: 16px 16px 0 0; }
-    .cf-footer__inner { padding: 0 20px 36px; }
-    .cf-footer__col { flex: 1 1 calc(50% - 20px); }
-    .cf-footer__col--social { width: 100%; }
-    .cf-footer__social-grid { grid-template-columns: repeat(6, 42px); }
-    .cf-footer__bottom { flex-direction: column; align-items: flex-start; padding: 16px 20px; }
+  @media (max-width: 768px) {
+    .cf-footer-wrap { padding-left: 0 !important; padding-right: 0 !important; }
+    .cf-footer { border-radius: 16px 16px 0 0; padding-top: 32px; }
+    .cf-footer__inner {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 0 0 0;
+    }
+    /* Brand block */
+    .cf-footer__brand {
+      text-align: center;
+      padding: 0 24px 24px;
+      border-bottom: 1px solid #e0e0e0;
+      margin-left: 0; margin-right: 0;
+    }
+    .cf-footer__logo-link { display: block; text-align: center; }
+    .cf-footer__logo-img { margin: 0 auto; }
+    .cf-footer__tagline { text-align: center; }
+    .cf-footer__address { text-align: center; }
+
+    /* Nav accordion columns */
+    .cf-footer__col { margin-left: 0 !important; width: 100%; }
+    .cf-footer__heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+      padding: 16px 24px;
+      margin: 0;
+      border-bottom: 1px solid #e0e0e0;
+      cursor: pointer;
+      user-select: none;
+    }
+    .cf-footer__heading::after {
+      content: '';
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-right: 2px solid #333;
+      border-bottom: 2px solid #333;
+      transform: rotate(45deg);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .cf-footer__heading.is-open::after { transform: rotate(-135deg); }
+    .cf-footer__links {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      padding: 8px 24px 16px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .cf-footer__links.is-open { display: flex; }
+    .cf-footer__links a { font-size: 15px; padding: 8px 0; color: {{ section.settings.link_color | default: '#666' }}; }
+
+    /* Social — always open, centred */
+    .cf-footer__col--social {
+      justify-self: unset;
+      margin-right: 0 !important;
+      text-align: center;
+      padding: 24px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .cf-footer__col--social .cf-footer__heading {
+      justify-content: center;
+      border-bottom: none;
+      padding: 0 0 14px;
+      cursor: default;
+      font-size: 18px;
+    }
+    .cf-footer__col--social .cf-footer__heading::after { display: none; }
+    .cf-footer__social-grid { grid-template-columns: repeat(6, 42px); justify-content: center; }
+
+    /* Bottom bar */
+    .cf-footer__bottom {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 20px 24px 28px;
+      gap: 14px;
+    }
+    .cf-footer__payments { justify-content: center; }
   }
 </style>
 
+
+<script>
+(function(){
+  function initAccordion(){
+    if(window.innerWidth > 768) return;
+    document.querySelectorAll('.cf-footer__col:not(.cf-footer__col--social) .cf-footer__heading').forEach(function(h){
+      if(h.dataset.acc) return;
+      h.dataset.acc = '1';
+      h.addEventListener('click', function(){
+        var ul = h.nextElementSibling;
+        var open = ul.classList.contains('is-open');
+        h.classList.toggle('is-open', !open);
+        ul.classList.toggle('is-open', !open);
+      });
+    });
+  }
+  document.addEventListener('DOMContentLoaded', initAccordion);
+})();
+</script>
 
 {% schema %}
 {
