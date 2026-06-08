@@ -1,6 +1,6 @@
 {% comment %}
   Custom Footer Section — FuelX
-  Equal 5-col grid | large margins | 20px fonts | country-dial dropdown below input
+  Equal 5-col grid | explicit side padding | 20px fonts | country-dial dropdown
 {% endcomment %}
 
 <footer class="cf-footer" role="contentinfo">
@@ -56,8 +56,6 @@
         <input type="hidden" name="form_type" value="customer">
         <input type="hidden" name="utf8" value="✓">
         <input type="hidden" name="contact[dial_code]" id="cf-dial-hidden" value="+44">
-
-        <!-- Trigger row -->
         <div class="cf-footer__input-row cf-footer__input-row--phone">
           <button
             type="button"
@@ -88,8 +86,6 @@
             {% render 'cf-footer-send-icon' %}
           </button>
         </div>
-
-        <!-- Dropdown panel — sits BELOW the input row -->
         <div class="cf-dial__panel" id="cf-dial-panel" role="listbox" aria-label="Country codes" hidden>
           <div class="cf-dial__search-wrap">
             <svg class="cf-dial__search-icon" viewBox="0 0 18 18" fill="none" width="15" height="15" aria-hidden="true">
@@ -194,7 +190,6 @@
 </footer>
 
 <style>
-  /* ── Shell ────────────────────────────────────────────── */
   .cf-footer {
     background-color: {{ section.settings.bg_color | default: '#f5f5f7' }};
     color: {{ section.settings.text_color | default: '#333333' }};
@@ -202,21 +197,23 @@
     border-radius: 24px 24px 0 0;
     overflow: visible;
     padding-top: 64px;
+    /* Side padding applied here so it always works regardless of theme wrapper */
+    padding-left: 80px !important;
+    padding-right: 80px !important;
+    box-sizing: border-box;
   }
 
-  /* ── Inner grid — 5 equal columns ────────────────────── */
   .cf-footer__inner {
-    max-width: var(--page-width, 1280px);
+    max-width: 1280px;
     margin: 0 auto;
-    /* generous side padding so content lines up with header nav */
-    padding: 0 clamp(40px, 7vw, 100px) 56px;
+    padding: 0 0 56px;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 48px;
     align-items: start;
   }
 
-  /* ── Logo ────────────────────────────────────────────── */
+  /* Logo */
   .cf-footer__logo-link  { display: inline-block; margin-bottom: 18px; }
   .cf-footer__logo-img   { max-width: 200px; height: auto; display: block; }
   .cf-footer__logo-text  {
@@ -225,7 +222,7 @@
     text-decoration: none;
   }
 
-  /* ── Phone line ──────────────────────────────────────── */
+  /* Phone line */
   .cf-footer__phone {
     font-size: 16px;
     margin: 0 0 20px;
@@ -234,9 +231,8 @@
   .cf-footer__phone a { color: inherit; text-decoration: none; }
   .cf-footer__phone a:hover { text-decoration: underline; }
 
-  /* ── Input rows ──────────────────────────────────────── */
+  /* Input rows */
   .cf-footer__form { margin-bottom: 12px; position: relative; }
-
   .cf-footer__input-row {
     display: flex;
     align-items: center;
@@ -248,7 +244,6 @@
     overflow: hidden;
   }
   .cf-footer__input-row--phone { padding-left: 0; overflow: visible; }
-
   .cf-footer__input {
     flex: 1;
     border: none;
@@ -260,7 +255,6 @@
     padding: 0 6px;
   }
   .cf-footer__input--phone { padding-left: 4px; }
-
   .cf-footer__submit-btn {
     background: {{ section.settings.accent_color | default: '#e8175d' }};
     border: none;
@@ -280,7 +274,7 @@
     transform: scale(1.08);
   }
 
-  /* ── Country dial trigger (inside input row) ─────────── */
+  /* Country dial trigger */
   .cf-dial__trigger {
     display: flex;
     align-items: center;
@@ -294,14 +288,12 @@
     transition: background 0.15s;
     flex-shrink: 0;
   }
-  .cf-dial__trigger:hover   { background: rgba(0,0,0,0.05); }
-  .cf-dial__trigger:focus   { outline: 2px solid {{ section.settings.accent_color | default: '#e8175d' }}; outline-offset: -2px; border-radius: 50px 0 0 50px; }
-  .cf-dial__flag  { font-size: 18px; line-height: 1; }
-  .cf-dial__code  { font-size: 14px; font-weight: 600; color: #333; white-space: nowrap; }
+  .cf-dial__trigger:hover { background: rgba(0,0,0,0.05); }
+  .cf-dial__trigger:focus { outline: 2px solid {{ section.settings.accent_color | default: '#e8175d' }}; outline-offset: -2px; border-radius: 50px 0 0 50px; }
+  .cf-dial__flag    { font-size: 18px; line-height: 1; }
+  .cf-dial__code    { font-size: 14px; font-weight: 600; color: #333; white-space: nowrap; }
   .cf-dial__chevron { color: #999; transition: transform 0.2s; flex-shrink: 0; }
   .cf-dial__trigger[aria-expanded="true"] .cf-dial__chevron { transform: rotate(180deg); }
-
-  /* thin vertical separator */
   .cf-dial__sep {
     width: 1px; height: 24px;
     background: #ddd;
@@ -309,7 +301,7 @@
     margin-right: 6px;
   }
 
-  /* ── Dropdown panel — BELOW the input row ────────────── */
+  /* Dropdown panel */
   .cf-dial__panel {
     position: absolute;
     top: calc(100% + 8px);
@@ -324,7 +316,6 @@
     overflow: hidden;
   }
   .cf-dial__panel[hidden] { display: none; }
-
   .cf-dial__search-wrap {
     display: flex;
     align-items: center;
@@ -332,7 +323,6 @@
     padding: 12px 12px 8px;
     border-bottom: 1px solid #f0f0f0;
   }
-  .cf-dial__search-icon { flex-shrink: 0; }
   .cf-dial__search {
     flex: 1;
     border: none;
@@ -342,7 +332,6 @@
     background: transparent;
   }
   .cf-dial__search::placeholder { color: #aaa; }
-
   .cf-dial__list {
     list-style: none;
     margin: 0;
@@ -369,7 +358,7 @@
   .cf-dial__item-name { flex: 1; color: #333; }
   .cf-dial__item-code { color: #999; font-size: 13px; white-space: nowrap; }
 
-  /* ── Nav columns ─────────────────────────────────────── */
+  /* Nav columns */
   .cf-footer__heading {
     font-size: 20px;
     font-weight: 700;
@@ -389,7 +378,7 @@
   }
   .cf-footer__links a:hover { color: {{ section.settings.accent_color | default: '#e8175d' }}; }
 
-  /* ── Social ──────────────────────────────────────────── */
+  /* Social */
   .cf-footer__social-grid {
     display: grid;
     grid-template-columns: repeat(3, 44px);
@@ -408,12 +397,12 @@
     transform: scale(1.1);
   }
 
-  /* ── Bottom bar ──────────────────────────────────────── */
+  /* Bottom bar */
   .cf-footer__bottom {
     border-top: 1px solid #e0e0e0;
-    max-width: var(--page-width, 1280px);
+    max-width: 1280px;
     margin: 0 auto;
-    padding: 20px clamp(40px, 7vw, 100px);
+    padding: 20px 0;
     display: flex; align-items: center; justify-content: space-between;
     flex-wrap: wrap; gap: 12px;
   }
@@ -421,21 +410,22 @@
   .cf-footer__payments  { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
   .cf-footer__payment-icon { height: 28px; width: auto; border-radius: 4px; }
 
-  /* ── Responsive ──────────────────────────────────────── */
+  /* Responsive */
   @media (max-width: 1100px) {
-    .cf-footer__inner {
-      grid-template-columns: repeat(3, 1fr);
+    .cf-footer {
+      padding-left: 40px !important;
+      padding-right: 40px !important;
     }
+    .cf-footer__inner { grid-template-columns: repeat(3, 1fr); }
     .cf-footer__brand { grid-column: 1 / -1; }
   }
   @media (max-width: 640px) {
     .cf-footer {
       border-radius: 16px 16px 0 0;
+      padding-left: 20px !important;
+      padding-right: 20px !important;
     }
-    .cf-footer__inner {
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-    }
+    .cf-footer__inner { grid-template-columns: 1fr 1fr; gap: 28px; }
     .cf-footer__brand       { grid-column: 1 / -1; }
     .cf-footer__col--social { grid-column: 1 / -1; }
     .cf-footer__social-grid { grid-template-columns: repeat(6, 44px); }
@@ -497,7 +487,6 @@
     var searchEl = document.getElementById('cf-dial-search');
     if (!trigger || !panel) return;
 
-    /* Build list items */
     COUNTRIES.forEach(function (c, i) {
       var li = document.createElement('li');
       li.setAttribute('role', 'option');
@@ -508,21 +497,14 @@
       if (i === 0) li.classList.add('is-active');
       li.addEventListener('mousedown', function (e) {
         e.preventDefault();
-        select(i);
+        flagEl.textContent = c.flag;
+        codeEl.textContent = c.code;
+        hidden.value = c.code;
+        listEl.querySelectorAll('li').forEach(function (el, j) { el.classList.toggle('is-active', j === i); });
         close();
       });
       listEl.appendChild(li);
     });
-
-    function select(i) {
-      var c = COUNTRIES[i];
-      flagEl.textContent = c.flag;
-      codeEl.textContent = c.code;
-      hidden.value = c.code;
-      listEl.querySelectorAll('li').forEach(function (el, j) {
-        el.classList.toggle('is-active', j === i);
-      });
-    }
 
     function open() {
       panel.hidden = false;
@@ -531,12 +513,10 @@
       filter('');
       setTimeout(function () { searchEl.focus(); }, 30);
     }
-
     function close() {
       panel.hidden = true;
       trigger.setAttribute('aria-expanded', 'false');
     }
-
     function filter(q) {
       var lq = q.toLowerCase();
       listEl.querySelectorAll('li').forEach(function (li, i) {
@@ -544,16 +524,13 @@
       });
     }
 
-    trigger.addEventListener('click', function () {
-      panel.hidden ? open() : close();
-    });
+    trigger.addEventListener('click', function () { panel.hidden ? open() : close(); });
     trigger.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
       if (e.key === 'Escape') close();
     });
     searchEl.addEventListener('input', function () { filter(searchEl.value); });
     searchEl.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-
     document.addEventListener('click', function (e) {
       if (!trigger.closest('.cf-footer__form').contains(e.target)) close();
     });
@@ -566,12 +543,11 @@
   "name": "Custom Footer",
   "settings": [
     { "type": "header", "content": "Brand" },
-    { "type": "image_picker", "id": "logo",            "label": "Logo image" },
-    { "type": "text",         "id": "phone",           "label": "Phone number",      "default": "01863723207" },
-    { "type": "text",         "id": "phone_label",     "label": "Phone label",       "default": "Call us on:" },
+    { "type": "image_picker", "id": "logo",             "label": "Logo image" },
+    { "type": "text",         "id": "phone",            "label": "Phone number",      "default": "01863723207" },
+    { "type": "text",         "id": "phone_label",      "label": "Phone label",       "default": "Call us on:" },
     { "type": "text",         "id": "email_placeholder","label": "Email placeholder","default": "Enter your email" },
     { "type": "text",         "id": "phone_placeholder","label": "Phone placeholder","default": "Phone Number" },
-
     { "type": "header", "content": "Column 2 — Company" },
     { "type": "text", "id": "col2_heading",    "label": "Heading", "default": "Company" },
     { "type": "text", "id": "col2_link1_label","label": "Link 1 label", "default": "Health Blog" },
@@ -586,7 +562,6 @@
     { "type": "url",  "id": "col2_link5_url",  "label": "Link 5 URL" },
     { "type": "text", "id": "col2_link6_label","label": "Link 6 label" },
     { "type": "url",  "id": "col2_link6_url",  "label": "Link 6 URL" },
-
     { "type": "header", "content": "Column 3 — Account" },
     { "type": "text", "id": "col3_heading",    "label": "Heading", "default": "Account" },
     { "type": "text", "id": "col3_link1_label","label": "Link 1 label", "default": "Rewards" },
@@ -601,7 +576,6 @@
     { "type": "url",  "id": "col3_link5_url",  "label": "Link 5 URL" },
     { "type": "text", "id": "col3_link6_label","label": "Link 6 label" },
     { "type": "url",  "id": "col3_link6_url",  "label": "Link 6 URL" },
-
     { "type": "header", "content": "Column 4 — Legal" },
     { "type": "text", "id": "col4_heading",    "label": "Heading", "default": "Legal" },
     { "type": "text", "id": "col4_link1_label","label": "Link 1 label", "default": "Terms of Service" },
@@ -616,7 +590,6 @@
     { "type": "url",  "id": "col4_link5_url",  "label": "Link 5 URL" },
     { "type": "text", "id": "col4_link6_label","label": "Link 6 label" },
     { "type": "url",  "id": "col4_link6_url",  "label": "Link 6 URL" },
-
     { "type": "header", "content": "Social media" },
     { "type": "text", "id": "social_heading",  "label": "Heading", "default": "Follow Us" },
     { "type": "url",  "id": "social_facebook",  "label": "Facebook URL" },
@@ -625,7 +598,6 @@
     { "type": "url",  "id": "social_linkedin",  "label": "LinkedIn URL" },
     { "type": "url",  "id": "social_tiktok",    "label": "TikTok URL" },
     { "type": "url",  "id": "social_whatsapp",  "label": "WhatsApp URL" },
-
     { "type": "header", "content": "Colours" },
     { "type": "color", "id": "bg_color",     "label": "Background",             "default": "#f5f5f7" },
     { "type": "color", "id": "text_color",   "label": "Text colour",            "default": "#333333" },
