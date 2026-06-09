@@ -1,8 +1,8 @@
 {% comment %}Custom Footer — FuelX — card-style with side gaps{% endcomment %}
 
-{%- assign pad = section.settings.side_gap | default: 60 -%}
+{%- assign pad = section.settings.side_gap | default: 16 -%}
 
-<div class="cf-footer-wrap" style="padding-left:{{ pad }}px !important;padding-right:{{ pad }}px !important;box-sizing:border-box !important;display:block !important;">
+<div class="cf-footer-wrap">
 <footer class="cf-footer" role="contentinfo">
 
   <div class="cf-footer__inner">
@@ -61,14 +61,11 @@
 </div>
 
 <style>
-  /* Outer wrapper — inline style (above) handles the gap with !important.
-     CSS here is a fallback and for media queries. */
   .cf-footer-wrap {
-    padding-left: {{ pad }}px !important;
-    padding-right: {{ pad }}px !important;
-    box-sizing: border-box !important;
-    display: block !important;
-    width: 100% !important;
+    padding-left: {{ pad }}px;
+    padding-right: {{ pad }}px;
+    margin-top: {{ section.settings.top_margin | default: 16 }}px;
+    box-sizing: border-box;
   }
 
   .cf-footer {
@@ -76,7 +73,7 @@
     color: {{ section.settings.text_color | default: '#333333' }};
     font-family: inherit;
     text-align: left;
-    border-radius: 24px 24px 0 0;
+    border-radius: 0;
     overflow: visible;
     padding-top: 51px;
   }
@@ -122,8 +119,8 @@
   footer:not(.cf-footer) { display: none !important; }
 
   @media (max-width: 768px) {
-    .cf-footer-wrap { padding-left: 0 !important; padding-right: 0 !important; margin-left: -16px !important; margin-right: -16px !important; }
-    .cf-footer { border-radius: 16px 16px 0 0; padding-top: 32px; }
+    .cf-footer-wrap { padding-left: 12px; padding-right: 12px; margin-top: 12px; }
+    .cf-footer { border-radius: 0; padding-top: 32px; }
     .cf-footer__inner {
       display: flex;
       flex-direction: column;
@@ -232,7 +229,8 @@
   "settings": [
     {"type":"header","content":"Brand"},
     {"type":"image_picker","id":"logo","label":"Logo image"},
-    {"type":"range","id":"side_gap","label":"Side gap (px)","min":0,"max":120,"step":4,"default":60},
+    {"type":"range","id":"side_gap","label":"Side gap (px)","min":0,"max":120,"step":4,"default":16},
+    {"type":"range","id":"top_margin","label":"Top margin (px)","min":0,"max":60,"step":4,"default":16},
     {"type":"range","id":"col2_offset","label":"Company column offset (px)","min":-100,"max":100,"step":2,"default":0},
     {"type":"range","id":"col3_offset","label":"Account column offset (px)","min":-100,"max":100,"step":2,"default":0},
     {"type":"range","id":"col4_offset","label":"Legal column offset (px)","min":-100,"max":100,"step":2,"default":0},
