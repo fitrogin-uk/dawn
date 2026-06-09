@@ -518,7 +518,9 @@
             "review_date": "",
             "photo": "shopify://shop_images/33.jpg",
             "video_url": "",
-            "review_type": ""
+            "review_type": "",
+            "reply_name": "FUELX Team",
+            "reply_text": ""
           }
         },
         "review_89Bffw": {
@@ -533,7 +535,9 @@
             "review_date": "20 March 2026",
             "photo": "shopify://shop_images/gummies.jpg",
             "video_url": "",
-            "review_type": ""
+            "review_type": "",
+            "reply_name": "Its creatine gummies not like baby gummies.",
+            "reply_text": ""
           }
         },
         "review_E9LHTK": {
@@ -548,7 +552,9 @@
             "review_date": "3 days ago",
             "photo": "shopify://shop_images/IMG_9463.jpg",
             "video_url": "",
-            "review_type": ""
+            "review_type": "",
+            "reply_name": "FUELX Team",
+            "reply_text": ""
           }
         },
         "review_DG4EUm": {
@@ -562,7 +568,9 @@
             "review_text": "I love it",
             "review_date": "1 week ago",
             "video_url": "",
-            "review_type": "Emerald"
+            "review_type": "Emerald",
+            "reply_name": "FUELX Team",
+            "reply_text": ""
           }
         },
         "review_dQJJUd": {
@@ -576,7 +584,9 @@
             "review_text": "This was a replacement from a recall. Love the compact and convenience.",
             "review_date": "2 weeks ago",
             "video_url": "",
-            "review_type": "Lavender"
+            "review_type": "Lavender",
+            "reply_name": "FUELX Team",
+            "reply_text": ""
           }
         }
       },
