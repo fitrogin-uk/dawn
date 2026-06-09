@@ -33,6 +33,10 @@
 
 <style>
   .rs { font-family: inherit; }
+  .section-reviews { padding-left: 16px !important; padding-right: 16px !important; }
+  @media (max-width: 749px) {
+    .section-reviews { padding-left: 10px !important; padding-right: 10px !important; }
+  }
   .rs__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; padding: {{ section.settings.section_padding_top }}px {{ section.settings.side_padding }}px {{ section.settings.section_padding_bottom }}px; }
 
   /* Desktop layout: full width stacked */
@@ -41,7 +45,7 @@
 
   /* Desktop header bar */
   .rs__desk-header { margin-bottom: 6px; }
-  .rs__desk-title { font-size: 28px; font-weight: 800; color: #111; margin: 0 0 10px; }
+  .rs__desk-title { font-size: 38px; font-weight: 800; color: #111; margin: 0 0 10px; }
   .rs__desk-meta-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
   .rs__desk-meta-left { display: flex; flex-direction: column; gap: 2px; }
   .rs__desk-rating-row { display: flex; align-items: center; gap: 8px; }
@@ -67,10 +71,10 @@
   .rs__card-play-btn { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.9); display: flex; align-items: center; justify-content: center; }
   .rs__card-multi { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.55); color: #fff; border-radius: 6px; padding: 3px 7px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 3px; }
   .rs__card-body { padding: 10px 12px 12px; }
-  .rs__card-name { font-weight: 700; font-size: 14px; color: #111; display: flex; align-items: center; gap: 5px; margin-bottom: 4px; }
+  .rs__card-name { font-weight: 700; font-size: 21px; color: #111; display: flex; align-items: center; gap: 5px; margin-bottom: 4px; }
   .rs__card-verified svg { flex-shrink: 0; }
   .rs__card-stars { display: flex; gap: 2px; margin-bottom: 6px; }
-  .rs__card-text { font-size: 13px; color: #444; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .rs__card-text { font-size: 16px; color: #444; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
   .rs__card-meta { font-size: 12px; color: #999; margin-top: 6px; }
 
   /* Lightbox */
@@ -127,6 +131,7 @@
   .rs__mob-based { display: none; }
   .rs__mob-write { display: none; }
   .rs__mob-filter-row { display: none; }
+  .rs__mob-filter-btn { border: 1px solid #ddd; background: #fff; border-radius: 8px; padding: 8px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: #555; }
 
   /* ---- Mobile ---- */
   @media (max-width: 749px) {
@@ -136,13 +141,16 @@
     .rs__grid-header { display: none; }
 
     /* Mobile heading block sits above the grid col */
-    .rs__mob-heading { display: block; font-size: 22px; font-weight: 800; color: #111; margin: 0 0 6px; }
+    .rs__mob-heading { display: block; font-size: 24px; font-weight: 800; color: #111; margin: 0 0 6px; }
+    .rs__card-name { font-size: 16px; }
+    .rs__card-text { font-size: 13px; }
     .rs__mob-rating-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
     .rs__mob-rating-num { font-size: 16px; font-weight: 700; color: #111; }
     .rs__mob-rating-stars { display: flex; gap: 2px; }
     .rs__mob-based { font-size: 13px; color: #555; margin-bottom: 14px; }
-    .rs__mob-write { display: block; width: 100%; background: #111; color: #fff; border: none; border-radius: 999px; padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; margin-bottom: 14px; }
-    .rs__mob-filter-row { display: flex; justify-content: flex-end; margin-bottom: 12px; }
+    .rs__mob-actions { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .rs__mob-write { display: block; flex: 1; background: #111; color: #fff; border: none; border-radius: 999px; padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; }
+    .rs__mob-filter-row { display: flex; flex-shrink: 0; margin-bottom: 0; }
     .rs__mob-filter-btn { border: 1px solid #ddd; background: #fff; border-radius: 8px; padding: 8px 12px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; }
 
     .rs__photos { columns: 2; column-gap: 10px; }
@@ -184,7 +192,13 @@
           </div>
           <div class="rs__desk-based">Based on {{ section.settings.review_count }} reviews</div>
         </div>
-        <button class="rs__desk-write" type="button" data-rs-open-write>Write Review</button>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button class="rs__desk-write" type="button" data-rs-open-write>Write Review</button>
+          <button class="rs__mob-filter-btn" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+            Filter
+          </button>
+        </div>
       </div>
     </div>
 
@@ -208,12 +222,14 @@
           </div>
         </div>
         <div class="rs__mob-based">Based on {{ section.settings.review_count }} reviews</div>
-        <button class="rs__mob-write" type="button" data-rs-open-write>Write Review</button>
-        <div class="rs__mob-filter-row">
-          <button class="rs__mob-filter-btn" type="button">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-            Filter
-          </button>
+        <div class="rs__mob-actions">
+          <button class="rs__mob-write" type="button" data-rs-open-write>Write Review</button>
+          <div class="rs__mob-filter-row">
+            <button class="rs__mob-filter-btn" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+              Filter
+            </button>
+          </div>
         </div>
 
         <div class="rs__photos" id="rsPhotoGrid-{{ section.id }}">
