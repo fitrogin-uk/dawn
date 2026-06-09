@@ -6,33 +6,54 @@
       </h2>
     {%- endif -%}
 
-    <div class="gummy-grid">
-      {%- for block in section.blocks -%}
-        <div class="gummy-card" {{ block.shopify_attributes }}>
-          <div class="gummy-icon-wrapper">
-            {%- if block.settings.image != blank -%}
-              <img 
-                src="{{ block.settings.image | image_url: width: 300 }}" 
-                alt="{{ block.settings.title | escape }}"
-                loading="lazy"
-                width="auto"
-                height="auto"
-              >
-            {%- else -%}
-              {{ 'image' | placeholder_svg_tag: 'gummy-placeholder' }}
-            {%- endif -%}
+    <div class="gummy-slider-wrapper">
+      <button class="gummy-arrow gummy-arrow--prev" aria-label="Previous">&#8592;</button>
+      <div class="gummy-grid" id="gummy-grid-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          <div class="gummy-card" {{ block.shopify_attributes }}>
+            <div class="gummy-icon-wrapper">
+              {%- if block.settings.image != blank -%}
+                <img
+                  src="{{ block.settings.image | image_url: width: 300 }}"
+                  alt="{{ block.settings.title | escape }}"
+                  loading="lazy"
+                  width="auto"
+                  height="auto"
+                >
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'gummy-placeholder' }}
+              {%- endif -%}
+            </div>
+
+            <h3 class="gummy-card-title">{{ block.settings.title }}</h3>
+
+            <div class="gummy-card-text">
+              {{ block.settings.text }}
+            </div>
           </div>
-          
-          <h3 class="gummy-card-title">{{ block.settings.title }}</h3>
-          
-          <div class="gummy-card-text">
-            {{ block.settings.text }}
-          </div>
-        </div>
-      {%- endfor -%}
+        {%- endfor -%}
+      </div>
+      <button class="gummy-arrow gummy-arrow--next" aria-label="Next">&#8594;</button>
     </div>
   </div>
 </div>
+
+<script>
+  (function() {
+    var section = document.querySelector('#gummy-grid-{{ section.id }}');
+    if (!section) return;
+    var wrapper = section.closest('.gummy-slider-wrapper');
+    var prev = wrapper.querySelector('.gummy-arrow--prev');
+    var next = wrapper.querySelector('.gummy-arrow--next');
+    function scrollBy(dir) {
+      var card = section.querySelector('.gummy-card');
+      var amount = card ? card.offsetWidth + 12 : 280;
+      section.scrollBy({ left: dir * amount, behavior: 'smooth' });
+    }
+    prev.addEventListener('click', function() { scrollBy(-1); });
+    next.addEventListener('click', function() { scrollBy(1); });
+  })();
+</script>
 
 {% style %}
 .gummy-{{ section.id }} {
@@ -135,6 +156,14 @@
   margin: 0;
 }
 
+/* Arrow navigation — hidden on desktop */
+.gummy-slider-wrapper {
+  position: relative;
+}
+.gummy-arrow {
+  display: none;
+}
+
 /* Tablet Responsive Breakpoint */
 @media (max-width: 1400px) {
   .gummy-grid {
@@ -188,15 +217,17 @@
     - Significantly tightened internal paddings for mobile screens
   */
   .gummy-card {
-    flex: 0 0 75%; 
+    flex: 0 0 75%;
     scroll-snap-align: start;
     padding: 46px 20px;
     border-radius: 14px;
+    min-height: 390px;
+    box-sizing: border-box;
   }
 
-  /* Compacted Mobile Icons */
+  /* Compacted Mobile Icons — 30% taller than original 70px */
   .gummy-icon-wrapper {
-    height: 70px;
+    height: 91px;
     margin-bottom: 15px;
   }
 
@@ -204,6 +235,27 @@
     width: 55px;
     height: 55px;
   }
+
+  /* Arrow buttons */
+  .gummy-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 10;
+  }
+  .gummy-arrow--prev { left: -8px; }
+  .gummy-arrow--next { right: -8px; }
 
   /* Compact Mobile Text */
   .gummy-card-title {
