@@ -7,7 +7,6 @@
     {%- endif -%}
 
     <div class="gummy-slider-wrapper">
-      <button class="gummy-arrow gummy-arrow--prev" aria-label="Previous">&#8592;</button>
       <div class="gummy-grid" id="gummy-grid-{{ section.id }}">
         {%- for block in section.blocks -%}
           <div class="gummy-card" {{ block.shopify_attributes }}>
@@ -33,7 +32,10 @@
           </div>
         {%- endfor -%}
       </div>
-      <button class="gummy-arrow gummy-arrow--next" aria-label="Next">&#8594;</button>
+      <div class="gummy-arrows">
+        <button class="gummy-arrow gummy-arrow--prev" aria-label="Previous">&#8592;</button>
+        <button class="gummy-arrow gummy-arrow--next" aria-label="Next">&#8594;</button>
+      </div>
     </div>
   </div>
 </div>
@@ -157,8 +159,8 @@
 }
 
 /* Arrow navigation — hidden on desktop */
-.gummy-slider-wrapper {
-  position: relative;
+.gummy-arrows {
+  display: none;
 }
 .gummy-arrow {
   display: none;
@@ -219,15 +221,15 @@
   .gummy-card {
     flex: 0 0 75%;
     scroll-snap-align: start;
-    padding: 46px 20px;
+    padding: 37px 20px;
     border-radius: 14px;
-    min-height: 390px;
+    min-height: 312px;
     box-sizing: border-box;
   }
 
-  /* Compacted Mobile Icons — 30% taller than original 70px */
+  /* Mobile icon wrapper */
   .gummy-icon-wrapper {
-    height: 91px;
+    height: 73px;
     margin-bottom: 15px;
   }
 
@@ -236,26 +238,26 @@
     height: 55px;
   }
 
-  /* Arrow buttons */
+  /* Arrow buttons — centered below cards */
+  .gummy-arrows {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+  }
   .gummy-arrow {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border: none;
-    background: #ffffff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    font-size: 18px;
+    border: 1.5px solid #aaaaaa;
+    background: transparent;
+    color: #333333;
+    font-size: 16px;
     cursor: pointer;
-    z-index: 10;
   }
-  .gummy-arrow--prev { left: -8px; }
-  .gummy-arrow--next { right: -8px; }
 
   /* Compact Mobile Text */
   .gummy-card-title {
