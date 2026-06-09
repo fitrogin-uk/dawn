@@ -62,15 +62,26 @@
 
   /* Carousel */
   .rs__carousel { position: relative; }
-  .rs__carousel-nav { display: flex; gap: 8px; margin-bottom: 14px; justify-content: flex-end; padding: 0 10px; }
-  .rs__carousel-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #ddd; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #333; font-size: 14px; }
+  .rs__carousel-nav { display: flex; gap: 8px; margin-top: 14px; justify-content: center; padding: 0 10px; }
+  .rs__carousel-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #ddd; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #333; }
   .rs__carousel-btn:hover { background: #f5f5f5; }
   .rs__carousel-btn:disabled { opacity: 0.3; cursor: default; }
-  .rs__photos { display: flex; gap: 12px; overflow: hidden; padding: 0 10px 10px; scroll-behavior: smooth; }
-  .rs__card { flex: 0 0 260px; background: #f4f4f4; border-radius: 12px; overflow: hidden; border: 1px solid #ebebeb; cursor: pointer; position: relative; }
+  .rs__photos { display: flex; gap: 12px; overflow-x: auto; overflow-y: visible; padding: 4px 10px 10px; scroll-behavior: smooth; align-items: flex-start; scrollbar-width: none; }
+  .rs__photos::-webkit-scrollbar { display: none; }
+  .rs__card { flex: 0 0 220px; background: #f4f4f4; border-radius: 12px; overflow: hidden; border: 1px solid #ebebeb; cursor: pointer; position: relative; align-self: flex-start; }
+  .rs__card.rs__card--hidden { display: none; }
   @media (max-width: 749px) {
     .rs__card { flex: 0 0 160px; }
   }
+
+  /* Filter dropdown */
+  .rs__filter-dropdown { position: absolute; top: calc(100% + 6px); right: 0; background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); z-index: 100; min-width: 180px; padding: 8px 0; display: none; }
+  .rs__filter-dropdown.is-open { display: block; }
+  .rs__filter-option { display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 14px; color: #111; cursor: pointer; }
+  .rs__filter-option:hover { background: #f5f5f5; }
+  .rs__filter-option.is-active { font-weight: 700; }
+  .rs__filter-option svg { flex-shrink: 0; }
+  .rs__filter-wrap { position: relative; }
   .rs__card-img { position: relative; }
   .rs__card-img img { width: 100%; height: auto; display: block; object-fit: cover; }
   .rs__card-img video { width: 100%; height: auto; display: block; object-fit: cover; max-height: 320px; }
@@ -197,10 +208,17 @@
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
           <button class="rs__desk-write" type="button" data-rs-open-write>Write Review</button>
-          <button class="rs__filter-btn" type="button">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-            Filter
-          </button>
+          <div class="rs__filter-wrap">
+            <button class="rs__filter-btn" type="button" data-rs-filter-toggle>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+              Filter
+            </button>
+            <div class="rs__filter-dropdown" id="rsFilterDrop-{{ section.id }}">
+              <div class="rs__filter-option is-active" data-rs-sort="default">All reviews</div>
+              <div class="rs__filter-option" data-rs-sort="highest">Highest rating</div>
+              <div class="rs__filter-option" data-rs-sort="lowest">Lowest rating</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -227,21 +245,20 @@
         <div class="rs__mob-based">Based on {{ section.settings.review_count }} reviews</div>
         <div class="rs__mob-actions">
           <button class="rs__mob-write" type="button" data-rs-open-write>Write Review</button>
-          <button class="rs__filter-btn" type="button">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-            Filter
-          </button>
+          <div class="rs__filter-wrap">
+            <button class="rs__filter-btn" type="button" data-rs-filter-toggle>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+              Filter
+            </button>
+            <div class="rs__filter-dropdown" id="rsFilterDropMob-{{ section.id }}">
+              <div class="rs__filter-option is-active" data-rs-sort="default">All reviews</div>
+              <div class="rs__filter-option" data-rs-sort="highest">Highest rating</div>
+              <div class="rs__filter-option" data-rs-sort="lowest">Lowest rating</div>
+            </div>
+          </div>
         </div>
 
         <div class="rs__carousel">
-          <div class="rs__carousel-nav">
-            <button class="rs__carousel-btn" id="rsCarPrev-{{ section.id }}" aria-label="Previous">
-              <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M7 1L1 7l6 6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button class="rs__carousel-btn" id="rsCarNext-{{ section.id }}" aria-label="Next">
-              <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-          </div>
         <div class="rs__photos" id="rsPhotoGrid-{{ section.id }}">
           {%- assign card_idx = 0 -%}
           {%- for block in section.blocks -%}
@@ -314,6 +331,14 @@
             {%- endif -%}
           {%- endfor -%}
         </div>
+          <div class="rs__carousel-nav">
+            <button class="rs__carousel-btn" id="rsCarPrev-{{ section.id }}" aria-label="Previous">
+              <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M7 1L1 7l6 6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="rs__carousel-btn" id="rsCarNext-{{ section.id }}" aria-label="Next">
+              <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
         </div>{%- comment -%} end rs__carousel {%- endcomment -%}
       </div>
 
@@ -539,6 +564,49 @@
     track.addEventListener('scroll', updateBtns);
     updateBtns();
   }
+
+  // Filter
+  document.querySelectorAll('[data-rs-filter-toggle]').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var wrap = btn.closest('.rs__filter-wrap');
+      var drop = wrap.querySelector('.rs__filter-dropdown');
+      // close all other dropdowns first
+      document.querySelectorAll('.rs__filter-dropdown').forEach(function(d){ if(d !== drop) d.classList.remove('is-open'); });
+      drop.classList.toggle('is-open');
+    });
+  });
+
+  document.querySelectorAll('[data-rs-sort]').forEach(function(opt){
+    opt.addEventListener('click', function(e){
+      e.stopPropagation();
+      var val = opt.getAttribute('data-rs-sort');
+      // mark active in all dropdowns
+      document.querySelectorAll('[data-rs-sort]').forEach(function(o){ o.classList.remove('is-active'); });
+      document.querySelectorAll('[data-rs-sort="' + val + '"]').forEach(function(o){ o.classList.add('is-active'); });
+      // close all dropdowns
+      document.querySelectorAll('.rs__filter-dropdown').forEach(function(d){ d.classList.remove('is-open'); });
+      // sort cards
+      if (track) {
+        var cardEls = Array.prototype.slice.call(track.querySelectorAll('.rs__card'));
+        cardEls.sort(function(a, b){
+          var ra = parseFloat(a.getAttribute('data-rs-rating') || 0);
+          var rb = parseFloat(b.getAttribute('data-rs-rating') || 0);
+          if (val === 'highest') return rb - ra;
+          if (val === 'lowest')  return ra - rb;
+          return parseInt(a.getAttribute('data-rs-card') || 0) - parseInt(b.getAttribute('data-rs-card') || 0);
+        });
+        cardEls.forEach(function(c){ track.appendChild(c); });
+        track.scrollLeft = 0;
+        if (typeof updateBtns === 'function') updateBtns();
+      }
+    });
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.rs__filter-dropdown').forEach(function(d){ d.classList.remove('is-open'); });
+  });
 })();
 </script>
 
