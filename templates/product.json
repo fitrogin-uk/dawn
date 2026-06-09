@@ -525,12 +525,12 @@
           "type": "review",
           "settings": {
             "rating": "3.5",
-            "reviewer_name": "Novomins",
-            "reviewer_location": "",
+            "reviewer_name": "R name",
+            "reviewer_location": "Location",
             "verified": true,
-            "review_title": "",
+            "review_title": "ReviewTitle",
             "review_text": "taste is not that better.",
-            "review_date": "",
+            "review_date": "20 March 2026",
             "photo": "shopify://shop_images/gummies.jpg",
             "video_url": "",
             "review_type": ""
