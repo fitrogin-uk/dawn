@@ -42,18 +42,29 @@
 
 <script>
   (function() {
-    var section = document.querySelector('#gummy-grid-{{ section.id }}');
-    if (!section) return;
-    var wrapper = section.closest('.gummy-slider-wrapper');
+    var grid = document.querySelector('#gummy-grid-{{ section.id }}');
+    if (!grid) return;
+    var wrapper = grid.closest('.gummy-slider-wrapper');
     var prev = wrapper.querySelector('.gummy-arrow--prev');
     var next = wrapper.querySelector('.gummy-arrow--next');
-    function scrollBy(dir) {
-      var card = section.querySelector('.gummy-card');
-      var amount = card ? card.offsetWidth + 12 : 280;
-      section.scrollBy({ left: dir * amount, behavior: 'smooth' });
+
+    function updateArrows() {
+      var atStart = grid.scrollLeft <= 4;
+      var atEnd = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 4;
+      prev.classList.toggle('gummy-arrow--active', !atStart);
+      next.classList.toggle('gummy-arrow--active', !atEnd);
     }
+
+    function scrollBy(dir) {
+      var card = grid.querySelector('.gummy-card');
+      var amount = card ? card.offsetWidth + 12 : 280;
+      grid.scrollBy({ left: dir * amount, behavior: 'smooth' });
+    }
+
     prev.addEventListener('click', function() { scrollBy(-1); });
     next.addEventListener('click', function() { scrollBy(1); });
+    grid.addEventListener('scroll', updateArrows, { passive: true });
+    updateArrows();
   })();
 </script>
 
@@ -254,10 +265,15 @@
     border-radius: 50%;
     border: 1px solid #cccccc;
     background: transparent;
-    color: #888888;
-    font-size: 20px;
+    color: #bbbbbb;
+    font-size: 26px;
     line-height: 1;
     cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .gummy-arrow.gummy-arrow--active {
+    border-color: #111111;
+    color: #111111;
   }
 
   /* Compact Mobile Text */
