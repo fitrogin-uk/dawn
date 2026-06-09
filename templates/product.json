@@ -506,10 +506,25 @@
     "reviews_section_fkM7b3": {
       "type": "reviews-section",
       "blocks": {
+        "review_89Bffw": {
+          "type": "review",
+          "settings": {
+            "rating": "3.5",
+            "reviewer_name": "Novomins",
+            "reviewer_location": "",
+            "verified": true,
+            "review_title": "",
+            "review_text": "taste is not that better.",
+            "review_date": "",
+            "photo": "shopify://shop_images/gummies.jpg",
+            "video_url": "",
+            "review_type": ""
+          }
+        },
         "review_E9LHTK": {
           "type": "review",
           "settings": {
-            "rating": "5",
+            "rating": "3.5",
             "reviewer_name": "Brittny C.",
             "reviewer_location": "",
             "verified": true,
@@ -551,6 +566,7 @@
         }
       },
       "block_order": [
+        "review_89Bffw",
         "review_E9LHTK",
         "review_DG4EUm",
         "review_dQJJUd"
