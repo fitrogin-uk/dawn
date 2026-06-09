@@ -104,6 +104,8 @@
   .rs__card-verified svg { flex-shrink: 0; }
   .rs__card-stars { display: flex; gap: 2px; margin-bottom: 6px; }
   .rs__card-text { font-size: 16px; color: #444; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .rs__card-text.is-expanded { display: block; }
+  .rs__card-text-more { font-size: 12px; font-weight: 600; color: #111; cursor: pointer; margin-top: 4px; display: inline-block; text-decoration: underline; }
   .rs__card-meta { font-size: 12px; color: #999; margin-top: 4px; display: flex; flex-direction: column; gap: 1px; }
   .rs__card-reply { margin-top: 10px; padding: 10px 12px; background: #fff; border-left: 3px solid #111; border-radius: 6px; }
   .rs__card-reply-author { font-size: 11px; font-weight: 700; color: #111; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
@@ -365,7 +367,8 @@
                         {%- else -%}<svg width="13" height="13" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>{%- endif -%}
                       {%- endfor -%}
                     </div>
-                    <div class="rs__card-text">{{ block.settings.review_text }}</div>
+                    <div class="rs__card-text" data-rs-review-text>{{ block.settings.review_text }}</div>
+                    <span class="rs__card-text-more" data-rs-text-more>Read more</span>
                     {%- if block.settings.reviewer_location != blank or block.settings.review_date != blank -%}
                       <div class="rs__card-meta">{%- if block.settings.reviewer_location != blank -%}<span class="rs__card-meta-loc">{{ block.settings.reviewer_location }}</span>{%- endif -%}{%- if block.settings.review_date != blank -%}<span class="rs__card-meta-date">{{ block.settings.review_date }}</span>{%- endif -%}</div>
                     {%- endif -%}
@@ -701,10 +704,21 @@
     document.querySelectorAll('.rs__filter-dropdown').forEach(function(d){ d.classList.remove('is-open'); });
   });
 
+  // Read more / Read less for review text
+  document.querySelectorAll('[data-rs-text-more]').forEach(function(btn){
+    var textEl = btn.previousElementSibling;
+    if (textEl.scrollHeight <= textEl.clientHeight) { btn.style.display = 'none'; return; }
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var expanded = textEl.classList.toggle('is-expanded');
+      btn.textContent = expanded ? 'Read less' : 'Read more';
+    });
+  });
+
   // Read more / Read less for brand replies
   document.querySelectorAll('[data-rs-reply-more]').forEach(function(btn){
     var textEl = btn.previousElementSibling;
-    // hide button if text isn't actually clamped
+    if (textEl.scrollHeight <= textEl.clientHeight) { btn.style.display = 'none'; return; }
     btn.addEventListener('click', function(e){
       e.stopPropagation();
       var expanded = textEl.classList.toggle('is-expanded');
