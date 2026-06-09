@@ -717,13 +717,19 @@
   }
   initReadMore('data-rs-text-more');
   initReadMore('data-rs-reply-more');
-  // Hide Read more buttons where text fits without clamping
-  setTimeout(function(){
+  // Hide Read more buttons where text fits without clamping — run after full page load
+  function hideUnnecessaryReadMore() {
     document.querySelectorAll('[data-rs-text-more],[data-rs-reply-more]').forEach(function(btn){
       var textEl = btn.previousElementSibling;
       if (textEl.scrollHeight <= textEl.clientHeight + 2) { btn.style.display = 'none'; }
     });
-  }, 300);
+  }
+  if (document.readyState === 'complete') {
+    hideUnnecessaryReadMore();
+  } else {
+    window.addEventListener('load', hideUnnecessaryReadMore);
+    setTimeout(hideUnnecessaryReadMore, 800);
+  }
 })();
 </script>
 
