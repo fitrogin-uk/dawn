@@ -502,6 +502,73 @@
         "button_text_color": "#ffffff",
         "button_hover_bg": "#333333"
       }
+    },
+    "reviews_section_fkM7b3": {
+      "type": "reviews-section",
+      "blocks": {
+        "review_E9LHTK": {
+          "type": "review",
+          "settings": {
+            "rating": "5",
+            "reviewer_name": "Brittny C.",
+            "reviewer_location": "",
+            "verified": true,
+            "review_title": "",
+            "review_text": "I love my new product! I use it for a variety of things. It works great.",
+            "review_date": "3 days ago",
+            "video_url": "",
+            "review_type": ""
+          }
+        },
+        "review_DG4EUm": {
+          "type": "review",
+          "settings": {
+            "rating": "5",
+            "reviewer_name": "Antoinette G.",
+            "reviewer_location": "",
+            "verified": true,
+            "review_title": "",
+            "review_text": "I love it",
+            "review_date": "1 week ago",
+            "video_url": "",
+            "review_type": "Emerald"
+          }
+        },
+        "review_dQJJUd": {
+          "type": "review",
+          "settings": {
+            "rating": "5",
+            "reviewer_name": "Joy P.",
+            "reviewer_location": "",
+            "verified": true,
+            "review_title": "",
+            "review_text": "This was a replacement from a recall. Love the compact and convenience.",
+            "review_date": "2 weeks ago",
+            "video_url": "",
+            "review_type": "Lavender"
+          }
+        }
+      },
+      "block_order": [
+        "review_E9LHTK",
+        "review_DG4EUm",
+        "review_dQJJUd"
+      ],
+      "name": "Reviews Section",
+      "settings": {
+        "heading": "See why people love our product",
+        "review_rating": "4.3",
+        "review_count": "84",
+        "count_5": "",
+        "count_4": "",
+        "count_3": "",
+        "count_2": "",
+        "count_1": "",
+        "max_width": 1200,
+        "side_padding": 40,
+        "section_padding_top": 48,
+        "section_padding_bottom": 48
+      }
     }
   },
   "order": [
@@ -511,6 +578,7 @@
     "marquee_banner_WcmFgf",
     "expert_recommendations_k37i8d",
     "delicious_gummy_v_6_XXXqAJ",
-    "intagram_feed_9kbziT"
+    "intagram_feed_9kbziT",
+    "reviews_section_fkM7b3"
   ]
 }
