@@ -34,7 +34,7 @@
 <style>
   .rs { font-family: inherit; }
   .section-reviews { padding-left: 0 !important; padding-right: 0 !important; }
-  .rs__inner { padding-left: 16px !important; padding-right: 16px !important; }
+  .rs__inner { padding-left: 4px !important; padding-right: 4px !important; }
   @media (max-width: 749px) {
     .section-reviews { padding-left: 0 !important; padding-right: 0 !important; }
     .rs__inner { padding-left: 10px !important; padding-right: 10px !important; }
@@ -47,7 +47,10 @@
 
   /* Desktop header bar */
   .rs__desk-header { margin-bottom: 6px; }
-  .rs__desk-title { font-size: 38px; font-weight: 800; color: #111; margin: 0 0 10px; }
+  .rs__desk-title { font-size: 38px; font-weight: 800; color: #111; margin: 0 0 10px; display: flex; align-items: center; gap: 16px; }
+  .rs__desk-title::after { content: ''; flex: 1; height: 1px; background: #e0e0e0; }
+  .rs__mob-heading { display: flex; align-items: center; gap: 12px; }
+  .rs__mob-heading::after { content: ''; flex: 1; height: 1px; background: #e0e0e0; }
   .rs__desk-meta-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
   .rs__desk-meta-left { display: flex; flex-direction: column; gap: 2px; }
   .rs__desk-rating-row { display: flex; align-items: center; gap: 8px; }
@@ -143,7 +146,7 @@
     .rs__grid-header { display: none; }
 
     /* Mobile heading block sits above the grid col */
-    .rs__mob-heading { display: block; font-size: 24px; font-weight: 800; color: #111; margin: 0 0 6px; }
+    .rs__mob-heading { display: flex; font-size: 24px; font-weight: 800; color: #111; margin: 0 0 6px; }
     .rs__card-name { font-size: 16px; }
     .rs__card-text { font-size: 13px; }
     .rs__mob-rating-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
