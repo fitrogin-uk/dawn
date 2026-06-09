@@ -68,6 +68,7 @@
   .rs__carousel-btn:disabled { opacity: 0.3; cursor: default; }
   .rs__photos { display: flex; gap: 6px; overflow-x: auto; overflow-y: visible; padding: 4px 0 10px 0; scroll-behavior: smooth; align-items: flex-start; scrollbar-width: none; }
   .rs__photos > *:first-child { margin-left: 10px; }
+  .rs__photos > .rs__first-visible { margin-left: 10px !important; }
   .rs__spacer { flex: 0 0 10px !important; min-width: 10px !important; width: 10px !important; display: block !important; visibility: visible !important; }
   .rs__photos::-webkit-scrollbar { display: none; }
   .rs__card { flex: 0 0 253px; background: #f4f4f4; border-radius: 12px; overflow: hidden; border: 1px solid #ebebeb; cursor: pointer; position: relative; align-self: flex-start; }
@@ -637,6 +638,12 @@
   });
   // Carousel prev/next
   var track   = document.getElementById('rsPhotoGrid-' + sid);
+  function fixFirstMargin() {
+    if (!track) return;
+    Array.prototype.forEach.call(track.children, function(u){ u.classList.remove('rs__first-visible'); });
+    var first = Array.prototype.find ? Array.prototype.find.call(track.children, function(u){ return u.style.display !== 'none' && !u.classList.contains('rs__spacer'); }) : (function(){ for (var i=0; i<track.children.length; i++){ if (track.children[i].style.display !== 'none' && !track.children[i].classList.contains('rs__spacer')) return track.children[i]; } })();
+    if (first) first.classList.add('rs__first-visible');
+  }
   var btnPrev = document.getElementById('rsCarPrev-' + sid);
   var btnNext = document.getElementById('rsCarNext-' + sid);
   if (track && btnPrev && btnNext) {
@@ -688,6 +695,7 @@
           return ia - ib;
         });
         units.forEach(function(u){ track.insertBefore(u, track.querySelector('.rs__spacer')); });
+        fixFirstMargin();
         track.scrollLeft = 0;
         if (typeof updateBtns === 'function') updateBtns();
       }
@@ -719,6 +727,7 @@
           });
           unit.style.display = match ? '' : 'none';
         });
+        fixFirstMargin();
         track.scrollLeft = 0;
         if (typeof updateBtns === 'function') updateBtns();
       }
