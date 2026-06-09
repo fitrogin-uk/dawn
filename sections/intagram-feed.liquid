@@ -79,7 +79,7 @@
     width: 100% !important;
     box-sizing: border-box !important;
     background: {{ section.settings.bg_color | default: '#ffffff' }};
-    padding: {{ section.settings.section_padding_top | default: 48 }}px 0 {{ section.settings.section_padding_bottom | default: 48 }}px;
+    padding: {{ section.settings.section_padding_top | default: 20 }}px 0 {{ section.settings.section_padding_bottom | default: 48 }}px;
   }
 
   /* ── Header ─────────────────────────────────────────── */
@@ -319,7 +319,7 @@
       "min": 0,
       "max": 120,
       "step": 4,
-      "default": 48
+      "default": 20
     },
     {
       "type": "range",
