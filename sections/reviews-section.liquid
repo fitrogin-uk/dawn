@@ -70,8 +70,12 @@
   .rs__photos::-webkit-scrollbar { display: none; }
   .rs__card { flex: 0 0 220px; background: #f4f4f4; border-radius: 12px; overflow: hidden; border: 1px solid #ebebeb; cursor: pointer; position: relative; align-self: flex-start; }
   .rs__card.rs__card--hidden { display: none; }
+  /* Stacked column: two text-only cards vertically */
+  .rs__col { flex: 0 0 220px; display: flex; flex-direction: column; gap: 8px; align-self: flex-start; }
+  .rs__col .rs__card { flex: 0 0 auto; width: 100%; }
   @media (max-width: 749px) {
     .rs__card { flex: 0 0 160px; }
+    .rs__col { flex: 0 0 160px; }
   }
 
   /* Filter dropdown */
@@ -261,75 +265,98 @@
         <div class="rs__carousel">
         <div class="rs__photos" id="rsPhotoGrid-{{ section.id }}">
           {%- assign card_idx = 0 -%}
+          {%- assign pair_pending = false -%}
           {%- for block in section.blocks -%}
             {%- if block.type == 'review' -%}
               {%- assign rv_f = block.settings.rating | times: 1.0 -%}
               {%- assign rv_floor = rv_f | floor -%}
               {%- assign rv_ceil = rv_f | ceil -%}
-              <div class="rs__card"
-                data-rs-card="{{ card_idx }}"
-                data-rs-src="{% if block.settings.photo != blank %}{{ block.settings.photo | image_url: width: 1200 }}{% endif %}"
-                data-rs-video="{% if block.settings.video_url != blank %}{{ block.settings.video_url }}{% endif %}"
-                data-rs-name="{{ block.settings.reviewer_name | escape }}"
-                data-rs-rating="{{ block.settings.rating }}"
-                data-rs-title="{{ block.settings.review_title | escape }}"
-                data-rs-text="{{ block.settings.review_text | escape }}"
-                data-rs-date="{{ block.settings.review_date | escape }}"
-                data-rs-verified="{{ block.settings.verified }}"
-                data-rs-type="{{ block.settings.review_type | default: 'product' }}"
-                {{ block.shopify_attributes }}>
+              {%- assign is_small = true -%}
+              {%- if block.settings.photo != blank or block.settings.video_url != blank -%}
+                {%- assign is_small = false -%}
+              {%- endif -%}
 
-                {%- if block.settings.photo != blank -%}
-                  <div class="rs__card-img">
-                    {{ block.settings.photo | image_url: width: 400 | image_tag: loading: 'lazy', alt: block.settings.reviewer_name }}
-                    {%- if block.settings.video_url != blank -%}
-                      <div class="rs__card-multi">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><path d="M1 4l14 8-14 8V4z"/></svg>+1
-                      </div>
-                    {%- endif -%}
-                  </div>
-                {%- elsif block.settings.video_url != blank -%}
-                  <div class="rs__card-img">
-                    <video src="{{ block.settings.video_url }}" muted playsinline preload="none"
-                      {% if block.settings.poster != blank %}poster="{{ block.settings.poster | image_url: width: 400 }}"{% endif %}
-                      style="max-height:220px;"></video>
-                    <div class="rs__card-play">
-                      <div class="rs__card-play-btn"><svg width="14" height="16" viewBox="0 0 16 18" fill="#111"><path d="M1 1l14 8-14 8V1z"/></svg></div>
+              {%- capture card_html -%}
+                <div class="rs__card"
+                  data-rs-card="{{ card_idx }}"
+                  data-rs-src="{% if block.settings.photo != blank %}{{ block.settings.photo | image_url: width: 1200 }}{% endif %}"
+                  data-rs-video="{% if block.settings.video_url != blank %}{{ block.settings.video_url }}{% endif %}"
+                  data-rs-name="{{ block.settings.reviewer_name | escape }}"
+                  data-rs-rating="{{ block.settings.rating }}"
+                  data-rs-title="{{ block.settings.review_title | escape }}"
+                  data-rs-text="{{ block.settings.review_text | escape }}"
+                  data-rs-date="{{ block.settings.review_date | escape }}"
+                  data-rs-verified="{{ block.settings.verified }}"
+                  {{ block.shopify_attributes }}>
+                  {%- if block.settings.photo != blank -%}
+                    <div class="rs__card-img">
+                      {{ block.settings.photo | image_url: width: 400 | image_tag: loading: 'lazy', alt: block.settings.reviewer_name }}
+                      {%- if block.settings.video_url != blank -%}<div class="rs__card-multi"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><path d="M1 4l14 8-14 8V4z"/></svg>+1</div>{%- endif -%}
                     </div>
-                  </div>
-                {%- endif -%}
-
-                <div class="rs__card-body">
-                  <div class="rs__card-name">
-                    {{ block.settings.reviewer_name }}
-                    {%- if block.settings.verified -%}
-                      <span class="rs__card-verified"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1a9e47"/><polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                    {%- endif -%}
-                  </div>
-                  <div class="rs__card-stars">
-                    {%- for j in (1..5) -%}
-                      {%- if j <= rv_floor -%}
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      {%- elsif j == rv_ceil and rv_ceil != rv_floor -%}
-                        <svg width="13" height="13" viewBox="0 0 24 24"><defs><linearGradient id="rch{{ block.id }}"><stop offset="55%" stop-color="#111"/><stop offset="55%" stop-color="#e0e0e0"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#rch{{ block.id }})"/></svg>
-                      {%- else -%}
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      {%- endif -%}
-                    {%- endfor -%}
-                  </div>
-                  <div class="rs__card-text">{{ block.settings.review_text }}</div>
-                  {%- if block.settings.reviewer_location != blank or block.settings.review_date != blank -%}
-                    <div class="rs__card-meta">
-                      {%- if block.settings.reviewer_location != blank -%}{{ block.settings.reviewer_location }}{%- endif -%}
-                      {%- if block.settings.reviewer_location != blank and block.settings.review_date != blank -%} · {%- endif -%}
-                      {%- if block.settings.review_date != blank -%}{{ block.settings.review_date }}{%- endif -%}
+                  {%- elsif block.settings.video_url != blank -%}
+                    <div class="rs__card-img">
+                      <video src="{{ block.settings.video_url }}" muted playsinline preload="none" {% if block.settings.poster != blank %}poster="{{ block.settings.poster | image_url: width: 400 }}"{% endif %} style="max-height:220px;"></video>
+                      <div class="rs__card-play"><div class="rs__card-play-btn"><svg width="14" height="16" viewBox="0 0 16 18" fill="#111"><path d="M1 1l14 8-14 8V1z"/></svg></div></div>
                     </div>
                   {%- endif -%}
+                  <div class="rs__card-body">
+                    <div class="rs__card-name">
+                      {{ block.settings.reviewer_name }}
+                      {%- if block.settings.verified -%}<span class="rs__card-verified"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#1a9e47"/><polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>{%- endif -%}
+                    </div>
+                    <div class="rs__card-stars">
+                      {%- for j in (1..5) -%}
+                        {%- if j <= rv_floor -%}<svg width="13" height="13" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        {%- elsif j == rv_ceil and rv_ceil != rv_floor -%}<svg width="13" height="13" viewBox="0 0 24 24"><defs><linearGradient id="rch{{ block.id }}"><stop offset="55%" stop-color="#111"/><stop offset="55%" stop-color="#e0e0e0"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#rch{{ block.id }})"/></svg>
+                        {%- else -%}<svg width="13" height="13" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>{%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                    <div class="rs__card-text">{{ block.settings.review_text }}</div>
+                    {%- if block.settings.reviewer_location != blank or block.settings.review_date != blank -%}
+                      <div class="rs__card-meta">{{ block.settings.reviewer_location }}{%- if block.settings.reviewer_location != blank and block.settings.review_date != blank %} · {% endif %}{{ block.settings.review_date }}</div>
+                    {%- endif -%}
+                  </div>
                 </div>
-              </div>
+              {%- endcapture -%}
+
+              {%- if is_small -%}
+                {%- if pair_pending -%}
+                  {{ pair_first_html }}
+                  {{ card_html }}
+                  </div>{%- comment -%}close rs__col{%- endcomment -%}
+                  {%- assign pair_pending = false -%}
+                {%- else -%}
+                  {%- comment -%} peek ahead: if next review block is also small, open a col {%- endcomment -%}
+                  {%- assign next_is_small = false -%}
+                  {%- assign look_idx = forloop.index -%}
+                  {%- for nb in section.blocks offset: look_idx -%}
+                    {%- if nb.type == 'review' -%}
+                      {%- if nb.settings.photo == blank and nb.settings.video_url == blank -%}
+                        {%- assign next_is_small = true -%}
+                      {%- endif -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- if next_is_small -%}
+                    <div class="rs__col">
+                    {%- assign pair_first_html = card_html -%}
+                    {%- assign pair_pending = true -%}
+                  {%- else -%}
+                    {{ card_html }}
+                  {%- endif -%}
+                {%- endif -%}
+              {%- else -%}
+                {%- if pair_pending -%}
+                  {{ pair_first_html }}
+                  </div>
+                  {%- assign pair_pending = false -%}
+                {%- endif -%}
+                {{ card_html }}
+              {%- endif -%}
               {%- assign card_idx = card_idx | plus: 1 -%}
             {%- endif -%}
           {%- endfor -%}
+          {%- if pair_pending -%}{{ pair_first_html }}</div>{%- endif -%}
         </div>
           <div class="rs__carousel-nav">
             <button class="rs__carousel-btn" id="rsCarPrev-{{ section.id }}" aria-label="Previous">
