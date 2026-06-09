@@ -708,9 +708,6 @@
   function initReadMore(btnAttr) {
     document.querySelectorAll('[' + btnAttr + ']').forEach(function(btn){
       var textEl = btn.previousElementSibling;
-      requestAnimationFrame(function(){
-        if (textEl.scrollHeight <= textEl.clientHeight + 2) { btn.style.display = 'none'; }
-      });
       btn.addEventListener('click', function(e){
         e.stopPropagation();
         var expanded = textEl.classList.toggle('is-expanded');
@@ -720,6 +717,13 @@
   }
   initReadMore('data-rs-text-more');
   initReadMore('data-rs-reply-more');
+  // Hide Read more buttons where text fits without clamping
+  setTimeout(function(){
+    document.querySelectorAll('[data-rs-text-more],[data-rs-reply-more]').forEach(function(btn){
+      var textEl = btn.previousElementSibling;
+      if (textEl.scrollHeight <= textEl.clientHeight + 2) { btn.style.display = 'none'; }
+    });
+  }, 300);
 })();
 </script>
 
