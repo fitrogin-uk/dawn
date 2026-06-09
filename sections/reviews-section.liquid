@@ -68,6 +68,7 @@
   .rs__carousel-btn:disabled { opacity: 0.3; cursor: default; }
   .rs__photos { display: flex; gap: 6px; overflow-x: auto; overflow-y: visible; padding: 4px 0 10px 0; scroll-behavior: smooth; align-items: flex-start; scrollbar-width: none; }
   .rs__photos > *:first-child { margin-left: 10px; }
+  .rs__spacer { flex: 0 0 10px !important; min-width: 10px !important; width: 10px !important; display: block !important; visibility: visible !important; }
   .rs__photos::-webkit-scrollbar { display: none; }
   .rs__card { flex: 0 0 253px; background: #f4f4f4; border-radius: 12px; overflow: hidden; border: 1px solid #ebebeb; cursor: pointer; position: relative; align-self: flex-start; }
   .rs__card.rs__card--hidden { display: none; }
@@ -414,7 +415,7 @@
             {%- endif -%}
           {%- endfor -%}
           {%- if pair_pending -%}{{ pair_first_html }}</div>{%- endif -%}
-          <div class="rs__spacer" style="flex:0 0 10px;min-width:10px;"></div>
+          <div class="rs__spacer" style="flex:0 0 10px;min-width:10px;">&nbsp;</div>
         </div>
           <div class="rs__carousel-nav">
             <button class="rs__carousel-btn" id="rsCarPrev-{{ section.id }}" aria-label="Previous">
