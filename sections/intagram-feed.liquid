@@ -90,7 +90,7 @@
     gap: 0;
     width: 100% !important;
     box-sizing: border-box;
-    padding: 0 max(20px, 5vw) 24px;
+    padding: 0 55px 24px;
   }
 
   .ig-feed-{{ section.id }} .ig-feed__title {
@@ -135,7 +135,7 @@
   .ig-feed__grid {
     width: 100%;
     box-sizing: border-box;
-    padding: 0 max(20px, 5vw);
+    padding: 0 55px;
     display: grid;
     grid-template-columns: repeat({{ section.settings.columns_desktop | default: 6 }}, 1fr);
     gap: {{ section.settings.gap | default: 4 }}px;
