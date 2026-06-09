@@ -34,10 +34,12 @@
 <style>
   .rs { font-family: inherit; }
   .section-reviews { padding-left: 0 !important; padding-right: 0 !important; }
-  .rs__inner { padding-left: 10px !important; padding-right: 10px !important; }
+  .rs__inner { padding-left: 0 !important; padding-right: 0 !important; }
+  .rs__desk-header { padding-left: 10px; padding-right: 10px; }
   @media (max-width: 749px) {
     .section-reviews { padding-left: 0 !important; padding-right: 0 !important; }
-    .rs__inner { padding-left: 10px !important; padding-right: 10px !important; }
+    .rs__inner { padding-left: 0 !important; padding-right: 0 !important; }
+    .rs__mob-heading, .rs__mob-rating-row, .rs__mob-based, .rs__mob-actions { padding-left: 10px; padding-right: 10px; }
   }
   .rs__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; padding: {{ section.settings.section_padding_top }}px {{ section.settings.side_padding }}px {{ section.settings.section_padding_bottom }}px; }
 
@@ -47,7 +49,7 @@
 
   /* Desktop header bar */
   .rs__desk-header { margin-bottom: 6px; }
-  .rs__desk-title { font-size: 38px; font-weight: 800; color: #111; margin: 0 0 6px; display: flex; align-items: center; gap: 16px; }
+  .rs__desk-title { font-size: 38px; font-weight: 800; color: #111; margin: 0 0 10px; display: flex; align-items: center; gap: 16px; }
   .rs__desk-title::after { content: ''; flex: 1; height: 1px; background: #e0e0e0; }
   .rs__mob-heading { display: flex; align-items: center; gap: 12px; }
   .rs__mob-heading::after { content: ''; flex: 1; height: 1px; background: #e0e0e0; }
