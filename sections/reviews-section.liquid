@@ -34,21 +34,14 @@
 <style>
   .rs { font-family: inherit; }
   .section-reviews { padding-left: 0 !important; padding-right: 0 !important; }
-  .rs__inner { padding-left: 0 !important; padding-right: 0 !important; }
-  .rs__desk-header { padding-left: 10px; padding-right: 10px; }
-  @media (max-width: 749px) {
-    .section-reviews { padding-left: 0 !important; padding-right: 0 !important; }
-    .rs__inner { padding-left: 0 !important; padding-right: 0 !important; }
-    .rs__mob-heading, .rs__mob-rating-row, .rs__mob-based, .rs__mob-actions { padding-left: 10px; padding-right: 10px; }
-  }
-  .rs__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; padding: {{ section.settings.section_padding_top }}px {{ section.settings.side_padding }}px {{ section.settings.section_padding_bottom }}px; }
+  .rs__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; padding: {{ section.settings.section_padding_top }}px 0 {{ section.settings.section_padding_bottom }}px; }
 
   /* Desktop layout: full width stacked */
   .rs__layout { display: block; }
   .rs__summary { display: none; }
 
   /* Desktop header bar */
-  .rs__desk-header { margin-bottom: 6px; }
+  .rs__desk-header { margin-bottom: 6px; padding: 0 10px; }
   .rs__desk-title { font-size: 38px; font-weight: 800; color: #111; margin: 0 0 10px; display: flex; align-items: center; gap: 16px; }
   .rs__desk-title::after { content: ''; flex: 1; height: 1px; background: #e0e0e0; }
   .rs__mob-heading { display: flex; align-items: center; gap: 12px; }
@@ -61,6 +54,8 @@
   .rs__desk-based { font-size: 13px; color: #666; }
   .rs__desk-write { background: #111; color: #fff; border: none; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; cursor: pointer; }
   .rs__desk-write:hover { opacity: 0.85; }
+  .rs__filter-btn { background: #111; color: #fff; border: none; border-radius: 999px; padding: 12px 20px; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+  .rs__filter-btn:hover { opacity: 0.85; }
 
   /* Grid */
   .rs__grid-header { display: none; }
@@ -135,7 +130,7 @@
   .rs__mob-based { display: none; }
   .rs__mob-write { display: none; }
   .rs__mob-filter-row { display: none; }
-  .rs__mob-filter-btn { border: 1px solid #ddd; background: #fff; border-radius: 8px; padding: 8px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: #555; }
+  .rs__mob-actions { display: none; }
 
   /* ---- Mobile ---- */
   @media (max-width: 749px) {
@@ -144,19 +139,18 @@
     .rs__summary { display: none; }
     .rs__grid-header { display: none; }
 
-    /* Mobile heading block sits above the grid col */
-    .rs__mob-heading { display: flex; font-size: 24px; font-weight: 800; color: #111; margin: 0 0 6px; }
-    .rs__card-name { font-size: 16px; }
-    .rs__card-text { font-size: 13px; }
-    .rs__mob-rating-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    .rs__mob-heading { display: flex; font-size: 24px; font-weight: 800; color: #111; margin: 0 0 6px; padding: 0 10px; }
+    .rs__mob-rating-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; padding: 0 10px; }
     .rs__mob-rating-num { font-size: 16px; font-weight: 700; color: #111; }
     .rs__mob-rating-stars { display: flex; gap: 2px; }
-    .rs__mob-based { font-size: 13px; color: #555; margin-bottom: 14px; }
-    .rs__mob-actions { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-    .rs__mob-write { display: block; flex: 1; background: #111; color: #fff; border: none; border-radius: 999px; padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; }
-    .rs__mob-filter-row { display: flex; flex-shrink: 0; margin-bottom: 0; }
-    .rs__mob-filter-btn { border: 1px solid #ddd; background: #fff; border-radius: 8px; padding: 8px 12px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; }
+    .rs__mob-based { display: block; font-size: 13px; color: #555; margin-bottom: 14px; padding: 0 10px; }
+    .rs__mob-actions { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; padding: 0 10px; }
+    .rs__mob-write { display: block; flex: 1; background: #111; color: #fff; border: none; border-radius: 999px; padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; text-align: center; }
+    .rs__mob-filter-row { display: flex; flex-shrink: 0; }
+    .rs__filter-btn { background: #111; color: #fff; border: none; border-radius: 999px; padding: 14px 18px; font-size: 16px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 
+    .rs__card-name { font-size: 16px; }
+    .rs__card-text { font-size: 13px; }
     .rs__photos { columns: 2; column-gap: 4px; }
     .rs__lb-inner { flex-direction: column; max-height: 95vh; }
     .rs__lb-media { flex: 0 0 220px; max-height: 220px; }
@@ -198,8 +192,8 @@
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
           <button class="rs__desk-write" type="button" data-rs-open-write>Write Review</button>
-          <button class="rs__mob-filter-btn" type="button">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+          <button class="rs__filter-btn" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
             Filter
           </button>
         </div>
