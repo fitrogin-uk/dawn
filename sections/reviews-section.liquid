@@ -233,30 +233,27 @@
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
               Filter
             </button>
+            {%- assign auto_c5 = 0 -%}{%- assign auto_c4 = 0 -%}{%- assign auto_c3 = 0 -%}{%- assign auto_c2 = 0 -%}{%- assign auto_c1 = 0 -%}
+            {%- for b in section.blocks -%}{%- assign bri = b.settings.rating | floor -%}{%- if bri == 5 -%}{%- assign auto_c5 = auto_c5 | plus: 1 -%}{%- elsif bri == 4 -%}{%- assign auto_c4 = auto_c4 | plus: 1 -%}{%- elsif bri == 3 -%}{%- assign auto_c3 = auto_c3 | plus: 1 -%}{%- elsif bri == 2 -%}{%- assign auto_c2 = auto_c2 | plus: 1 -%}{%- else -%}{%- assign auto_c1 = auto_c1 | plus: 1 -%}{%- endif -%}{%- endfor -%}
             <div class="rs__filter-dropdown" id="rsFilterDrop-{{ section.id }}">
               <div class="rs__filter-section-label">Order By</div>
               <div class="rs__filter-option is-active" data-rs-sort="default"><span>All rating</span><span class="rs__check">✓</span></div>
               <div class="rs__filter-option" data-rs-sort="lowest"><span>Lowest rating</span><span class="rs__check">✓</span></div>
               <div class="rs__filter-option" data-rs-sort="highest"><span>Highest Rating</span><span class="rs__check">✓</span></div>
-              {%- if section.settings.count_5 != blank or section.settings.count_4 != blank or section.settings.count_3 != blank or section.settings.count_2 != blank or section.settings.count_1 != blank -%}
               <div class="rs__filter-divider"></div>
               <div class="rs__filter-section-label">Breakdown</div>
               <div class="rs__filter-breakdown">
-                {%- for i in (1..5) -%}
-                  {%- assign star_num = 6 | minus: i -%}
-                  {%- assign count_key = 'count_' | append: star_num -%}
-                  {%- assign star_count = section.settings[count_key] -%}
-                  {%- if star_count != blank -%}
+                {%- assign auto_counts = auto_c5 | append: ',' | append: auto_c4 | append: ',' | append: auto_c3 | append: ',' | append: auto_c2 | append: ',' | append: auto_c1 -%}
+                {%- assign auto_counts_arr = auto_counts | split: ',' -%}
+                {%- for i in (0..4) -%}
+                  {%- assign sn = 5 | minus: i -%}
+                  {%- assign sc = auto_counts_arr[i] | plus: 0 -%}
                   <div class="rs__filter-breakdown-row">
-                    <div class="rs__filter-breakdown-stars">
-                      {%- for s in (1..5) -%}<svg width="13" height="13" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="{%- if s <= star_num -%}#111{%- else -%}#ddd{%- endif -%}" stroke="none"/></svg>{%- endfor -%}
-                    </div>
-                    <span class="rs__filter-breakdown-count">{{ star_count }}</span>
+                    <div class="rs__filter-breakdown-stars">{%- for s in (1..5) -%}<svg width="13" height="13" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="{%- if s <= sn -%}#111{%- else -%}#ddd{%- endif -%}" stroke="none"/></svg>{%- endfor -%}</div>
+                    <span class="rs__filter-breakdown-count">{{ sc }}</span>
                   </div>
-                  {%- endif -%}
                 {%- endfor -%}
               </div>
-              {%- endif -%}
             </div>
           </div>
         </div>
@@ -295,25 +292,18 @@
               <div class="rs__filter-option is-active" data-rs-sort="default"><span>All rating</span><span class="rs__check">✓</span></div>
               <div class="rs__filter-option" data-rs-sort="lowest"><span>Lowest rating</span><span class="rs__check">✓</span></div>
               <div class="rs__filter-option" data-rs-sort="highest"><span>Highest Rating</span><span class="rs__check">✓</span></div>
-              {%- if section.settings.count_5 != blank or section.settings.count_4 != blank or section.settings.count_3 != blank or section.settings.count_2 != blank or section.settings.count_1 != blank -%}
               <div class="rs__filter-divider"></div>
               <div class="rs__filter-section-label">Breakdown</div>
               <div class="rs__filter-breakdown">
-                {%- for i in (1..5) -%}
-                  {%- assign star_num = 6 | minus: i -%}
-                  {%- assign count_key = 'count_' | append: star_num -%}
-                  {%- assign star_count = section.settings[count_key] -%}
-                  {%- if star_count != blank -%}
+                {%- for i in (0..4) -%}
+                  {%- assign sn = 5 | minus: i -%}
+                  {%- assign sc = auto_counts_arr[i] | plus: 0 -%}
                   <div class="rs__filter-breakdown-row">
-                    <div class="rs__filter-breakdown-stars">
-                      {%- for s in (1..5) -%}<svg width="13" height="13" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="{%- if s <= star_num -%}#111{%- else -%}#ddd{%- endif -%}" stroke="none"/></svg>{%- endfor -%}
-                    </div>
-                    <span class="rs__filter-breakdown-count">{{ star_count }}</span>
+                    <div class="rs__filter-breakdown-stars">{%- for s in (1..5) -%}<svg width="13" height="13" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="{%- if s <= sn -%}#111{%- else -%}#ddd{%- endif -%}" stroke="none"/></svg>{%- endfor -%}</div>
+                    <span class="rs__filter-breakdown-count">{{ sc }}</span>
                   </div>
-                  {%- endif -%}
                 {%- endfor -%}
               </div>
-              {%- endif -%}
             </div>
           </div>
         </div>
