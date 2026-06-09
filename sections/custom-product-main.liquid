@@ -33,7 +33,7 @@
   /* ---------- RIGHT: Info ---------- */
   .cpm__info { max-width: 100%; color: #222; }
   .cpm__info a { text-decoration: none; }
-  .cpm__reviews { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 12px; text-decoration: none; cursor: pointer; background: none; border: none; padding: 0; outline: none; }
+  .cpm__reviews { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 12px; text-decoration: none; cursor: pointer; }
   .cpm__reviews:hover .cpm__reviews-count { text-decoration: underline; }
 
   /* ---- Reviews Modal ---- */
@@ -215,9 +215,6 @@
   .cpm__atc-cart { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
   .cpm__atc-cart svg { color: #111; }
 
-  /* Submit button loading state */
-  .cpm__write-submit.is-loading { opacity: 0.7; cursor: not-allowed; pointer-events: none; }
-
   /* ===== Hard overrides to beat Dawn colour scheme ===== */
   .cpm .cpm__desc, .cpm .cpm__desc * { color: #333 !important; }
   .cpm .cpm__reviews-count { color: #111 !important; }
@@ -248,6 +245,76 @@
     .cpm__acc details { border-bottom: none; }
     .cpm__vc-item { flex: 0 0 calc(44% - 6px); height: 280px; }
     .cpm__vc-title { font-size: 18px; }
+  }
+
+  /* ===== Sticky ATC bar ===== */
+  .cpm__sticky {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 300;
+    background: #fff;
+    border-top: 1px solid #e3e3e3;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.10);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform;
+  }
+  .cpm__sticky.is-visible { transform: translateY(0); }
+  .cpm__sticky-info { flex: 1; min-width: 0; }
+  .cpm__sticky-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+  .cpm__sticky-price {
+    font-size: 15px;
+    font-weight: 800;
+    color: #111;
+    line-height: 1;
+  }
+  .cpm__sticky-price .was {
+    font-size: 13px;
+    font-weight: 400;
+    color: #999;
+    text-decoration: line-through;
+    margin-left: 5px;
+  }
+  .cpm__sticky-btn {
+    flex-shrink: 0;
+    background: var(--cpm-accent);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 13px 28px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+  }
+  .cpm__sticky-btn:hover { opacity: 0.92; }
+  .cpm__sticky-btn svg { flex-shrink: 0; }
+  @media (max-width: 989px) {
+    .cpm__sticky { padding: 10px 16px; gap: 12px; }
+    .cpm__sticky-title { font-size: 13px; }
+    .cpm__sticky-price { font-size: 14px; }
+    .cpm__sticky-btn { padding: 11px 18px; font-size: 14px; }
+  }
+  @media (max-width: 480px) {
+    .cpm__sticky-title { display: none; }
   }
 </style>
 
@@ -376,6 +443,7 @@
         <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
 
         <div class="cpm__buybox">
+          {%- comment -%} Subscribe plan (if available) {%- endcomment -%}
           {%- assign current_variant = product.selected_or_first_available_variant -%}
           {%- if current_variant.selling_plan_allocations.size > 0 -%}
             {%- assign plan_alloc = current_variant.selling_plan_allocations.first -%}
@@ -400,6 +468,7 @@
             </div>
           {%- endif -%}
 
+          {%- comment -%} One-time purchase {%- endcomment -%}
           <div class="cpm__plan{% unless current_variant.selling_plan_allocations.size > 0 %} is-active{% endunless %}" data-cpm-plan="onetime">
             <label class="cpm__plan-head">
               <input type="radio" name="selling_plan" value="" style="display:none;"{% unless current_variant.selling_plan_allocations.size > 0 %} checked{% endunless %}>
@@ -430,6 +499,7 @@
         </button>
       {%- endform -%}
 
+      {%- comment -%} Free shipping line {%- endcomment -%}
       {%- if section.settings.ship_text != blank -%}
         <div class="cpm__shipline">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
@@ -437,12 +507,14 @@
         </div>
       {%- endif -%}
 
+      {%- comment -%} Payment icons {%- endcomment -%}
       <div class="cpm__pay">
         {%- for type in shop.enabled_payment_types -%}
           {{ type | payment_type_svg_tag: class: 'cpm__pay-icon' }}
         {%- endfor -%}
       </div>
 
+      {%- comment -%} Rewards bar {%- endcomment -%}
       {%- if section.settings.rewards_text != blank -%}
         <div class="cpm__rewards">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>
@@ -450,6 +522,7 @@
         </div>
       {%- endif -%}
 
+      {%- comment -%} ============ ACCORDIONS ============ {%- endcomment -%}
       <div class="cpm__acc">
         {%- for block in section.blocks -%}
           {%- if block.type == 'accordion' -%}
@@ -461,6 +534,7 @@
         {%- endfor -%}
       </div>
 
+      {%- comment -%} ============ VIDEO CAROUSEL (right column) ============ {%- endcomment -%}
       {%- assign has_video = false -%}
       {%- for block in section.blocks -%}{%- if block.type == 'video' -%}{%- assign has_video = true -%}{%- endif -%}{%- endfor -%}
       {%- if has_video -%}
@@ -482,6 +556,43 @@
 
     </div>
   </div>
+</div>
+
+{%- comment -%} ============ STICKY ADD TO CART BAR ============ {%- endcomment -%}
+{%- assign sticky_variant = product.selected_or_first_available_variant -%}
+{%- assign sticky_sub_price = '' -%}
+{%- assign sticky_sub_compare = '' -%}
+{%- if sticky_variant.selling_plan_allocations.size > 0 -%}
+  {%- assign sticky_sub_alloc = sticky_variant.selling_plan_allocations.first -%}
+  {%- assign sticky_sub_price = sticky_sub_alloc.price | money -%}
+  {%- if sticky_sub_alloc.compare_at_price > sticky_sub_alloc.price -%}
+    {%- assign sticky_sub_compare = sticky_sub_alloc.compare_at_price | money -%}
+  {%- endif -%}
+{%- endif -%}
+<div class="cpm__sticky" id="cpmStickyBar" aria-hidden="true">
+  <div class="cpm__sticky-info">
+    <div class="cpm__sticky-title">{{ product.title }}</div>
+    <div class="cpm__sticky-price" id="cpmStickyPrice">
+      <span id="cpmStickyNow">
+        {%- if sticky_variant.selling_plan_allocations.size > 0 -%}
+          {{ sticky_sub_price }}
+        {%- else -%}
+          {{ sticky_variant.price | money }}
+        {%- endif -%}
+      </span>
+      <span class="was" id="cpmStickyWas">
+        {%- if sticky_variant.selling_plan_allocations.size > 0 -%}
+          {{ sticky_sub_compare }}
+        {%- elsif sticky_variant.compare_at_price > sticky_variant.price -%}
+          {{ sticky_variant.compare_at_price | money }}
+        {%- endif -%}
+      </span>
+    </div>
+  </div>
+  <button class="cpm__sticky-btn" form="cpmForm" type="submit" name="add">
+    Add to cart
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+  </button>
 </div>
 
 {%- comment -%} ============ REVIEWS MODAL ============ {%- endcomment -%}
@@ -560,7 +671,7 @@
         <polyline points="49 55 53 59 61 51" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <h3>Thank you for your review!</h3>
-      <p>Thank you for your feedback! Your review has been submitted. We will verify it against your order number and post it live shortly.</p>
+      <p>Your review has been submitted. We appreciate your feedback.</p>
     </div>
 
     {%- if has_review_photos -%}
@@ -594,6 +705,7 @@
       {%- if has_reviews -%}
         {%- for block in section.blocks -%}
           {%- if block.type == 'review' -%}
+            {%- assign rev_rating = block.settings.rating | times: 1 -%}
             {%- assign rev_rating_f = block.settings.rating | times: 1.0 -%}
             {%- assign rev_floor = rev_rating_f | floor -%}
             {%- assign rev_ceil = rev_rating_f | ceil -%}
@@ -726,6 +838,7 @@
 
 <script>
   (function(){
+    // Gallery — sliding track transition
     var main   = document.getElementById('cpmMain');
     var track  = document.getElementById('cpmSlidesTrack');
     var thumbs = document.getElementById('cpmThumbs');
@@ -748,6 +861,7 @@
       if (next) next.addEventListener('click', function(){ show(cur + 1); });
     }
 
+    // Reviews modal
     var revOverlay = document.getElementById('cpmReviewsModal');
     var revOpen = document.querySelector('[data-cpm-open-reviews]');
     var revClose = document.querySelector('[data-cpm-close-reviews]');
@@ -758,6 +872,7 @@
       document.addEventListener('keydown', function(e){ if (e.key === 'Escape'){ revOverlay.classList.remove('is-open'); cpmLbOverlay.classList.remove('is-open'); document.body.style.overflow = ''; } });
     }
 
+    // Photo lightbox
     var cpmLbOverlay = document.getElementById('cpmPhotoLb');
     var cpmLbImg = document.getElementById('cpmLbImg');
     var cpmLbPrev = document.getElementById('cpmLbPrev');
@@ -823,6 +938,7 @@
     if (cpmLbClose) cpmLbClose.addEventListener('click', function(){ cpmLbOverlay.classList.remove('is-open'); });
     if (cpmLbOverlay) cpmLbOverlay.addEventListener('click', function(e){ if (e.target === cpmLbOverlay) cpmLbOverlay.classList.remove('is-open'); });
 
+    // Helpful upvote toggle
     document.querySelectorAll('[data-cpm-helpful-yes]').forEach(function(btn){
       btn.addEventListener('click', function(){
         var wrap = btn.closest('.cpm__review-actions');
@@ -833,6 +949,7 @@
       });
     });
 
+    // Write review form toggle
     var writeForm = document.getElementById('cpmWriteForm');
     var writeThanks = document.getElementById('cpmWriteThanks');
     var openWriteBtn = document.querySelector('[data-cpm-open-write-review]');
@@ -847,60 +964,26 @@
     if (closeWriteBtn && writeForm) {
       closeWriteBtn.addEventListener('click', function(){ writeForm.classList.remove('is-open'); });
     }
-
-    // Submit — validate then POST to Formspree
     var submitBtn = document.getElementById('cpmWriteSubmit');
     if (submitBtn && writeForm && writeThanks) {
       submitBtn.addEventListener('click', function(){
         var rating = wRating;
-        var text  = document.getElementById('cpmWriteText')  ? document.getElementById('cpmWriteText').value.trim()  : '';
-        var name  = document.getElementById('cpmWriteName')  ? document.getElementById('cpmWriteName').value.trim()  : '';
+        var text = document.getElementById('cpmWriteText') ? document.getElementById('cpmWriteText').value.trim() : '';
+        var name = document.getElementById('cpmWriteName') ? document.getElementById('cpmWriteName').value.trim() : '';
         var email = document.getElementById('cpmWriteEmail') ? document.getElementById('cpmWriteEmail').value.trim() : '';
         var order = document.getElementById('cpmWriteOrder') ? document.getElementById('cpmWriteOrder').value.trim() : '';
-        if (!rating) { alert('Please select a star rating.');    return; }
-        if (!text)   { alert('Please enter your feedback.');     return; }
-        if (!name)   { alert('Please enter your name.');         return; }
-        if (!email)  { alert('Please enter your email address.'); return; }
-        if (!order)  { alert('Please enter your order number.'); return; }
-        submitBtn.classList.add('is-loading');
-        submitBtn.textContent = 'Submitting...';
-        fetch('https://formspree.io/f/xpqeddop', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            'Star Rating':  rating + ' / 5',
-            'Review':       text,
-            'Name':         name,
-            'Email':        email,
-            'Order Number': order,
-            'Product':      document.title
-          })
-        })
-        .then(function(res){
-          if (res.ok) {
-            writeForm.classList.remove('is-open');
-            writeThanks.classList.add('is-shown');
-            writeThanks.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            document.getElementById('cpmWriteText').value  = '';
-            document.getElementById('cpmWriteName').value  = '';
-            document.getElementById('cpmWriteEmail').value = '';
-            document.getElementById('cpmWriteOrder').value = '';
-            wRating = 0;
-            wStars.forEach(function(x){ x.setAttribute('fill','#e0e0e0'); x.setAttribute('stroke','#ccc'); });
-          } else {
-            return res.json().then(function(data){ throw new Error(data.error || 'Submission failed.'); });
-          }
-        })
-        .catch(function(err){
-          alert('Sorry, there was a problem submitting your review. Please try again.\n\n' + err.message);
-        })
-        .finally(function(){
-          submitBtn.classList.remove('is-loading');
-          submitBtn.textContent = 'Submit';
-        });
+        if (!rating){ alert('Please select a star rating.'); return; }
+        if (!text){ alert('Please enter your feedback.'); return; }
+        if (!name){ alert('Please enter your name.'); return; }
+        if (!email){ alert('Please enter your email address.'); return; }
+        if (!order){ alert('Please enter your order number.'); return; }
+        writeForm.classList.remove('is-open');
+        writeThanks.classList.add('is-shown');
+        writeThanks.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
     }
 
+    // Write review star picker
     var wStars = document.querySelectorAll('[data-cpm-wstar]');
     var wRating = 0;
     wStars.forEach(function(s){
@@ -917,6 +1000,7 @@
       });
     });
 
+    // Plan selector
     var plans = document.querySelectorAll('[data-cpm-plan]');
     plans.forEach(function(p){
       p.querySelector('.cpm__plan-head').addEventListener('click', function(){
@@ -927,6 +1011,7 @@
       });
     });
 
+    // Video carousel autoplay (3s each, slides to next batch)
     var vc = document.getElementById('cpmVC-{{ section.id }}');
     var vct = document.getElementById('cpmVCT-{{ section.id }}');
     if (vc && vct) {
@@ -970,13 +1055,71 @@
       }
     }
 
+    // Sticky ATC bar — show when main ATC button scrolls out of view
+    (function(){
+      var stickyBar = document.getElementById('cpmStickyBar');
+      var mainAtc   = document.querySelector('#cpmForm .cpm__atc');
+      if (!stickyBar || !mainAtc) return;
+
+      // Price data per plan for live updates
+      var priceData = {
+        subscribe: {
+          now:  '{{ sticky_sub_price }}',
+          was:  '{{ sticky_sub_compare }}'
+        },
+        onetime: {
+          now:  '{{ sticky_variant.price | money }}',
+          was:  '{% if sticky_variant.compare_at_price > sticky_variant.price %}{{ sticky_variant.compare_at_price | money }}{% endif %}'
+        }
+      };
+
+      function updateStickyPrice(planKey){
+        var d = priceData[planKey] || priceData.onetime;
+        var nowEl = document.getElementById('cpmStickyNow');
+        var wasEl = document.getElementById('cpmStickyWas');
+        if (nowEl) nowEl.textContent = d.now;
+        if (wasEl) wasEl.textContent = d.was || '';
+      }
+
+      // Sync price when user switches plan
+      document.querySelectorAll('[data-cpm-plan]').forEach(function(planEl){
+        planEl.querySelector('.cpm__plan-head').addEventListener('click', function(){
+          updateStickyPrice(planEl.getAttribute('data-cpm-plan'));
+        });
+      });
+
+      // Show/hide bar using IntersectionObserver on the main ATC button
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries){
+          var visible = entries[0].isIntersecting;
+          stickyBar.classList.toggle('is-visible', !visible);
+          stickyBar.setAttribute('aria-hidden', visible ? 'true' : 'false');
+        }, { threshold: 0, rootMargin: '0px' });
+        observer.observe(mainAtc);
+      } else {
+        // Fallback for older browsers
+        window.addEventListener('scroll', function(){
+          var r = mainAtc.getBoundingClientRect();
+          var past = r.bottom < 0;
+          stickyBar.classList.toggle('is-visible', past);
+          stickyBar.setAttribute('aria-hidden', past ? 'false' : 'true');
+        }, { passive: true });
+      }
+    })();
+
+    // Sticky gallery pin — desktop only (>= 990px).
+    // The gallery pins at its exact initial viewport position the moment
+    // scrolling begins: breadcrumb scrolls away, text scrolls up, image stays.
     var galEl = document.querySelector('.cpm .cpm__gallery');
     var wrapEl = document.querySelector('.cpm .cpm__wrap');
     if (galEl && wrapEl) {
       var pinTicking = false;
       var colLeft = 0, colWidth = 0, galPinTop = 0, state = '';
+
       function isDesktop(){ return window.innerWidth >= 990; }
+
       wrapEl.style.position = 'relative';
+
       function resetGallery(){
         galEl.style.position = '';
         galEl.style.top = '';
@@ -985,21 +1128,34 @@
         wrapEl.style.gridTemplateColumns = '';
         state = '';
       }
+
       function capture(){
         resetGallery();
         var gr = galEl.getBoundingClientRect();
         colLeft  = gr.left;
         colWidth = gr.width;
+        // Record the gallery's natural distance from the viewport top.
+        // This becomes both the pin threshold and the fixed top offset so
+        // the image appears to freeze in place the instant scrolling starts.
         galPinTop = gr.top;
       }
+
       function pinGallery(){
         pinTicking = false;
-        if (!isDesktop()) { if (state !== '') resetGallery(); return; }
+
+        if (!isDesktop()) {
+          if (state !== '') resetGallery();
+          return;
+        }
+
         var wrapRect = wrapEl.getBoundingClientRect();
-        var galH = galEl.offsetHeight;
+        var galH    = galEl.offsetHeight;
+
         if (window.pageYOffset <= 0) {
+          // Back at the very top — restore natural flow
           if (state !== 'static') { resetGallery(); state = 'static'; }
         } else if (wrapRect.bottom - galH <= galPinTop) {
+          // Section bottom is close — park gallery at bottom of section
           if (state !== 'bottom') {
             wrapEl.style.gridTemplateColumns = colWidth + 'px 1fr';
             galEl.style.position = 'absolute';
@@ -1009,6 +1165,9 @@
             state = 'bottom';
           }
         } else {
+          // Pin at the gallery's original viewport position so it never moves.
+          // Lock gridTemplateColumns so the empty col-1 cell doesn't collapse
+          // and push .cpm__info into column 1 underneath the fixed image.
           if (state !== 'fixed') {
             wrapEl.style.gridTemplateColumns = colWidth + 'px 1fr';
             galEl.style.position = 'fixed';
@@ -1019,8 +1178,17 @@
           }
         }
       }
-      window.addEventListener('scroll', function(){ if (!pinTicking) { pinTicking = true; window.requestAnimationFrame(pinGallery); } }, { passive: true });
-      window.addEventListener('resize', function(){ if (!isDesktop()) { resetGallery(); return; } capture(); pinGallery(); });
+
+      window.addEventListener('scroll', function(){
+        if (!pinTicking) { pinTicking = true; window.requestAnimationFrame(pinGallery); }
+      }, { passive: true });
+
+      window.addEventListener('resize', function(){
+        if (!isDesktop()) { resetGallery(); return; }
+        capture();
+        pinGallery();
+      });
+
       if (isDesktop()) { capture(); }
       pinGallery();
     }
