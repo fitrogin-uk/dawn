@@ -35,33 +35,27 @@
   .rs { font-family: inherit; }
   .rs__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; padding: {{ section.settings.section_padding_top }}px {{ section.settings.side_padding }}px {{ section.settings.section_padding_bottom }}px; }
 
-  /* Heading */
-  .rs__heading { text-align: center; font-size: 24px; font-weight: 700; color: #2a3654; margin: 0 0 28px; }
+  /* Desktop layout: full width stacked */
+  .rs__layout { display: block; }
+  .rs__summary { display: none; }
 
-  /* Desktop layout: summary left, grid right */
-  .rs__layout { display: grid; grid-template-columns: 260px 1fr; gap: 32px; align-items: start; }
-
-  /* Summary panel */
-  .rs__summary { display: flex; flex-direction: column; gap: 6px; }
-  .rs__summary-top { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
-  .rs__big-star svg { display: block; }
-  .rs__big-num { font-size: 36px; font-weight: 800; color: #2a3654; line-height: 1; }
-  .rs__count-label { font-size: 14px; color: #666; margin-bottom: 10px; }
-  .rs__bar-row { display: flex; align-items: center; gap: 8px; }
-  .rs__bar-stars { display: flex; gap: 1px; flex-shrink: 0; }
-  .rs__bar-track { flex: 1; height: 10px; background: #e8e8e8; border-radius: 999px; overflow: hidden; min-width: 80px; }
-  .rs__bar-fill { height: 100%; background: #111; border-radius: 999px; }
-  .rs__bar-cnt { font-size: 13px; color: #888; flex-shrink: 0; min-width: 28px; text-align: right; }
-  .rs__write-btn { margin-top: 16px; border: 1px solid #ccc; background: #fff; border-radius: 6px; padding: 9px 18px; font-size: 14px; font-weight: 600; color: #333; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
-  .rs__write-btn:hover { border-color: #999; }
+  /* Desktop header bar */
+  .rs__desk-header { margin-bottom: 6px; }
+  .rs__desk-title { font-size: 28px; font-weight: 800; color: #111; margin: 0 0 10px; }
+  .rs__desk-meta-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .rs__desk-meta-left { display: flex; flex-direction: column; gap: 2px; }
+  .rs__desk-rating-row { display: flex; align-items: center; gap: 8px; }
+  .rs__desk-rating-num { font-size: 18px; font-weight: 700; color: #111; }
+  .rs__desk-rating-stars { display: flex; gap: 2px; }
+  .rs__desk-based { font-size: 13px; color: #666; }
+  .rs__desk-write { background: #111; color: #fff; border: none; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; cursor: pointer; }
+  .rs__desk-write:hover { opacity: 0.85; }
 
   /* Grid */
-  .rs__grid-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .rs__grid-rating { display: flex; align-items: center; gap: 8px; }
-  .rs__grid-rating-num { font-size: 15px; font-weight: 700; color: #2a3654; }
-  .rs__grid-count { font-size: 14px; color: #555; }
-  .rs__grid-write { border: 1px solid #ccc; background: #fff; border-radius: 6px; padding: 8px 16px; font-size: 14px; font-weight: 600; color: #333; cursor: pointer; }
-  .rs__grid-write:hover { border-color: #999; }
+  .rs__grid-header { display: none; }
+
+  /* Masonry grid */
+  .rs__photos { columns: 6; column-gap: 12px; }
 
   /* Masonry grid */
   .rs__photos { columns: 6; column-gap: 12px; }
@@ -127,17 +121,17 @@
   .rs__wr-thanks h3 { font-size: 18px; font-weight: 700; color: #111; margin: 12px 0 6px; }
   .rs__wr-thanks p { font-size: 14px; color: #555; margin: 0; }
 
-  /* Mobile summary extras */
+  /* Mobile-only elements hidden on desktop */
   .rs__mob-heading { display: none; }
   .rs__mob-rating-row { display: none; }
+  .rs__mob-based { display: none; }
   .rs__mob-write { display: none; }
   .rs__mob-filter-row { display: none; }
 
   /* ---- Mobile ---- */
   @media (max-width: 749px) {
-    /* Hide desktop heading & desktop summary panel */
-    .rs__heading { display: none; }
-    .rs__layout { grid-template-columns: 1fr; gap: 0; }
+    .rs__desk-header { display: none; }
+    .rs__layout { display: block; }
     .rs__summary { display: none; }
     .rs__grid-header { display: none; }
 
@@ -166,66 +160,46 @@
 <div class="rs">
   <div class="rs__inner">
 
-    {%- if section.settings.heading != blank -%}
-      <h2 class="rs__heading">{{ section.settings.heading }}</h2>
-    {%- endif -%}
+    {%- assign hdr_floor = rating_val | floor -%}
+    {%- assign hdr_ceil = rating_val | ceil -%}
 
-    <div class="rs__layout">
-
-      {%- comment -%} ===== LEFT: SUMMARY ===== {%- endcomment -%}
-      <div class="rs__summary">
-        <div class="rs__summary-top">
-          <span class="rs__big-star">
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          </span>
-          <span class="rs__big-num">{{ section.settings.review_rating }}</span>
-        </div>
-        <div class="rs__count-label">{{ section.settings.review_count }} Reviews</div>
-
-        {%- assign bar_data = '5,4,3,2,1' | split: ',' -%}
-        {%- assign bar_counts = cnt5 | append: ',' | append: cnt4 | append: ',' | append: cnt3 | append: ',' | append: cnt2 | append: ',' | append: cnt1 -%}
-        {%- assign bar_counts_arr = bar_counts | split: ',' -%}
-
-        {%- for star_num in bar_data -%}
-          {%- assign star_int = star_num | times: 1 -%}
-          {%- assign bar_idx = forloop.index0 -%}
-          {%- assign bar_c = bar_counts_arr[bar_idx] | times: 1 -%}
-          {%- assign bar_pct = bar_c | times: 100 | divided_by: bar_total -%}
-          <div class="rs__bar-row">
-            <div class="rs__bar-stars">
-              {%- for j in (1..5) -%}
-                {%- if j <= star_int -%}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+    {%- comment -%} ===== DESKTOP HEADER (hidden on mobile) ===== {%- endcomment -%}
+    <div class="rs__desk-header">
+      <h2 class="rs__desk-title">Reviews</h2>
+      <div class="rs__desk-meta-row">
+        <div class="rs__desk-meta-left">
+          <div class="rs__desk-rating-row">
+            <span class="rs__desk-rating-num">{{ section.settings.review_rating }}</span>
+            <div class="rs__desk-rating-stars">
+              {%- for i in (1..5) -%}
+                {%- if i <= hdr_floor -%}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                {%- elsif i == hdr_ceil and hdr_ceil != hdr_floor -%}
+                  <svg width="20" height="20" viewBox="0 0 24 24"><defs><linearGradient id="dskhalf{{ section.id }}"><stop offset="60%" stop-color="#111"/><stop offset="60%" stop-color="#e0e0e0"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#dskhalf{{ section.id }})"/></svg>
                 {%- else -%}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                 {%- endif -%}
               {%- endfor -%}
             </div>
-            <div class="rs__bar-track"><div class="rs__bar-fill" style="width:{{ bar_pct }}%"></div></div>
-            <span class="rs__bar-cnt">({{ bar_c }})</span>
           </div>
-        {%- endfor -%}
-
-        <button class="rs__write-btn" type="button" data-rs-open-write>
-          Write a review
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        </button>
+          <div class="rs__desk-based">Based on {{ section.settings.review_count }} reviews</div>
+        </div>
+        <button class="rs__desk-write" type="button" data-rs-open-write>Write Review</button>
       </div>
+    </div>
 
-      {%- comment -%} ===== RIGHT: GRID ===== {%- endcomment -%}
+    <div class="rs__layout">
       <div class="rs__grid-col">
 
         {%- comment -%} Mobile-only summary header {%- endcomment -%}
-        {%- assign mob_floor = rating_val | floor -%}
-        {%- assign mob_ceil = rating_val | ceil -%}
         <h2 class="rs__mob-heading">Reviews</h2>
         <div class="rs__mob-rating-row">
           <span class="rs__mob-rating-num">{{ section.settings.review_rating }}</span>
           <div class="rs__mob-rating-stars">
             {%- for i in (1..5) -%}
-              {%- if i <= mob_floor -%}
+              {%- if i <= hdr_floor -%}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-              {%- elsif i == mob_ceil and mob_ceil != mob_floor -%}
+              {%- elsif i == hdr_ceil and hdr_ceil != hdr_floor -%}
                 <svg width="16" height="16" viewBox="0 0 24 24"><defs><linearGradient id="mobhalf{{ section.id }}"><stop offset="60%" stop-color="#111"/><stop offset="60%" stop-color="#e0e0e0"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#mobhalf{{ section.id }})"/></svg>
               {%- else -%}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
@@ -240,25 +214,6 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
             Filter
           </button>
-        </div>
-        <div class="rs__grid-header">
-          <div class="rs__grid-rating">
-            <div style="display:flex;gap:2px;">
-              {%- assign gh_floor = rating_val | floor -%}
-              {%- assign gh_ceil = rating_val | ceil -%}
-              {%- for i in (1..5) -%}
-                {%- if i <= gh_floor -%}
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                {%- elsif i == gh_ceil and gh_ceil != gh_floor -%}
-                  <svg width="18" height="18" viewBox="0 0 24 24"><defs><linearGradient id="rshalf{{ section.id }}"><stop offset="60%" stop-color="#111"/><stop offset="60%" stop-color="#e0e0e0"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#rshalf{{ section.id }})"/></svg>
-                {%- else -%}
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                {%- endif -%}
-              {%- endfor -%}
-            </div>
-            <span class="rs__grid-count">{{ section.settings.review_count }} Reviews</span>
-          </div>
-          <button class="rs__grid-write" type="button" data-rs-open-write>Write a review</button>
         </div>
 
         <div class="rs__photos" id="rsPhotoGrid-{{ section.id }}">
