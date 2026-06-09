@@ -50,7 +50,7 @@
   .rs__bar-row { display: flex; align-items: center; gap: 8px; }
   .rs__bar-stars { display: flex; gap: 1px; flex-shrink: 0; }
   .rs__bar-track { flex: 1; height: 10px; background: #e8e8e8; border-radius: 999px; overflow: hidden; min-width: 80px; }
-  .rs__bar-fill { height: 100%; background: #e8a000; border-radius: 999px; }
+  .rs__bar-fill { height: 100%; background: #111; border-radius: 999px; }
   .rs__bar-cnt { font-size: 13px; color: #888; flex-shrink: 0; min-width: 28px; text-align: right; }
   .rs__write-btn { margin-top: 16px; border: 1px solid #ccc; background: #fff; border-radius: 6px; padding: 9px 18px; font-size: 14px; font-weight: 600; color: #333; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
   .rs__write-btn:hover { border-color: #999; }
@@ -67,8 +67,8 @@
   .rs__photos { columns: 6; column-gap: 12px; }
   .rs__card { break-inside: avoid; margin-bottom: 12px; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #f0f0f0; cursor: pointer; position: relative; }
   .rs__card-img { position: relative; }
-  .rs__card-img img { width: 100%; display: block; object-fit: cover; }
-  .rs__card-img video { width: 100%; display: block; object-fit: cover; max-height: 260px; }
+  .rs__card-img img { width: 100%; height: 220px; display: block; object-fit: cover; }
+  .rs__card-img video { width: 100%; height: 220px; display: block; object-fit: cover; }
   .rs__card-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
   .rs__card-play-btn { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.9); display: flex; align-items: center; justify-content: center; }
   .rs__card-multi { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.55); color: #fff; border-radius: 6px; padding: 3px 7px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 3px; }
@@ -159,7 +159,7 @@
       <div class="rs__summary">
         <div class="rs__summary-top">
           <span class="rs__big-star">
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="#e8a000"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
           </span>
           <span class="rs__big-num">{{ section.settings.review_rating }}</span>
         </div>
@@ -178,7 +178,7 @@
             <div class="rs__bar-stars">
               {%- for j in (1..5) -%}
                 {%- if j <= star_int -%}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#e8a000"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                 {%- else -%}
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                 {%- endif -%}
@@ -204,9 +204,9 @@
               {%- assign gh_ceil = rating_val | ceil -%}
               {%- for i in (1..5) -%}
                 {%- if i <= gh_floor -%}
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#e8a000"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                 {%- elsif i == gh_ceil and gh_ceil != gh_floor -%}
-                  <svg width="18" height="18" viewBox="0 0 24 24"><defs><linearGradient id="rshalf{{ section.id }}"><stop offset="60%" stop-color="#e8a000"/><stop offset="60%" stop-color="#e0e0e0"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#rshalf{{ section.id }})"/></svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24"><defs><linearGradient id="rshalf{{ section.id }}"><stop offset="60%" stop-color="#111"/><stop offset="60%" stop-color="#e0e0e0"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#rshalf{{ section.id }})"/></svg>
                 {%- else -%}
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                 {%- endif -%}
@@ -267,9 +267,9 @@
                   <div class="rs__card-stars">
                     {%- for j in (1..5) -%}
                       {%- if j <= rv_floor -%}
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#e8a000"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                       {%- elsif j == rv_ceil and rv_ceil != rv_floor -%}
-                        <svg width="13" height="13" viewBox="0 0 24 24"><defs><linearGradient id="rch{{ block.id }}"><stop offset="55%" stop-color="#e8a000"/><stop offset="55%" stop-color="#e0e0e0"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#rch{{ block.id }})"/></svg>
+                        <svg width="13" height="13" viewBox="0 0 24 24"><defs><linearGradient id="rch{{ block.id }}"><stop offset="55%" stop-color="#111"/><stop offset="55%" stop-color="#e0e0e0"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#rch{{ block.id }})"/></svg>
                       {%- else -%}
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                       {%- endif -%}
@@ -390,7 +390,7 @@
   function starHTML(r){
     var h = '';
     for (var i = 1; i <= 5; i++){
-      var c = i <= Math.floor(r) ? '#e8a000' : (i === Math.ceil(r) && Math.ceil(r) !== Math.floor(r) ? '#e8a000' : '#e0e0e0');
+      var c = i <= Math.floor(r) ? '#111' : (i === Math.ceil(r) && Math.ceil(r) !== Math.floor(r) ? '#111' : '#e0e0e0');
       h += '<svg width="14" height="14" viewBox="0 0 24 24" fill="' + c + '"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
     }
     return h;
@@ -466,14 +466,14 @@
   wrStars.forEach(function(s){
     s.addEventListener('mouseover', function(){
       var v = parseInt(s.getAttribute('data-rs-wstar'));
-      wrStars.forEach(function(x){ var xv = parseInt(x.getAttribute('data-rs-wstar')); x.setAttribute('fill', xv <= v ? '#e8a000' : '#e0e0e0'); x.setAttribute('stroke', xv <= v ? '#e8a000' : '#ccc'); });
+      wrStars.forEach(function(x){ var xv = parseInt(x.getAttribute('data-rs-wstar')); x.setAttribute('fill', xv <= v ? '#111' : '#e0e0e0'); x.setAttribute('stroke', xv <= v ? '#111' : '#ccc'); });
     });
     s.addEventListener('mouseout', function(){
-      wrStars.forEach(function(x){ var xv = parseInt(x.getAttribute('data-rs-wstar')); x.setAttribute('fill', xv <= wrRating ? '#e8a000' : '#e0e0e0'); x.setAttribute('stroke', xv <= wrRating ? '#e8a000' : '#ccc'); });
+      wrStars.forEach(function(x){ var xv = parseInt(x.getAttribute('data-rs-wstar')); x.setAttribute('fill', xv <= wrRating ? '#111' : '#e0e0e0'); x.setAttribute('stroke', xv <= wrRating ? '#111' : '#ccc'); });
     });
     s.addEventListener('click', function(){
       wrRating = parseInt(s.getAttribute('data-rs-wstar'));
-      wrStars.forEach(function(x){ var xv = parseInt(x.getAttribute('data-rs-wstar')); x.setAttribute('fill', xv <= wrRating ? '#e8a000' : '#e0e0e0'); x.setAttribute('stroke', xv <= wrRating ? '#e8a000' : '#ccc'); });
+      wrStars.forEach(function(x){ var xv = parseInt(x.getAttribute('data-rs-wstar')); x.setAttribute('fill', xv <= wrRating ? '#111' : '#e0e0e0'); x.setAttribute('stroke', xv <= wrRating ? '#111' : '#ccc'); });
     });
   });
 
