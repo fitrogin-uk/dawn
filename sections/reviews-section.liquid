@@ -414,7 +414,7 @@
             {%- endif -%}
           {%- endfor -%}
           {%- if pair_pending -%}{{ pair_first_html }}</div>{%- endif -%}
-          <div style="flex:0 0 10px;min-width:10px;"></div>
+          <div class="rs__spacer" style="flex:0 0 10px;min-width:10px;"></div>
         </div>
           <div class="rs__carousel-nav">
             <button class="rs__carousel-btn" id="rsCarPrev-{{ section.id }}" aria-label="Previous">
@@ -480,25 +480,25 @@
       </div>
       <div id="rsWrForm-{{ section.id }}">
         <h3 class="rs__wr-title">Write a Review</h3>
-        <label class="rs__wr-label">Your rating <span style="color:#e53">(required)</span></label>
+        <label class="rs__wr-label">Your rating <span style="color:#111">(required)</span></label>
         <div class="rs__wr-stars" id="rsWrStars-{{ section.id }}">
           {%- for i in (1..5) -%}
-            <svg width="28" height="28" viewBox="0 0 24 24" data-rs-wstar="{{ i }}" fill="#e0e0e0" stroke="#ccc" stroke-width="0.8" style="cursor:pointer"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg width="28" height="28" viewBox="0 0 24 24" data-rs-wstar="{{ i }}" fill="#e0e0e0" stroke="#bbb" stroke-width="0.5" style="cursor:pointer"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
           {%- endfor -%}
         </div>
-        <label class="rs__wr-label">Your feedback <span style="color:#e53">(required)</span></label>
+        <label class="rs__wr-label">Your feedback <span style="color:#111">(required)</span></label>
         <textarea class="rs__wr-textarea" id="rsWrText-{{ section.id }}" placeholder="Share your experience..."></textarea>
         <div class="rs__wr-row">
           <div>
-            <label class="rs__wr-label" style="margin-bottom:6px">Name <span style="color:#e53">(required)</span></label>
+            <label class="rs__wr-label" style="margin-bottom:6px">Name <span style="color:#111">(required)</span></label>
             <input class="rs__wr-input" type="text" id="rsWrName-{{ section.id }}" placeholder="Your name" style="margin-bottom:0">
           </div>
           <div>
-            <label class="rs__wr-label" style="margin-bottom:6px">Email <span style="color:#e53">(required)</span></label>
+            <label class="rs__wr-label" style="margin-bottom:6px">Email <span style="color:#111">(required)</span></label>
             <input class="rs__wr-input" type="email" id="rsWrEmail-{{ section.id }}" placeholder="your@email.com" style="margin-bottom:0">
           </div>
         </div>
-        <label class="rs__wr-label" style="margin-top:2px">Order number <span style="color:#e53">(required)</span></label>
+        <label class="rs__wr-label" style="margin-top:2px">Order number <span style="color:#111">(required)</span></label>
         <input class="rs__wr-input" type="text" id="rsWrOrder-{{ section.id }}" placeholder="e.g. #1234">
         <div class="rs__wr-actions">
           <button class="rs__wr-cancel" type="button" data-rs-close-write>Cancel</button>
@@ -602,7 +602,7 @@
   wrStars.forEach(function(s){
     s.addEventListener('mouseover', function(){
       var v = parseInt(s.getAttribute('data-rs-wstar'));
-      wrStars.forEach(function(x){ var xv = parseInt(x.getAttribute('data-rs-wstar')); x.setAttribute('fill', xv <= v ? '#111' : '#e0e0e0'); x.setAttribute('stroke', xv <= v ? '#111' : '#ccc'); });
+      wrStars.forEach(function(x){ var xv = parseInt(x.getAttribute('data-rs-wstar')); x.setAttribute('fill', xv <= v ? '#111' : '#e0e0e0'); x.setAttribute('stroke', xv <= v ? '#111' : '#bbb'); });
     });
     s.addEventListener('mouseout', function(){
       wrStars.forEach(function(x){ var xv = parseInt(x.getAttribute('data-rs-wstar')); x.setAttribute('fill', xv <= wrRating ? '#111' : '#e0e0e0'); x.setAttribute('stroke', xv <= wrRating ? '#111' : '#ccc'); });
@@ -673,8 +673,8 @@
       document.querySelectorAll('.rs__filter-dropdown').forEach(function(d){ d.classList.remove('is-open'); });
       // show all units then sort
       if (track) {
-        Array.prototype.forEach.call(track.children, function(u){ u.style.display = ''; });
-        var units = Array.prototype.slice.call(track.children);
+        Array.prototype.forEach.call(track.children, function(u){ if (!u.classList.contains('rs__spacer')) u.style.display = ''; });
+        var units = Array.prototype.slice.call(track.children).filter(function(u){ return !u.classList.contains('rs__spacer'); });
         units.sort(function(a, b){
           var ca = a.classList.contains('rs__col') ? a.querySelector('.rs__card') : a;
           var cb = b.classList.contains('rs__col') ? b.querySelector('.rs__card') : b;
@@ -686,7 +686,7 @@
           var ib = parseInt((cb && cb.getAttribute('data-rs-card')) || 0);
           return ia - ib;
         });
-        units.forEach(function(u){ track.appendChild(u); });
+        units.forEach(function(u){ track.insertBefore(u, track.querySelector('.rs__spacer')); });
         track.scrollLeft = 0;
         if (typeof updateBtns === 'function') updateBtns();
       }
@@ -703,7 +703,7 @@
       document.querySelectorAll('.rs__filter-dropdown').forEach(function(d){ d.classList.remove('is-open'); });
       if (alreadyActive) {
         // toggle off — show all
-        if (track) Array.prototype.forEach.call(track.children, function(u){ u.style.display = ''; });
+        if (track) Array.prototype.forEach.call(track.children, function(u){ if (!u.classList.contains('rs__spacer')) u.style.display = ''; });
         return;
       }
       row.classList.add('is-active');
@@ -711,6 +711,7 @@
       document.querySelectorAll('[data-rs-star="' + star + '"]').forEach(function(r){ r.classList.add('is-active'); });
       if (track) {
         Array.prototype.forEach.call(track.children, function(unit){
+          if (unit.classList.contains('rs__spacer')) return;
           var cards = unit.classList.contains('rs__col') ? unit.querySelectorAll('.rs__card') : [unit];
           var match = Array.prototype.some.call(cards, function(c){
             return Math.floor(parseFloat(c.getAttribute('data-rs-rating') || 0)) === star;
