@@ -190,6 +190,10 @@
   Applies to mobile layout widths up to 768px
 */
 @media (max-width: 768px) {
+  .gummy-{{ section.id }} {
+    padding-top: 8px;
+  }
+
   .gummy-container {
     padding: 0 10px;
     overflow: hidden; /* Avoids breaking parent containers */
@@ -232,7 +236,7 @@
   .gummy-card {
     flex: 0 0 75%;
     scroll-snap-align: start;
-    padding: 0 20px;
+    padding: 8px 20px;
     border-radius: 14px;
     min-height: 312px;
     box-sizing: border-box;
