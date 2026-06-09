@@ -67,7 +67,6 @@
   .rs__carousel-btn:hover { background: #f5f5f5; }
   .rs__carousel-btn:disabled { opacity: 0.3; cursor: default; }
   .rs__photos { display: flex; gap: 6px; overflow-x: auto; overflow-y: visible; padding: 4px 0 10px 0; scroll-behavior: smooth; align-items: flex-start; scrollbar-width: none; }
-  .rs__photos > *:first-child { margin-left: 10px; }
   .rs__photos > .rs__first-visible { margin-left: 10px !important; }
   .rs__spacer { flex: 0 0 10px !important; min-width: 10px !important; width: 10px !important; display: block !important; visibility: visible !important; }
   .rs__photos::-webkit-scrollbar { display: none; }
@@ -761,9 +760,10 @@
   }
   if (document.readyState === 'complete') {
     hideUnnecessaryReadMore();
+    fixFirstMargin();
   } else {
-    window.addEventListener('load', hideUnnecessaryReadMore);
-    setTimeout(hideUnnecessaryReadMore, 800);
+    window.addEventListener('load', function(){ hideUnnecessaryReadMore(); fixFirstMargin(); });
+    setTimeout(function(){ hideUnnecessaryReadMore(); fixFirstMargin(); }, 800);
   }
 })();
 </script>
