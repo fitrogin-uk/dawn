@@ -506,6 +506,21 @@
     "reviews_section_fkM7b3": {
       "type": "reviews-section",
       "blocks": {
+        "review_QaLiqQ": {
+          "type": "review",
+          "settings": {
+            "rating": "4",
+            "reviewer_name": "John",
+            "reviewer_location": "London, UK",
+            "verified": true,
+            "review_title": "Good",
+            "review_text": "Great product! Gummies taste could be better.",
+            "review_date": "",
+            "photo": "shopify://shop_images/33.jpg",
+            "video_url": "",
+            "review_type": ""
+          }
+        },
         "review_89Bffw": {
           "type": "review",
           "settings": {
@@ -566,6 +581,7 @@
         }
       },
       "block_order": [
+        "review_QaLiqQ",
         "review_89Bffw",
         "review_E9LHTK",
         "review_DG4EUm",
