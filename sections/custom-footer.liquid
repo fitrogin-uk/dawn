@@ -1,6 +1,6 @@
 {% comment %}Custom Footer — FuelX — card-style with side gaps{% endcomment %}
 
-{%- assign pad = section.settings.side_gap | default: 16 -%}
+{%- assign pad = section.settings.side_gap | default: 14 -%}
 
 <div class="cf-footer-wrap">
 <footer class="cf-footer" role="contentinfo">
@@ -139,7 +139,7 @@
     .cf-footer__logo-img { margin: 0 auto; display: block; max-width: 170px; }
     .cf-footer__logo-text { font-size: 20px; }
     .cf-footer__logo-text { display: block; text-align: center; }
-    .cf-footer__tagline { text-align: center; margin: -20px 0 8px; }
+    .cf-footer__tagline { text-align: center; margin: -8px 0 8px; }
     .cf-footer__address { text-align: center; display: block; }
 
     /* Nav accordion columns */
@@ -232,7 +232,7 @@
   "settings": [
     {"type":"header","content":"Brand"},
     {"type":"image_picker","id":"logo","label":"Logo image"},
-    {"type":"range","id":"side_gap","label":"Side gap (px)","min":0,"max":120,"step":4,"default":16},
+    {"type":"range","id":"side_gap","label":"Side gap (px)","min":0,"max":120,"step":2,"default":14},
     {"type":"range","id":"top_margin","label":"Top margin (px)","min":0,"max":60,"step":4,"default":16},
     {"type":"range","id":"col2_offset","label":"Company column offset (px)","min":-100,"max":100,"step":2,"default":0},
     {"type":"range","id":"col3_offset","label":"Account column offset (px)","min":-100,"max":100,"step":2,"default":0},

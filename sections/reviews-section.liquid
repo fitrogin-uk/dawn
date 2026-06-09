@@ -1,282 +1,840 @@
-{% comment %}Custom Footer — FuelX — card-style with side gaps{% endcomment %}
+{%- comment -%}
+  Standalone Reviews Section
+  Desktop: rating summary (left) + photo/review masonry grid (right)
+  Mobile: rating summary stacked top + 2-col card grid
+{%- endcomment -%}
 
-{%- assign pad = section.settings.side_gap | default: 14 -%}
+{%- assign total_count = section.settings.review_count | plus: 0 -%}
+{%- assign rating_val = section.settings.review_rating | times: 1.0 -%}
 
-<div class="cf-footer-wrap">
-<footer class="cf-footer" role="contentinfo">
+{%- comment -%} Tally star counts from blocks {%- endcomment -%}
+{%- assign cnt5 = 0 -%}{%- assign cnt4 = 0 -%}{%- assign cnt3 = 0 -%}{%- assign cnt2 = 0 -%}{%- assign cnt1 = 0 -%}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'review' -%}
+    {%- assign rv = block.settings.rating | times: 1.0 | round -%}
+    {%- if rv == 5 -%}{%- assign cnt5 = cnt5 | plus: 1 -%}
+    {%- elsif rv == 4 -%}{%- assign cnt4 = cnt4 | plus: 1 -%}
+    {%- elsif rv == 3 -%}{%- assign cnt3 = cnt3 | plus: 1 -%}
+    {%- elsif rv == 2 -%}{%- assign cnt2 = cnt2 | plus: 1 -%}
+    {%- else -%}{%- assign cnt1 = cnt1 | plus: 1 -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
 
-  <div class="cf-footer__inner">
+{%- comment -%} Use manual overrides if set {%- endcomment -%}
+{%- if section.settings.count_5 != blank -%}{%- assign cnt5 = section.settings.count_5 | plus: 0 -%}{%- endif -%}
+{%- if section.settings.count_4 != blank -%}{%- assign cnt4 = section.settings.count_4 | plus: 0 -%}{%- endif -%}
+{%- if section.settings.count_3 != blank -%}{%- assign cnt3 = section.settings.count_3 | plus: 0 -%}{%- endif -%}
+{%- if section.settings.count_2 != blank -%}{%- assign cnt2 = section.settings.count_2 | plus: 0 -%}{%- endif -%}
+{%- if section.settings.count_1 != blank -%}{%- assign cnt1 = section.settings.count_1 | plus: 0 -%}{%- endif -%}
 
-    <div class="cf-footer__brand">
-      <a href="{{ routes.root_url }}" class="cf-footer__logo-link" aria-label="{{ shop.name }}">
-        {%- if section.settings.logo != blank -%}
-          <img src="{{ section.settings.logo | image_url: width: 200 }}" alt="{{ shop.name }}" width="200" height="auto" loading="lazy" class="cf-footer__logo-img">
-        {%- else -%}
-          <span class="cf-footer__logo-text">{{ shop.name }}</span>
-        {%- endif -%}
-      </a>
-      <p class="cf-footer__tagline">Fuel your potential.</p>
-      <address class="cf-footer__address">Parker Lane, Burnley, BB11 2BU, UK</address>
-    </div>
+{%- assign bar_total = cnt5 | plus: cnt4 | plus: cnt3 | plus: cnt2 | plus: cnt1 -%}
+{%- if bar_total == 0 -%}{%- assign bar_total = 1 -%}{%- endif -%}
 
-    <div class="cf-footer__col cf-footer__col--2">
-      <h3 class="cf-footer__heading">{{ section.settings.col2_heading | default: 'Company' }}</h3>
-      <ul class="cf-footer__links" role="list">
-        {%- for i in (1..6) -%}{%- assign lk='col2_link'|append:i|append:'_label' -%}{%- assign uk='col2_link'|append:i|append:'_url' -%}{%- if section.settings[lk]!=blank -%}<li><a href="{{ section.settings[uk]|default:'#' }}">{{ section.settings[lk] }}</a></li>{%- endif -%}{%- endfor -%}
-      </ul>
-    </div>
-    <div class="cf-footer__col cf-footer__col--3">
-      <h3 class="cf-footer__heading">{{ section.settings.col3_heading | default: 'Account' }}</h3>
-      <ul class="cf-footer__links" role="list">
-        {%- for i in (1..6) -%}{%- assign lk='col3_link'|append:i|append:'_label' -%}{%- assign uk='col3_link'|append:i|append:'_url' -%}{%- if section.settings[lk]!=blank -%}<li><a href="{{ section.settings[uk]|default:'#' }}">{{ section.settings[lk] }}</a></li>{%- endif -%}{%- endfor -%}
-      </ul>
-    </div>
-    <div class="cf-footer__col cf-footer__col--4">
-      <h3 class="cf-footer__heading">{{ section.settings.col4_heading | default: 'Legal' }}</h3>
-      <ul class="cf-footer__links" role="list">
-        {%- for i in (1..6) -%}{%- assign lk='col4_link'|append:i|append:'_label' -%}{%- assign uk='col4_link'|append:i|append:'_url' -%}{%- if section.settings[lk]!=blank -%}<li><a href="{{ section.settings[uk]|default:'#' }}">{{ section.settings[lk] }}</a></li>{%- endif -%}{%- endfor -%}
-      </ul>
-    </div>
+<style>
+  .rs { font-family: inherit; }
+  .section-reviews { padding-left: 0 !important; padding-right: 0 !important; }
+  .rs__inner { max-width: {{ section.settings.max_width }}px; margin: 0 auto; padding: {{ section.settings.section_padding_top }}px 0 {{ section.settings.section_padding_bottom }}px; }
 
-    <div class="cf-footer__col cf-footer__col--social">
-      <h3 class="cf-footer__heading">{{ section.settings.social_heading | default: 'Follow Us' }}</h3>
-      <div class="cf-footer__social-grid">
-        {%- if section.settings.social_facebook!=blank -%}<a href="{{ section.settings.social_facebook }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>{%- endif -%}
-        {%- if section.settings.social_twitter!=blank -%}<a href="{{ section.settings.social_twitter }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>{%- endif -%}
-        {%- if section.settings.social_instagram!=blank -%}<a href="{{ section.settings.social_instagram }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>{%- endif -%}
-        {%- if section.settings.social_linkedin!=blank -%}<a href="{{ section.settings.social_linkedin }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>{%- endif -%}
-        {%- if section.settings.social_tiktok!=blank -%}<a href="{{ section.settings.social_tiktok }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34l-.01-8.27a8.17 8.17 0 0 0 4.78 1.52V5.11a4.85 4.85 0 0 1-1-.42z"/></svg></a>{%- endif -%}
-        {%- if section.settings.social_whatsapp!=blank -%}<a href="{{ section.settings.social_whatsapp }}" class="cf-footer__social-link" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></a>{%- endif -%}
+  @media (min-width: 750px) {
+    .rs__inner { max-width: 100%; padding-left: 55px; padding-right: 55px; }
+    .rs__desk-header { padding: 0 !important; }
+    .rs__carousel { padding-right: 55px !important; }
+    .rs__photos > .rs__first-visible { margin-left: 0 !important; }
+  }
+
+  /* Desktop layout: full width stacked */
+  .rs__layout { display: block; }
+  .rs__summary { display: none; }
+
+  /* Desktop header bar */
+  .rs__desk-header { margin-bottom: 6px; padding: 0 50px; }
+  .rs__desk-title { font-size: 38px; font-weight: 800; color: #111; margin: 0 0 10px; display: flex; align-items: center; gap: 16px; }
+  .rs__desk-title::after { content: ''; flex: 1; height: 1px; background: #e0e0e0; }
+  .rs__mob-heading { display: flex; align-items: center; gap: 12px; }
+  .rs__mob-heading::after { content: ''; flex: 1; height: 1px; background: #e0e0e0; }
+  .rs__desk-meta-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .rs__desk-meta-left { display: flex; flex-direction: column; gap: 2px; }
+  .rs__desk-rating-row { display: flex; align-items: center; gap: 8px; }
+  .rs__desk-rating-num { font-size: 18px; font-weight: 700; color: #111; }
+  .rs__desk-rating-stars { display: flex; gap: 2px; }
+  .rs__desk-based { font-size: 13px; color: #666; }
+  .rs__desk-write { background: #111; color: #fff; border: none; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; cursor: pointer; }
+  .rs__desk-write:hover { opacity: 0.85; }
+  .rs__filter-btn { background: #111; color: #fff; border: none; border-radius: 999px; padding: 12px 20px; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+  .rs__filter-btn:hover { opacity: 0.85; }
+
+  /* Grid */
+  .rs__grid-header { display: none; }
+
+  /* Carousel */
+  .rs__carousel { position: relative; padding-right: 50px; }
+  .rs__carousel-nav { display: flex; gap: 8px; margin-top: 14px; justify-content: center; padding: 0 10px; }
+  .rs__carousel-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #ddd; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #333; }
+  .rs__carousel-btn:hover { background: #f5f5f5; }
+  .rs__carousel-btn:disabled { opacity: 0.3; cursor: default; }
+  .rs__photos { display: flex; gap: 6px; overflow-x: auto; overflow-y: visible; padding: 4px 0 10px 0; scroll-behavior: smooth; align-items: flex-start; scrollbar-width: none; }
+  .rs__photos > .rs__first-visible { margin-left: 0; }
+  .rs__photos::-webkit-scrollbar { display: none; }
+  .rs__card { flex: 0 0 253px; background: #f4f4f4; border-radius: 12px; overflow: hidden; border: 1px solid #ebebeb; cursor: pointer; position: relative; align-self: flex-start; }
+  .rs__card.rs__card--hidden { display: none; }
+  /* Stacked column: two text-only cards vertically */
+  .rs__col { flex: 0 0 253px; display: flex; flex-direction: column; gap: 6px; align-self: flex-start; }
+  .rs__col .rs__card { flex: 0 0 auto; width: 100%; }
+  @media (max-width: 749px) {
+    .rs__card { flex: 0 0 160px; }
+    .rs__col { flex: 0 0 160px; }
+  }
+
+  /* Filter dropdown */
+  .rs__filter-dropdown { position: absolute; top: calc(100% + 6px); right: 0; background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); z-index: 100; min-width: 200px; padding: 12px 0; display: none; }
+  .rs__filter-dropdown.is-open { display: block; }
+  .rs__filter-section-label { padding: 4px 16px 8px; font-size: 13px; font-weight: 700; color: #111; text-transform: uppercase; letter-spacing: 0.04em; }
+  .rs__filter-option { display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; font-size: 14px; color: #111; cursor: pointer; }
+  .rs__filter-option:hover { background: #f5f5f5; }
+  .rs__filter-option.is-active { font-weight: 700; }
+  .rs__filter-option .rs__check { visibility: hidden; font-size: 14px; }
+  .rs__filter-option.is-active .rs__check { visibility: visible; }
+  .rs__filter-divider { height: 1px; background: #e8e8e8; margin: 10px 0; }
+  .rs__filter-breakdown { padding: 4px 16px 4px; }
+  .rs__filter-breakdown-row { display: flex; align-items: center; gap: 8px; padding: 6px 16px; font-size: 13px; color: #444; cursor: pointer; margin: 0 -16px; border-radius: 4px; }
+  .rs__filter-breakdown-row:hover { background: #f5f5f5; }
+  .rs__filter-breakdown-row.is-active { font-weight: 700; background: #f0f0f0; }
+  .rs__filter-breakdown-stars { display: flex; gap: 2px; }
+  .rs__filter-breakdown-count { margin-left: auto; font-weight: 600; color: #111; }
+  .rs__filter-wrap { position: relative; }
+  .rs__card-img { position: relative; }
+  .rs__card-img img { width: 100%; height: auto; display: block; object-fit: cover; }
+  .rs__card-img video { width: 100%; height: auto; display: block; object-fit: cover; max-height: 320px; }
+  .rs__card-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .rs__card-play-btn { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.9); display: flex; align-items: center; justify-content: center; }
+  .rs__card-multi { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.55); color: #fff; border-radius: 6px; padding: 3px 7px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 3px; }
+  .rs__card-body { padding: 10px 12px 12px; }
+  .rs__card-name { font-weight: 700; font-size: 21px; color: #111; display: flex; align-items: center; gap: 5px; margin-bottom: 4px; }
+  .rs__card-verified svg { flex-shrink: 0; }
+  .rs__card-stars { display: flex; gap: 2px; margin-bottom: 6px; }
+  .rs__card-text { font-size: 16px; color: #444; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; overflow-wrap: break-word; }
+  .rs__card-text.is-expanded { display: block; word-break: break-word; overflow-wrap: break-word; }
+  .rs__card-text-more { font-size: 12px; font-weight: 600; color: #111; cursor: pointer; margin-top: 4px; display: inline-block; text-decoration: underline; }
+  .rs__card-meta { font-size: 12px; color: #999; margin-top: 4px; display: flex; flex-direction: column; gap: 1px; }
+  .rs__card-reply { margin-top: 10px; padding: 10px 12px; background: #fff; border-left: 3px solid #111; border-radius: 6px; }
+  .rs__card-reply-author { font-size: 11px; font-weight: 700; color: #111; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .rs__card-reply-text { font-size: 13px; color: #444; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .rs__card-reply-text.is-expanded { display: block; }
+  .rs__card-reply-more { font-size: 12px; font-weight: 600; color: #111; cursor: pointer; margin-top: 4px; display: inline-block; text-decoration: underline; }
+  .rs__card-meta-loc { line-height: 1.4; }
+  .rs__card-meta-date { line-height: 1.4; }
+
+  /* Lightbox */
+  .rs__lb { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 9200; align-items: center; justify-content: center; padding: 20px; }
+  .rs__lb.is-open { display: flex; }
+  .rs__lb-inner { display: flex; background: #fff; border-radius: 16px; overflow: hidden; width: 100%; max-width: 880px; max-height: 90vh; }
+  .rs__lb-media { flex: 0 0 50%; background: #111; display: flex; align-items: center; justify-content: center; position: relative; }
+  .rs__lb-media img, .rs__lb-media video { width: 100%; height: 100%; object-fit: cover; display: block; max-height: 90vh; }
+  .rs__lb-side { flex: 1; display: flex; flex-direction: column; padding: 22px 26px 26px; overflow-y: auto; min-width: 0; }
+  .rs__lb-controls { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+  .rs__lb-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #333; }
+  .rs__lb-btn:hover { background: #f5f5f5; }
+  .rs__lb-close-btn { margin-left: auto; }
+  .rs__lb-rev-name { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+  .rs__lb-rev-stars { display: flex; gap: 2px; margin-bottom: 8px; }
+  .rs__lb-rev-title { font-size: 14px; font-weight: 700; color: #111; margin-bottom: 6px; }
+  .rs__lb-rev-text { font-size: 14px; color: #444; line-height: 1.55; margin-bottom: 8px; }
+  .rs__lb-rev-meta { font-size: 12px; color: #999; margin-bottom: 16px; }
+  .rs__lb-product { border: 1px solid #eee; border-radius: 12px; padding: 14px; display: flex; align-items: center; gap: 12px; margin-top: auto; }
+  .rs__lb-product img { width: 56px; height: 56px; object-fit: contain; border-radius: 8px; flex-shrink: 0; }
+  .rs__lb-product-info { flex: 1; min-width: 0; }
+  .rs__lb-product-name { font-size: 13px; font-weight: 600; color: #111; }
+  .rs__lb-buy { background: #111; color: #fff; border: none; border-radius: 999px; padding: 8px 18px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 6px; }
+  .rs__lb-buy:hover { opacity: 0.85; }
+
+  /* ---- Write review modal ---- */
+  .rs__wr-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 9300; align-items: center; justify-content: center; padding: 20px; }
+  .rs__wr-overlay.is-open { display: flex; }
+  .rs__wr-wrap { position: relative; width: 100%; max-width: 520px; }
+  .rs__wr-modal { background: #fff; border-radius: 16px; padding: 28px; width: 100%; max-height: 90vh; overflow-y: auto; }
+  .rs__wr-title { font-size: 20px; font-weight: 800; color: #111; margin: 0 0 20px; }
+  .rs__wr-close { position: absolute; top: -12px; right: -12px; width: 32px; height: 32px; border-radius: 50%; background: #000; border: none; cursor: pointer; color: #fff; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+  .rs__wr-label { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 8px; display: block; }
+  .rs__wr-stars { display: flex; gap: 6px; margin-bottom: 16px; cursor: pointer; }
+  .rs__wr-stars svg { transition: transform 0.1s; }
+  .rs__wr-stars svg:hover { transform: scale(1.15); }
+  .rs__wr-input { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #111; box-sizing: border-box; font-family: inherit; margin-bottom: 14px; }
+  .rs__wr-input:focus { outline: none; border-color: #111; }
+  .rs__wr-textarea { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #111; box-sizing: border-box; font-family: inherit; resize: vertical; min-height: 90px; margin-bottom: 14px; }
+  .rs__wr-textarea:focus { outline: none; border-color: #111; }
+  .rs__wr-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .rs__wr-row .rs__wr-input { margin-bottom: 0; }
+  .rs__wr-actions { display: flex; justify-content: flex-end; gap: 10px; }
+  .rs__wr-cancel { background: none; border: 1px solid #ddd; border-radius: 999px; padding: 10px 22px; font-size: 14px; font-weight: 600; cursor: pointer; color: #333; }
+  .rs__wr-submit { background: #111; color: #fff; border: none; border-radius: 999px; padding: 10px 22px; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .rs__wr-thanks { display: none; text-align: center; padding: 20px 0 8px; }
+  .rs__wr-thanks.is-shown { display: block; }
+  .rs__wr-thanks h3 { font-size: 18px; font-weight: 700; color: #111; margin: 12px 0 6px; }
+  .rs__wr-thanks p { font-size: 14px; color: #555; margin: 0; }
+
+  /* Mobile-only elements hidden on desktop */
+  .rs__mob-heading { display: none; }
+  .rs__mob-rating-row { display: none; }
+  .rs__mob-based { display: none; }
+  .rs__mob-write { display: none; }
+  .rs__mob-filter-row { display: none; }
+  .rs__mob-actions { display: none; }
+
+  /* ---- Mobile ---- */
+  @media (max-width: 749px) {
+    .rs__carousel { padding-right: 10px !important; }
+    .rs__photos > .rs__first-visible { margin-left: 10px !important; }
+    .rs__desk-header { display: none; }
+    .rs__layout { display: block; }
+    .rs__summary { display: none; }
+    .rs__grid-header { display: none; }
+
+    .rs__mob-heading { display: flex; font-size: 24px; font-weight: 800; color: #111; margin: 0 0 6px; padding: 0 10px; }
+    .rs__mob-rating-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; padding: 0 10px; }
+    .rs__mob-rating-num { font-size: 16px; font-weight: 700; color: #111; }
+    .rs__mob-rating-stars { display: flex; gap: 2px; }
+    .rs__mob-based { display: block; font-size: 13px; color: #555; margin-bottom: 14px; padding: 0 10px; }
+    .rs__mob-actions { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; padding: 0 10px; }
+    .rs__mob-write { display: block; flex: 1; background: #111; color: #fff; border: none; border-radius: 999px; padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; text-align: center; }
+    .rs__mob-filter-row { display: flex; flex-shrink: 0; }
+    .rs__filter-btn { background: #111; color: #fff; border: none; border-radius: 999px; padding: 14px 20px; font-size: 16px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+
+    .rs__card-name { font-size: 16px; }
+    .rs__card-text { font-size: 13px; }
+    .rs__photos { padding: 0 0 10px; }
+    .rs__lb-inner { flex-direction: column; max-height: 95vh; }
+    .rs__lb-media { flex: 0 0 220px; max-height: 220px; }
+    .rs__lb-side { padding: 16px 18px 20px; }
+    .rs__wr-row { grid-template-columns: 1fr; }
+  }
+
+</style>
+
+<div class="rs">
+  <div class="rs__inner">
+
+    {%- assign hdr_floor = rating_val | floor -%}
+    {%- assign hdr_ceil = rating_val | ceil -%}
+
+    {%- comment -%} ===== DESKTOP HEADER (hidden on mobile) ===== {%- endcomment -%}
+    <div class="rs__desk-header">
+      <h2 class="rs__desk-title">Reviews</h2>
+      <div class="rs__desk-meta-row">
+        <div class="rs__desk-meta-left">
+          <div class="rs__desk-rating-row">
+            <span class="rs__desk-rating-num">{{ section.settings.review_rating }}</span>
+            <div class="rs__desk-rating-stars">
+              {%- for i in (1..5) -%}
+                {%- if i <= hdr_floor -%}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                {%- elsif i == hdr_ceil and hdr_ceil != hdr_floor -%}
+                  <svg width="20" height="20" viewBox="0 0 24 24"><defs><linearGradient id="dskhalf{{ section.id }}"><stop offset="60%" stop-color="#111"/><stop offset="60%" stop-color="#e0e0e0"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#dskhalf{{ section.id }})"/></svg>
+                {%- else -%}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+          <div class="rs__desk-based">Based on {{ section.settings.review_count }} reviews</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button class="rs__desk-write" type="button" data-rs-open-write>Write Review</button>
+          <div class="rs__filter-wrap">
+            <button class="rs__filter-btn" type="button" data-rs-filter-toggle>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+              Filter
+            </button>
+            {%- assign auto_c5 = 0 -%}{%- assign auto_c4 = 0 -%}{%- assign auto_c3 = 0 -%}{%- assign auto_c2 = 0 -%}{%- assign auto_c1 = 0 -%}
+            {%- for b in section.blocks -%}{%- assign bri = b.settings.rating | floor -%}{%- if bri == 5 -%}{%- assign auto_c5 = auto_c5 | plus: 1 -%}{%- elsif bri == 4 -%}{%- assign auto_c4 = auto_c4 | plus: 1 -%}{%- elsif bri == 3 -%}{%- assign auto_c3 = auto_c3 | plus: 1 -%}{%- elsif bri == 2 -%}{%- assign auto_c2 = auto_c2 | plus: 1 -%}{%- else -%}{%- assign auto_c1 = auto_c1 | plus: 1 -%}{%- endif -%}{%- endfor -%}
+            <div class="rs__filter-dropdown" id="rsFilterDrop-{{ section.id }}">
+              <div class="rs__filter-section-label">Order By</div>
+              <div class="rs__filter-option is-active" data-rs-sort="default"><span>All rating</span><span class="rs__check">✓</span></div>
+              <div class="rs__filter-option" data-rs-sort="lowest"><span>Lowest rating</span><span class="rs__check">✓</span></div>
+              <div class="rs__filter-option" data-rs-sort="highest"><span>Highest Rating</span><span class="rs__check">✓</span></div>
+              <div class="rs__filter-divider"></div>
+              <div class="rs__filter-section-label">Breakdown</div>
+              <div class="rs__filter-breakdown">
+                {%- assign auto_counts = auto_c5 | append: ',' | append: auto_c4 | append: ',' | append: auto_c3 | append: ',' | append: auto_c2 | append: ',' | append: auto_c1 -%}
+                {%- assign auto_counts_arr = auto_counts | split: ',' -%}
+                {%- for i in (0..4) -%}
+                  {%- assign sn = 5 | minus: i -%}
+                  {%- assign sc = auto_counts_arr[i] | plus: 0 -%}
+                  <div class="rs__filter-breakdown-row" data-rs-star="{{ sn }}">
+                    <div class="rs__filter-breakdown-stars">{%- for s in (1..5) -%}<svg width="13" height="13" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="{%- if s <= sn -%}#111{%- else -%}#ddd{%- endif -%}" stroke="none"/></svg>{%- endfor -%}</div>
+                    <span class="rs__filter-breakdown-count">{{ sc }}</span>
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-  </div>
+    <div class="rs__layout">
+      <div class="rs__grid-col">
 
-  <div class="cf-footer__bottom">
-    <p class="cf-footer__copyright">&copy; {{ 'now' | date: '%Y' }}, FuelX</p>
-    <div class="cf-footer__payments">{{ shop.enabled_payment_types | payment_type_svg_tag: class: 'cf-footer__payment-icon' }}</div>
-  </div>
+        {%- comment -%} Mobile-only summary header {%- endcomment -%}
+        <h2 class="rs__mob-heading">Reviews</h2>
+        <div class="rs__mob-rating-row">
+          <span class="rs__mob-rating-num">{{ section.settings.review_rating }}</span>
+          <div class="rs__mob-rating-stars">
+            {%- for i in (1..5) -%}
+              {%- if i <= hdr_floor -%}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              {%- elsif i == hdr_ceil and hdr_ceil != hdr_floor -%}
+                <svg width="16" height="16" viewBox="0 0 24 24"><defs><linearGradient id="mobhalf{{ section.id }}"><stop offset="60%" stop-color="#111"/><stop offset="60%" stop-color="#e0e0e0"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#mobhalf{{ section.id }})"/></svg>
+              {%- else -%}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+        <div class="rs__mob-based">Based on {{ section.settings.review_count }} reviews</div>
+        <div class="rs__mob-actions">
+          <button class="rs__mob-write" type="button" data-rs-open-write>Write Review</button>
+          <div class="rs__filter-wrap">
+            <button class="rs__filter-btn" type="button" data-rs-filter-toggle>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+              Filter
+            </button>
+            <div class="rs__filter-dropdown" id="rsFilterDropMob-{{ section.id }}">
+              <div class="rs__filter-section-label">Order By</div>
+              <div class="rs__filter-option is-active" data-rs-sort="default"><span>All rating</span><span class="rs__check">✓</span></div>
+              <div class="rs__filter-option" data-rs-sort="lowest"><span>Lowest rating</span><span class="rs__check">✓</span></div>
+              <div class="rs__filter-option" data-rs-sort="highest"><span>Highest Rating</span><span class="rs__check">✓</span></div>
+              <div class="rs__filter-divider"></div>
+              <div class="rs__filter-section-label">Breakdown</div>
+              <div class="rs__filter-breakdown">
+                {%- for i in (0..4) -%}
+                  {%- assign sn = 5 | minus: i -%}
+                  {%- assign sc = auto_counts_arr[i] | plus: 0 -%}
+                  <div class="rs__filter-breakdown-row" data-rs-star="{{ sn }}">
+                    <div class="rs__filter-breakdown-stars">{%- for s in (1..5) -%}<svg width="13" height="13" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="{%- if s <= sn -%}#111{%- else -%}#ddd{%- endif -%}" stroke="none"/></svg>{%- endfor -%}</div>
+                    <span class="rs__filter-breakdown-count">{{ sc }}</span>
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        </div>
 
-</footer>
+        <div class="rs__carousel">
+        <div class="rs__photos" id="rsPhotoGrid-{{ section.id }}">
+          {%- assign card_idx = 0 -%}
+          {%- assign pair_pending = false -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'review' -%}
+              {%- assign rv_f = block.settings.rating | times: 1.0 -%}
+              {%- assign rv_floor = rv_f | floor -%}
+              {%- assign rv_ceil = rv_f | ceil -%}
+              {%- assign is_small = true -%}
+              {%- if block.settings.photo != blank or block.settings.video_url != blank -%}
+                {%- assign is_small = false -%}
+              {%- endif -%}
+
+              {%- capture card_html -%}
+                <div class="rs__card"
+                  data-rs-card="{{ card_idx }}"
+                  data-rs-src="{% if block.settings.photo != blank %}{{ block.settings.photo | image_url: width: 1200 }}{% endif %}"
+                  data-rs-video="{% if block.settings.video_url != blank %}{{ block.settings.video_url }}{% endif %}"
+                  data-rs-name="{{ block.settings.reviewer_name | escape }}"
+                  data-rs-rating="{{ block.settings.rating }}"
+                  data-rs-title="{{ block.settings.review_title | escape }}"
+                  data-rs-text="{{ block.settings.review_text | escape }}"
+                  data-rs-date="{{ block.settings.review_date | escape }}"
+                  data-rs-verified="{{ block.settings.verified }}"
+                  {{ block.shopify_attributes }}>
+                  {%- if block.settings.photo != blank -%}
+                    <div class="rs__card-img">
+                      {{ block.settings.photo | image_url: width: 400 | image_tag: loading: 'lazy', alt: block.settings.reviewer_name }}
+                      {%- if block.settings.video_url != blank -%}<div class="rs__card-multi"><svg width="10" height="10" viewBox="0 0 24 24" fill="#fff"><path d="M1 4l14 8-14 8V4z"/></svg>+1</div>{%- endif -%}
+                    </div>
+                  {%- elsif block.settings.video_url != blank -%}
+                    <div class="rs__card-img">
+                      <video src="{{ block.settings.video_url }}" muted playsinline preload="none" {% if block.settings.poster != blank %}poster="{{ block.settings.poster | image_url: width: 400 }}"{% endif %} style="max-height:220px;"></video>
+                      <div class="rs__card-play"><div class="rs__card-play-btn"><svg width="14" height="16" viewBox="0 0 16 18" fill="#111"><path d="M1 1l14 8-14 8V1z"/></svg></div></div>
+                    </div>
+                  {%- endif -%}
+                  <div class="rs__card-body">
+                    <div class="rs__card-name">
+                      {{ block.settings.reviewer_name }}
+                      {%- if block.settings.verified -%}<span class="rs__card-verified"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#111111"/><polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>{%- endif -%}
+                    </div>
+                    <div class="rs__card-stars">
+                      {%- for j in (1..5) -%}
+                        {%- if j <= rv_floor -%}<svg width="13" height="13" viewBox="0 0 24 24" fill="#111"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        {%- elsif j == rv_ceil and rv_ceil != rv_floor -%}<svg width="13" height="13" viewBox="0 0 24 24"><defs><linearGradient id="rch{{ block.id }}"><stop offset="55%" stop-color="#111"/><stop offset="55%" stop-color="#e0e0e0"/></linearGradient></defs><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#rch{{ block.id }})"/></svg>
+                        {%- else -%}<svg width="13" height="13" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>{%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                    <div class="rs__card-text" data-rs-review-text>{{ block.settings.review_text }}</div>
+                    <span class="rs__card-text-more" data-rs-text-more>Read more</span>
+                    {%- if block.settings.reviewer_location != blank or block.settings.review_date != blank -%}
+                      <div class="rs__card-meta">{%- if block.settings.reviewer_location != blank -%}<span class="rs__card-meta-loc">{{ block.settings.reviewer_location }}</span>{%- endif -%}{%- if block.settings.review_date != blank -%}<span class="rs__card-meta-date">{{ block.settings.review_date }}</span>{%- endif -%}</div>
+                    {%- endif -%}
+                    {%- if block.settings.reply_text != blank -%}
+                      <div class="rs__card-reply">
+                        <div class="rs__card-reply-author">{{ block.settings.reply_name | default: 'Brand' }}</div>
+                        <div class="rs__card-reply-text">{{ block.settings.reply_text }}</div>
+                        <span class="rs__card-reply-more" data-rs-reply-more>Read more</span>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
+              {%- endcapture -%}
+
+              {%- if is_small -%}
+                {%- if pair_pending -%}
+                  {{ pair_first_html }}
+                  {{ card_html }}
+                  </div>{%- comment -%}close rs__col{%- endcomment -%}
+                  {%- assign pair_pending = false -%}
+                {%- else -%}
+                  {%- comment -%} peek ahead: if next review block is also small, open a col {%- endcomment -%}
+                  {%- assign next_is_small = false -%}
+                  {%- assign look_idx = forloop.index -%}
+                  {%- for nb in section.blocks offset: look_idx -%}
+                    {%- if nb.type == 'review' -%}
+                      {%- if nb.settings.photo == blank and nb.settings.video_url == blank -%}
+                        {%- assign next_is_small = true -%}
+                      {%- endif -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- if next_is_small -%}
+                    <div class="rs__col">
+                    {%- assign pair_first_html = card_html -%}
+                    {%- assign pair_pending = true -%}
+                  {%- else -%}
+                    {{ card_html }}
+                  {%- endif -%}
+                {%- endif -%}
+              {%- else -%}
+                {%- if pair_pending -%}
+                  {{ pair_first_html }}
+                  </div>
+                  {%- assign pair_pending = false -%}
+                {%- endif -%}
+                {{ card_html }}
+              {%- endif -%}
+              {%- assign card_idx = card_idx | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if pair_pending -%}{{ pair_first_html }}</div>{%- endif -%}
+        </div>
+          <div class="rs__carousel-nav">
+            <button class="rs__carousel-btn" id="rsCarPrev-{{ section.id }}" aria-label="Previous">
+              <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M7 1L1 7l6 6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="rs__carousel-btn" id="rsCarNext-{{ section.id }}" aria-label="Next">
+              <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>{%- comment -%} end rs__carousel {%- endcomment -%}
+      </div>
+
+    </div>
+  </div>
 </div>
 
-<style>
-  .cf-footer-wrap {
-    padding-left: {{ pad }}px;
-    padding-right: {{ pad }}px;
-    margin-top: {{ section.settings.top_margin | default: 16 }}px;
-    box-sizing: border-box;
-  }
+{%- comment -%} ===== LIGHTBOX ===== {%- endcomment -%}
+<div class="rs__lb" id="rsLb-{{ section.id }}" role="dialog" aria-modal="true">
+  <div class="rs__lb-inner">
+    <div class="rs__lb-media" id="rsLbMedia-{{ section.id }}">
+      <img src="" alt="" id="rsLbImg-{{ section.id }}" style="display:none;">
+      <video id="rsLbVid-{{ section.id }}" muted playsinline controls style="display:none;"></video>
+    </div>
+    <div class="rs__lb-side">
+      <div class="rs__lb-controls">
+        <button class="rs__lb-btn" id="rsLbPrev-{{ section.id }}" aria-label="Previous">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M7 1L1 7l6 6" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="rs__lb-btn" id="rsLbNext-{{ section.id }}" aria-label="Next">
+          <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="#333" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="rs__lb-btn rs__lb-close-btn" id="rsLbClose-{{ section.id }}" aria-label="Close">&#x2715;</button>
+      </div>
+      <div id="rsLbInfo-{{ section.id }}">
+        <div class="rs__lb-rev-name" id="rsLbName-{{ section.id }}"></div>
+        <div class="rs__lb-rev-stars" id="rsLbStars-{{ section.id }}"></div>
+        <div class="rs__lb-rev-title" id="rsLbTitle-{{ section.id }}"></div>
+        <div class="rs__lb-rev-text" id="rsLbText-{{ section.id }}"></div>
+        <div class="rs__lb-rev-meta" id="rsLbMeta-{{ section.id }}"></div>
+      </div>
+      <div class="rs__lb-product">
+        {%- if product.featured_image -%}
+          <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title }}">
+        {%- endif -%}
+        <div class="rs__lb-product-info">
+          <div class="rs__lb-product-name">{{ product.title }}</div>
+          <a href="{{ product.url }}" class="rs__lb-buy">Buy Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  .cf-footer {
-    background-color: {{ section.settings.bg_color | default: '#f5f5f7' }};
-    color: {{ section.settings.text_color | default: '#333333' }};
-    font-family: inherit;
-    text-align: left;
-    border-radius: 24px 24px 0 0;
-    overflow: visible;
-    padding-top: 51px;
-  }
-
-  .cf-footer__inner {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 40px;
-    padding: 0 40px 45px 100px;
-    box-sizing: border-box;
-    align-items: start;
-  }
-  .cf-footer__brand,
-  .cf-footer__col,
-  .cf-footer__col--social { min-width: 0; width: auto; }
-  .cf-footer__brand { padding-right: 10px; }
-  .cf-footer__col--2 { margin-left: {{ section.settings.col2_offset | default: 0 }}px; }
-  .cf-footer__col--3 { margin-left: {{ section.settings.col3_offset | default: 0 }}px; }
-  .cf-footer__col--4 { margin-left: {{ section.settings.col4_offset | default: 0 }}px; }
-  .cf-footer__col--social { justify-self: end; margin-right: {{ section.settings.col5_offset | default: 0 }}px; }
-
-  .cf-footer__logo-link { display: inline-block; margin-bottom: 0; max-width: 100%; }
-  .cf-footer__logo-img  { max-width: 100%; width: auto; height: auto; display: block; }
-  .cf-footer__logo-text { font-size: 24px; font-weight: 800; color: {{ section.settings.text_color | default: '#333333' }}; text-decoration: none; }
-  .cf-footer__tagline { font-size: 15px; font-style: italic; font-weight: 600; color: #000; margin: -30px 0 12px 23px; }
-  .cf-footer__address { font-style: normal; margin-top: 8px; font-size: 14px; line-height: 1.6; color: #000; }
-
-  .cf-footer__heading { font-size: 20px; font-weight: 700; margin: 0 0 16px; color: {{ section.settings.text_color | default: '#333333' }}; }
-  .cf-footer__links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-  .cf-footer__links a { font-size: 20px; color: {{ section.settings.link_color | default: '#666666' }}; text-decoration: none; transition: color 0.2s; }
-  .cf-footer__links a:hover { color: {{ section.settings.accent_color | default: '#e8175d' }}; }
-
-  .cf-footer__social-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-  .cf-footer__social-link { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: #111; color: #fff; text-decoration: none; transition: background 0.2s, transform 0.2s; }
-  .cf-footer__social-link:hover { background: {{ section.settings.accent_color | default: '#e8175d' }}; transform: scale(1.1); }
-
-  .cf-footer__bottom { border-top: none; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 16px 40px 24px; }
-  .cf-footer__copyright { font-size: 13px; color: #888; margin: 0; white-space: nowrap; }
-  .cf-footer__payments  { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-  .cf-footer__payment-icon { height: 28px; width: auto; border-radius: 4px; display: inline-block; }
-
-  /* Hide the theme's built-in footer that shows as a black box below */
-  footer:not(.cf-footer) { display: none !important; }
-
-  @media (max-width: 768px) {
-    .cf-footer-wrap { padding-left: 10px; padding-right: 10px; margin-top: 10px; }
-    .cf-footer { border-radius: 16px 16px 0 0; padding-top: 19px; }
-    .cf-footer__inner {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      padding: 0 0 0;
-    }
-    /* Brand block */
-    .cf-footer__brand {
-      text-align: center;
-      padding: 0 6px 24px;
-      border-bottom: none;
-      margin-left: 0; margin-right: 0;
-      width: 100%;
-    }
-    .cf-footer__logo-link { display: block; text-align: center; width: 100%; }
-    .cf-footer__logo-img { margin: 0 auto; display: block; max-width: 170px; }
-    .cf-footer__logo-text { font-size: 20px; }
-    .cf-footer__logo-text { display: block; text-align: center; }
-    .cf-footer__tagline { text-align: center; margin: -8px 0 8px; }
-    .cf-footer__address { text-align: center; display: block; }
-
-    /* Nav accordion columns */
-    .cf-footer__col { margin-left: 0 !important; width: 100%; }
-    .cf-footer__heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 16px;
-      padding: 16px 20px;
-      margin: 0;
-      border-bottom: 1px solid #e0e0e0;
-      cursor: pointer;
-      user-select: none;
-    }
-    .cf-footer__heading::after {
-      content: '';
-      display: inline-block;
-      width: 10px; height: 10px;
-      border-right: 2px solid #333;
-      border-bottom: 2px solid #333;
-      transform: rotate(45deg);
-      transition: transform 0.2s;
-      flex-shrink: 0;
-    }
-    .cf-footer__heading.is-open::after { transform: rotate(-135deg); }
-    .cf-footer__links {
-      display: none;
-      flex-direction: column;
-      gap: 0;
-      padding: 8px 20px 16px;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    .cf-footer__links.is-open { display: flex; }
-    .cf-footer__links a { font-size: 15px; padding: 8px 0; color: {{ section.settings.link_color | default: '#666' }}; }
-
-    /* Social — always open, centred */
-    .cf-footer__col--social {
-      justify-self: unset;
-      margin-right: 0 !important;
-      text-align: center;
-      padding: 24px 6px;
-      border-bottom: none;
-    }
-    .cf-footer__col--social .cf-footer__heading {
-      justify-content: center;
-      border-bottom: none;
-      padding: 0 0 14px;
-      cursor: default;
-      font-size: 18px;
-    }
-    .cf-footer__col--social .cf-footer__heading::after { display: none; }
-    .cf-footer__social-grid { justify-content: center; }
-
-    /* Bottom bar */
-    .cf-footer__bottom {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 20px 6px 28px;
-      gap: 14px;
-    }
-    .cf-footer__payments { justify-content: center; }
-  }
-</style>
-
+{%- comment -%} ===== WRITE REVIEW MODAL ===== {%- endcomment -%}
+<div class="rs__wr-overlay" id="rsWrOverlay-{{ section.id }}">
+  <div class="rs__wr-wrap">
+    <button class="rs__wr-close" data-rs-close-write aria-label="Close">&#x2715;</button>
+    <div class="rs__wr-modal">
+      <div class="rs__wr-thanks" id="rsWrThanks-{{ section.id }}">
+        <svg width="56" height="56" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="#e0e0e0" stroke-width="2"/><circle cx="55" cy="55" r="13" fill="#1a9e47"/><polyline points="49 55 53 59 61 51" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>Thank you for your review!</h3>
+        <p>Your review has been submitted and is pending approval.</p>
+      </div>
+      <div id="rsWrForm-{{ section.id }}">
+        <h3 class="rs__wr-title">Write a Review</h3>
+        <label class="rs__wr-label">Your rating <span style="color:#111">(required)</span></label>
+        <div class="rs__wr-stars" id="rsWrStars-{{ section.id }}">
+          {%- for i in (1..5) -%}
+            <svg width="28" height="28" viewBox="0 0 24 24" data-rs-wstar="{{ i }}" fill="#e0e0e0" stroke="#bbb" stroke-width="0.5" style="cursor:pointer"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          {%- endfor -%}
+        </div>
+        <label class="rs__wr-label">Your feedback <span style="color:#111">(required)</span></label>
+        <textarea class="rs__wr-textarea" id="rsWrText-{{ section.id }}" placeholder="Share your experience..."></textarea>
+        <div class="rs__wr-row">
+          <div>
+            <label class="rs__wr-label" style="margin-bottom:6px">Name <span style="color:#111">(required)</span></label>
+            <input class="rs__wr-input" type="text" id="rsWrName-{{ section.id }}" placeholder="Your name" style="margin-bottom:0">
+          </div>
+          <div>
+            <label class="rs__wr-label" style="margin-bottom:6px">Email <span style="color:#111">(required)</span></label>
+            <input class="rs__wr-input" type="email" id="rsWrEmail-{{ section.id }}" placeholder="your@email.com" style="margin-bottom:0">
+          </div>
+        </div>
+        <label class="rs__wr-label" style="margin-top:2px">Order number <span style="color:#111">(required)</span></label>
+        <input class="rs__wr-input" type="text" id="rsWrOrder-{{ section.id }}" placeholder="e.g. #1234">
+        <div class="rs__wr-actions">
+          <button class="rs__wr-cancel" type="button" data-rs-close-write>Cancel</button>
+          <button class="rs__wr-submit" type="button" id="rsWrSubmit-{{ section.id }}">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 (function(){
-  function initAccordion(){
-    if(window.innerWidth > 768) return;
-    document.querySelectorAll('.cf-footer__col:not(.cf-footer__col--social) .cf-footer__heading').forEach(function(h){
-      if(h.dataset.acc) return;
-      h.dataset.acc = '1';
-      h.addEventListener('click', function(){
-        var ul = h.nextElementSibling;
-        var open = ul.classList.contains('is-open');
-        h.classList.toggle('is-open', !open);
-        ul.classList.toggle('is-open', !open);
+  var sid = '{{ section.id }}';
+
+  // ---- Lightbox ----
+  var lbEl     = document.getElementById('rsLb-' + sid);
+  var lbImg    = document.getElementById('rsLbImg-' + sid);
+  var lbVid    = document.getElementById('rsLbVid-' + sid);
+  var lbPrev   = document.getElementById('rsLbPrev-' + sid);
+  var lbNext   = document.getElementById('rsLbNext-' + sid);
+  var lbClose  = document.getElementById('rsLbClose-' + sid);
+  var cards    = Array.prototype.slice.call(document.querySelectorAll('#rsPhotoGrid-' + sid + ' .rs__card'));
+  var lbCur    = 0;
+
+  function starHTML(r){
+    var h = '';
+    for (var i = 1; i <= 5; i++){
+      var c = i <= Math.floor(r) ? '#111' : (i === Math.ceil(r) && Math.ceil(r) !== Math.floor(r) ? '#111' : '#e0e0e0');
+      h += '<svg width="14" height="14" viewBox="0 0 24 24" fill="' + c + '"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
+    }
+    return h;
+  }
+
+  function lbShow(idx){
+    lbCur = (idx + cards.length) % cards.length;
+    var c  = cards[lbCur];
+    var src = c.getAttribute('data-rs-src') || '';
+    var vid = c.getAttribute('data-rs-video') || '';
+
+    if (vid){
+      lbVid.src = vid; lbVid.style.display = ''; lbImg.style.display = 'none';
+      lbVid.play().catch(function(){});
+    } else if (src) {
+      lbImg.src = src; lbImg.style.display = ''; lbVid.pause(); lbVid.style.display = 'none';
+    }
+
+    var nameEl  = document.getElementById('rsLbName-' + sid);
+    var starsEl = document.getElementById('rsLbStars-' + sid);
+    var titleEl = document.getElementById('rsLbTitle-' + sid);
+    var textEl  = document.getElementById('rsLbText-' + sid);
+    var metaEl  = document.getElementById('rsLbMeta-' + sid);
+    var infoEl  = document.getElementById('rsLbInfo-' + sid);
+
+    var name  = c.getAttribute('data-rs-name') || '';
+    var rat   = parseFloat(c.getAttribute('data-rs-rating')) || 0;
+    var title = c.getAttribute('data-rs-title') || '';
+    var text  = c.getAttribute('data-rs-text') || '';
+    var date  = c.getAttribute('data-rs-date') || '';
+    var ver   = c.getAttribute('data-rs-verified') === 'true';
+
+    if (nameEl) {
+      nameEl.innerHTML = name + (ver ? ' <svg width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#111111"/><polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '');
+    }
+    if (starsEl) starsEl.innerHTML = rat ? starHTML(rat) : '';
+    if (titleEl) { titleEl.textContent = title; titleEl.style.display = title ? '' : 'none'; }
+    if (textEl)  textEl.textContent = text;
+    if (metaEl)  metaEl.textContent = date;
+    if (infoEl)  infoEl.style.display = (name || text) ? '' : 'none';
+  }
+
+  function lbOpen(idx){ lbShow(idx); lbEl.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
+  function lbClose_(){ lbEl.classList.remove('is-open'); document.body.style.overflow = ''; if(lbVid){ lbVid.pause(); } }
+
+  cards.forEach(function(c, i){ c.addEventListener('click', function(){ lbOpen(i); }); });
+  if (lbPrev)  lbPrev.addEventListener('click', function(){ lbShow(lbCur - 1); });
+  if (lbNext)  lbNext.addEventListener('click', function(){ lbShow(lbCur + 1); });
+  if (lbClose) lbClose.addEventListener('click', lbClose_);
+  if (lbEl)    lbEl.addEventListener('click', function(e){ if (e.target === lbEl) lbClose_(); });
+
+  // ---- Write Review ----
+  var wrOverlay = document.getElementById('rsWrOverlay-' + sid);
+  var wrThanks  = document.getElementById('rsWrThanks-' + sid);
+  var wrForm    = document.getElementById('rsWrForm-' + sid);
+  var wrSubmit  = document.getElementById('rsWrSubmit-' + sid);
+  var wrStars   = document.querySelectorAll('#rsWrStars-' + sid + ' [data-rs-wstar]');
+  var wrRating  = 0;
+
+  document.querySelectorAll('[data-rs-open-write]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (wrThanks) wrThanks.classList.remove('is-shown');
+      if (wrForm)   wrForm.style.display = '';
+      wrOverlay.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  document.querySelectorAll('[data-rs-close-write]').forEach(function(btn){
+    btn.addEventListener('click', function(){ wrOverlay.classList.remove('is-open'); document.body.style.overflow = ''; });
+  });
+  if (wrOverlay) wrOverlay.addEventListener('click', function(e){ if (e.target === wrOverlay){ wrOverlay.classList.remove('is-open'); document.body.style.overflow = ''; } });
+
+  wrStars.forEach(function(s){
+    s.addEventListener('mouseover', function(){
+      var v = parseInt(s.getAttribute('data-rs-wstar'));
+      wrStars.forEach(function(x){ var xv = parseInt(x.getAttribute('data-rs-wstar')); x.setAttribute('fill', xv <= v ? '#111' : '#e0e0e0'); x.setAttribute('stroke', xv <= v ? '#111' : '#bbb'); });
+    });
+    s.addEventListener('mouseout', function(){
+      wrStars.forEach(function(x){ var xv = parseInt(x.getAttribute('data-rs-wstar')); x.setAttribute('fill', xv <= wrRating ? '#111' : '#e0e0e0'); x.setAttribute('stroke', xv <= wrRating ? '#111' : '#ccc'); });
+    });
+    s.addEventListener('click', function(){
+      wrRating = parseInt(s.getAttribute('data-rs-wstar'));
+      wrStars.forEach(function(x){ var xv = parseInt(x.getAttribute('data-rs-wstar')); x.setAttribute('fill', xv <= wrRating ? '#111' : '#e0e0e0'); x.setAttribute('stroke', xv <= wrRating ? '#111' : '#ccc'); });
+    });
+  });
+
+  if (wrSubmit) wrSubmit.addEventListener('click', function(){
+    var text  = document.getElementById('rsWrText-'  + sid);
+    var name  = document.getElementById('rsWrName-'  + sid);
+    var email = document.getElementById('rsWrEmail-' + sid);
+    var order = document.getElementById('rsWrOrder-' + sid);
+    if (!wrRating)              { alert('Please select a star rating.'); return; }
+    if (!text  || !text.value.trim())  { alert('Please enter your feedback.'); return; }
+    if (!name  || !name.value.trim())  { alert('Please enter your name.'); return; }
+    if (!email || !email.value.trim()) { alert('Please enter your email address.'); return; }
+    if (!order || !order.value.trim()) { alert('Please enter your order number.'); return; }
+    if (wrForm)   wrForm.style.display = 'none';
+    if (wrThanks) wrThanks.classList.add('is-shown');
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape'){
+      lbClose_();
+      wrOverlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+  });
+  // Carousel prev/next
+  var track   = document.getElementById('rsPhotoGrid-' + sid);
+  function fixFirstMargin() {
+    if (!track) return;
+    Array.prototype.forEach.call(track.children, function(u){ u.classList.remove('rs__first-visible'); });
+    var first = Array.prototype.find ? Array.prototype.find.call(track.children, function(u){ return u.style.display !== 'none' && !u.classList.contains('rs__spacer'); }) : (function(){ for (var i=0; i<track.children.length; i++){ if (track.children[i].style.display !== 'none' && !track.children[i].classList.contains('rs__spacer')) return track.children[i]; } })();
+    if (first) first.classList.add('rs__first-visible');
+  }
+  var btnPrev = document.getElementById('rsCarPrev-' + sid);
+  var btnNext = document.getElementById('rsCarNext-' + sid);
+  if (track && btnPrev && btnNext) {
+    function scrollAmount() { return track.querySelector('.rs__card') ? track.querySelector('.rs__card').offsetWidth + 12 : 280; }
+    btnPrev.addEventListener('click', function(){ track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }); });
+    btnNext.addEventListener('click', function(){ track.scrollBy({ left:  scrollAmount(), behavior: 'smooth' }); });
+    function updateBtns(){
+      btnPrev.disabled = track.scrollLeft <= 0;
+      btnNext.disabled = track.scrollLeft + track.offsetWidth >= track.scrollWidth - 2;
+    }
+    track.addEventListener('scroll', updateBtns);
+    updateBtns();
+  }
+
+  // Filter
+  document.querySelectorAll('[data-rs-filter-toggle]').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var wrap = btn.closest('.rs__filter-wrap');
+      var drop = wrap.querySelector('.rs__filter-dropdown');
+      // close all other dropdowns first
+      document.querySelectorAll('.rs__filter-dropdown').forEach(function(d){ if(d !== drop) d.classList.remove('is-open'); });
+      drop.classList.toggle('is-open');
+    });
+  });
+
+  document.querySelectorAll('[data-rs-sort]').forEach(function(opt){
+    opt.addEventListener('click', function(e){
+      e.stopPropagation();
+      var val = opt.getAttribute('data-rs-sort');
+      document.querySelectorAll('[data-rs-sort]').forEach(function(o){ o.classList.remove('is-active'); });
+      document.querySelectorAll('[data-rs-sort="' + val + '"]').forEach(function(o){ o.classList.add('is-active'); });
+      // clear any star filter
+      document.querySelectorAll('[data-rs-star]').forEach(function(r){ r.classList.remove('is-active'); });
+      document.querySelectorAll('.rs__filter-dropdown').forEach(function(d){ d.classList.remove('is-open'); });
+      // show all units then sort
+      if (track) {
+        Array.prototype.forEach.call(track.children, function(u){ if (!u.classList.contains('rs__spacer')) u.style.display = ''; });
+        var units = Array.prototype.slice.call(track.children).filter(function(u){ return !u.classList.contains('rs__spacer'); });
+        units.sort(function(a, b){
+          var ca = a.classList.contains('rs__col') ? a.querySelector('.rs__card') : a;
+          var cb = b.classList.contains('rs__col') ? b.querySelector('.rs__card') : b;
+          var ra = parseFloat((ca && ca.getAttribute('data-rs-rating')) || 0);
+          var rb = parseFloat((cb && cb.getAttribute('data-rs-rating')) || 0);
+          if (val === 'highest') return rb - ra;
+          if (val === 'lowest')  return ra - rb;
+          var ia = parseInt((ca && ca.getAttribute('data-rs-card')) || 0);
+          var ib = parseInt((cb && cb.getAttribute('data-rs-card')) || 0);
+          return ia - ib;
+        });
+        units.forEach(function(u){ track.insertBefore(u, track.querySelector('.rs__spacer')); });
+        fixFirstMargin();
+        track.scrollLeft = 0;
+        if (typeof updateBtns === 'function') updateBtns();
+      }
+    });
+  });
+
+  // Star breakdown filter
+  document.querySelectorAll('[data-rs-star]').forEach(function(row){
+    row.addEventListener('click', function(e){
+      e.stopPropagation();
+      var star = parseInt(row.getAttribute('data-rs-star'));
+      var alreadyActive = row.classList.contains('is-active');
+      document.querySelectorAll('[data-rs-star]').forEach(function(r){ r.classList.remove('is-active'); });
+      document.querySelectorAll('.rs__filter-dropdown').forEach(function(d){ d.classList.remove('is-open'); });
+      if (alreadyActive) {
+        // toggle off — show all
+        if (track) Array.prototype.forEach.call(track.children, function(u){ if (!u.classList.contains('rs__spacer')) u.style.display = ''; });
+        return;
+      }
+      row.classList.add('is-active');
+      // sync same star rows across both dropdowns
+      document.querySelectorAll('[data-rs-star="' + star + '"]').forEach(function(r){ r.classList.add('is-active'); });
+      if (track) {
+        Array.prototype.forEach.call(track.children, function(unit){
+          if (unit.classList.contains('rs__spacer')) return;
+          var cards = unit.classList.contains('rs__col') ? unit.querySelectorAll('.rs__card') : [unit];
+          var match = Array.prototype.some.call(cards, function(c){
+            return Math.floor(parseFloat(c.getAttribute('data-rs-rating') || 0)) === star;
+          });
+          unit.style.display = match ? '' : 'none';
+        });
+        fixFirstMargin();
+        track.scrollLeft = 0;
+        if (typeof updateBtns === 'function') updateBtns();
+      }
+    });
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.rs__filter-dropdown').forEach(function(d){ d.classList.remove('is-open'); });
+  });
+
+  // Read more / Read less helper
+  function initReadMore(btnAttr) {
+    document.querySelectorAll('[' + btnAttr + ']').forEach(function(btn){
+      var textEl = btn.previousElementSibling;
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var expanded = textEl.classList.toggle('is-expanded');
+        btn.textContent = expanded ? 'Read less' : 'Read more';
       });
     });
   }
-  document.addEventListener('DOMContentLoaded', initAccordion);
+  initReadMore('data-rs-text-more');
+  initReadMore('data-rs-reply-more');
+  // Hide Read more buttons where text fits without clamping — run after full page load
+  function hideUnnecessaryReadMore() {
+    document.querySelectorAll('[data-rs-text-more],[data-rs-reply-more]').forEach(function(btn){
+      var textEl = btn.previousElementSibling;
+      if (textEl.scrollHeight <= textEl.clientHeight + 2) { btn.style.display = 'none'; }
+    });
+  }
+  if (document.readyState === 'complete') {
+    hideUnnecessaryReadMore();
+    fixFirstMargin();
+  } else {
+    window.addEventListener('load', function(){ hideUnnecessaryReadMore(); fixFirstMargin(); });
+    setTimeout(function(){ hideUnnecessaryReadMore(); fixFirstMargin(); }, 800);
+  }
 })();
 </script>
 
 {% schema %}
 {
-  "name": "Custom Footer",
+  "name": "Reviews Section",
+  "tag": "section",
+  "class": "section-reviews",
   "settings": [
-    {"type":"header","content":"Brand"},
-    {"type":"image_picker","id":"logo","label":"Logo image"},
-    {"type":"range","id":"side_gap","label":"Side gap (px)","min":0,"max":120,"step":2,"default":14},
-    {"type":"range","id":"top_margin","label":"Top margin (px)","min":0,"max":60,"step":4,"default":16},
-    {"type":"range","id":"col2_offset","label":"Company column offset (px)","min":-100,"max":100,"step":2,"default":0},
-    {"type":"range","id":"col3_offset","label":"Account column offset (px)","min":-100,"max":100,"step":2,"default":0},
-    {"type":"range","id":"col4_offset","label":"Legal column offset (px)","min":-100,"max":100,"step":2,"default":0},
-    {"type":"range","id":"col5_offset","label":"Follow Us — right edge gap (px)","min":0,"max":200,"step":2,"default":0},
-    {"type":"header","content":"Column 2 — Company"},
-    {"type":"text","id":"col2_heading","label":"Heading","default":"Company"},
-    {"type":"text","id":"col2_link1_label","label":"Link 1","default":"Health Blog"},{"type":"url","id":"col2_link1_url","label":"Link 1 URL"},
-    {"type":"text","id":"col2_link2_label","label":"Link 2","default":"Take Our Quiz"},{"type":"url","id":"col2_link2_url","label":"Link 2 URL"},
-    {"type":"text","id":"col2_link3_label","label":"Link 3","default":"Shop Now"},{"type":"url","id":"col2_link3_url","label":"Link 3 URL"},
-    {"type":"text","id":"col2_link4_label","label":"Link 4","default":"Contact Us"},{"type":"url","id":"col2_link4_url","label":"Link 4 URL"},
-    {"type":"text","id":"col2_link5_label","label":"Link 5","default":"Who We Are"},{"type":"url","id":"col2_link5_url","label":"Link 5 URL"},
-    {"type":"text","id":"col2_link6_label","label":"Link 6"},{"type":"url","id":"col2_link6_url","label":"Link 6 URL"},
-    {"type":"header","content":"Column 3 — Account"},
-    {"type":"text","id":"col3_heading","label":"Heading","default":"Account"},
-    {"type":"text","id":"col3_link1_label","label":"Link 1","default":"Rewards"},{"type":"url","id":"col3_link1_url","label":"Link 1 URL"},
-    {"type":"text","id":"col3_link2_label","label":"Link 2","default":"Subscriptions"},{"type":"url","id":"col3_link2_url","label":"Link 2 URL"},
-    {"type":"text","id":"col3_link3_label","label":"Link 3","default":"Login"},{"type":"url","id":"col3_link3_url","label":"Link 3 URL"},
-    {"type":"text","id":"col3_link4_label","label":"Link 4","default":"Creator Programme"},{"type":"url","id":"col3_link4_url","label":"Link 4 URL"},
-    {"type":"text","id":"col3_link5_label","label":"Link 5","default":"Manage Order"},{"type":"url","id":"col3_link5_url","label":"Link 5 URL"},
-    {"type":"text","id":"col3_link6_label","label":"Link 6"},{"type":"url","id":"col3_link6_url","label":"Link 6 URL"},
-    {"type":"header","content":"Column 4 — Legal"},
-    {"type":"text","id":"col4_heading","label":"Heading","default":"Legal"},
-    {"type":"text","id":"col4_link1_label","label":"Link 1","default":"Terms of Service"},{"type":"url","id":"col4_link1_url","label":"Link 1 URL"},
-    {"type":"text","id":"col4_link2_label","label":"Link 2","default":"Privacy Policy"},{"type":"url","id":"col4_link2_url","label":"Link 2 URL"},
-    {"type":"text","id":"col4_link3_label","label":"Link 3","default":"Shipping Policy"},{"type":"url","id":"col4_link3_url","label":"Link 3 URL"},
-    {"type":"text","id":"col4_link4_label","label":"Link 4","default":"Refund Policy"},{"type":"url","id":"col4_link4_url","label":"Link 4 URL"},
-    {"type":"text","id":"col4_link5_label","label":"Link 5"},{"type":"url","id":"col4_link5_url","label":"Link 5 URL"},
-    {"type":"text","id":"col4_link6_label","label":"Link 6"},{"type":"url","id":"col4_link6_url","label":"Link 6 URL"},
-    {"type":"header","content":"Social media"},
-    {"type":"text","id":"social_heading","label":"Heading","default":"Follow Us"},
-    {"type":"url","id":"social_facebook","label":"Facebook URL"},
-    {"type":"url","id":"social_twitter","label":"X / Twitter URL"},
-    {"type":"url","id":"social_instagram","label":"Instagram URL"},
-    {"type":"url","id":"social_linkedin","label":"LinkedIn URL"},
-    {"type":"url","id":"social_tiktok","label":"TikTok URL"},
-    {"type":"url","id":"social_whatsapp","label":"WhatsApp URL"},
-    {"type":"header","content":"Colours"},
-    {"type":"color","id":"bg_color","label":"Background","default":"#f5f5f7"},
-    {"type":"color","id":"text_color","label":"Text colour","default":"#333333"},
-    {"type":"color","id":"link_color","label":"Link colour","default":"#666666"},
-    {"type":"color","id":"accent_color","label":"Accent / button colour","default":"#e8175d"},
-    {"type":"color","id":"accent_hover","label":"Accent hover colour","default":"#c0134d"}
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "heading", "label": "Section heading", "default": "See why people love our product" },
+    { "type": "header", "content": "Overall Rating" },
+    { "type": "text", "id": "review_rating", "label": "Star rating (e.g. 4.3)", "default": "4.3" },
+    { "type": "text", "id": "review_count", "label": "Total review count", "default": "84" },
+    { "type": "header", "content": "Star Breakdown (optional overrides)" },
+    { "type": "text", "id": "count_5", "label": "5-star count" },
+    { "type": "text", "id": "count_4", "label": "4-star count" },
+    { "type": "text", "id": "count_3", "label": "3-star count" },
+    { "type": "text", "id": "count_2", "label": "2-star count" },
+    { "type": "text", "id": "count_1", "label": "1-star count" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "label": "Max width (px)", "min": 800, "max": 1600, "step": 40, "default": 1200 },
+    { "type": "range", "id": "side_padding", "label": "Side padding (px)", "min": 0, "max": 80, "step": 2, "default": 10 },
+    { "type": "range", "id": "section_padding_top", "label": "Top padding (px)", "min": 0, "max": 100, "step": 4, "default": 48 },
+    { "type": "range", "id": "section_padding_bottom", "label": "Bottom padding (px)", "min": 0, "max": 100, "step": 4, "default": 48 }
   ],
-  "presets":[{"name":"Custom Footer"}]
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "select", "id": "rating", "label": "Star rating", "default": "5", "options": [
+          {"value":"1","label":"1 star"},{"value":"1.5","label":"1.5 stars"},
+          {"value":"2","label":"2 stars"},{"value":"2.5","label":"2.5 stars"},
+          {"value":"3","label":"3 stars"},{"value":"3.5","label":"3.5 stars"},
+          {"value":"4","label":"4 stars"},{"value":"4.5","label":"4.5 stars"},
+          {"value":"5","label":"5 stars"}
+        ]},
+        { "type": "text", "id": "reviewer_name", "label": "Reviewer name", "default": "Anonymous" },
+        { "type": "text", "id": "reviewer_location", "label": "Location (e.g. London, GB)" },
+        { "type": "checkbox", "id": "verified", "label": "Verified Customer", "default": true },
+        { "type": "text", "id": "review_title", "label": "Review title" },
+        { "type": "textarea", "id": "review_text", "label": "Review text", "default": "Great product!" },
+        { "type": "text", "id": "review_date", "label": "Date (e.g. 20 March 2026)" },
+        { "type": "image_picker", "id": "photo", "label": "Review photo (optional)" },
+        { "type": "text", "id": "video_url", "label": "Review video URL (MP4, optional)" },
+        { "type": "image_picker", "id": "poster", "label": "Video thumbnail (optional)" },
+        { "type": "text", "id": "review_type", "label": "Item type (e.g. Match Point, Lavender)" },
+        { "type": "header", "content": "Brand Reply (optional)" },
+        { "type": "text", "id": "reply_name", "label": "Reply author (e.g. FUELX Team)", "default": "FUELX Team" },
+        { "type": "textarea", "id": "reply_text", "label": "Reply text (leave blank to hide)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews Section",
+      "blocks": [
+        { "type": "review", "settings": { "reviewer_name": "Brittny C.", "rating": "5", "review_text": "I love my new product! I use it for a variety of things. It works great.", "review_date": "3 days ago", "verified": true } },
+        { "type": "review", "settings": { "reviewer_name": "Antoinette G.", "rating": "5", "review_text": "I love it", "review_date": "1 week ago", "verified": true, "review_type": "Emerald" } },
+        { "type": "review", "settings": { "reviewer_name": "Joy P.", "rating": "5", "review_text": "This was a replacement from a recall. Love the compact and convenience.", "review_date": "2 weeks ago", "verified": true, "review_type": "Lavender" } }
+      ]
+    }
+  ]
 }
 {% endschema %}
