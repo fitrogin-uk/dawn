@@ -62,8 +62,8 @@
 
 <style>
   .cf-footer-wrap {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 24px;
+    padding-right: 24px;
     margin-top: {{ section.settings.top_margin | default: 16 }}px;
     box-sizing: border-box;
   }
@@ -104,7 +104,7 @@
   .cf-footer__heading { font-size: 20px; font-weight: 700; margin: 0 0 16px; color: {{ section.settings.text_color | default: '#333333' }}; }
   .cf-footer__links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
   .cf-footer__links a { font-size: 20px; color: {{ section.settings.link_color | default: '#666666' }}; text-decoration: none; transition: color 0.2s; }
-  .cf-footer__links a:hover { color: {{ section.settings.accent_color | default: '#e8175d' }}; }
+  .cf-footer__links a:hover { color: #000; }
 
   .cf-footer__social-grid { display: flex; flex-wrap: wrap; gap: 10px; }
   .cf-footer__social-link { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: #111; color: #fff; text-decoration: none; transition: background 0.2s, transform 0.2s; }
