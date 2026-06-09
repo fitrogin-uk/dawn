@@ -613,17 +613,22 @@
       document.querySelectorAll('[data-rs-sort="' + val + '"]').forEach(function(o){ o.classList.add('is-active'); });
       // close all dropdowns
       document.querySelectorAll('.rs__filter-dropdown').forEach(function(d){ d.classList.remove('is-open'); });
-      // sort cards
+      // sort — treat .rs__col and standalone .rs__card as units
       if (track) {
-        var cardEls = Array.prototype.slice.call(track.querySelectorAll('.rs__card'));
-        cardEls.sort(function(a, b){
-          var ra = parseFloat(a.getAttribute('data-rs-rating') || 0);
-          var rb = parseFloat(b.getAttribute('data-rs-rating') || 0);
+        var units = Array.prototype.slice.call(track.children);
+        units.sort(function(a, b){
+          // get representative rating: first card inside col, or card itself
+          var ca = a.classList.contains('rs__col') ? a.querySelector('.rs__card') : a;
+          var cb = b.classList.contains('rs__col') ? b.querySelector('.rs__card') : b;
+          var ra = parseFloat((ca && ca.getAttribute('data-rs-rating')) || 0);
+          var rb = parseFloat((cb && cb.getAttribute('data-rs-rating')) || 0);
           if (val === 'highest') return rb - ra;
           if (val === 'lowest')  return ra - rb;
-          return parseInt(a.getAttribute('data-rs-card') || 0) - parseInt(b.getAttribute('data-rs-card') || 0);
+          var ia = parseInt((ca && ca.getAttribute('data-rs-card')) || 0);
+          var ib = parseInt((cb && cb.getAttribute('data-rs-card')) || 0);
+          return ia - ib;
         });
-        cardEls.forEach(function(c){ track.appendChild(c); });
+        units.forEach(function(u){ track.appendChild(u); });
         track.scrollLeft = 0;
         if (typeof updateBtns === 'function') updateBtns();
       }
