@@ -79,7 +79,7 @@
     width: 100% !important;
     box-sizing: border-box !important;
     background: {{ section.settings.bg_color | default: '#ffffff' }};
-    padding: {{ section.settings.section_padding_top | default: 20 }}px 0 {{ section.settings.section_padding_bottom | default: 48 }}px;
+    padding: {{ section.settings.section_padding_top | default: 48 }}px 0 {{ section.settings.section_padding_bottom | default: 48 }}px;
   }
 
   /* ── Header ─────────────────────────────────────────── */
@@ -201,6 +201,9 @@
     }
   }
   @media (max-width: 640px) {
+    .ig-feed-{{ section.id }} {
+      padding-top: 20px !important;
+    }
     /* Header: centered, stacked, compact */
     .ig-feed-{{ section.id }} .ig-feed__header {
       display: flex !important;
@@ -319,7 +322,7 @@
       "min": 0,
       "max": 120,
       "step": 4,
-      "default": 20
+      "default": 48
     },
     {
       "type": "range",
