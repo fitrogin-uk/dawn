@@ -493,7 +493,7 @@
         "columns_mobile": 3,
         "gap": 2,
         "border_radius": 12,
-        "section_padding_top": 48,
+        "section_padding_top": 24,
         "section_padding_bottom": 48,
         "bg_color": "#ffffff",
         "divider_color": "#111111",
