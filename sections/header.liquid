@@ -176,50 +176,61 @@
     display: none;
   }
 
-  /* Search modal styling - rounded input, hidden search icon, circular X */
+  /* Search modal styling - rounded input, no outer border, circular X */
   @media screen and (max-width: 989px) {
-    /* Remove rectangular outer border from modal container */
+    /* Remove ALL borders/shadows from modal wrappers */
     .search-modal,
     .search-modal__form-wrapper,
     .search-modal__form,
     .search-modal .field,
-    .search-modal .field__input {
+    .predictive-search-form,
+    [class*="search-modal"] {
       border: none !important;
       box-shadow: none !important;
       outline: none !important;
+      background: transparent !important;
     }
-    /* Rounded input */
+    /* Rounded input with light border */
+    .search-modal input,
+    .search-modal .field__input,
     .search-modal input[type="search"],
-    .search-modal input[type="text"],
-    .search-modal__form input {
+    .search-modal input[type="text"] {
       border-radius: 30px !important;
       border: 1.5px solid #ddd !important;
       box-shadow: none !important;
+      padding: 12px 20px !important;
+      height: auto !important;
     }
-    /* Hide magnifying glass icon inside search input */
+    /* Rounded wrapper that might carry the border */
+    .search-modal .field {
+      border-radius: 30px !important;
+      border: 1.5px solid #ddd !important;
+      overflow: hidden !important;
+    }
+    /* Hide magnifying glass icon */
     .search-modal .field__button,
     .search-modal button[type="submit"],
     .search-modal .search-modal__search-icon {
       display: none !important;
     }
-    /* Circular X close button */
-    .search-modal__close-button,
-    button.search-modal__close-button {
-      width: 40px !important;
-      height: 40px !important;
+    /* Circular X close button - larger */
+    .search-modal__close-button {
+      width: 44px !important;
+      height: 44px !important;
+      min-width: 44px !important;
       border-radius: 50% !important;
       background-color: #e8e8e8 !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      flex-shrink: 0 !important;
       border: none !important;
+      padding: 0 !important;
     }
     /* Bolder X icon */
     .search-modal__close-button svg {
       width: 18px !important;
       height: 18px !important;
-      stroke-width: 3 !important;
+      stroke-width: 2.5 !important;
     }
   }
 
