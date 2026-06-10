@@ -212,7 +212,15 @@
     .header__inline-menu {
       display: none;
     }
-    /* When search is open: expand it full width, hide everything else */
+    /* Hide icons inside the search modal on mobile */
+    .search-modal .header__icons,
+    .search-modal .header__icon--cart,
+    .search-modal .header__icon--account,
+    .search-modal .header__icon--account,
+    .search-modal [href*="/cart"],
+    .search-modal [href*="/account"] {
+      display: none !important;
+    }
     .header.mobile-search-open .header-mobile-left {
       flex: 1;
     }
