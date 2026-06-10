@@ -212,6 +212,22 @@
     .header__inline-menu {
       display: none;
     }
+    /* When search is open: expand it full width, hide everything else */
+    .header:has(details[open]) .header-mobile-left {
+      flex: 1;
+    }
+    .header:has(details[open]) header-drawer,
+    .header:has(details[open]) .header__heading,
+    .header:has(details[open]) .header > .header__heading-link,
+    .header:has(details[open]) .header__icons {
+      display: none;
+    }
+    .header:has(details[open]) .header-mobile-search {
+      flex: 1;
+    }
+    .header:has(details[open]) .header-mobile-search details {
+      width: 100%;
+    }
     /* Right group: cart + account, hide original search */
     .header__icons {
       margin-left: auto;
