@@ -212,11 +212,16 @@
     .header__inline-menu {
       display: none;
     }
-    /* When any modal is open (body.overflow-hidden), hide cart/account everywhere */
+    /* When search modal is open, hide cart/account everywhere on page */
     body.overflow-hidden .header__icon--cart,
     body.overflow-hidden .header__icon--account,
-    body.overflow-hidden .header__icons {
+    body.overflow-hidden .header__icons,
+    body.overflow-hidden a.header__icon--cart,
+    body.overflow-hidden a.header__icon--account {
       display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
     /* Right group: cart + account, hide original search */
     .header__icons {
