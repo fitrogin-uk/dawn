@@ -219,8 +219,8 @@
       flex-shrink: 0;
       z-index: 2;
     }
-    .header__icons .header__icon--search {
-      display: none;
+    .header__icons > *:not(.header__icon--cart):not(.header__icon--account) {
+      display: none !important;
     }
     .desktop-localization-wrapper {
       display: none;
