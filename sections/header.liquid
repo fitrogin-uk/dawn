@@ -178,10 +178,23 @@
 
   /* Search modal styling - rounded input, hidden search icon, circular X */
   @media screen and (max-width: 989px) {
+    /* Remove rectangular outer border from modal container */
+    .search-modal,
+    .search-modal__form-wrapper,
+    .search-modal__form,
+    .search-modal .field,
+    .search-modal .field__input {
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
+    /* Rounded input */
     .search-modal input[type="search"],
+    .search-modal input[type="text"],
     .search-modal__form input {
       border-radius: 30px !important;
       border: 1.5px solid #ddd !important;
+      box-shadow: none !important;
     }
     /* Hide magnifying glass icon inside search input */
     .search-modal .field__button,
@@ -202,11 +215,11 @@
       flex-shrink: 0 !important;
       border: none !important;
     }
-    .search-modal__close-button svg,
-    .search-modal__close-button .icon {
-      width: 16px !important;
-      height: 16px !important;
-      stroke-width: 2.5 !important;
+    /* Bolder X icon */
+    .search-modal__close-button svg {
+      width: 18px !important;
+      height: 18px !important;
+      stroke-width: 3 !important;
     }
   }
 
