@@ -176,6 +176,40 @@
     display: none;
   }
 
+  /* Search modal styling - rounded input, hidden search icon, circular X */
+  @media screen and (max-width: 989px) {
+    .search-modal input[type="search"],
+    .search-modal__form input {
+      border-radius: 30px !important;
+      border: 1.5px solid #ddd !important;
+    }
+    /* Hide magnifying glass icon inside search input */
+    .search-modal .field__button,
+    .search-modal button[type="submit"],
+    .search-modal .search-modal__search-icon {
+      display: none !important;
+    }
+    /* Circular X close button */
+    .search-modal__close-button,
+    button.search-modal__close-button {
+      width: 40px !important;
+      height: 40px !important;
+      border-radius: 50% !important;
+      background-color: #e8e8e8 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-shrink: 0 !important;
+      border: none !important;
+    }
+    .search-modal__close-button svg,
+    .search-modal__close-button .icon {
+      width: 16px !important;
+      height: 16px !important;
+      stroke-width: 2.5 !important;
+    }
+  }
+
   @media screen and (max-width: 989px) {
     /* Flatten mobile-left wrapper into desktop grid flow */
     .header {
