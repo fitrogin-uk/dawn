@@ -182,13 +182,23 @@
     .search-modal,
     .search-modal__form-wrapper,
     .search-modal__form,
-    .search-modal .field,
     .predictive-search-form,
     [class*="search-modal"] {
       border: none !important;
       box-shadow: none !important;
       outline: none !important;
       background: transparent !important;
+    }
+    /* Ensure form wrapper doesn't overflow over X button */
+    .search-modal__form-wrapper {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      padding: 0 12px !important;
+    }
+    .search-modal__form {
+      flex: 1 !important;
+      min-width: 0 !important;
     }
     /* Rounded input with light border */
     .search-modal input,
