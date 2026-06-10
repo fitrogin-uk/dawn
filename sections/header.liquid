@@ -213,19 +213,19 @@
       display: none;
     }
     /* When search is open: expand it full width, hide everything else */
-    .header:has(details[open]) .header-mobile-left {
+    .header.mobile-search-open .header-mobile-left {
       flex: 1;
     }
-    .header:has(details[open]) header-drawer,
-    .header:has(details[open]) .header__heading,
-    .header:has(details[open]) .header > .header__heading-link,
-    .header:has(details[open]) .header__icons {
+    .header.mobile-search-open header-drawer,
+    .header.mobile-search-open .header__heading,
+    .header.mobile-search-open .header > .header__heading-link,
+    .header.mobile-search-open .header__icons {
       display: none;
     }
-    .header:has(details[open]) .header-mobile-search {
+    .header.mobile-search-open .header-mobile-search {
       flex: 1;
     }
-    .header:has(details[open]) .header-mobile-search details {
+    .header.mobile-search-open .header-mobile-search details {
       width: 100%;
     }
     /* Right group: cart + account, hide original search */
@@ -538,6 +538,21 @@
 
   customElements.define('sticky-header', StickyHeader);
 {% endjavascript %}
+
+<script>
+  (function() {
+    const mobileSearch = document.querySelector('.header-mobile-search');
+    const header = document.querySelector('.header');
+    if (!mobileSearch || !header) return;
+
+    const observer = new MutationObserver(() => {
+      const isOpen = !!mobileSearch.querySelector('details[open]');
+      header.classList.toggle('mobile-search-open', isOpen);
+    });
+
+    observer.observe(mobileSearch, { subtree: true, attributes: true, attributeFilter: ['open'] });
+  })();
+</script>
 
 <script type="application/ld+json">
   {
