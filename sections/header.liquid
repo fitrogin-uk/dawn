@@ -192,6 +192,16 @@
       box-shadow: none !important;
       outline: none !important;
     }
+    /* Nuclear: remove every border from every element in header when search open */
+    body.overflow-hidden .shopify-section-group-header-group * {
+      border: none !important;
+      box-shadow: none !important;
+    }
+    /* Restore only the search input border */
+    body.overflow-hidden .shopify-section-group-header-group input {
+      border: 1.5px solid #ddd !important;
+      border-radius: 30px !important;
+    }
     /* Rounded input with light border */
     .search-modal input,
     .search-modal .field__input,
