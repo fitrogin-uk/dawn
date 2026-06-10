@@ -178,8 +178,11 @@
 
   /* Search modal styling - rounded input, no outer border, circular X */
   @media screen and (max-width: 989px) {
-    /* Nuclear: remove every border inside search modal */
-    .search-modal *:not(input):not(.search-modal__close-button) {
+    /* Remove border from the header section wrapper when search modal is open */
+    body.overflow-hidden .section-header,
+    body.overflow-hidden .header-wrapper,
+    body.overflow-hidden .header-wrapper--border-bottom,
+    body.overflow-hidden .shopify-section-header-sticky {
       border: none !important;
       box-shadow: none !important;
       outline: none !important;
