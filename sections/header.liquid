@@ -171,52 +171,66 @@
     }
   {%- endif -%}
 
+  /* Hide mobile search wrapper on desktop */
+  .header-mobile-search {
+    display: none;
+  }
+
   @media screen and (max-width: 989px) {
+    /* Flatten mobile-left wrapper into desktop grid flow */
     .header {
       display: flex;
-      flex-wrap: nowrap;
       align-items: center;
       position: relative;
     }
-    .header__icons {
-      display: contents;
-    }
-    .desktop-localization-wrapper {
-      display: none;
-    }
-    header-drawer {
-      order: 1;
+    /* Left group: hamburger + search */
+    .header-mobile-left {
+      display: flex;
+      align-items: center;
       flex-shrink: 0;
+      z-index: 2;
     }
-    .header__icon--search {
-      order: 2;
-      flex-shrink: 0;
-      display: flex !important;
+    .header-mobile-search {
+      display: flex;
+      align-items: center;
     }
-    /* Center logo via absolute — only the outer wrapper, not the link inside */
-    .header__heading {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+    /* Center logo absolutely */
+    .header__heading,
     .header > .header__heading-link {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
+      z-index: 1;
+      pointer-events: auto;
     }
     .header__heading > .header__heading-link {
       position: static;
-      left: auto;
       transform: none;
     }
-    .header__icon--cart {
-      order: 4;
-      margin-left: auto;
-      flex-shrink: 0;
+    /* Hide inline menu on mobile */
+    .header__inline-menu {
+      display: none;
     }
-    .header__icon--account {
-      order: 5;
+    /* Right group: cart + account, hide original search */
+    .header__icons {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
       flex-shrink: 0;
+      z-index: 2;
+    }
+    .header__icons .header__icon--search {
+      display: none;
+    }
+    .desktop-localization-wrapper {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    /* On desktop, flatten the wrapper so it behaves as before */
+    .header-mobile-left {
+      display: contents;
     }
   }
 {%- endstyle -%}
@@ -253,15 +267,17 @@
     endif
   -%}
   <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
-    {%- liquid
-      if section.settings.menu != blank
-        render 'header-drawer'
-      endif
-
-      if section.settings.logo_position == 'top-center' or section.settings.menu == blank
-        render 'header-search', input_id: 'Search-In-Modal-1'
-      endif
-    -%}
+    <div class="header-mobile-left">
+      {%- if section.settings.menu != blank -%}
+        {%- render 'header-drawer' -%}
+      {%- endif -%}
+      <span class="header-mobile-search">
+        {%- render 'header-search', input_id: 'Search-In-Modal-Mobile' -%}
+      </span>
+    </div>
+    {%- if section.settings.logo_position == 'top-center' or section.settings.menu == blank -%}
+      {%- render 'header-search', input_id: 'Search-In-Modal-1' -%}
+    {%- endif -%}
 
     {%- if section.settings.logo_position != 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
