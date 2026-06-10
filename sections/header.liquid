@@ -228,7 +228,7 @@
     .header.mobile-search-open .header__heading,
     .header.mobile-search-open .header > .header__heading-link,
     .header.mobile-search-open .header__icons {
-      display: none;
+      display: none !important;
     }
     .header.mobile-search-open .header-mobile-search {
       flex: 1;
@@ -553,23 +553,17 @@
     const mobileSearch = document.querySelector('.header-mobile-search');
     if (!header || !mobileSearch) return;
 
-    // Open: any click inside the mobile search area
+    // Open: click anywhere in mobile search area
     mobileSearch.addEventListener('click', function() {
-      setTimeout(function() {
-        header.classList.add('mobile-search-open');
-      }, 10);
+      header.classList.add('mobile-search-open');
     });
 
-    // Close: click outside mobile search, Escape key, or close button
-    document.addEventListener('click', function(e) {
-      if (!mobileSearch.contains(e.target) && !e.target.closest('.search-modal')) {
+    // Close: watch for Dawn removing overflow-hidden from body (happens when modal closes)
+    new MutationObserver(function() {
+      if (!document.body.classList.contains('overflow-hidden')) {
         header.classList.remove('mobile-search-open');
       }
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') header.classList.remove('mobile-search-open');
-    });
+    }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   });
 </script>
 
