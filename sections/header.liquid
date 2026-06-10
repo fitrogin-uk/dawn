@@ -540,18 +540,30 @@
 {% endjavascript %}
 
 <script>
-  (function() {
-    const mobileSearch = document.querySelector('.header-mobile-search');
+  document.addEventListener('DOMContentLoaded', function() {
     const header = document.querySelector('.header');
-    if (!mobileSearch || !header) return;
+    if (!header) return;
 
-    const observer = new MutationObserver(() => {
-      const isOpen = !!mobileSearch.querySelector('details[open]');
+    function updateSearchState() {
+      const isOpen = !!document.querySelector('.header-mobile-search details[open]');
       header.classList.toggle('mobile-search-open', isOpen);
-    });
+    }
 
-    observer.observe(mobileSearch, { subtree: true, attributes: true, attributeFilter: ['open'] });
-  })();
+    // Listen for toggle events on any details inside mobile search
+    document.addEventListener('toggle', function(e) {
+      if (e.target.closest('.header-mobile-search')) {
+        updateSearchState();
+      }
+    }, true);
+
+    // Fallback: MutationObserver
+    const mobileSearch = document.querySelector('.header-mobile-search');
+    if (mobileSearch) {
+      new MutationObserver(updateSearchState).observe(mobileSearch, {
+        subtree: true, attributes: true, attributeFilter: ['open']
+      });
+    }
+  });
 </script>
 
 <script type="application/ld+json">
