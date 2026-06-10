@@ -76,6 +76,7 @@
     padding-right: 20px !important;
   }
 }
+</style>
 {%- style -%}
   .header {
     padding: 4px 10px 4px 20px;
@@ -178,12 +179,16 @@
 
   /* Search modal styling - rounded input, no outer border, circular X */
   @media screen and (max-width: 989px) {
-    /* Remove border from the header section wrapper when search modal is open */
+    /* Remove border from header section when search is open */
+    body.overflow-hidden [id*="__header"],
+    body.overflow-hidden .shopify-section-group-header-group,
     body.overflow-hidden .section-header,
     body.overflow-hidden .header-wrapper,
     body.overflow-hidden .header-wrapper--border-bottom,
+    body.overflow-hidden sticky-header,
     body.overflow-hidden .shopify-section-header-sticky {
       border: none !important;
+      border-bottom: none !important;
       box-shadow: none !important;
       outline: none !important;
     }
@@ -595,15 +600,45 @@
     const mobileSearch = document.querySelector('.header-mobile-search');
     if (!header || !mobileSearch) return;
 
+    const sectionEl = document.querySelector('[id*="__header"]');
+
+    function openSearch() {
+      header.classList.add('mobile-search-open');
+      if (sectionEl) {
+        sectionEl.style.setProperty('border', 'none', 'important');
+        sectionEl.style.setProperty('box-shadow', 'none', 'important');
+        sectionEl.style.setProperty('outline', 'none', 'important');
+      }
+      const wrapper = header.closest('.header-wrapper');
+      if (wrapper) {
+        wrapper.style.setProperty('border', 'none', 'important');
+        wrapper.style.setProperty('box-shadow', 'none', 'important');
+      }
+    }
+
+    function closeSearch() {
+      header.classList.remove('mobile-search-open');
+      if (sectionEl) {
+        sectionEl.style.removeProperty('border');
+        sectionEl.style.removeProperty('box-shadow');
+        sectionEl.style.removeProperty('outline');
+      }
+      const wrapper = header.closest('.header-wrapper');
+      if (wrapper) {
+        wrapper.style.removeProperty('border');
+        wrapper.style.removeProperty('box-shadow');
+      }
+    }
+
     // Open: click anywhere in mobile search area
     mobileSearch.addEventListener('click', function() {
-      header.classList.add('mobile-search-open');
+      openSearch();
     });
 
-    // Close: watch for Dawn removing overflow-hidden from body (happens when modal closes)
+    // Close: watch for Dawn removing overflow-hidden from body
     new MutationObserver(function() {
       if (!document.body.classList.contains('overflow-hidden')) {
-        header.classList.remove('mobile-search-open');
+        closeSearch();
       }
     }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   });
