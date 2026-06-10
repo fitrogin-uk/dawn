@@ -178,6 +178,9 @@
       align-items: center;
       position: relative;
     }
+    .header__icons {
+      display: contents;
+    }
     .desktop-localization-wrapper {
       display: none;
     }
@@ -188,16 +191,23 @@
     .header__icon--search {
       order: 2;
       flex-shrink: 0;
+      display: flex !important;
     }
-    .header__heading,
-    .header__heading-link {
+    /* Center logo via absolute — only the outer wrapper, not the link inside */
+    .header__heading {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      order: 3;
     }
-    .header__icons {
-      display: contents;
+    .header > .header__heading-link {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .header__heading > .header__heading-link {
+      position: static;
+      left: auto;
+      transform: none;
     }
     .header__icon--cart {
       order: 4;
