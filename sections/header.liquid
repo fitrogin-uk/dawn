@@ -176,9 +176,7 @@
       display: flex;
       flex-wrap: nowrap;
       align-items: center;
-    }
-    .header__icons {
-      display: contents;
+      position: relative;
     }
     .desktop-localization-wrapper {
       display: none;
@@ -191,19 +189,23 @@
       order: 2;
       flex-shrink: 0;
     }
-    .header__heading {
-      order: 3;
-      margin-left: auto;
-      flex-shrink: 0;
-    }
+    .header__heading,
     .header__heading-link {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       order: 3;
+    }
+    .header__icons {
+      display: contents;
+    }
+    .header__icon--cart {
+      order: 4;
       margin-left: auto;
       flex-shrink: 0;
     }
-    .header__icon--cart,
     .header__icon--account {
-      order: 4;
+      order: 5;
       flex-shrink: 0;
     }
   }
