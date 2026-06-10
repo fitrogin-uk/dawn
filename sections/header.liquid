@@ -542,27 +542,26 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const header = document.querySelector('.header');
-    if (!header) return;
-
-    function updateSearchState() {
-      const isOpen = !!document.querySelector('.header-mobile-search details[open]');
-      header.classList.toggle('mobile-search-open', isOpen);
-    }
-
-    // Listen for toggle events on any details inside mobile search
-    document.addEventListener('toggle', function(e) {
-      if (e.target.closest('.header-mobile-search')) {
-        updateSearchState();
-      }
-    }, true);
-
-    // Fallback: MutationObserver
     const mobileSearch = document.querySelector('.header-mobile-search');
-    if (mobileSearch) {
-      new MutationObserver(updateSearchState).observe(mobileSearch, {
-        subtree: true, attributes: true, attributeFilter: ['open']
-      });
-    }
+    if (!header || !mobileSearch) return;
+
+    // Open: any click inside the mobile search area
+    mobileSearch.addEventListener('click', function() {
+      setTimeout(function() {
+        header.classList.add('mobile-search-open');
+      }, 10);
+    });
+
+    // Close: click outside mobile search, Escape key, or close button
+    document.addEventListener('click', function(e) {
+      if (!mobileSearch.contains(e.target) && !e.target.closest('.search-modal')) {
+        header.classList.remove('mobile-search-open');
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') header.classList.remove('mobile-search-open');
+    });
   });
 </script>
 
