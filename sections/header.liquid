@@ -212,33 +212,11 @@
     .header__inline-menu {
       display: none;
     }
-    /* Hide cart/account icons inside any search modal structure */
-    [id*="Search"] .header__icon--cart,
-    [id*="Search"] .header__icon--account,
-    [id*="search"] .header__icon--cart,
-    [id*="search"] .header__icon--account,
-    [class*="search"] .header__icon--cart,
-    [class*="search"] .header__icon--account,
-    [class*="modal"] .header__icon--cart,
-    [class*="modal"] .header__icon--account,
-    details[id*="Search"] .header__icons,
-    details[id*="search"] .header__icons {
+    /* When any modal is open (body.overflow-hidden), hide cart/account everywhere */
+    body.overflow-hidden .header__icon--cart,
+    body.overflow-hidden .header__icon--account,
+    body.overflow-hidden .header__icons {
       display: none !important;
-    }
-    .header.mobile-search-open .header-mobile-left {
-      flex: 1;
-    }
-    .header.mobile-search-open header-drawer,
-    .header.mobile-search-open .header__heading,
-    .header.mobile-search-open .header > .header__heading-link,
-    .header.mobile-search-open .header__icons {
-      display: none !important;
-    }
-    .header.mobile-search-open .header-mobile-search {
-      flex: 1;
-    }
-    .header.mobile-search-open .header-mobile-search details {
-      width: 100%;
     }
     /* Right group: cart + account, hide original search */
     .header__icons {
